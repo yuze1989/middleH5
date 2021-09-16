@@ -1,32 +1,62 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <router-view />
+    <div class="bottom" v-if="$route.meta.tabbarshow">
+      <div class="item" @click="clickItem('/')" :class="{active: $route.path==='/'}">
+        <i class="iconfont icon-wenjianjia1"></i>
+        <div>话术</div>
+      </div>
+      <div class="item" @click="clickItem('/material')"
+      :class="{active: $route.path==='/material'}">
+        <i class="iconfont icon-quxiao1"></i>
+        <div>素材</div>
+      </div>
     </div>
-    <router-view/>
   </div>
 </template>
+<script>
+export default {
+  name: 'app',
+  data() {
+    return {
 
+    };
+  },
+  methods: {
+    clickItem(path) {
+      this.$router.push(path);
+    },
+  },
+
+};
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  @import './assets/iconfont/iconfont.css';
+  body{
+    margin: 0;
+  }
+  .bottom {
+    position: fixed;
+    bottom: 0px;
+    border-top: 1px solid #f3f3f3;
+    background: #FFFFFF;
+    width: 100%;
+    height: 49px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  .item {
+    flex: 1;
+    text-align: center;
+    color: #999999;
+    font-family: PingFangSC-Regular;
+    font-size: 11px;
+    color: #999999;
+    letter-spacing: 0;
+  }
+  .active {
+    color: #1890FF;
+  }
 </style>
