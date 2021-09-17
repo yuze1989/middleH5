@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "24416111",
+      "name": "素材",
+      "font_class": "sucai",
+      "unicode": "e671",
+      "unicode_decimal": 58993
+    },
+    {
+      "icon_id": "24416112",
+      "name": "发送",
+      "font_class": "fasong1",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    },
+    {
+      "icon_id": "24416065",
+      "name": "素材2",
+      "font_class": "sucai2",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "24416066",
+      "name": "话术2",
+      "font_class": "huashu2",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
+      "icon_id": "24416013",
+      "name": "巨准",
+      "font_class": "juzhun",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "24416014",
+      "name": "话术",
+      "font_class": "huashu",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
       "icon_id": "24286749",
       "name": "文件夹",
       "font_class": "wenjianjia1",

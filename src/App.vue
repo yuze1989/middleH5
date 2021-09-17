@@ -3,12 +3,14 @@
     <router-view />
     <div class="bottom" v-if="$route.meta.tabbarshow">
       <div class="item" @click="clickItem('/')" :class="{active: $route.path==='/'}">
-        <i class="iconfont icon-wenjianjia1"></i>
+        <i class="iconfont icon-sucai" v-if="$route.path==='/'"></i>
+        <i class="iconfont icon-sucai2" v-else></i>
         <div>话术</div>
       </div>
       <div class="item" @click="clickItem('/material')"
       :class="{active: $route.path==='/material'}">
-        <i class="iconfont icon-quxiao1"></i>
+        <i class="iconfont icon-huashu" v-if="$route.path==='/material'"></i>
+        <i class="iconfont icon-huashu2" v-else></i>
         <div>素材</div>
       </div>
     </div>

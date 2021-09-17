@@ -8,19 +8,17 @@
     </ul>
     <div class="content-box">
       <div class="tip">(共有{{sum}}个文章素材)</div>
-      <div class="article" v-for="(item,index) in dataList" :key="index">
+      <div class="article" v-for="(item,index) in dataList" :key="index" @click="go(1)">
         <div class="left">
-          <div class="left-vie" @click.stop="share(item)">
-            <i class="iconfont icon-fasong"></i>
-          </div>
-           <img src="../assets/logo.png" >
+            <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
+          <img src="../assets/logo.png">
         </div>
         <div class="right">
-            <div class="name">{{item.name}}</div>
-            <div class="sizi">{{item.content}}</div>
-            <div class="flex">
-              <div class="ad" v-for="(item2,index2) in item.label" :key="index2">{{item2}}</div>
-            </div>
+          <div class="name">{{item.name}}</div>
+          <div class="sizi">{{item.content}}</div>
+          <div class="flex">
+            <div class="ad" v-for="(str,subscript) in item.label" :key="subscript">{{str}}</div>
+          </div>
         </div>
 
       </div>
@@ -32,16 +30,16 @@
           发送给：
         </div>
         <div class="mask-top">
-          <img src="../assets/logo.png" >
+          <img src="../assets/logo.png">
           <div>我叫中秋</div>
         </div>
         <div class="mask-content">
           三、我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第一、可以帮助企业管理客户的微信帐号…
         </div>
         <div class="mask-input">
-          <input type="text" placeholder="留言" v-model="tex"/>
+          <input type="text" placeholder="留言" v-model="tex" />
         </div>
-        <div class="foot">
+        <div class="footer">
           <div @click="cancel">取消</div>
           <div @click="send ">发送</div>
         </div>
@@ -65,25 +63,25 @@ export default {
       lists: ['文章', '链接', '海报', '视频', 'FDF', 'PPT'],
 
       // 数据
-      dataList: [
-        {
-          name: '私域财经第一报道',
-          url: '@/assets/logo.png',
-          content: '朝廷重新启用曾国藩，曾国藩一改',
-          label: ['广告投放', '电销销售'],
-        },
-        {
-          name: '私域财经第一报道',
-          url: '../assets/logo.png',
-          content: '朝廷重新启用曾国藩，曾国藩一改',
-          label: ['广告投放', '电销销售', '电销销售'],
-        },
-        {
-          name: '私域财经第一报道',
-          url: '../assets/logo.png',
-          content: '朝廷重新启用曾国藩，曾国藩一改',
-          label: ['广告投放'],
-        }],
+      dataList: [{
+        name: '私域财经第一报道',
+        url: '@/assets/logo.png',
+        content: '朝廷重新启用曾国藩，曾国藩一改',
+        label: ['广告投放', '电销销售'],
+      },
+      {
+        name: '私域财经第一报道',
+        url: '../assets/logo.png',
+        content: '朝廷重新启用曾国藩，曾国藩一改',
+        label: ['广告投放', '电销销售', '电销销售'],
+      },
+      {
+        name: '私域财经第一报道',
+        url: '../assets/logo.png',
+        content: '朝廷重新启用曾国藩，曾国藩一改',
+        label: ['广告投放'],
+      },
+      ],
       // 是否显示弹窗
       isMask: false,
 
@@ -92,6 +90,14 @@ export default {
     };
   },
   methods: {
+    go(type) {
+      this.$router.push({
+        path: 'details',
+        query: {
+          id: type,
+        },
+      });
+    },
     // 取消
     cancel() {
       console.log(123);
@@ -133,14 +139,9 @@ export default {
     overflow: hidden;
   }
 
-  .left-vie {
-    width: 22px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #1890FF;
-    border-radius: 50%;
+  .icon-fasong1 {
+   color: #1890FF;
+    font-size: 22px;
   }
 
   .icon-fasong {
@@ -150,7 +151,7 @@ export default {
   }
 
   li {
-    border-bottom: 2px rgba(0,0,0,0) solid;
+    border-bottom: 2px rgba(0, 0, 0, 0) solid;
     text-align: center;
     font-size: 14px;
     color: #333333;
@@ -188,6 +189,7 @@ export default {
     letter-spacing: 0;
     text-align: justify;
   }
+
   .article {
     opacity: 1;
     padding: 10px 0;
@@ -195,36 +197,42 @@ export default {
     align-items: flex-start;
     border-bottom: #F3F3F3 1px dashed;
   }
-  .left{
+
+  .left {
     display: flex;
     align-items: center;
   }
-  .left img{
+
+  .left img {
     margin: 0 10px 0 8px;
     width: 46px;
     height: 46px;
   }
-  .flex{
+
+  .flex {
     display: flex;
     flex-wrap: wrap;
     margin-top: 3px;
   }
-  .name{
+
+  .name {
     font-size: 16px;
     color: #333333;
     letter-spacing: 0;
   }
-  .ad{
-    margin-right:8px ;
-    padding:6px 9px ;
-    background: rgba(24,144,255,0.05);
+
+  .ad {
+    margin-right: 8px;
+    padding: 6px 9px;
+    background: rgba(24, 144, 255, 0.05);
     border-radius: 1px;
     opacity: 0.5;
     font-size: 12px;
     color: #275783;
     line-height: 10px;
   }
-  .sizi{
+
+  .sizi {
     font-size: 14px;
     color: #999999;
     letter-spacing: 0;
@@ -241,8 +249,9 @@ export default {
     -webkit-line-clamp: 1;
     /** 显示的行数 **/
   }
-  .mask{
-    background-color: rgba(0,0,0,0.4);
+
+  .mask {
+    background-color: rgba(0, 0, 0, 0.4);
     width: 100%;
     height: 100%;
     position: fixed;
@@ -252,18 +261,21 @@ export default {
     align-items: center;
     justify-content: center;
   }
-  .mask-box{
+
+  .mask-box {
     width: 260px;
-    padding:12px 20px;
+    padding: 12px 20px;
     background: #FFFFFF;
     border-radius: 2px;
   }
-  .mask-tit{
+
+  .mask-tit {
     font-size: 12px;
-    color: rgba(0,0,0,0.65);
+    color: rgba(0, 0, 0, 0.65);
     text-align: justify;
   }
-  .mask-content{
+
+  .mask-content {
     font-size: 12px;
     color: #999999;
     letter-spacing: 0;
@@ -283,42 +295,48 @@ export default {
     -webkit-line-clamp: 4;
     /** 显示的行数 **/
   }
-  .mask-inp{
+
+  .mask-inp {
     width: 100%;
     border-bottom: #F3F3F3 1px solid;
     padding-bottom: 5px;
   }
-  .foot{
+
+  .footer {
     display: flex;
     font-size: 14px;
     color: #1890FF;
     letter-spacing: 0;
     text-align: justify;
   }
-  .foot div{
-     margin: 20px 0 15px 0;
+
+  .footer div {
+    margin: 20px 0 15px 0;
     text-align: center;
-    flex:1;
+    flex: 1;
   }
-  .mask-input input{
+
+  .mask-input input {
     font-size: 12px;
     color: #999999;
     letter-spacing: 0;
     text-align: justify;
     width: 99%;
     border: none;
-    outline:none;
+    outline: none;
     margin: 0;
     padding: 0;
   }
-  .mask-top{
+
+  .mask-top {
     display: flex;
     margin: 8px 0;
     font-size: 12px;
-    color: rgba(0,0,0,0.65);
+    color: rgba(0, 0, 0, 0.65);
     text-align: justify;
   }
-  .mask-top img{
+
+  .mask-top img {
     width: 39px;
     height: 39px;
     margin-right: 10px;

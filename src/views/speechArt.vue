@@ -17,21 +17,13 @@
           <div>{{item.head}}</div>
         </div>
         <!-- 隐藏部分 -->
-        <div :class="item.isShow?'yes':'no'" v-for="(item2,index2) in item.body" :key="index2">
+        <div :class="item.isShow?'yes':'no'" v-for="(str,subscript) in item.body"
+        :key="subscript">
           <div class="left">
-            <div class="share" @click.stop="share(item2)">
-              <i class="iconfont icon-fasong"></i>
-            </div>
+              <i class="iconfont icon-fasong1" @click.stop="share(str)"></i>
           </div>
           <div class="right" @click.stop="stop">
-            <div class="article">
-              {{item2.tex}}
-            </div>
-            <div @click="wbe()" class="text">
-            {{!isWbe?'展开':'收起'}}
-            <i class="iconfont icon-xiala" v-if="!isWbe"></i>
-            <i class="iconfont icon-shangla" v-else></i>
-            </div>
+            <textOver :content="str.tex" v-if="item.isShow"></textOver>
           </div>
         </div>
       </div>
@@ -52,7 +44,7 @@
         <div class="mask-input">
           <input type="text" placeholder="留言" v-model="tex"/>
         </div>
-        <div class="foot">
+        <div class="footer">
           <div @click="cancel">取消</div>
           <div @click="send ">发送</div>
         </div>
@@ -62,10 +54,14 @@
 </template>
 
 <script>
+import textOver from '../components/textOver.vue';
+
 export default {
+  components: {
+    textOver,
+  },
   data() {
     return {
-      isWbe: false,
       // 选中的样式下标
       type: 0,
 
@@ -93,7 +89,7 @@ export default {
         ],
       }, {
         head: '赏识在于角度的转',
-        isShow: true,
+        isShow: false,
         body: [
           { tex: '一、客服过滤的高机X总，您好，我是巨准SC我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第       一、可以帮助企业管理客户的微信帐号资料； 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
           { tex: '一、指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
@@ -108,10 +104,6 @@ export default {
     };
   },
   methods: {
-    // 是否展开文本
-    wbe() {
-      this.isWbe = !this.isWbe;
-    },
     // 阻止冒泡
     stop() {},
     // 取消
@@ -138,33 +130,22 @@ export default {
         obj.isShow = !obj.isShow;
       } else {
         // 先让所有状态变成false再让自己选中的状态变成true
-        this.itemList.forEach((res) => {
-          const e = res;
+        this.itemList.forEach((data) => {
+          const e = data;
           e.isShow = false;
         });
         obj.isShow = !obj.isShow;
       }
     },
     // tab切换
-    change(idx) {
-      this.type = idx;
-      console.log(idx);
+    change(index) {
+      this.type = index;
+      console.log(index);
     },
   },
 };
 </script>
 <style type="text/css" scoped>
-  .icon-xiala,.icon-shangla{
-    font-size: 5px;
-    color: #999999;
-  }
-  .text{
-    font-size: 12px;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: justify;
-    margin: 5px 0;
-  }
   .mask-top{
     display: flex;
     margin: 8px 0;
@@ -184,20 +165,6 @@ export default {
     opacity: 0;
   }
 
-  .article {
-    overflow: hidden;
-    word-break: break-all;
-    /* break-all(允许在单词内换行。) */
-    text-overflow: ellipsis;
-    /* 超出部分省略号 */
-    display: -webkit-box;
-    /** 对象作为伸缩盒子模型显示 **/
-    -webkit-box-orient: vertical;
-    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-    -webkit-line-clamp: 4;
-    /** 显示的行数 **/
-  }
-
   .yes {
     display: flex;
     opacity: 1;
@@ -215,16 +182,10 @@ export default {
     padding: 0 15px 0px 10px;
   }
 
-  .share {
-    width: 22px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #1890FF;
-    border-radius: 50%;
-  }
-
+ .icon-fasong1 {
+  color: #1890FF;
+   font-size: 22px;
+ }
   .content {
     padding: 10px 0 10px 10px;
   }
@@ -333,14 +294,14 @@ export default {
     border-bottom: #F3F3F3 1px solid;
     padding-bottom: 5px;
   }
-  .foot{
+  .footer{
     display: flex;
     font-size: 14px;
     color: #1890FF;
     letter-spacing: 0;
     text-align: justify;
   }
-  .foot div{
+  .footer div{
      margin: 20px 0 15px 0;
     text-align: center;
     flex:1;
