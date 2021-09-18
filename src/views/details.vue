@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <skeleton title avatar :row="10" :loading="loading">
   <div class="box" :style="'min-height:'+ height +'px'">
     <div class="top">{{data.title}}</div>
     <div class="txt">
@@ -26,14 +27,20 @@
         <div class="left-margin">——</div>
       </div>
     </div>
+    </skeleton>
   </div>
 </template>
 <script>
+import { skeleton } from 'vant';
 import Http from '../utils/http';
 
 export default {
+  components: {
+    skeleton,
+  },
   data() {
     return {
+      loading: true,
       height: 0,
       id: 0,
       isShow: false,
@@ -66,6 +73,7 @@ export default {
         if (res.success) {
           that.data = res.data;
           that.gmtCreate = that.getyyyyMMdd(res.data.gmtCreate);
+          that.loading = false;
         }
       });
     },
