@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  // baseURL,
+  // baseURL: 'https://test-scrm.juzhunshuyu.com',
+  timeout: 100000, // 请求超时时间
 });
 
 // 请求拦截添加头部参数等
@@ -12,7 +13,7 @@ instance.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   configTemp.headers = config.headers || {};
   Object.assign(config.headers, globalOpt);
-  configTemp.headers.token = token || '';
+  configTemp.headers.token = token || 'mockToken';
   return config;
 }, (error) => {
   Promise.reject(error);

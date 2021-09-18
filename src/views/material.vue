@@ -1,28 +1,35 @@
 <template>
   <div class="box-bos">
     <ul>
-      <li :class="{'active':indexTap == index}" v-for="(item,index) in lists" :key="index"
-      @click="change(index)">
+      <li :class="{'active':indexTap === index}" v-for="(item,index) in lists"
+      :key="index" @click="change(index)">
         {{item}}
       </li>
     </ul>
+    <PullRefresh v-model="refreshing" @refresh="onRefresh">
     <div class="content-box">
       <div class="tip">(共有{{sum}}个文章素材)</div>
-      <div class="article" v-for="(item,index) in dataList" :key="index" @click="go(1)">
+      <List v-model="loading" :finished="finished"
+      offset="100" @load="onLoad" finished-text="没有更多了">
+      <div class="article" v-for="(item,index) in dataList" :key="index"
+      @click="go(item)">
         <div class="left">
-            <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
-          <img src="../assets/logo.png">
+          <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
+          <img :src="item.coverPicUrl">
         </div>
         <div class="right">
-          <div class="name">{{item.name}}</div>
-          <div class="sizi">{{item.content}}</div>
+          <div class="name">{{item.title}}</div>
+          <div class="sizi">{{item.description||item.fileSizeStr}}</div>
           <div class="flex">
-            <div class="ad" v-for="(str,subscript) in item.label" :key="subscript">{{str}}</div>
+            <div class="ad" v-for="(str,subscript) in item.tagList" :key="subscript">
+              {{str.name}}
+            </div>
           </div>
         </div>
-
       </div>
+      </List>
     </div>
+    </PullRefresh>
     <!-- 分享弹窗 -->
     <div class="mask" v-show="isMask">
       <div class="mask-box">
@@ -49,54 +56,96 @@
 </template>
 
 <script>
+import { List, PullRefresh } from 'vant';
+import Http from '../utils/http';
+
 export default {
+  components: {
+    List,
+    PullRefresh,
+  },
   name: 'about',
   data() {
     return {
+      refreshing: false,
+      loading: false,
+      finished: false,
       // 提示数量
-      sum: 5,
+      sum: 0,
 
       // 选中的下标
       indexTap: 0,
 
       // 头部选项卡
-      lists: ['文章', '链接', '海报', '视频', 'FDF', 'PPT'],
+      lists: ['文章', '链接', '海报', '视频', 'PDF', 'PPT'],
 
       // 数据
-      dataList: [{
-        name: '私域财经第一报道',
-        url: '@/assets/logo.png',
-        content: '朝廷重新启用曾国藩，曾国藩一改',
-        label: ['广告投放', '电销销售'],
-      },
-      {
-        name: '私域财经第一报道',
-        url: '../assets/logo.png',
-        content: '朝廷重新启用曾国藩，曾国藩一改',
-        label: ['广告投放', '电销销售', '电销销售'],
-      },
-      {
-        name: '私域财经第一报道',
-        url: '../assets/logo.png',
-        content: '朝廷重新启用曾国藩，曾国藩一改',
-        label: ['广告投放'],
-      },
-      ],
+      dataList: [],
       // 是否显示弹窗
       isMask: false,
 
       // 留言内容
       tex: '',
+
+      snapshot: false,
+      pageIndex: 1,
     };
   },
+  mounted() {
+
+  },
   methods: {
-    go(type) {
-      this.$router.push({
-        path: 'details',
-        query: {
-          id: type,
-        },
+    onLoad() {
+      this.getList();
+      console.log(23);
+      this.pageIndex += 1;
+    },
+    onRefresh() {
+      this.finished = false;
+      this.onLoad();
+    },
+    getList() {
+      const that = this;
+      if (that.indexTap === 0) {
+        that.snapshot = true;
+      }
+      Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
+        materialType: that.indexTap + 1,
+        pageIndex: that.pageIndex,
+        pageSize: 20,
+        snapshotFlag: that.snapshot,
+      }, '').then((res) => {
+        if (res.success) {
+          // 判断获取数据条数若等于0
+          if (res.data.totalCount === 0) {
+            // 清空数组
+            that.dataList = [];
+            // 停止上拉加载
+            that.finished = true;
+            return;
+          }
+          that.dataList.push(...res.data);
+          that.sum = res.totalCount;
+          // 清除上拉刷新状态
+          that.refreshing = false;
+          if (that.dataList.length >= res.totalCount) {
+            // 结束上拉加载状态
+            that.finished = true;
+          }
+        }
       });
+    },
+    go(str) {
+      if (this.indexTap === 0) {
+        this.$router.push({
+          path: 'details',
+          query: {
+            id: str.id,
+          },
+        });
+      } else {
+        window.location.href = str.materialEnclosureUrl;
+      }
     },
     // 取消
     cancel() {
@@ -104,9 +153,11 @@ export default {
       this.isMask = !this.isMask;
     },
     // tab切换
-    change(idx) {
-      this.indexTap = idx;
-      console.log(idx);
+    change(index) {
+      this.indexTap = index;
+      this.pageIndex = 1;
+      this.dataList = [];
+      this.getList();
     },
     // 发送
     send() {
@@ -114,8 +165,8 @@ export default {
     },
 
     // 分享
-    share(item) {
-      const obj = item;
+    share(str) {
+      const obj = str;
       const that = this;
 
       that.isMask = !that.isMask;
@@ -140,7 +191,7 @@ export default {
   }
 
   .icon-fasong1 {
-   color: #1890FF;
+    color: #1890FF;
     font-size: 22px;
   }
 
@@ -179,7 +230,6 @@ export default {
   .content-box {
     margin-bottom: 80px;
     border-top: 1px solid #F3F3F3;
-    margin-top: -2px;
     padding: 10px 20px 0 20px;
   }
 
@@ -219,10 +269,21 @@ export default {
     font-size: 16px;
     color: #333333;
     letter-spacing: 0;
+    overflow: hidden;
+    word-break: break-all;
+    /* break-all(允许在单词内换行。) */
+    text-overflow: ellipsis;
+    /* 超出部分省略号 */
+    display: -webkit-box;
+    /** 对象作为伸缩盒子模型显示 **/
+    -webkit-box-orient: vertical;
+    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+    -webkit-line-clamp: 1;
+    /** 显示的行数 **/
   }
 
   .ad {
-    margin-right: 8px;
+    margin:0 8px 8px 0;
     padding: 6px 9px;
     background: rgba(24, 144, 255, 0.05);
     border-radius: 1px;

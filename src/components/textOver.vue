@@ -15,7 +15,7 @@ export default {
   name: 'textOver',
   data() {
     return {
-      // 文本是否超出三行，默认否
+      // 文本是否超出四行，默认否
       ifOver: false,
 
       // 文本是否是展开状态 默认为收起
@@ -31,15 +31,12 @@ export default {
   mounted() {
     // 判断是否显示展开收起按钮
     this.ifOver = this.$refs.spanBox.offsetHeight > this.$refs.textBox.offsetHeight;
-    console.log(this.ifOver);
   },
 };
 </script>
 <style scoped>
   .over-hidden {
    overflow: hidden;
-   word-break: break-all;
-   /* break-all(允许在单词内换行。) */
    text-overflow: ellipsis;
    /* 超出部分省略号 */
    display: -webkit-box;

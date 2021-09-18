@@ -1,16 +1,12 @@
 <template>
   <div class="page">
-  <div class="box" :style="'min-height:'+height+'px'">
-    <div class="top">文章名称</div>
+  <div class="box" :style="'min-height:'+ height +'px'">
+    <div class="top">{{data.title}}</div>
     <div class="txt">
-      <span>测试作者</span>
-      <span>2021-08-17 10：53</span>
+      <span>{{data.author}}</span>
+      <span style="margin-left: 5px;">{{gmtCreate}}</span>
     </div>
-    <div class="img-box">
-      <img src="../assets/logo.png">
-    </div>
-    <div class="content">
-      {{text}}
+    <div class="content" v-html="data.content">
     </div>
      </div>
     <div class="footer">
@@ -33,25 +29,50 @@
   </div>
 </template>
 <script>
+import Http from '../utils/http';
+
 export default {
   data() {
     return {
       height: 0,
       id: 0,
       isShow: false,
-      text: '《三国演义》第一百零三回写道：诸葛亮屯军于五丈原，令人搦战，但魏兵坚守不出。为了激将司马懿，诸葛亮派人送去妇人衣服一件和书信一封，意欲讽刺、挖苦司马懿。但司马懿就是不中计，还故意穿着女装戏耍，感谢诸葛亮一番好意。最后，诸葛亮病逝于五丈原，司马懿了笑到最后。',
+      gmtCreate: '',
+      data: {},
     };
   },
   mounted() {
     this.height = document.documentElement.clientHeight - 151;
-    console.log(this.height);
     this.id = this.$route.query.id;
-    console.log(this.$route.query.id);
+    this.getList();
   },
   methods: {
+    getyyyyMMdd(tim) {
+      const d = new Date(tim);
+      const date = d.getDate();
+      const month = d.getMonth() + 1;
+      const year = d.getFullYear();
+      const hour = d.getHours();
+      const minute = d.getMinutes();
+      const yyyyMMdd = `${year}-${month}-${date} ${hour}:${minute}`;
+      return yyyyMMdd;
+    },
+    // 获取数据
+    getList() {
+      const that = this;
+      Http.post('/scrm/comm/rest/marketing-material/marketing-material-detail', {
+        snapshotId: that.id,
+      }, '').then((res) => {
+        if (res.success) {
+          that.data = res.data;
+          that.gmtCreate = that.getyyyyMMdd(res.data.gmtCreate);
+        }
+      });
+    },
     // 投诉
     complaint() {
       console.log('投诉');
+      // window.location.href = '';
     },
   },
 };
@@ -71,12 +92,6 @@ export default {
     font-size: 14px;
     color: #999999;
   }
-
-  .img-box img {
-    width: 100%;
-    margin-bottom: 12px;
-  }
-
   .footer-content {
     margin: 10px 0;
     padding: 5px;
@@ -96,6 +111,9 @@ export default {
     font-size: 14px;
     color: rgba(0, 0, 0, 0.65);
     text-align: justify;
+  }
+  .content >>> img{
+    height:203.5px;
   }
 
   .footer {

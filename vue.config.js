@@ -16,7 +16,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/scrm': {
-        target: 'http://test-scrm.juzhun.com/scrm',
+        target: 'https://test-scrm.juzhunshuyu.com/scrm',
         changeOrigin: true, // 允许跨域
         pathRewrite: {
           '^/scrm': '',
