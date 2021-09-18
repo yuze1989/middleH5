@@ -97,7 +97,6 @@ export default {
   methods: {
     onLoad() {
       this.getList();
-      console.log(23);
       this.pageIndex += 1;
     },
     onRefresh() {
@@ -149,7 +148,6 @@ export default {
     },
     // 取消
     cancel() {
-      console.log(123);
       this.isMask = !this.isMask;
     },
     // tab切换
@@ -168,7 +166,6 @@ export default {
     share(str) {
       const obj = str;
       const that = this;
-
       that.isMask = !that.isMask;
       console.log(obj);
     },
