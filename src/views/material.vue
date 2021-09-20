@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import Wechat from '../utils/wechat';
+
 export default {
   name: 'about',
   data() {
@@ -88,6 +90,9 @@ export default {
       // 留言内容
       tex: '',
     };
+  },
+  mounted() {
+    Wechat.sendChatMessage();
   },
   methods: {
     go(type) {
