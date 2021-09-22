@@ -19,7 +19,7 @@
         </div>
         <div class="right">
           <div class="name">{{item.title}}</div>
-          <div class="sizi">{{item.description||item.fileSizeStr}}</div>
+          <div class="sizi">{{item.description || item.fileSizeStr}}</div>
           <div class="flex">
             <div class="ad" v-for="(str,subscript) in item.tagList" :key="subscript">
               {{str.name}}

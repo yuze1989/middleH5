@@ -2,7 +2,7 @@
   <div class="box">
     <div class="top-nav">
       <div v-for="(item,index) in nav" :key="index">
-        <div :class="{active: type===index}" @click="change(index)">
+        <div :class="{active: type === index}" @click="change(index)">
           {{item}}
         </div>
       </div>
@@ -17,7 +17,7 @@
           <div>{{item.head}}</div>
         </div>
         <!-- 隐藏部分 -->
-        <div :class="item.isShow?'yes':'no'" v-for="(str,subscript) in item.body"
+        <div :class="item.isShow ? 'yes' : 'no' " v-for="(str,subscript) in item.body"
         :key="subscript">
           <div class="left">
               <i class="iconfont icon-fasong1" @click.stop="share(str)"></i>
