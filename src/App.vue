@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <router-view />
-    <div class="bottom" v-if="$route.meta.tabbarshow">
+    <bottom :url="$route.path" v-if="$route.meta.tabbarshow" @goUrl="go"></bottom>
+    <!-- <div class="bottom" v-if="$route.meta.tabbarshow">
       <div class="item" @click="clickItem('/')" :class="{active: $route.path==='/'}">
         <i class="iconfont icon-sucai" v-if="$route.path==='/'"></i>
         <i class="iconfont icon-sucai2" v-else></i>
@@ -13,11 +14,16 @@
         <i class="iconfont icon-huashu2" v-else></i>
         <div>素材</div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
+import bottom from './common/bottom.vue';
+
 export default {
+  components: {
+    bottom,
+  },
   name: 'app',
   data() {
     return {
@@ -25,9 +31,12 @@ export default {
     };
   },
   methods: {
-    clickItem(path) {
-      this.$router.push(path);
+    go(src) {
+      this.$router.push(src);
     },
+    // clickItem(path) {
+    //   this.$router.push(path);
+    // },
   },
 
 };

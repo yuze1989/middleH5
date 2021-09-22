@@ -30,12 +30,45 @@ const Wechat = {
       },
     });
   },
-  sendChatMessage: () => {
+  sendChatMessage: (str, type, text, url) => {
+    console.log(str, type);
+    let news = 'text';
+    if (type === (0 || 1)) {
+      news = 'news';
+      return;
+    }
+    if (type === 2) {
+      news = 'image';
+      return;
+    }
+    if (type === 3) {
+      news = 'video';
+      return;
+    }
+    if (type === (4 || 5)) {
+      news = 'file';
+      return;
+    }
     wx.invoke('sendChatMessage', {
-      msgtype: 'text', // 消息类型，必填
+      msgtype: news, // 消息类型，必填
       enterChat: true, // 为true时表示发送完成之后顺便进入会话，仅移动端3.1.10及以上版本支持该字段
       text: {
-        content: '你好', // 文本内容
+        content: text, // 文本内容
+      },
+      image: {
+        mediaid: type === 2 ? str.materialEnclosureId : '', // 图片的素材id
+      },
+      video: {
+        mediaid: type === 3 ? str.materialEnclosureId : '', // 视频的素材id
+      },
+      file: {
+        mediaid: type === (4 || 5) ? str.materialEnclosureId : '', // 文件的素材id
+      },
+      news: {
+        link: url, // H5消息页面url 必填
+        title: str.title, // H5消息标题
+        desc: str.description, // H5消息摘要
+        imgUrl: str.coverPicUrl, // H5消息封面图片URL
       },
     }, (res) => {
       alert(res.err_msg);

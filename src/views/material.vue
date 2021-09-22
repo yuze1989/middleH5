@@ -41,7 +41,7 @@
           <div>我叫中秋</div>
         </div>
         <div class="mask-content">
-          三、我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第一、可以帮助企业管理客户的微信帐号…
+          {{desc}}
         </div>
         <div class="mask-input">
           <input type="text" placeholder="留言" v-model="tex" />
@@ -89,11 +89,15 @@ export default {
       tex: '',
 
       snapshot: false,
+
+      // 分享的内容
+      desc: '',
       pageIndex: 1,
+      obj: {},
     };
   },
   mounted() {
-    Wechat.sendChatMessage();
+
   },
   methods: {
     onLoad() {
@@ -160,15 +164,19 @@ export default {
     },
     // 发送
     send() {
+      Wechat.sendChatMessage(this.obj, this.indexTap, this.tex, window.location.href);
       console.log('点击发送');
     },
 
     // 分享
     share(str) {
-      const obj = str;
+      this.obj = str;
+      this.desc = str.description;
       const that = this;
       that.isMask = !that.isMask;
-      console.log(obj);
+      if (!that.isMask) {
+        this.obj = '';
+      }
     },
   },
 };
