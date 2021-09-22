@@ -58,6 +58,7 @@
 <script>
 import { List, PullRefresh } from 'vant';
 import Http from '../utils/http';
+import Wechat from '../utils/wechat';
 
 export default {
   components: {
@@ -92,7 +93,7 @@ export default {
     };
   },
   mounted() {
-
+    Wechat.sendChatMessage();
   },
   methods: {
     onLoad() {

@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+const baseURL = process.env.NODE_ENV === 'production' ? 'https://test-scrm.juzhunshuyu.com' : '';
 const instance = axios.create({
   // baseURL: 'https://test-scrm.juzhunshuyu.com',
   timeout: 100000, // 请求超时时间
+  baseURL,
 });
 
 // 请求拦截添加头部参数等
