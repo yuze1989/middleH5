@@ -3,7 +3,7 @@
     <ul>
       <li :class="{'active':indexTap === index}" v-for="(item,index) in lists"
       :key="index" @click="change(index)">
-        {{item}}
+        {{item.name}}
       </li>
     </ul>
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
@@ -30,28 +30,6 @@
       </List>
     </div>
     </PullRefresh>
-    <!-- 分享弹窗 -->
-    <div class="mask" v-show="isMask">
-      <div class="mask-box">
-        <div class="mask-tit">
-          发送给：
-        </div>
-        <div class="mask-top">
-          <img src="../assets/logo.png">
-          <div>我叫中秋</div>
-        </div>
-        <div class="mask-content">
-          {{desc}}
-        </div>
-        <div class="mask-input">
-          <input type="text" placeholder="留言" v-model="tex" />
-        </div>
-        <div class="footer">
-          <div @click="cancel">取消</div>
-          <div @click="send ">发送</div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -78,22 +56,17 @@ export default {
       indexTap: 0,
 
       // 头部选项卡
-      lists: ['文章', '链接', '海报', '视频', 'PDF', 'PPT'],
-
+      lists: [
+        { name: '文章', msgType: 'news' },
+        { name: '链接', msgType: 'news' },
+        { name: '海报', msgType: 'image' },
+        { name: '视频', msgType: 'video' },
+        { name: 'PDF', msgType: 'file' },
+        { name: 'PPT', msgType: 'file' }],
       // 数据
       dataList: [],
-      // 是否显示弹窗
-      isMask: false,
-
-      // 留言内容
-      tex: '',
-
       snapshot: false,
-
-      // 分享的内容
-      desc: '',
       pageIndex: 1,
-      obj: {},
     };
   },
   mounted() {
@@ -151,10 +124,6 @@ export default {
         window.location.href = str.materialEnclosureUrl;
       }
     },
-    // 取消
-    cancel() {
-      this.isMask = !this.isMask;
-    },
     // tab切换
     change(index) {
       this.indexTap = index;
@@ -164,19 +133,48 @@ export default {
     },
     // 发送
     send() {
-      Wechat.sendChatMessage(this.obj, this.indexTap, this.tex, window.location.href);
+      // Wechat.sendChatMessage(this.obj, this.indexTap, this.tex, window.location.href);
       console.log('点击发送');
     },
 
     // 分享
     share(str) {
-      this.obj = str;
-      this.desc = str.description;
+      const dataList = str;
       const that = this;
-      that.isMask = !that.isMask;
-      if (!that.isMask) {
-        this.obj = '';
+      const { msgType } = that.lists[that.indexTap];
+      let data = {};
+      if (msgType === 'image') {
+        data = {
+          msgtype: msgType,
+          enterChat: true,
+          image: {
+            mediaid: dataList.materialEnclosureId,
+          },
+        };
       }
+      if (msgType === 'video') {
+        data = {
+          msgtype: msgType,
+          enterChat: true,
+          video: {
+            mediaid: dataList.materialEnclosureId,
+          },
+        };
+      }
+      if (msgType === 'news') {
+        data = {
+          msgtype: msgType,
+          enterChat: true,
+          news: {
+            link: window.location.href, // H5消息页面url 必填
+            title: dataList.title, // H5消息标题
+            desc: dataList.description, // H5消息摘要
+            imgUrl: dataList.coverPicUrl, // H5消息封面图片URL
+          },
+        };
+      }
+      console.log(data);
+      Wechat.sendChatMessage(data);
     },
   },
 };
@@ -316,59 +314,6 @@ export default {
     -webkit-line-clamp: 1;
     /** 显示的行数 **/
   }
-
-  .mask {
-    background-color: rgba(0, 0, 0, 0.4);
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .mask-box {
-    width: 260px;
-    padding: 12px 20px;
-    background: #FFFFFF;
-    border-radius: 2px;
-  }
-
-  .mask-tit {
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.65);
-    text-align: justify;
-  }
-
-  .mask-content {
-    font-size: 12px;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: justify;
-    margin-bottom: 12px;
-    background: #F5F5F5;
-    padding: 10px;
-    overflow: hidden;
-    word-break: break-all;
-    /* break-all(允许在单词内换行。) */
-    text-overflow: ellipsis;
-    /* 超出部分省略号 */
-    display: -webkit-box;
-    /** 对象作为伸缩盒子模型显示 **/
-    -webkit-box-orient: vertical;
-    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-    -webkit-line-clamp: 4;
-    /** 显示的行数 **/
-  }
-
-  .mask-inp {
-    width: 100%;
-    border-bottom: #F3F3F3 1px solid;
-    padding-bottom: 5px;
-  }
-
   .footer {
     display: flex;
     font-size: 14px;
@@ -381,31 +326,5 @@ export default {
     margin: 20px 0 15px 0;
     text-align: center;
     flex: 1;
-  }
-
-  .mask-input input {
-    font-size: 12px;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: justify;
-    width: 99%;
-    border: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .mask-top {
-    display: flex;
-    margin: 8px 0;
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.65);
-    text-align: justify;
-  }
-
-  .mask-top img {
-    width: 39px;
-    height: 39px;
-    margin-right: 10px;
   }
 </style>
