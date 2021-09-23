@@ -1,33 +1,34 @@
 <template>
-  <div class="page">
-    <skeleton title avatar :row="10" :loading="loading">
-  <div class="box" :style="'min-height:'+ height +'px'">
-    <div class="top">{{data.title}}</div>
-    <div class="txt">
-      <span>{{data.author}}</span>
-      <span style="margin-left: 5px;">{{gmtCreate}}</span>
-    </div>
-    <div class="content" v-html="data.content">
-    </div>
-     </div>
-    <div class="footer">
-      <div @click="isShow = !isShow">
-        <span>免责声明</span>
-        <i class="iconfont icon-xiala" v-if="!isShow"></i>
-        <i class="iconfont icon-shangla" v-else></i>
-      </div>
-      <div class="footer-content" v-if="isShow">
-        该文章由用户自主上传，文字版权归原作者所有。如您发现版权问题请点击
-        <span @click="complaint">投诉</span>
-      </div>
-      <div class="footer-tip">
-        <div class="right-margin">——</div>
-        <div><i class="iconfont icon-juzhun"></i></div>
-        <div>巨准SCRM 提供技术支持</div>
-        <div class="left-margin">——</div>
-      </div>
-    </div>
-    </skeleton>
+    <div class="page">
+      <skeleton title avatar :row="10" :loading="loading">
+      <div class="box" :style="'min-height:'+ height +'px'">
+        <div class="top">{{data.title}}</div>
+        <div class="txt">
+          <span>{{data.author}}</span>
+          <span style="margin-left: 5px;">{{gmtCreate}}</span>
+        </div>
+        <div class="content" v-html="data.content">
+        </div>
+         </div>
+        <div class="footer">
+          <div @click="isShow = !isShow">
+            <span>免责声明</span>
+            <i class="iconfont icon-xiala" v-if="!isShow"></i>
+            <i class="iconfont icon-shangla" v-else></i>
+          </div>
+          <div class="footer-content" v-if="isShow">
+            该文章由用户自主上传，文字版权归原作者所有。如您发现版权问题请点击
+            <span @click="complaint">投诉</span>
+          </div>
+          <div class="footer-tip">
+            <div class="right-margin">——</div>
+            <div><i class="iconfont icon-juzhun"></i></div>
+            <div>巨准SCRM 提供技术支持</div>
+            <div class="left-margin">——</div>
+          </div>
+        </div>
+        </skeleton>
+
   </div>
 </template>
 <script>

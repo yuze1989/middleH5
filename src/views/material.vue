@@ -1,34 +1,33 @@
 <template>
   <div class="box-bos">
     <ul>
-      <li :class="{'active':indexTap === index}" v-for="(item,index) in lists"
-      :key="index" @click="change(index)">
+      <li :class="{'active':indexTap === index}" v-for="(item,index) in lists" :key="index"
+       @click="change(index)">
         {{item.name}}
       </li>
     </ul>
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
-    <div class="content-box">
-      <div class="tip">(共有{{sum}}个文章素材)</div>
-      <List v-model="loading" :finished="finished"
-      offset="100" @load="onLoad" finished-text="没有更多了">
-      <div class="article" v-for="(item,index) in dataList" :key="index"
-      @click="go(item)">
-        <div class="left">
-          <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
-          <img :src="item.coverPicUrl">
-        </div>
-        <div class="right">
-          <div class="name">{{item.title}}</div>
-          <div class="sizi">{{item.description || item.fileSizeStr}}</div>
-          <div class="flex">
-            <div class="ad" v-for="(str,subscript) in item.tagList" :key="subscript">
-              {{str.name}}
+      <div class="content-box">
+        <div class="tip">(共有{{sum}}个文章素材)</div>
+        <List v-model="loading" :finished="finished" offset="100"
+        @load="onLoad" finished-text="没有更多了">
+          <div class="article" v-for="(item,index) in dataList" :key="index" @click="go(item)">
+            <div class="left">
+              <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
+              <img :src="item.coverPicUrl">
+            </div>
+            <div class="right">
+              <div class="name">{{item.title}}</div>
+              <div class="sizi">{{item.description || item.fileSizeStr}}</div>
+              <div class="flex">
+                <div class="ad" v-for="(str,subscript) in item.tagList" :key="subscript">
+                  {{str.name}}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </List>
       </div>
-      </List>
-    </div>
     </PullRefresh>
   </div>
 </template>
@@ -37,6 +36,7 @@
 import { List, PullRefresh } from 'vant';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
+import Config from '../utils/config';
 
 export default {
   components: {
@@ -51,6 +51,7 @@ export default {
       finished: false,
       // 提示数量
       sum: 0,
+      shake: false,
 
       // 选中的下标
       indexTap: 0,
@@ -58,15 +59,17 @@ export default {
       // 头部选项卡
       lists: [
         { name: '文章', msgType: 'news' },
-        { name: '链接', msgType: 'text' },
-        { name: '海报', msgType: 'image' },
-        { name: '视频', msgType: 'video' },
-        { name: 'PDF', msgType: 'file' },
-        { name: 'PPT', msgType: 'file' }],
+        { name: '链接', msgType: 'text', type: 'content' },
+        { name: '海报', msgType: 'image', type: 'mediaid' },
+        { name: '视频', msgType: 'video', type: 'mediaid' },
+        { name: 'PDF', msgType: 'file', type: 'mediaid' },
+        { name: 'PPT', msgType: 'file', type: 'mediaid' },
+      ],
       // 数据
       dataList: [],
       snapshot: false,
       pageIndex: 1,
+      wxMediaId: '',
     };
   },
   mounted() {
@@ -131,39 +134,60 @@ export default {
       this.dataList = [];
       this.getList();
     },
-    // 分享
-    share(str) {
-      const dataList = str;
-      const that = this;
-      const { msgType } = that.lists[that.indexTap];
-      let data = {};
-      if (msgType === 'news') {
-        data = {
-          msgtype: msgType,
-          enterChat: true,
-          news: {
-            // H5消息页面url 必填
-            link: `https://test-scrm.juzhunshuyu.com/middleH5/details?id=${dataList.id}`,
-            title: dataList.title, // H5消息标题
-            desc: dataList.description, // H5消息摘要
-            imgUrl: dataList.coverPicUrl, // H5消息封面图片URL
-          },
-        };
-      } else if (msgType === 'text') {
-        data = {
-          msgtype: msgType,
-          enterChat: true,
-          text: {
-            content: dataList.content,
-          },
-        };
-      } else {
-        const splicing = `{"msgtype":"${msgType}","enterChat":${true},"${msgType}":
-         {"mediaid":${dataList.materialEnclosureId}}}`;
-        data = JSON.parse(splicing);
+    uploadFileToWx(typeId, obj, msgType, url) {
+      let data = {
+        msgtype: msgType,
+        enterChat: true,
+      };
+      // 防抖
+      if (this.shake) {
+        return;
       }
-      console.log(data);
-      Wechat.sendChatMessage(data);
+      const { type } = this.lists[this.indexTap];
+      if (msgType === 'news') {
+        data.news = {
+          // H5消息页面url 必填
+          link: url,
+          title: obj.title, // H5消息标题
+          desc: obj.description, // H5消息摘要
+          imgUrl: obj.coverPicUrl, // H5消息封面图片URL
+        };
+        Wechat.sendChatMessage(data);
+        return;
+      }
+
+      Http.post('/scrm/comm/rest/marketing-material/upload-file-to-wx', {
+        materialType: typeId,
+        materialEnclosureId: obj.materialEnclosureId,
+      }, '').then((res) => {
+        console.log(res);
+        data = {
+          msgtype: msgType,
+          enterChat: true,
+          [msgType]: {
+            [type]: type === 'content' ? obj.content : res.data,
+          },
+        };
+        console.log(data);
+        Wechat.sendChatMessage(data);
+        this.shake = true;
+      });
+    },
+    // 分享
+    share(obj) {
+      const maxsize = 10 * 1024 * 1024;
+      let url = `${Config.redirect_uri}/middleH5/details?id=${obj.id}`;
+      let { msgType } = this.lists[this.indexTap];
+      this.shake = false;
+      // 判断视频是否超过10m
+      if (obj.fileSize >= maxsize && msgType === 'video') {
+        url = obj.materialEnclosureUrl;
+        msgType = 'news';
+        this.uploadFileToWx(this.indexTap + 1, obj, msgType, url);
+      } else {
+        url = `${Config.redirect_uri}/middleH5/details?id=${obj.id}`;
+        this.uploadFileToWx(this.indexTap + 1, obj, msgType, url);
+      }
     },
   },
 };
@@ -276,7 +300,7 @@ export default {
   }
 
   .ad {
-    margin:0 8px 8px 0;
+    margin: 0 8px 8px 0;
     padding: 6px 9px;
     background: rgba(24, 144, 255, 0.05);
     border-radius: 1px;
@@ -303,6 +327,7 @@ export default {
     -webkit-line-clamp: 1;
     /** 显示的行数 **/
   }
+
   .footer {
     display: flex;
     font-size: 14px;

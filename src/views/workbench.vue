@@ -13,29 +13,48 @@
         </div>
       </div>
     </div>
+    <PullRefresh v-model="refreshing" @refresh="onRefresh">
     <div class="content">
+      <List v-model="loading" :finished="finished"
+      offset="100" @load="onLoad" finished-text="没有更多了">
       <div class="content-tip">日常任务提醒</div>
-      <div class="content-block">
+      <div class="content-block" v-for="(item,index) in 5" :key="index">
         <div class="tite">
-          <div class="state">逾期</div>
+          <div class="state" v-if="index === 1">逾期</div>
           <div class="task-name">SOP任务名称SOP任务名称</div>
         </div>
         <div class="task">群SOP任务</div>
         <div class="push-date">
           <div>推送时间：2021-09-21 16：30</div>
-          <div class="overdue">（逾期时间：23小时34分）</div>
+          <div :class="{surplus: index !== 1}" class="overdue">
+            （{{index === 1 ? '逾期' : '剩余'}}时间：23小时34分）</div>
         </div>
         <div class="task">完成时间：2021-09-21 16：30</div>
       </div>
+     </List>
     </div>
+     </PullRefresh>
   </div>
 </template>
 
 <script>
+import { List, PullRefresh } from 'vant';
+
 export default {
+  components: {
+    List,
+    PullRefresh,
+  },
   name: 'workbench',
   data() {
     return {
+      refreshing: false,
+      loading: false,
+      finished: false,
+      dataList: [],
+      pageIndex: 1,
+      // 提示数量
+      sum: 0,
       // 头部选项卡
       nav: ['未完成', '已完成'],
 
@@ -47,6 +66,42 @@ export default {
 
   },
   methods: {
+    onLoad() {
+      this.getList();
+      this.pageIndex += 1;
+    },
+    onRefresh() {
+      this.finished = false;
+      this.onLoad();
+    },
+    getList() {
+      const that = this;
+      // Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
+      //   materialType: that.indexTap + 1,
+      //   pageIndex: that.pageIndex,
+      //   pageSize: 20,
+      //   snapshotFlag: that.snapshot,
+      // }, '').then((res) => {
+      //   if (res.success) {
+      //     // 判断获取数据条数若等于0
+      //     if (res.data.totalCount === 0) {
+      //       // 清空数组
+      //       that.dataList = [];
+      //       // 停止上拉加载
+      //       that.finished = true;
+      //       return;
+      //     }
+      //     that.dataList.push(...res.data);
+      //     that.sum = res.totalCount;
+      //     // 清除上拉刷新状态
+      that.refreshing = false;
+      //     if (that.dataList.length >= res.totalCount) {
+      //       // 结束上拉加载状态
+      that.finished = true;
+      //     }
+      //   }
+      // });
+    },
     // tab切换
     change(index) {
       this.type = index;
@@ -99,6 +154,7 @@ export default {
   }
   .content{
     margin: 10px 0 10px 15px;
+     margin-bottom: 50px;
   }
   .content-tip{
     font-size: 14px;
@@ -152,5 +208,8 @@ export default {
     font-size: 12px;
     color: #FA5252;
     letter-spacing: 0;
+  }
+  .surplus{
+    color: #1890FF;
   }
 </style>
