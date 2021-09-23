@@ -143,24 +143,9 @@ export default {
       const that = this;
       const { msgType } = that.lists[that.indexTap];
       let data = {};
-      if (msgType === 'image') {
-        data = {
-          msgtype: msgType,
-          enterChat: true,
-          image: {
-            mediaid: dataList.materialEnclosureId,
-          },
-        };
-      }
-      if (msgType === 'video') {
-        data = {
-          msgtype: msgType,
-          enterChat: true,
-          video: {
-            mediaid: dataList.materialEnclosureId,
-          },
-        };
-      }
+      const splicing = `{"msgtype":"${msgType}","enterChat":${true},"${msgType}":
+       {"mediaid":${dataList.materialEnclosureId}}}`;
+      data = JSON.parse(splicing);
       if (msgType === 'news') {
         data = {
           msgtype: msgType,
