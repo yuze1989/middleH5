@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { List, PullRefresh } from 'vant';
+import { List, PullRefresh, Toast } from 'vant';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
 import Config from '../utils/config';
@@ -135,6 +135,12 @@ export default {
       this.getList();
     },
     uploadFileToWx(typeId, obj, msgType, url) {
+      Toast.loading({
+        type: 'loading',
+        duration: 0,
+        forbidClick: true, // 禁用背景点击
+        message: '加载中...',
+      });
       let data = {
         msgtype: msgType,
         enterChat: true,
@@ -152,6 +158,10 @@ export default {
           desc: obj.description, // H5消息摘要
           imgUrl: obj.coverPicUrl, // H5消息封面图片URL
         };
+        this.shake = true;
+        Toast.loading({
+          duration: 1,
+        });
         Wechat.sendChatMessage(data);
         return;
       }
@@ -171,6 +181,9 @@ export default {
         console.log(data);
         Wechat.sendChatMessage(data);
         this.shake = true;
+        Toast.loading({
+          duration: 1,
+        });
       });
     },
     // 分享
