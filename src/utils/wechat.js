@@ -34,7 +34,7 @@ const Wechat = {
     wx.invoke('sendChatMessage', str, (res) => {
       // alert(res.err_msg);
       console.log(res);
-      alert(str);
+      alert(JSON.stringify(str));
     });
   },
   setApi: (configInfo) => {

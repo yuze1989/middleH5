@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <router-view />
-    <bottom :url="$route.path" v-if="$route.meta.tabbarshow" @goUrl="go"></bottom>
+    <bottom :url="$route.path" v-if="$route.meta.tabbarshow" @goUrl="go"
+    :type="$route.meta.type"></bottom>
     <!-- <div class="bottom" v-if="$route.meta.tabbarshow">
       <div class="item" @click="clickItem('/')" :class="{active: $route.path==='/'}">
         <i class="iconfont icon-sucai" v-if="$route.path==='/'"></i>

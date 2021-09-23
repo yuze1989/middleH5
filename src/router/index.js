@@ -16,6 +16,7 @@ const routes = [
     component: speechArt,
     meta: {
       tabbarshow: true,
+      type: 1,
     },
   },
   {
@@ -23,6 +24,7 @@ const routes = [
     name: 'material',
     meta: {
       tabbarshow: true,
+      type: 1,
     },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -36,6 +38,42 @@ const routes = [
       tabbarshow: false,
     },
     component: () => import('../views/details.vue'),
+  },
+  {
+    path: '/workbench',
+    name: 'workbench',
+    meta: {
+      tabbarshow: true,
+      type: 2,
+    },
+    component: () => import('../views/workbench.vue'),
+  },
+  {
+    path: '/customer',
+    name: 'customer',
+    meta: {
+      tabbarshow: true,
+      type: 2,
+    },
+    component: () => import('../views/customer.vue'),
+  },
+  {
+    path: '/marketing',
+    name: 'marketing',
+    meta: {
+      tabbarshow: true,
+      type: 2,
+    },
+    component: () => import('../views/marketing.vue'),
+  },
+  {
+    path: '/surplus',
+    name: 'surplus',
+    meta: {
+      tabbarshow: true,
+      type: 2,
+    },
+    component: () => import('../views/surplus.vue'),
   },
 ];
 
