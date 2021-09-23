@@ -58,7 +58,7 @@ export default {
       // 头部选项卡
       lists: [
         { name: '文章', msgType: 'news' },
-        { name: '链接', msgType: 'news' },
+        { name: '链接', msgType: 'text' },
         { name: '海报', msgType: 'image' },
         { name: '视频', msgType: 'video' },
         { name: 'PDF', msgType: 'file' },
@@ -131,32 +131,36 @@ export default {
       this.dataList = [];
       this.getList();
     },
-    // 发送
-    send() {
-      // Wechat.sendChatMessage(this.obj, this.indexTap, this.tex, window.location.href);
-      console.log('点击发送');
-    },
-
     // 分享
     share(str) {
       const dataList = str;
       const that = this;
       const { msgType } = that.lists[that.indexTap];
       let data = {};
-      const splicing = `{"msgtype":"${msgType}","enterChat":${true},"${msgType}":
-       {"mediaid":${dataList.materialEnclosureId}}}`;
-      data = JSON.parse(splicing);
       if (msgType === 'news') {
         data = {
           msgtype: msgType,
           enterChat: true,
           news: {
-            link: window.location.href, // H5消息页面url 必填
+            // H5消息页面url 必填
+            link: `https://test-scrm.juzhunshuyu.com/middleH5/details?id=${dataList.id}`,
             title: dataList.title, // H5消息标题
             desc: dataList.description, // H5消息摘要
             imgUrl: dataList.coverPicUrl, // H5消息封面图片URL
           },
         };
+      } else if (msgType === 'text') {
+        data = {
+          msgtype: msgType,
+          enterChat: true,
+          text: {
+            content: dataList.content,
+          },
+        };
+      } else {
+        const splicing = `{"msgtype":"${msgType}","enterChat":${true},"${msgType}":
+         {"mediaid":${dataList.materialEnclosureId}}}`;
+        data = JSON.parse(splicing);
       }
       console.log(data);
       Wechat.sendChatMessage(data);
