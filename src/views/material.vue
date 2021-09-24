@@ -73,7 +73,14 @@ export default {
     };
   },
   mounted() {
-
+    const data = {
+      msgtype: 'text',
+      enterChat: true,
+      text: {
+        content: '你好',
+      },
+    };
+    Wechat.sendChatMessage(data);
   },
   methods: {
     onLoad() {
