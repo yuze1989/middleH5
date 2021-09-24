@@ -20,6 +20,18 @@ const Wechat = {
       signature: configInfo.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage'], // 必填，传入需要使用的接口名称
       success: (res) => {
+        alert(JSON.stringify(res));
+        const data = {
+          msgtype: 'text',
+          enterChat: true,
+          text: {
+            content: '你好 aa',
+          },
+        };
+        wx.invoke('sendChatMessage', data, (aa) => {
+          // alert(res.err_msg);
+          alert(JSON.stringify(aa));
+        });
         console.log(res);
         // 回调
       },
