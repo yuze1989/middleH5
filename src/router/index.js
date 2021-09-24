@@ -96,10 +96,8 @@ router.beforeEach((to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
-    localStorage.removeItem('userId');
+    // localStorage.removeItem('userId');
     const userId = localStorage.getItem('userId');
-    alert(userId);
-    alert(options.code);
     if (!userId && !options.code) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
@@ -111,7 +109,6 @@ router.beforeEach((to, form, next) => {
     }
 
     if (!userId && options.code) {
-      alert(1);
       Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: Config.corpId,
         code: options.code,
