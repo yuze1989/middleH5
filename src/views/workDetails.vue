@@ -19,13 +19,13 @@
       <div class="content-tip" style="border: none;">推送内容</div>
       <div class="flex" v-for="(item,index) in content" :key="index">
         <div class="left">
-          <i class="iconfont icon-xinjianwenjianjia"></i>
+          <i :class="item.icon" class="iconfont"></i>
         </div>
         <div class="right">
           <div class="right-top">
             <div class="right-tite">{{item.name}}</div>
             <div class="copy">
-              <i class="iconfont icon-xinjianwenjianjia"></i>
+              <i class="iconfont icon-fuzhi"></i>
               <span>复制</span>
              </div>
           </div>
@@ -49,7 +49,7 @@
           <div>
             <div class="list-flex">
               <div class="list-content">老会员权益发放群1号</div>
-              <div>未完成</div>
+              <div class="no">未完成</div>
             </div>
             <div class="date">完成时间：2021-09-21 16：35</div>
           </div>
@@ -76,9 +76,15 @@ export default {
       finished: false,
       dataList: [],
       content: [
-        { name: '文本', content: '9月开学季大促--第一部预热：鞋、包、配饰 全场4折起，前100名有大礼包，送完为止...', type: 1 },
-        { name: '图片', content: '', type: 2 },
-        { name: '链接', content: 'https://www.xjsheggwjq.com/index.html', type: 3 }],
+        {
+          name: '文本', content: '9月开学季大促--第一部预热：鞋、包、配饰 全场4折起，前100名有大礼包，送完为止...', type: 1, icon: 'icon-wenzi',
+        },
+        {
+          name: '图片', content: '', type: 2, icon: 'icon-tupian',
+        },
+        {
+          name: '链接', content: 'https://www.xjsheggwjq.com/index.html', type: 3, icon: 'icon-bianzu',
+        }],
       pageIndex: 1,
       // 提示数量
 
@@ -128,6 +134,31 @@ export default {
 };
 </script>
 <style scoped="scoped">
+  .icon-fuzhi{
+    color: #1890FF !important;
+  }
+  .yes{
+    width: 46.5px;
+    height: 19px;
+    background: #DCEEFF;
+    border-radius: 9px;
+    font-size: 10px;
+    text-align: center;
+    line-height: 19px;
+    color: #1890FF;
+    margin-left: 10px;
+  }
+  .no{
+    width: 46.5px;
+    height: 19px;
+    line-height: 19px;
+    background: #E5E5E5;
+    border-radius: 9px;
+    font-size: 10px;
+    color: rgba(0,0,0,0.25);
+    text-align: center;
+    margin-left: 10px;
+  }
   .top-box{
      margin: 10px 0 10px 15px;
      font-size: 12px;
@@ -267,15 +298,23 @@ export default {
     width: 46px;
     height: 46px;
     border-radius: 4px;
+    margin-right: 12px;
   }
   .list-flex{
     display: flex;
     align-items: center;
   }
   .list-content{
+    width: 60%;
     font-size: 16px;
     color: #333333;
     letter-spacing: 0;
+    overflow: hidden;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
   }
   .date{
     font-size: 14px;

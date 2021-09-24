@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "24582833",
+      "name": "未选择",
+      "font_class": "weixuanze",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "24582491",
+      "name": "头像",
+      "font_class": "touxiang",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "24582367",
+      "name": "文字",
+      "font_class": "wenzi",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "24582368",
+      "name": "图片",
+      "font_class": "tupian",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
+      "icon_id": "24582319",
+      "name": "复制",
+      "font_class": "fuzhi",
+      "unicode": "e678",
+      "unicode_decimal": 59000
+    },
+    {
+      "icon_id": "24582320",
+      "name": "编组",
+      "font_class": "bianzu",
+      "unicode": "e679",
+      "unicode_decimal": 59001
+    },
+    {
+      "icon_id": "24541945",
+      "name": "更多2",
+      "font_class": "gengduo2",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "24541946",
+      "name": "工作台2",
+      "font_class": "gongzuotai21",
+      "unicode": "e675",
+      "unicode_decimal": 58997
+    },
+    {
+      "icon_id": "24533389",
+      "name": "营销2",
+      "font_class": "yingxiao2",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
       "icon_id": "24416111",
       "name": "素材",
       "font_class": "sucai",
