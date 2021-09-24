@@ -117,7 +117,6 @@ router.beforeEach((to, form, next) => {
           localStorage.setItem('unionId', data.unionid);
           localStorage.setItem('openid', data.openid);
           localStorage.setItem('userId', data.userId);
-          alert(data.token);
           localStorage.setItem('token', data.token);
           localStorage.setItem('wxInfo', JSON.stringify(res.data));
         }
