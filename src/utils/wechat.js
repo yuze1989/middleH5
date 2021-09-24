@@ -21,6 +21,7 @@ const Wechat = {
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage'], // 必填，传入需要使用的接口名称
       success: (res) => {
+        alert(JSON.stringify(res));
         wx.invoke('sendChatMessage', info, (messageRes) => {
           alert(JSON.stringify(messageRes));
         });
@@ -28,6 +29,7 @@ const Wechat = {
         // 回调
       },
       fail: (res) => {
+        alert(JSON.stringify(res));
         if (res.errMsg.indexOf('function not exist') > -1) {
           alert('版本过低请升级');
         }
