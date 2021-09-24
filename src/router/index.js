@@ -43,7 +43,7 @@ const routes = [
     path: '/workbench',
     name: 'workbench',
     meta: {
-      tabbarshow: true,
+      tabbarshow: false,
       type: 2,
     },
     component: () => import('../views/workbench.vue'),
@@ -74,6 +74,15 @@ const routes = [
       type: 2,
     },
     component: () => import('../views/surplus.vue'),
+  },
+  {
+    path: '/workDetails',
+    name: 'workDetails',
+    meta: {
+      tabbarshow: false,
+      type: 2,
+    },
+    component: () => import('../views/workDetails.vue'),
   },
 ];
 

@@ -18,7 +18,7 @@
       <List v-model="loading" :finished="finished"
       offset="100" @load="onLoad" finished-text="没有更多了">
       <div class="content-tip">日常任务提醒</div>
-      <div class="content-block" v-for="(item,index) in 5" :key="index">
+      <div class="content-block" v-for="(item,index) in 5" :key="index" @click="go()">
         <div class="tite">
           <div class="state" v-if="index === 1">逾期</div>
           <div class="task-name">SOP任务名称SOP任务名称</div>
@@ -73,6 +73,14 @@ export default {
     onRefresh() {
       this.finished = false;
       this.onLoad();
+    },
+    go() {
+      this.$router.push({
+        path: 'workDetails',
+        query: {
+          id: 1,
+        },
+      });
     },
     getList() {
       const that = this;

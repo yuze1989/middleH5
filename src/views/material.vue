@@ -64,6 +64,8 @@ export default {
         { name: '视频', msgType: 'video', type: 'mediaid' },
         { name: 'PDF', msgType: 'file', type: 'mediaid' },
         { name: 'PPT', msgType: 'file', type: 'mediaid' },
+        { name: '表格', msgType: 'file', type: 'mediaid' },
+        { name: '文档', msgType: 'file', type: 'mediaid' },
       ],
       // 数据
       dataList: [],
