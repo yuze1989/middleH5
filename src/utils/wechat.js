@@ -42,10 +42,6 @@ const Wechat = {
         alert(JSON.stringify(res));
       });
     });
-    wx.invoke('sendChatMessage', str, (res) => {
-      // alert(res.err_msg);
-      alert(JSON.stringify(res));
-    });
   },
   setApi: (configInfo) => {
     wx.config({
