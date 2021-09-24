@@ -7,7 +7,7 @@
       </li>
     </ul>
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
-      <div class="content-box">
+      <div class="content-box" :style="'min-height:'+ height +'px'">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
         @load="onLoad" finished-text="没有更多了">
@@ -55,7 +55,7 @@ export default {
 
       // 选中的下标
       indexTap: 0,
-
+      height: 0,
       // 头部选项卡
       lists: [
         { name: '文章', msgType: 'news' },
@@ -76,6 +76,7 @@ export default {
   },
   mounted() {
     Wechat.setWxConfig();
+    this.height = document.documentElement.clientHeight - 150;
   },
   methods: {
     onLoad() {
@@ -84,6 +85,7 @@ export default {
     },
     onRefresh() {
       this.finished = false;
+      this.dataList = [];
       this.onLoad();
     },
     getList() {
@@ -106,11 +108,7 @@ export default {
             that.finished = true;
             return;
           }
-          if (that.pageIndex === 1) {
-            that.dataList = res.data;
-          } else {
-            that.dataList.push(...res.data);
-          }
+          that.dataList.push(...res.data);
           that.sum = res.totalCount;
           // 清除上拉刷新状态
           that.refreshing = false;
@@ -236,7 +234,9 @@ export default {
     font-size: 10px;
     margin: 2px 2px 0 0;
   }
-
+  li:nth-last-of-type(1){
+    padding-right: 20px;
+  }
   li {
     border-bottom: 2px rgba(0, 0, 0, 0) solid;
     text-align: center;
