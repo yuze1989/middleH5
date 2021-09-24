@@ -21,7 +21,10 @@ const Wechat = {
       jsApiList: ['sendChatMessage'], // 必填，传入需要使用的接口名称
       success: (res) => {
         alert(JSON.stringify(res));
-        console.log(res);
+        wx.invoke('sendChatMessage', '你好', (aa) => {
+          // alert(res.err_msg);
+          alert(JSON.stringify(aa));
+        });
         // 回调
       },
       fail: (res) => {
@@ -31,17 +34,8 @@ const Wechat = {
       },
     });
   },
-  sendChatMessage: (str) => {
-    if (/(Android)/i.test(window.navigator.userAgent)) {
-      // 在 Android 设备，需要获取新的签名
-      Wechat.setWxConfig();
-    }
-    wx.ready(() => {
-      wx.invoke('sendChatMessage', str, (res) => {
-        // alert(res.err_msg);
-        alert(JSON.stringify(res));
-      });
-    });
+  sendChatMessage: () => {
+    Wechat.setWxConfig();
   },
   setApi: (configInfo) => {
     wx.config({
