@@ -39,6 +39,7 @@ const Wechat = {
   sendChatMessage: (info) => {
     if (/(Android)/i.test(window.navigator.userAgent) || !wxSignature) {
       // 在 Android 设备，需要获取新的签名
+      Wechat.setWxConfig();
     }
     Wechat.setAgentConfig(info);
   },
