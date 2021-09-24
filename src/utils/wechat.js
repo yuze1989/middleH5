@@ -2,35 +2,27 @@
 import Http from './http';
 import Config from './config';
 
+let wxSignature;
+
 const Wechat = {
-  setWxConfig: () => {
-    Http.post('/scrm/wechat/js-api-signature', {
+  setWxConfig: async () => {
+    const res = await Http.post('/scrm/wechat/js-api-signature', {
       corpId: Config.corpId,
       url: window.location.href.split('#')[0],
-    }).then((res) => {
-      Wechat.setAgentConfig(res.data);
     });
+    wxSignature = res.data;
   },
-  setAgentConfig: (configInfo) => {
+  setAgentConfig: (info) => {
     wx.agentConfig({
       corpid: Config.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
       agentid: 1000014, // 必填，企业微信的应用id （e.g. 1000247）
-      timestamp: configInfo.timestamp, // 必填，生成签名的时间戳
-      nonceStr: configInfo.nonceStr, // 必填，生成签名的随机串
-      signature: configInfo.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
+      timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
+      nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
+      signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage'], // 必填，传入需要使用的接口名称
       success: (res) => {
-        alert(JSON.stringify(res));
-        const data = {
-          msgtype: 'text',
-          enterChat: true,
-          text: {
-            content: '你好 aa',
-          },
-        };
-        wx.invoke('sendChatMessage', data, (aa) => {
-          // alert(res.err_msg);
-          alert(JSON.stringify(aa));
+        wx.invoke('sendChatMessage', info, (messageRes) => {
+          alert(JSON.stringify(messageRes));
         });
         console.log(res);
         // 回调
@@ -42,11 +34,12 @@ const Wechat = {
       },
     });
   },
-  sendChatMessage: (str) => {
-    wx.invoke('sendChatMessage', str, (res) => {
-      // alert(res.err_msg);
-      alert(JSON.stringify(res));
-    });
+  sendChatMessage: (info) => {
+    if (/(Android)/i.test(window.navigator.userAgent)) {
+      // 在 Android 设备，需要获取新的签名
+      Wechat.setWxConfig();
+    }
+    Wechat.setAgentConfig(info);
   },
   setApi: (configInfo) => {
     wx.config({
