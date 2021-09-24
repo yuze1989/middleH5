@@ -93,7 +93,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, form, next) => {
-  alert(Env.getType().platformType);
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
@@ -118,6 +117,7 @@ router.beforeEach((to, form, next) => {
           localStorage.setItem('unionId', data.unionid);
           localStorage.setItem('openid', data.openid);
           localStorage.setItem('userId', data.userId);
+          alert(data.token);
           localStorage.setItem('token', data.token);
           localStorage.setItem('wxInfo', JSON.stringify(res.data));
         }
