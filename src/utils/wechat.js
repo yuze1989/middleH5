@@ -22,6 +22,7 @@ const Wechat = {
       jsApiList: ['sendChatMessage'], // 必填，传入需要使用的接口名称
       success: (res) => {
         wx.invoke('sendChatMessage', info, () => {
+
         });
         console.log(res);
         // 回调

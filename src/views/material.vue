@@ -100,6 +100,8 @@ export default {
         pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
+        const token = localStorage.getItem('token');
+        alert(token);
         if (res.success) {
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
@@ -120,16 +122,16 @@ export default {
         }
       });
     },
-    go(str) {
+    go(obj) {
       if (this.indexTap === 0) {
         this.$router.push({
           path: 'details',
           query: {
-            id: str.id,
+            id: obj.id,
           },
         });
       } else {
-        window.location.href = str.materialEnclosureUrl;
+        window.location.href = obj.materialEnclosureUrl || obj.content;
       }
     },
     // tab切换
