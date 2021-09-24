@@ -42,20 +42,28 @@
     <!-- 推送群聊 -->
     <div class="content">
       <div class="content-tip">推送内容</div>
-      <div class="list">
+      <div class="list" v-for="(item,index) in list" :key="index" @click="change(item)">
         <div class="list-flex">
-          <div><i class="iconfont icon-xinjianwenjianjia"></i></div>
+          <div>
+            <i class="iconfont icon-weixuanze" v-show="!item.isSelect"></i>
+            <i class="iconfont icon-xuanze" v-show="item.isSelect"
+            :style="{'color: #E5E5E5;':item.state}"></i>
+          </div>
           <img src="../assets/logo.png" class="img">
           <div>
             <div class="list-flex">
-              <div class="list-content">老会员权益发放群1号</div>
-              <div class="no">未完成</div>
+              <div class="list-content">{{item.name}}</div>
+              <div :class="item.isComplete ? 'yes' : 'no'">
+              {{item.isComplete ? '已完成' : '未完成'}}</div>
             </div>
-            <div class="date">完成时间：2021-09-21 16：35</div>
+            <div class="date" v-if="item.date">完成时间：{{item.date}}</div>
           </div>
         </div>
-        <div><i class="iconfont icon-xinjianwenjianjia"></i></div>
+        <div class="icon"><i class="iconfont icon-fasong"></i></div>
       </div>
+    </div>
+    <div class="footer">
+
     </div>
   </div>
 </template>
@@ -85,6 +93,21 @@ export default {
         {
           name: '链接', content: 'https://www.xjsheggwjq.com/index.html', type: 3, icon: 'icon-bianzu',
         }],
+      list: [
+        {
+          isSelect: false,
+          name: '老会员权益发放群1号',
+          isComplete: true,
+          date: '2021-09-21 16：35',
+          state: true,
+        },
+        {
+          isSelect: false, name: '老会员权益发放群1号', isComplete: false, date: '', state: false,
+        },
+        {
+          isSelect: true, name: '老会员权益发放群1号', isComplete: false, date: '', state: false,
+        },
+      ],
       pageIndex: 1,
       // 提示数量
 
@@ -101,6 +124,10 @@ export default {
     onRefresh() {
       this.finished = false;
       this.onLoad();
+    },
+    change(obj) {
+      const data = obj;
+      data.isSelect = !data.isSelect;
     },
     getList() {
       const that = this;
@@ -134,8 +161,21 @@ export default {
 };
 </script>
 <style scoped="scoped">
-  .icon-fuzhi{
+  .icon-fuzhi,.icon-xuanze{
     color: #1890FF !important;
+  }
+  .icon-fasong{
+    color: #1890FF !important;
+    margin: 2px 2px 0 0 !important;
+  }
+  .icon{
+    width: 24px;
+    height: 24px;
+    background: #DCEEFF;
+    box-shadow: 0 4px 30px 0 rgba(24,107,255,0.16);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
   }
   .yes{
     width: 46.5px;
@@ -305,7 +345,7 @@ export default {
     align-items: center;
   }
   .list-content{
-    width: 60%;
+    width: 75%;
     font-size: 16px;
     color: #333333;
     letter-spacing: 0;
@@ -321,5 +361,8 @@ export default {
     color: #999999;
     letter-spacing: 0;
     margin-top: 6px;
+  }
+  .footer{
+
   }
 </style>

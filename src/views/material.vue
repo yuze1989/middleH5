@@ -85,9 +85,8 @@ export default {
     },
     onRefresh() {
       this.finished = false;
-      if (this.pageIndex === 1) {
-        this.dataList = [];
-      }
+      this.pageIndex = 1;
+      this.dataList = [];
       this.onLoad();
     },
     getList() {
