@@ -97,6 +97,7 @@ router.beforeEach((to, form, next) => {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
     const userId = localStorage.getItem('userId');
+    alert(userId, options.code);
     if (!userId && !options.code) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
@@ -106,12 +107,14 @@ router.beforeEach((to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
+
     if (!userId && options.code) {
       Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: Config.corpId,
         code: options.code,
         officialId: 4,
       }).then((res) => {
+        alert(JSON.stringify(res));
         const { success, data } = res;
         if (success) {
           localStorage.setItem('unionId', data.unionid);
