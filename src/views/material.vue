@@ -97,8 +97,8 @@ export default {
         pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
-        alert(JSON.stringify(res));
-        alert(that.pageIndex);
+        const token = localStorage.getItem('token');
+        alert(token);
         if (res.success) {
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
