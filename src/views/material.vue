@@ -97,8 +97,6 @@ export default {
         pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
-        const token = localStorage.getItem('token');
-        alert(token);
         if (res.success) {
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
@@ -108,7 +106,11 @@ export default {
             that.finished = true;
             return;
           }
-          that.dataList.push(...res.data);
+          if (that.pageIndex === 1) {
+            that.dataList = res.data;
+          } else {
+            that.dataList.push(...res.data);
+          }
           that.sum = res.totalCount;
           // 清除上拉刷新状态
           that.refreshing = false;
