@@ -31,6 +31,16 @@ const Wechat = {
     });
   },
   sendChatMessage: (str) => {
+    if (/(Android)/i.test(window.navigator.userAgent)) {
+      // 在 Android 设备，需要获取新的签名
+      Wechat.setWxConfig();
+    }
+    wx.ready(() => {
+      wx.invoke('sendChatMessage', str, (res) => {
+        // alert(res.err_msg);
+        alert(JSON.stringify(res));
+      });
+    });
     wx.invoke('sendChatMessage', str, (res) => {
       // alert(res.err_msg);
       alert(JSON.stringify(res));
