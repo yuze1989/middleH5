@@ -23,7 +23,25 @@ instance.interceptors.request.use((config) => {
 
 // 响应拦截
 instance.interceptors.response.use(
-  (response) => (response.data),
+  (response) => {
+    const { data } = response;
+    console.log(data);
+    switch (data.errCode) {
+      case '0100000005':
+        window.location.href = `/jurisdiction?msg=${data.errMessage}`;
+        break;
+      case '0100000006':
+        window.location.href = `/jurisdiction?msg=${data.errMessage}`;
+        break;
+      case '0100000007':
+        window.location.href = `/jurisdiction?msg=${data.errMessage}`;
+        break;
+      default:
+        return data;
+    }
+    return data;
+  },
+  // (response) => (response.data),
   (error) => (Promise.reject(error)),
 );
 
