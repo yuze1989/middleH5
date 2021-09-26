@@ -105,7 +105,7 @@ router.beforeEach((to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
-    localStorage.removeItem('userId');
+    // localStorage.removeItem('userId');
     const userId = localStorage.getItem('userId');
     if (!userId && !options.code) {
       const sourceId = options.channel || '';
