@@ -71,7 +71,7 @@ export default {
       Http.post('/scrm/comm/rest/marketing-material/marketing-material-detail', {
         snapshotId: that.id,
       }, '').then((res) => {
-        alert(JSON.stringify(res));
+        // alert(JSON.stringify(res));
         if (res.success) {
           that.data = res.data;
           that.gmtCreate = that.getyyyyMMdd(res.data.gmtCreate);
