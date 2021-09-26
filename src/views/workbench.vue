@@ -39,6 +39,7 @@
 
 <script>
 import { List, PullRefresh } from 'vant';
+import Http from '../utils/http';
 
 export default {
   components: {
@@ -72,6 +73,8 @@ export default {
     },
     onRefresh() {
       this.finished = false;
+      this.pageIndex = 1;
+      this.dataList = [];
       this.onLoad();
     },
     go() {
@@ -84,31 +87,37 @@ export default {
     },
     getList() {
       const that = this;
-      // Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
-      //   materialType: that.indexTap + 1,
-      //   pageIndex: that.pageIndex,
-      //   pageSize: 20,
-      //   snapshotFlag: that.snapshot,
-      // }, '').then((res) => {
-      //   if (res.success) {
-      //     // 判断获取数据条数若等于0
-      //     if (res.data.totalCount === 0) {
-      //       // 清空数组
-      //       that.dataList = [];
-      //       // 停止上拉加载
-      //       that.finished = true;
-      //       return;
-      //     }
-      //     that.dataList.push(...res.data);
-      //     that.sum = res.totalCount;
-      //     // 清除上拉刷新状态
-      that.refreshing = false;
-      //     if (that.dataList.length >= res.totalCount) {
-      //       // 结束上拉加载状态
-      that.finished = true;
-      //     }
-      //   }
-      // });
+      Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
+        taskStatus: that.type + 2,
+        pageIndex: that.pageIndex,
+        pageSize: 20,
+      }, '').then((res) => {
+        if (res.success) {
+          // 判断获取数据条数若等于0
+          if (res.data.totalCount === 0) {
+            // 清空数组
+            that.dataList = [];
+            // 停止上拉加载
+            that.finished = true;
+            return;
+          }
+          that.dataList.push(...res.data);
+          that.sum = res.totalCount;
+          // 清除上拉刷新状态
+          that.refreshing = false;
+          if (that.dataList.length >= res.totalCount) {
+            // 结束上拉加载状态
+            that.finished = true;
+          }
+        } else {
+          this.$router.push({
+            path: 'jurisdiction',
+            query: {
+              msg: res.errMessage,
+            },
+          });
+        }
+      });
     },
     // tab切换
     change(index) {

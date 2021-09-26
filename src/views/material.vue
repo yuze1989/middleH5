@@ -1,8 +1,8 @@
 <template>
   <div class="box-bos">
     <ul>
-      <li :class="{'active':indexTap === index}" v-for="(item,index) in lists" :key="index"
-       @click="change(index)">
+      <li :class="{'active':indexTap === index}" v-for="(item,index) in lists"
+      :key="index" @click="change(index)">
         {{item.name}}
       </li>
     </ul>
@@ -10,7 +10,7 @@
       <div class="content-box" :style="'min-height:'+ height +'px'">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
-        @load="onLoad" finished-text="没有更多了">
+         @load="onLoad" finished-text="没有更多了">
           <div class="article" v-for="(item,index) in dataList" :key="index" @click="go(item)">
             <div class="left">
               <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
@@ -64,16 +64,28 @@ export default {
         { name: '海报', msgType: 'image', type: 'mediaid' },
         { name: '视频', msgType: 'video', type: 'mediaid' },
         {
-          name: 'PDF', msgType: 'file', type: 'mediaid', url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png',
+          name: 'PDF',
+          msgType: 'file',
+          type: 'mediaid',
+          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png',
         },
         {
-          name: 'PPT', msgType: 'file', type: 'mediaid', url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
+          name: 'PPT',
+          msgType: 'file',
+          type: 'mediaid',
+          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
         },
         {
-          name: '表格', msgType: 'file', type: 'mediaid', url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
+          name: '表格',
+          msgType: 'file',
+          type: 'mediaid',
+          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
         },
         {
-          name: '文档', msgType: 'file', type: 'mediaid', url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
+          name: '文档',
+          msgType: 'file',
+          type: 'mediaid',
+          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
         },
       ],
       // 数据
@@ -126,6 +138,13 @@ export default {
             // 结束上拉加载状态
             that.finished = true;
           }
+        } else {
+          this.$router.push({
+            path: 'jurisdiction',
+            query: {
+              msg: res.errMessage,
+            },
+          });
         }
       });
     },
@@ -148,7 +167,7 @@ export default {
       this.dataList = [];
       this.getList();
     },
-    uploadFileToWx(typeId, obj, msgType, url) {
+    uploadFileToWx(typeId, obj, msgType) {
       Toast.loading({
         type: 'loading',
         duration: 0,
@@ -159,24 +178,32 @@ export default {
         msgtype: msgType,
         enterChat: true,
       };
-      // 防抖
+        // 防抖
       if (this.shake) {
         return;
       }
       const { type } = this.lists[this.indexTap];
       if (msgType === 'news') {
-        data.news = {
-          // H5消息页面url 必填
-          link: url,
-          title: obj.title, // H5消息标题
-          desc: obj.description, // H5消息摘要
-          imgUrl: obj.coverPicUrl, // H5消息封面图片URL
-        };
-        this.shake = true;
-        Toast.loading({
-          duration: 1,
+        Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
+          materialId: obj.id,
+        }, '').then((res) => {
+          if (res.success) {
+            data.news = {
+              // H5消息页面url 必填
+              link: `${Config.redirect_uri}/middleH5/details?id=${obj.id}`,
+              title: obj.title, // H5消息标题
+              desc: obj.description, // H5消息摘要
+              imgUrl: obj.coverPicUrl, // H5消息封面图片URL
+            };
+            this.shake = true;
+            Toast.loading({
+              duration: 1,
+            });
+            Wechat.sendChatMessage(data);
+          } else {
+            Toast(res.errMessage);
+          }
         });
-        Wechat.sendChatMessage(data);
         return;
       }
 
@@ -203,17 +230,14 @@ export default {
     // 分享
     share(obj) {
       const maxsize = 10 * 1024 * 1024;
-      let url = `${Config.redirect_uri}/middleH5/details?id=${obj.id}`;
       let { msgType } = this.lists[this.indexTap];
       this.shake = false;
       // 判断视频是否超过10m
       if (obj.fileSize >= maxsize && msgType === 'video') {
-        url = obj.materialEnclosureUrl;
         msgType = 'news';
-        this.uploadFileToWx(this.indexTap + 1, obj, msgType, url);
+        this.uploadFileToWx(this.indexTap + 1, obj, msgType);
       } else {
-        url = `${Config.redirect_uri}/middleH5/details?id=${obj.id}`;
-        this.uploadFileToWx(this.indexTap + 1, obj, msgType, url);
+        this.uploadFileToWx(this.indexTap + 1, obj, msgType);
       }
     },
   },
@@ -244,9 +268,11 @@ export default {
     font-size: 10px;
     margin: 2px 2px 0 0;
   }
-  li:nth-last-of-type(1){
+
+  li:nth-last-of-type(1) {
     padding-right: 20px;
   }
+
   li {
     border-bottom: 2px rgba(0, 0, 0, 0) solid;
     text-align: center;

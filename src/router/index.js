@@ -84,6 +84,15 @@ const routes = [
     },
     component: () => import('../views/workDetails.vue'),
   },
+  {
+    path: '/jurisdiction',
+    name: 'jurisdiction',
+    meta: {
+      tabbarshow: false,
+      type: 2,
+    },
+    component: () => import('../views/jurisdiction.vue'),
+  },
 ];
 
 const router = new VueRouter({

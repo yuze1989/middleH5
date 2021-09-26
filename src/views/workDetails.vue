@@ -40,7 +40,7 @@
     </div>
     <div class="hr"></div>
     <!-- 推送群聊 -->
-    <div class="content">
+    <div class="content" style="margin-bottom: 60px;">
       <div class="content-tip">推送内容</div>
       <div class="list" v-for="(item,index) in list" :key="index" @click="change(item)">
         <div class="list-flex">
@@ -63,7 +63,8 @@
       </div>
     </div>
     <div class="footer">
-
+      <div class="footer-left">取消</div>
+      <div class="footer-right">完成</div>
     </div>
   </div>
 </template>
@@ -215,11 +216,9 @@ export default {
     color: #333333;
     letter-spacing: 0;
     padding-bottom: 12px;
-    border-bottom: 1px solid #F3F3F3;
   }
   .content{
     margin: 10px 0 10px 15px;
-     margin-bottom: 50px;
   }
   .task{
     margin-top: 6px;
@@ -284,17 +283,16 @@ export default {
   }
   .flex{
     display: flex;
-    border-top: 1px solid #F3F3F3;
+    border-top: 1px solid #E5E5E5;
     padding: 12px 15px 12px 0;
     align-items: baseline;
   }
   .list{
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #F3F3F3;
     padding: 12px 15px 12px 0;
     align-items: center;
-    border-bottom: 1px solid #F3F3F3;
+    border-top: 1px solid #E5E5E5;
   }
   .left{
     display: flex;
@@ -363,6 +361,35 @@ export default {
     margin-top: 6px;
   }
   .footer{
-
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    background-color: #FFFFFF;
+    z-index: 1;
+    justify-content: space-evenly;
+    border-top: 0.5px solid #E5E5E5;
+    width: 100%;
+    padding: 10px 0;
+  }
+  .footer-left{
+    width: 152px;
+    height: 40px;
+    border: 0.5px solid #E5E5E5;
+    border-radius: 2.5px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 16px;
+    color: #333333;
+  }
+  .footer-right{
+    width: 152px;
+    font-size: 16px;
+    color: #FFFFFF;
+    line-height: 40px;
+    text-align: center;
+    height: 40px;
+    background: #1890FF;
+    border-radius: 2.5px;
   }
 </style>

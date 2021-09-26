@@ -68,12 +68,13 @@ export default {
     // 获取数据
     getList() {
       const that = this;
-      Http.post('/scrm/comm/rest/marketing-material/marketing-material-detail', {
-        snapshotId: that.id,
+      Http.post('/scrm/h5/marketing-material/get-by-share-id', {
+        shareId: that.id,
       }, '').then((res) => {
         // alert(JSON.stringify(res));
         if (res.success) {
           that.data = res.data;
+          document.title = res.data.title;
           that.gmtCreate = that.getyyyyMMdd(res.data.gmtCreate);
           that.loading = false;
         }
