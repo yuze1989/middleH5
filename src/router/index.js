@@ -110,7 +110,7 @@ router.beforeEach((to, form, next) => {
     if (!userId) {
       alert(1);
     }
-    if (userId === null) {
+    if (userId === 'null') {
       alert(2);
     }
     if (!options.code) {
