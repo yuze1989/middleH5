@@ -142,7 +142,7 @@ export default {
           this.$router.push({
             path: 'jurisdiction',
             query: {
-              msg: res.errMessage,
+              id: res.errMessage,
             },
           });
         }
@@ -150,11 +150,19 @@ export default {
     },
     go(obj) {
       if (this.indexTap === 0) {
-        this.$router.push({
-          path: 'details',
-          query: {
-            id: obj.id,
-          },
+        Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
+          snapshotid: obj.id,
+        }, '').then((res) => {
+          if (res.success) {
+            this.$router.push({
+              path: 'details',
+              query: {
+                id: res.id,
+              },
+            });
+          } else {
+            Toast(res.errMessage);
+          }
         });
       } else {
         window.location.href = obj.materialEnclosureUrl || obj.content;
@@ -167,7 +175,7 @@ export default {
       this.dataList = [];
       this.getList();
     },
-    uploadFileToWx(typeId, obj, msgType) {
+    uploadFileToWx(typeId, obj, msgType, url) {
       Toast.loading({
         type: 'loading',
         duration: 0,
@@ -185,12 +193,12 @@ export default {
       const { type } = this.lists[this.indexTap];
       if (msgType === 'news') {
         Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
-          materialId: obj.id,
+          snapshotid: obj.id,
         }, '').then((res) => {
           if (res.success) {
             data.news = {
               // H5消息页面url 必填
-              link: `${Config.redirect_uri}/middleH5/details?id=${obj.id}`,
+              link: url || `${Config.redirect_uri}/middleH5/details?id=${res.id}`,
               title: obj.title, // H5消息标题
               desc: obj.description, // H5消息摘要
               imgUrl: obj.coverPicUrl, // H5消息封面图片URL
@@ -235,9 +243,9 @@ export default {
       // 判断视频是否超过10m
       if (obj.fileSize >= maxsize && msgType === 'video') {
         msgType = 'news';
-        this.uploadFileToWx(this.indexTap + 1, obj, msgType);
+        this.uploadFileToWx(this.indexTap + 1, obj, msgType, obj.materialEnclosureUrl);
       } else {
-        this.uploadFileToWx(this.indexTap + 1, obj, msgType);
+        this.uploadFileToWx(this.indexTap + 1, obj, msgType, '');
       }
     },
   },

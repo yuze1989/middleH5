@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { List, PullRefresh } from 'vant';
+import { List, PullRefresh, Toast } from 'vant';
 import Http from '../utils/http';
 
 export default {
@@ -110,19 +110,16 @@ export default {
             that.finished = true;
           }
         } else {
-          this.$router.push({
-            path: 'jurisdiction',
-            query: {
-              msg: res.errMessage,
-            },
-          });
+          Toast(res.errMessage);
         }
       });
     },
     // tab切换
     change(index) {
       this.type = index;
-      console.log(index);
+      this.pageIndex = 1;
+      this.dataList = [];
+      this.getList();
     },
   },
 };
