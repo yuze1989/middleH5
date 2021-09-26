@@ -14,7 +14,8 @@
           <div class="article" v-for="(item,index) in dataList" :key="index" @click="go(item)">
             <div class="left">
               <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
-              <img :src="item.coverPicUrl">
+              <img :src="item.materialEnclosureUrl" v-if="indexTap === 2">
+              <img :src="item.coverPicUrl || lists[indexTap].url" v-else>
             </div>
             <div class="right">
               <div class="name">{{item.title}}</div>
@@ -62,10 +63,18 @@ export default {
         { name: '链接', msgType: 'text', type: 'content' },
         { name: '海报', msgType: 'image', type: 'mediaid' },
         { name: '视频', msgType: 'video', type: 'mediaid' },
-        { name: 'PDF', msgType: 'file', type: 'mediaid' },
-        { name: 'PPT', msgType: 'file', type: 'mediaid' },
-        { name: '表格', msgType: 'file', type: 'mediaid' },
-        { name: '文档', msgType: 'file', type: 'mediaid' },
+        {
+          name: 'PDF', msgType: 'file', type: 'mediaid', url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png',
+        },
+        {
+          name: 'PPT', msgType: 'file', type: 'mediaid', url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
+        },
+        {
+          name: '表格', msgType: 'file', type: 'mediaid', url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
+        },
+        {
+          name: '文档', msgType: 'file', type: 'mediaid', url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
+        },
       ],
       // 数据
       dataList: [],

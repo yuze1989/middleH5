@@ -71,6 +71,7 @@ export default {
       Http.post('/scrm/comm/rest/marketing-material/marketing-material-detail', {
         snapshotId: that.id,
       }, '').then((res) => {
+        alert(JSON.stringify(res));
         if (res.success) {
           that.data = res.data;
           that.gmtCreate = that.getyyyyMMdd(res.data.gmtCreate);
@@ -123,8 +124,15 @@ export default {
   }
   .content >>> img{
     height:203.5px;
+    width: auto;
+    max-width: 100%;
   }
-
+.content >>> p{
+  text-indent: 2em;
+}
+.content >>> .ql-align-center{
+  text-indent: 0em;
+}
   .footer {
     margin-top: 20px;
     font-size: 12px;

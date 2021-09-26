@@ -15,7 +15,7 @@ instance.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   configTemp.headers = config.headers || {};
   Object.assign(config.headers, globalOpt);
-  configTemp.headers.token = token || 'mockToken';
+  configTemp.headers.token = token || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMzEifQ.PsAIvzFtOj-zYXCpc4u8IFnY8a5yFH0HQGOmJawW1N8';
   return config;
 }, (error) => {
   Promise.reject(error);
