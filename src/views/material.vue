@@ -139,12 +139,7 @@ export default {
             that.finished = true;
           }
         } else {
-          this.$router.push({
-            path: 'jurisdiction',
-            query: {
-              id: res.errMessage,
-            },
-          });
+          Toast(res.errMessage);
         }
       });
     },
