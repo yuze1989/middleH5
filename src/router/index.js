@@ -107,10 +107,7 @@ router.beforeEach((to, form, next) => {
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('userId');
     let userId = localStorage.getItem('userId');
-    if (!options.code) {
-      options.code = false;
-    }
-    if (userId === null || !userId) {
+    if (userId === null) {
       userId = false;
     }
     alert(userId);
