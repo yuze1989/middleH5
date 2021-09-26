@@ -110,6 +110,8 @@ router.beforeEach((to, form, next) => {
     if (!options.code) {
       options.code = false;
     }
+    alert(userId);
+    alert(options.code);
     if (!userId && !options.code) {
       alert(1);
       const sourceId = options.channel || '';
