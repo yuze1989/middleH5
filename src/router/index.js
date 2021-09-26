@@ -106,13 +106,8 @@ router.beforeEach((to, form, next) => {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('userId');
-    let userId = localStorage.getItem('userId');
-    if (userId === null) {
-      userId = false;
-    }
-    alert(userId);
-    alert(options.code);
-    if (!userId && !options.code) {
+    const userId = localStorage.getItem('userId');
+    if (userId === null && !options.code) {
       alert(1);
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
