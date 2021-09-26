@@ -117,22 +117,13 @@ export default {
   }
 
   .content {
-    text-indent: 2em;
     font-size: 14px;
     color: rgba(0, 0, 0, 0.65);
     text-align: justify;
   }
   .content >>> img{
-    height:203.5px;
-    width: auto;
     max-width: 100%;
   }
-.content >>> p{
-  text-indent: 2em;
-}
-.content >>> .ql-align-center{
-  text-indent: 0em;
-}
   .footer {
     margin-top: 20px;
     font-size: 12px;
