@@ -14,22 +14,23 @@
       </div>
     </div>
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
-    <div class="content">
+    <div class="content" :style="'min-height:'+ height +'px'">
+       <div class="content-tip">日常任务提醒</div>
       <List v-model="loading" :finished="finished"
       offset="100" @load="onLoad" finished-text="没有更多了">
-      <div class="content-tip">日常任务提醒</div>
-      <div class="content-block" v-for="(item,index) in dataList" :key="index" @click="go()">
+      <div class="content-block" v-for="(item,index) in dataList" :key="index"
+      @click="go(item.id)">
         <div class="tite">
-          <div class="state" v-if="index === 1">逾期</div>
+          <div class="state" v-if="item.overdueFlag">逾期</div>
           <div class="task-name">{{item.sopName}}</div>
         </div>
         <div class="task">{{item.sopRuleName}}</div>
         <div class="push-date" v-if="item.taskStatus === 2">
           <div>推送时间：{{ getyyyyMMdd(item.taskTime) }}</div>
-          <div :class="{surplus: index !== 1}" class="overdue">
-            （{{index === 1 ? '逾期' : '剩余'}}时间：）</div>
+          <div class="overdue" v-if="item.overdueFlag">逾期时间({{item.taskOverdueTimeStr}})</div>
+         <div class="surplus" v-else>剩余时间({{item.taskSurplusTimeStr}})</div>
         </div>
-        <div class="task" v-else>完成时间：2021-09-21 16：30</div>
+        <div class="task" v-else>完成时间：{{getyyyyMMdd(item.finishTime)}}</div>
       </div>
      </List>
     </div>
@@ -49,6 +50,7 @@ export default {
   name: 'workbench',
   data() {
     return {
+      height: 0,
       refreshing: false,
       loading: false,
       finished: false,
@@ -64,7 +66,7 @@ export default {
     };
   },
   mounted() {
-
+    this.height = document.documentElement.clientHeight - 140;
   },
   methods: {
     getyyyyMMdd(time) {
@@ -89,16 +91,16 @@ export default {
       this.pageIndex += 1;
     },
     onRefresh() {
-      this.finished = false;
       this.pageIndex = 1;
       this.dataList = [];
+      this.finished = true;
       this.onLoad();
     },
-    go() {
+    go(id) {
       this.$router.push({
         path: 'workDetails',
         query: {
-          id: 1,
+          id,
         },
       });
     },
@@ -120,7 +122,7 @@ export default {
           }
           that.dataList.push(...res.data);
           that.sum = res.totalCount;
-          // 清除上拉刷新状态
+          // 清除下拉刷新状态
           that.refreshing = false;
           if (that.dataList.length >= res.totalCount) {
             // 结束上拉加载状态

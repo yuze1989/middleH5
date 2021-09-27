@@ -107,8 +107,8 @@ export default {
       this.pageIndex += 1;
     },
     onRefresh() {
-      this.finished = false;
       this.pageIndex = 1;
+      this.finished = true;
       this.dataList = [];
       this.onLoad();
     },
@@ -141,7 +141,11 @@ export default {
             that.finished = true;
           }
         } else {
-          Toast(res.errMessage);
+          Toast.loading({
+            message: res.errMessage,
+            duration: 1000,
+            type: 'fail',
+          });
         }
       });
     },
@@ -158,7 +162,11 @@ export default {
               },
             });
           } else {
-            Toast(res.errMessage);
+            Toast.loading({
+              message: res.errMessage,
+              duration: 1000,
+              type: 'fail',
+            });
           }
         });
       } else {
@@ -204,9 +212,13 @@ export default {
             Toast.loading({
               duration: 1,
             });
-            Wechat.sendChatMessage(data);
+            Wechat.sendChatMessage(data, 1);
           } else {
-            Toast(res.errMessage);
+            Toast.loading({
+              message: res.errMessage,
+              duration: 1000,
+              type: 'fail',
+            });
           }
         });
         return;
@@ -225,7 +237,7 @@ export default {
           },
         };
         console.log(data);
-        Wechat.sendChatMessage(data);
+        Wechat.sendChatMessage(data, 1);
         this.shake = true;
         Toast.loading({
           duration: 1,

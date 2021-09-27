@@ -2,161 +2,227 @@
   <div class="box">
     <div class="top-box">
       <div class="tite">
-        <div class="task-name">SOP任务名称SOP任务名称</div>
-        <div class="state">逾期</div>
+        <div class="task-name">{{dataList.sopName}}</div>
+        <div class="state" v-if="dataList.overdueFlag">逾期</div>
       </div>
-      <div>群SOP任务</div>
-      <div class="push-date">
-        <div>推送时间：2021-09-21 16：30</div>
-        <div class="overdue">
-          (剩余时间：23小时34分）</div>
+      <div>{{dataList.sopRuleName}}</div>
+      <div class="push-date" v-if="dataList.taskStatus === 2">
+        <div>推送时间：{{ getyyyyMMdd(dataList.taskTime) }}</div>
+        <div class="overdue" v-if="dataList.overdueFlag">
+          逾期时间({{dataList.taskOverdueTimeStr}})</div>
+        <div class="surplus" v-else>剩余时间({{dataList.taskSurplusTimeStr}})</div>
       </div>
-      <div class="task">完成时间：2021-09-21 16：30</div>
+      <div class="task" v-else>完成时间：{{getyyyyMMdd(dataList.finishTime)}}</div>
     </div>
     <div class="hr"></div>
-    <!-- 推送群聊 -->
+    <!-- 推送内容 -->
     <div class="content">
       <div class="content-tip" style="border: none;">推送内容</div>
-      <div class="flex" v-for="(item,index) in content" :key="index">
+      <div class="flex" v-for="(item,index) in dataList.sopRuleContentList" :key="index"
+      @click="copy(item)">
         <div class="left">
-          <i :class="item.icon" class="iconfont"></i>
+          <i class="iconfont icon-wenzi" v-if="item.contentType === 1"></i>
+          <i class="iconfont icon-tupian" v-if="item.contentType === 2"></i>
+          <i class="iconfont icon-bianzu" v-if="item.contentType === 3"></i>
         </div>
         <div class="right">
           <div class="right-top">
-            <div class="right-tite">{{item.name}}</div>
+            <div class="right-tite">
+              <span v-if="item.contentType === 1">文本</span>
+              <span v-if="item.contentType === 2">图片</span>
+              <span v-if="item.contentType === 3">链接</span>
+            </div>
             <div class="copy">
               <i class="iconfont icon-fuzhi"></i>
               <span>复制</span>
              </div>
           </div>
-          <div class="right-content" v-if="item.type !== 2">
-           {{item.content}}
-           </div>
-           <div class="right-content" v-else>
-             <img src="../assets/logo.png" >
-           </div>
+          <div class="right-content" v-if="item.contentType !== 2">
+          {{item.text || item.linkUrl}}</div>
+          <div class="right-content" v-else>
+            <img :src="item.imgUrl" >
+          </div>
         </div>
       </div>
     </div>
     <div class="hr"></div>
     <!-- 推送群聊 -->
     <div class="content" style="margin-bottom: 60px;">
-      <div class="content-tip">推送内容</div>
-      <div class="list" v-for="(item,index) in list" :key="index" @click="change(item)">
+      <div class="content-tip">推送群聊</div>
+      <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
+      @click="change(item)">
         <div class="list-flex">
           <div>
-            <i class="iconfont icon-weixuanze" v-show="!item.isSelect"></i>
-            <i class="iconfont icon-xuanze" v-show="item.isSelect"
-            :style="{'color: #E5E5E5;':item.state}"></i>
+            <div v-if="item.taskStatus === 2">
+              <i class="iconfont icon-weixuanze" v-show="!item.isSelect"></i>
+              <i class="iconfont icon-xuanze" v-show="item.isSelect"></i>
+            </div>
+            <div v-else>
+              <i class="iconfont icon-xuanze" style="color: #E5E5E5 !important;"></i>
+            </div>
           </div>
-          <img src="../assets/logo.png" class="img">
+          <div class="group">
+            <i class="iconfont icon-touxiang"></i>
+          </div>
           <div>
             <div class="list-flex">
-              <div class="list-content">{{item.name}}</div>
-              <div :class="item.isComplete ? 'yes' : 'no'">
-              {{item.isComplete ? '已完成' : '未完成'}}</div>
+              <div class="list-content">{{item.groupChatName}}</div>
+              <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
+              {{item.taskStatus === 3 ? '已完成' : '未完成'}}</div>
             </div>
-            <div class="date" v-if="item.date">完成时间：{{item.date}}</div>
+            <div class="date" v-if="item.date">完成时间：{{getyyyyMMdd(dataList.finishTime)}}</div>
           </div>
         </div>
-        <div class="icon"><i class="iconfont icon-fasong"></i></div>
+        <div class="icon" @click="share(item)"><i class="iconfont icon-fasong"></i></div>
       </div>
     </div>
     <div class="footer">
-      <div class="footer-left">取消</div>
-      <div class="footer-right">完成</div>
+      <div class="footer-left" @click="cancel">取消</div>
+      <div class="footer-right" @click="determine">完成</div>
     </div>
   </div>
 </template>
 
 <script>
-// import { List, PullRefresh } from 'vant';
+import { Toast } from 'vant';
+import Http from '../utils/http';
+import Wechat from '../utils/wechat';
 
 export default {
-  // components: {
-  //   List,
-  //   PullRefresh,
-  // },
   name: 'workDetails',
   data() {
     return {
-      refreshing: false,
-      loading: false,
-      finished: false,
       dataList: [],
-      content: [
-        {
-          name: '文本', content: '9月开学季大促--第一部预热：鞋、包、配饰 全场4折起，前100名有大礼包，送完为止...', type: 1, icon: 'icon-wenzi',
-        },
-        {
-          name: '图片', content: '', type: 2, icon: 'icon-tupian',
-        },
-        {
-          name: '链接', content: 'https://www.xjsheggwjq.com/index.html', type: 3, icon: 'icon-bianzu',
-        }],
-      list: [
-        {
-          isSelect: false,
-          name: '老会员权益发放群1号',
-          isComplete: true,
-          date: '2021-09-21 16：35',
-          state: true,
-        },
-        {
-          isSelect: false, name: '老会员权益发放群1号', isComplete: false, date: '', state: false,
-        },
-        {
-          isSelect: true, name: '老会员权益发放群1号', isComplete: false, date: '', state: false,
-        },
-      ],
-      pageIndex: 1,
-      // 提示数量
-
+      id: '',
+      idList: [],
     };
   },
   mounted() {
-
+    Wechat.setWxConfig();
+    this.id = this.$route.query.id;
+    this.getList();
   },
   methods: {
-    onLoad() {
-      this.getList();
-      this.pageIndex += 1;
+    getyyyyMMdd(time) {
+      const date = new Date(time);
+      const y = date.getFullYear();
+      let m = date.getMonth() + 1;
+      m = m < 10 ? (`0${m}`) : m;
+      let d = date.getDate();
+      d = d < 10 ? (`0${d}`) : d;
+      let h = date.getHours();
+      h = h < 10 ? (`0${h}`) : h;
+      let minute = date.getMinutes();
+      // 分
+      minute = minute < 10 ? (`0${minute}`) : minute;
+      // 秒
+      // let second = date.getSeconds();
+      // second = second < 10 ? (`0${second}`) : second;
+      return `${y}-${m}-${d} ${h}:${minute}`;
     },
-    onRefresh() {
-      this.finished = false;
-      this.onLoad();
+    // 分享
+    share(obj) {
+      if (obj.taskStatus === 3) {
+        return;
+      }
+      const data = {
+        chatId: obj.wxGroupChatId,
+      };
+      Wechat.sendChatMessage(data, 2);
     },
     change(obj) {
       const data = obj;
       data.isSelect = !data.isSelect;
     },
+    // 复制
+    copy(obj) {
+      let content;
+      if (obj.contentType === 1) {
+        content = obj.text;
+      }
+      if (obj.contentType === 2) {
+        content = obj.imgUrl;
+      }
+      if (obj.contentType === 3) {
+        content = obj.linkUrl;
+      }
+      const input = document.createElement('input'); // 直接构建input
+      input.value = content; // 设置内容
+      document.body.appendChild(input); // 添加临时实例
+      input.select(); // 选择实例内容
+      document.execCommand('Copy'); // 执行复制
+      Toast.success('复制成功');
+      document.body.removeChild(input); // 删除临时实例
+    },
+    // 取消
+    cancel() {
+      this.idList = [];
+      this.dataList.sopTaskList.forEach((item) => {
+        const data = item;
+        data.isSelect = false;
+      });
+    },
+    // 完成
+    determine() {
+      const that = this;
+      that.idList = [];
+      that.dataList.sopTaskList.forEach((item) => {
+        const data = item;
+        if (data.taskStatus === 2 && data.isSelect) {
+          that.idList.push(data.id);
+        }
+      });
+      if (that.idList.length === 0) {
+        Toast.loading({
+          message: '请选择完成的群聊',
+          duration: 1000,
+          type: 'fail',
+        });
+        return;
+      }
+      Toast.loading({
+        type: 'loading',
+        duration: 0,
+        forbidClick: true, // 禁用背景点击
+      });
+      Http.post('/scrm/comm/rest/sop/finish-sop-task', {
+        idList: that.idList,
+      }, '').then((res) => {
+        if (res.success) {
+          that.getList();
+          Toast.loading({
+            message: res.errMessage,
+            duration: 1,
+            type: 'success',
+          });
+        } else {
+          Toast.loading({
+            message: res.errMessage,
+            duration: 1000,
+            type: 'fail',
+          });
+        }
+      });
+    },
     getList() {
       const that = this;
-      // Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
-      //   materialType: that.indexTap + 1,
-      //   pageIndex: that.pageIndex,
-      //   pageSize: 20,
-      //   snapshotFlag: that.snapshot,
-      // }, '').then((res) => {
-      //   if (res.success) {
-      //     // 判断获取数据条数若等于0
-      //     if (res.data.totalCount === 0) {
-      //       // 清空数组
-      //       that.dataList = [];
-      //       // 停止上拉加载
-      //       that.finished = true;
-      //       return;
-      //     }
-      //     that.dataList.push(...res.data);
-      //     that.sum = res.totalCount;
-      //     // 清除上拉刷新状态
-      that.refreshing = false;
-      //     if (that.dataList.length >= res.totalCount) {
-      //       // 结束上拉加载状态
-      that.finished = true;
-      //     }
-      //   }
-      // });
+      Http.post('/scrm/comm/rest/sop/get-sop-task-batch-detail', {
+        id: that.id,
+      }, '').then((res) => {
+        if (res.success) {
+          res.data.sopTaskList.forEach((item) => {
+            const data = item;
+            data.isSelect = false;
+          });
+          that.dataList = res.data;
+        } else {
+          Toast.loading({
+            message: res.errMessage,
+            duration: 1000,
+            type: 'fail',
+          });
+        }
+      });
     },
   },
 };
@@ -164,6 +230,11 @@ export default {
 <style scoped="scoped">
   .icon-fuzhi,.icon-xuanze{
     color: #1890FF !important;
+  }
+  .icon-touxiang{
+    color: #FFFFFF !important;
+    font-size: 30px !important;
+    margin: 0px !important;
   }
   .icon-fasong{
     color: #1890FF !important;
@@ -332,11 +403,15 @@ export default {
     width: 100px;
     height: 100px;
   }
-  .img{
+  .group{
+    background: #03C15E;
     width: 46px;
     height: 46px;
     border-radius: 4px;
     margin-right: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .list-flex{
     display: flex;
