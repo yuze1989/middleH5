@@ -1,7 +1,7 @@
 <template>
     <div class="page">
       <skeleton title avatar :row="10" :loading="loading">
-      <div class="box" :style="'min-height:'+ height +'px'">
+      <div class="box" :style="'min-height:' + height + 'px'">
         <div class="top">{{data.title}}</div>
         <div class="txt">
           <span>{{data.author}}</span>

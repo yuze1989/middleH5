@@ -5,14 +5,14 @@
         <div class="task-name">{{dataList.sopName}}</div>
         <div class="state" v-if="dataList.overdueFlag">逾期</div>
       </div>
-      <div>{{dataList.sopRuleName}}</div>
+      <div class="task">{{dataList.sopRuleName}}</div>
       <div class="push-date" v-if="dataList.taskStatus === 2">
-        <div>推送时间：{{ getyyyyMMdd(dataList.taskTime) }}</div>
+        <div>推送时间：{{taskTime}}</div>
         <div class="overdue" v-if="dataList.overdueFlag">
           逾期时间({{dataList.taskOverdueTimeStr}})</div>
         <div class="surplus" v-else>剩余时间({{dataList.taskSurplusTimeStr}})</div>
       </div>
-      <div class="task" v-else>完成时间：{{getyyyyMMdd(dataList.finishTime)}}</div>
+      <div class="task" v-else>完成时间：{{ finishTime}}</div>
     </div>
     <div class="hr"></div>
     <!-- 推送内容 -->
@@ -70,7 +70,9 @@
               <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
               {{item.taskStatus === 3 ? '已完成' : '未完成'}}</div>
             </div>
-            <div class="date" v-if="item.date">完成时间：{{getyyyyMMdd(dataList.finishTime)}}</div>
+            <div class="date" v-if="item.taskStatus === 3">
+              完成时间：{{getyyyyMMdd(item.taskFinishTime)}}
+            </div>
           </div>
         </div>
         <div class="icon" @click="share(item)"><i class="iconfont icon-fasong"></i></div>
@@ -93,16 +95,32 @@ export default {
   data() {
     return {
       dataList: [],
-      id: '',
+      batchNo: '',
       idList: [],
+      taskTime: '',
+      finishTime: '',
     };
   },
   mounted() {
     Wechat.setWxConfig();
-    this.id = this.$route.query.id;
+    this.batchNo = this.$route.query.id;
     this.getList();
   },
   methods: {
+    // 分享
+    share(obj) {
+      if (obj.taskStatus === 3) {
+        return;
+      }
+      const data = {
+        chatId: obj.wxGroupChatId,
+      };
+      Wechat.sendChatMessage(data, 2);
+    },
+    change(obj) {
+      const data = obj;
+      data.isSelect = !data.isSelect;
+    },
     getyyyyMMdd(time) {
       const date = new Date(time);
       const y = date.getFullYear();
@@ -119,20 +137,6 @@ export default {
       // let second = date.getSeconds();
       // second = second < 10 ? (`0${second}`) : second;
       return `${y}-${m}-${d} ${h}:${minute}`;
-    },
-    // 分享
-    share(obj) {
-      if (obj.taskStatus === 3) {
-        return;
-      }
-      const data = {
-        chatId: obj.wxGroupChatId,
-      };
-      Wechat.sendChatMessage(data, 2);
-    },
-    change(obj) {
-      const data = obj;
-      data.isSelect = !data.isSelect;
     },
     // 复制
     copy(obj) {
@@ -207,13 +211,15 @@ export default {
     getList() {
       const that = this;
       Http.post('/scrm/comm/rest/sop/get-sop-task-batch-detail', {
-        id: that.id,
+        batchNo: that.batchNo,
       }, '').then((res) => {
         if (res.success) {
           res.data.sopTaskList.forEach((item) => {
             const data = item;
             data.isSelect = false;
           });
+          that.taskTime = Http.getyyyyMMdd(res.data.taskTime);
+          that.finishTime = Http.getyyyyMMdd(res.data.finishTime);
           that.dataList = res.data;
         } else {
           Toast.loading({

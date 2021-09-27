@@ -14,12 +14,12 @@
       </div>
     </div>
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
-    <div class="content" :style="'min-height:'+ height +'px'">
+    <div class="content" :style="'min-height:' + height + 'px'">
        <div class="content-tip">日常任务提醒</div>
       <List v-model="loading" :finished="finished"
       offset="100" @load="onLoad" finished-text="没有更多了">
       <div class="content-block" v-for="(item,index) in dataList" :key="index"
-      @click="go(item.id)">
+      @click="go(item.batchNo)">
         <div class="tite">
           <div class="state" v-if="item.overdueFlag">逾期</div>
           <div class="task-name">{{item.sopName}}</div>
