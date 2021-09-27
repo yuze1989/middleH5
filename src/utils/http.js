@@ -15,7 +15,7 @@ instance.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   configTemp.headers = config.headers || {};
   Object.assign(config.headers, globalOpt);
-  configTemp.headers.token = token || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMzEifQ.PsAIvzFtOj-zYXCpc4u8IFnY8a5yFH0HQGOmJawW1N8';
+  configTemp.headers.token = token || 'mockToken';
   return config;
 }, (error) => {
   Promise.reject(error);
@@ -33,7 +33,7 @@ instance.interceptors.response.use(
         window.location.href = `https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=${data.errMessage}`;
         break;
       case '0100000007':
-        window.location.href = `https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=${data.errMessage}`;
+        window.location.href = `https://test-scrm.juzhunshuyu.com/jurisdiction?msg=${data.errMessage}`;
         break;
       default:
         return data;
