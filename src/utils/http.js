@@ -30,7 +30,7 @@ instance.interceptors.response.use(
         window.location.href = `https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=${data.errMessage}`;
         break;
       case '0100000006':
-        window.location.href = `https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=${data.errMessage}`;
+        window.location.href = 'https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=没有购买账户席位';
         break;
       case '0100000007':
         window.location.href = `https://test-scrm.juzhunshuyu.com/jurisdiction?msg=${data.errMessage}`;
