@@ -107,9 +107,6 @@ router.beforeEach((to, form, next) => {
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('userId');
     const userId = localStorage.getItem('userId');
-    // if (userId === 'null') {
-    //   userId = false;
-    // }
     if (!userId && !options.code) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
@@ -130,7 +127,9 @@ router.beforeEach((to, form, next) => {
         if (success) {
           localStorage.setItem('unionId', data.unionid);
           localStorage.setItem('openid', data.openid);
-          localStorage.setItem('userId', data.userId);
+          if (data.userId) {
+            localStorage.setItem('userId', data.userId);
+          }
           localStorage.setItem('token', data.token);
           localStorage.setItem('wxInfo', JSON.stringify(res.data));
         }
