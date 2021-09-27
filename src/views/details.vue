@@ -55,16 +55,7 @@ export default {
     this.getList();
   },
   methods: {
-    getyyyyMMdd(tim) {
-      const d = new Date(tim);
-      const date = d.getDate();
-      const month = d.getMonth() + 1;
-      const year = d.getFullYear();
-      const hour = d.getHours();
-      const minute = d.getMinutes();
-      const yyyyMMdd = `${year}-${month}-${date} ${hour}:${minute}`;
-      return yyyyMMdd;
-    },
+
     // 获取数据
     getList() {
       const that = this;
@@ -75,7 +66,7 @@ export default {
         if (res.success) {
           that.data = res.data;
           document.title = res.data.title;
-          that.gmtCreate = that.getyyyyMMdd(res.data.gmtCreate);
+          that.gmtCreate = Http.getyyyyMMdd(res.data.gmtCreate);
           that.loading = false;
         }
       });

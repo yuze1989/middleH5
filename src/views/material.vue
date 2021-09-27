@@ -59,10 +59,12 @@ export default {
       height: 0,
       // 头部选项卡
       lists: [
-        { name: '文章', msgType: 'news' },
+        { name: '文章', msgType: 'news', materal: 'snapshotId' },
         { name: '链接', msgType: 'text', type: 'content' },
         { name: '海报', msgType: 'image', type: 'mediaid' },
-        { name: '视频', msgType: 'video', type: 'mediaid' },
+        {
+          name: '视频', msgType: 'video', type: 'mediaid', materal: 'materialId',
+        },
         {
           name: 'PDF',
           msgType: 'file',
@@ -185,10 +187,10 @@ export default {
       if (this.shake) {
         return;
       }
-      const { type } = this.lists[this.indexTap];
+      const { type, materal } = this.lists[this.indexTap];
       if (msgType === 'news') {
         Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
-          snapshotid: obj.id,
+          [materal]: obj.id,
         }, '').then((res) => {
           if (res.success) {
             data.news = {

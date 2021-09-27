@@ -3,7 +3,7 @@
     <div class="top">
       <i class="iconfont icon-huashu2"></i>
       <span class="span">办事事项</span>
-      <span>(10)</span>
+      <span>({{sum}})</span>
     </div>
     <div class="hr"></div>
     <div class="top-nav">
@@ -18,18 +18,18 @@
       <List v-model="loading" :finished="finished"
       offset="100" @load="onLoad" finished-text="没有更多了">
       <div class="content-tip">日常任务提醒</div>
-      <div class="content-block" v-for="(item,index) in 5" :key="index" @click="go()">
+      <div class="content-block" v-for="(item,index) in dataList" :key="index" @click="go()">
         <div class="tite">
           <div class="state" v-if="index === 1">逾期</div>
-          <div class="task-name">SOP任务名称SOP任务名称</div>
+          <div class="task-name">{{item.sopName}}</div>
         </div>
-        <div class="task">群SOP任务</div>
-        <div class="push-date">
-          <div>推送时间：2021-09-21 16：30</div>
+        <div class="task">{{item.sopRuleName}}</div>
+        <div class="push-date" v-if="item.taskStatus === 2">
+          <div>推送时间：{{ getyyyyMMdd(item.taskTime) }}</div>
           <div :class="{surplus: index !== 1}" class="overdue">
-            （{{index === 1 ? '逾期' : '剩余'}}时间：23小时34分）</div>
+            （{{index === 1 ? '逾期' : '剩余'}}时间：）</div>
         </div>
-        <div class="task">完成时间：2021-09-21 16：30</div>
+        <div class="task" v-else>完成时间：2021-09-21 16：30</div>
       </div>
      </List>
     </div>
@@ -67,6 +67,23 @@ export default {
 
   },
   methods: {
+    getyyyyMMdd(time) {
+      const date = new Date(time);
+      const y = date.getFullYear();
+      let m = date.getMonth() + 1;
+      m = m < 10 ? (`0${m}`) : m;
+      let d = date.getDate();
+      d = d < 10 ? (`0${d}`) : d;
+      let h = date.getHours();
+      h = h < 10 ? (`0${h}`) : h;
+      let minute = date.getMinutes();
+      // 分
+      minute = minute < 10 ? (`0${minute}`) : minute;
+      // 秒
+      // let second = date.getSeconds();
+      // second = second < 10 ? (`0${second}`) : second;
+      return `${y}-${m}-${d} ${h}:${minute}`;
+    },
     onLoad() {
       this.getList();
       this.pageIndex += 1;
