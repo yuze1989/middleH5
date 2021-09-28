@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import Http from '../utils/http';
 import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
-import Config from '../utils/config';
 
 import speechArt from '../views/speechArt.vue';
 
@@ -112,13 +111,13 @@ router.beforeEach((to, form, next) => {
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
       }&redirect_uri=${
-        encodeURIComponent(`https://test-scrm.juzhunshuyu.com/middleH5/?channel=${sourceId}`)
+        encodeURIComponent(`https://test-scrm.juzhunshuyu.com/middleH5/?channel=${sourceId}&appId=${options.appid}`)
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
     if (!token && options.code) {
       Http.post('/scrm/wechat/get-oauth-user-info', {
-        corpId: Config.corpId,
+        corpId: options.appid,
         code: options.code,
         channel: options.channel,
       }).then((res) => {
@@ -135,7 +134,9 @@ router.beforeEach((to, form, next) => {
           if (data.corpId) {
             sessionStorage.setItem('corpId', data.corpId);
           }
-          localStorage.setItem('token', data.token);
+          if (data.token) {
+            localStorage.setItem('token', data.token);
+          }
           localStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {
             sessionStorage.setItem('channel', options.channel);
