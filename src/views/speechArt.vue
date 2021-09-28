@@ -28,33 +28,14 @@
         </div>
       </div>
     </div>
-    <!-- 分享弹窗 -->
-    <div class="mask" v-show="isMask">
-      <div class="mask-box">
-        <div class="mask-tit">
-          发送给：
-        </div>
-        <div class="mask-top">
-          <img src="../assets/logo.png" >
-          <div>我叫中秋</div>
-        </div>
-        <div class="mask-content">
-          三、我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第一、可以帮助企业管理客户的微信帐号…
-        </div>
-        <div class="mask-input">
-          <input type="text" placeholder="留言" v-model="tex"/>
-        </div>
-        <div class="footer">
-          <div @click="cancel">取消</div>
-          <div @click="send ">发送</div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
+import { Toast } from 'vant';
 import textOver from '../components/textOver.vue';
+import Http from '../utils/http';
+import Wechat from '../utils/wechat';
 
 export default {
   components: {
@@ -97,31 +78,32 @@ export default {
           { tex: '一、客服过滤的高机X总，您好，我是巨准SC我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第       一、可以帮助企业管理客户的微信帐号资料； 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
         ],
       }],
-      // 是否显示弹窗
-      isMask: false,
-      // 留言内容
-      tex: '',
     };
+  },
+  mounted() {
+    Wechat.setWxConfig();
   },
   methods: {
     // 阻止冒泡
     stop() {},
-    // 取消
-    cancel() {
-      console.log(123);
-      this.isMask = !this.isMask;
-    },
-    // 发送
-    send() {
-      console.log('点击发送');
-    },
     // 分享
     share(item) {
       const obj = item;
-      const that = this;
-
-      that.isMask = !that.isMask;
       console.log(obj);
+    },
+    getList() {
+      const that = this;
+      Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
+        taskStatus: that.type + 2,
+        pageIndex: that.pageIndex,
+        pageSize: 20,
+      }, '').then((res) => {
+        if (res.success) {
+          console.log(res);
+        } else {
+          Toast(res.errMessage);
+        }
+      });
     },
     // 展开开关
     open(list) {
@@ -198,6 +180,7 @@ export default {
 
   .icon-xiayibu2,
   .icon-xiala2 {
+    font-size: 8px;
     color: #999999;
   }
 
@@ -245,75 +228,5 @@ export default {
   }
   .box{
     margin-bottom: 80px;
-  }
-  .mask{
-    background-color: rgba(0,0,0,0.4);
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .mask-box{
-    width: 260px;
-    padding:12px 20px;
-    background: #FFFFFF;
-    border-radius: 2px;
-  }
-  .mask-tit{
-    font-size: 12px;
-    color: rgba(0,0,0,0.65);
-    text-align: justify;
-  }
-  .mask-content{
-    font-size: 12px;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: justify;
-    margin-bottom: 12px;
-    background: #F5F5F5;
-    padding: 10px;
-    overflow: hidden;
-    word-break: break-all;
-    /* break-all(允许在单词内换行。) */
-    text-overflow: ellipsis;
-    /* 超出部分省略号 */
-    display: -webkit-box;
-    /** 对象作为伸缩盒子模型显示 **/
-    -webkit-box-orient: vertical;
-    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-    -webkit-line-clamp: 4;
-    /** 显示的行数 **/
-  }
-  .mask-inp{
-    width: 100%;
-    border-bottom: #F3F3F3 1px solid;
-    padding-bottom: 5px;
-  }
-  .footer{
-    display: flex;
-    font-size: 14px;
-    color: #1890FF;
-    letter-spacing: 0;
-    text-align: justify;
-  }
-  .footer div{
-     margin: 20px 0 15px 0;
-    text-align: center;
-    flex:1;
-  }
-  .mask-input input{
-    font-size: 12px;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: justify;
-    width: 99%;
-    border: none;
-    outline:none;
-    margin: 0;
-    padding: 0;
   }
 </style>
