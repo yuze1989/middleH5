@@ -107,7 +107,6 @@ router.beforeEach((to, form, next) => {
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('userId');
     const token = localStorage.getItem('token');
-    alert(token);
     if (!token && !options.code && options.appid) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
@@ -124,6 +123,7 @@ router.beforeEach((to, form, next) => {
         channel: options.channel,
       }).then((res) => {
         const { success, data } = res;
+        alert(JSON.stringify(data));
         if (success) {
           localStorage.setItem('unionId', data.unionid);
           localStorage.setItem('openid', data.openid);
