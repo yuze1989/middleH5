@@ -115,6 +115,10 @@ router.beforeEach((to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
+    alert('token');
+    alert(options.appid);
+    alert(options.code);
+    alert(options.channel);
     if (!token && options.code) {
       Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
