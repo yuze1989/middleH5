@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Http from '../utils/http';
 import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
+import Config from '../utils/config';
 
 import speechArt from '../views/speechArt.vue';
 
@@ -111,7 +112,7 @@ router.beforeEach((to, form, next) => {
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
       }&redirect_uri=${
-        encodeURIComponent(`https://test-scrm.juzhunshuyu.com/middleH5/?channel=${sourceId}&appid=${options.appid}`)
+        encodeURIComponent(`${Config.redirect_uri}${window.location.pathname}/?channel=${sourceId}&appid=${options.appid}`)
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }

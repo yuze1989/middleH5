@@ -34,6 +34,7 @@
 <script>
 import { skeleton } from 'vant';
 import Http from '../utils/http';
+import Utils from '../utils/util';
 
 export default {
   components: {
@@ -66,7 +67,7 @@ export default {
         if (res.success) {
           that.data = res.data;
           document.title = res.data.title;
-          that.gmtCreate = Http.getyyyyMMdd(res.data.gmtCreate);
+          that.gmtCreate = Utils.getyyyyMMdd(res.data.gmtCreate);
           that.loading = false;
         }
       });

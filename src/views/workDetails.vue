@@ -90,6 +90,7 @@
 <script>
 import { Toast } from 'vant';
 import Http from '../utils/http';
+import Utils from '../utils/util';
 import Wechat from '../utils/wechat';
 
 export default {
@@ -220,8 +221,8 @@ export default {
             const data = item;
             data.isSelect = false;
           });
-          that.taskTime = Http.getyyyyMMdd(res.data.taskTime);
-          that.finishTime = Http.getyyyyMMdd(res.data.finishTime);
+          that.taskTime = Utils.getyyyyMMdd(res.data.taskTime);
+          that.finishTime = Utils.getyyyyMMdd(res.data.finishTime);
           that.dataList = res.data;
         } else {
           Toast.loading({
