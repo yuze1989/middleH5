@@ -5,7 +5,7 @@ import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
 import Config from '../utils/config';
 
-import speechArt from '../views/speechArt.vue';
+// import speechArt from '../views/speechArt.vue';
 
 Vue.use(VueRouter);
 
@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/',
     name: 'speechArt',
-    component: speechArt,
+    component: () => import(/* webpackChunkName: "about" */'../views/material.vue'),
     meta: {
       tabbarshow: true,
       type: 1,
@@ -102,7 +102,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, form, next) => {
-  alert(to.path);
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
