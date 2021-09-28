@@ -116,6 +116,9 @@ router.beforeEach((to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
+    alert(Config.corpId);
+    alert(options.code);
+    alert(options.channel);
     if (!token && options.code) {
       Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: Config.corpId,
@@ -123,7 +126,6 @@ router.beforeEach((to, form, next) => {
         channel: options.channel,
       }).then((res) => {
         const { success, data } = res;
-        alert(JSON.stringify(data));
         if (success) {
           localStorage.setItem('unionId', data.unionid);
           localStorage.setItem('openid', data.openid);
