@@ -7,7 +7,7 @@ let wxSignature;
 const Wechat = {
   setWxConfig: async () => {
     const res = await Http.post('/scrm/wechat/js-api-signature', {
-      corpId: Config.corpId,
+      corpId: sessionStorage.getItem('corpId'),
       url: window.location.href.split('#')[0],
     });
     wxSignature = res.data;
@@ -16,7 +16,7 @@ const Wechat = {
     console.log(wxSignature);
     wx.agentConfig({
       corpid: Config.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
-      agentid: 1000014, // 必填，企业微信的应用id （e.g. 1000247）
+      agentid: sessionStorage.getItem('agentid'), // 必填，企业微信的应用id （e.g. 1000247）
       timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法

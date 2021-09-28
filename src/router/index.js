@@ -106,21 +106,21 @@ router.beforeEach((to, form, next) => {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('userId');
-    const userId = localStorage.getItem('userId');
-    if (!userId && !options.code) {
+    const token = localStorage.getItem('token');
+    if (!token && !options.code && options.appid) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
-        Config.corpId
+        options.appid
       }&redirect_uri=${
-        encodeURIComponent('https://test-scrm.juzhunshuyu.com/middleH5/')
+        encodeURIComponent(`https://test-scrm.juzhunshuyu.com/middleH5/?channel=${sourceId}`)
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
-    if (!userId && options.code) {
+    if (!token && options.code) {
       Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: Config.corpId,
         code: options.code,
-        officialId: 4,
+        channel: options.channel,
       }).then((res) => {
         const { success, data } = res;
         if (success) {
@@ -129,8 +129,17 @@ router.beforeEach((to, form, next) => {
           if (data.userId) {
             localStorage.setItem('userId', data.userId);
           }
+          if (data.agentId) {
+            sessionStorage.setItem('agentId', data.agentId);
+          }
+          if (data.corpId) {
+            sessionStorage.setItem('corpId', data.corpId);
+          }
           localStorage.setItem('token', data.token);
           localStorage.setItem('wxInfo', JSON.stringify(res.data));
+          if (options.channel) {
+            sessionStorage.setItem('channel', options.channel);
+          }
         }
         next();
       }).finally(() => {
