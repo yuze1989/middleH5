@@ -1,3 +1,5 @@
+import Config from './config';
+
 const util = {
   getUrlOption: (url) => {
     let option = null;
@@ -10,6 +12,20 @@ const util = {
       option[hash0] = hash1;
     }
     return option;
+  },
+  go(code) {
+    if (code === '0100000005') {
+      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=您没有操作权限，请联系您所在企业的管理员`;
+    }
+    if (code === '0100000006') {
+      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=您没有访问权限，请联系您所在企业的管理员`;
+    }
+    if (code === '0100000007') {
+      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=您没有访问权限，请联系您所在企业的管理员`;
+    }
+    if (code === -1) {
+      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=请检查网络情况后再尝试访问`;
+    }
   },
   getyyyyMMdd(time) {
     const date = new Date(time);
