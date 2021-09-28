@@ -21,12 +21,11 @@ const Wechat = {
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
       success: (res) => {
         if (type === 1) {
-          wx.invoke('sendChatMessage', info, (msg) => {
-            alert(JSON.stringify(msg));
+          wx.invoke('sendChatMessage', info, () => {
+
           });
         } else {
           wx.invoke('openExistedChatWithMsg', info, (msg) => {
-            alert(JSON.stringify(msg));
             console.log(msg);
           });
         }
