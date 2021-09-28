@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import Http from './http';
+import Config from './config';
 
 let wxSignature;
 
@@ -14,7 +15,7 @@ const Wechat = {
   setAgentConfig: (info, type) => {
     console.log(wxSignature);
     wx.agentConfig({
-      corpid: sessionStorage.getItem('cropId'), // 必填，企业微信的corpid，必须与当前登录的企业一致
+      corpid: Config.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
       agentid: sessionStorage.getItem('agentid'), // 必填，企业微信的应用id （e.g. 1000247）
       timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
@@ -22,10 +23,12 @@ const Wechat = {
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
       success: (res) => {
         if (type === 1) {
-          wx.invoke('sendChatMessage', info, () => {});
+          wx.invoke('sendChatMessage', info, (msg) => {
+            alert(JSON.stringify(msg));
+          });
         } else {
           wx.invoke('openExistedChatWithMsg', info, (msg) => {
-            // alert(JSON.stringify(msg));
+            alert(JSON.stringify(msg));
             console.log(msg);
           });
         }
@@ -66,6 +69,7 @@ const Wechat = {
       success: (res) => {
         // window.isSetWxconfig = true // 在window中添加isSetWxconfig,判断是否进行页面刷新
         console.log('检查jsapi==', res);
+        alert(JSON.stringify(res));
         // 以键值对的形式返回，可用的api值true，不可用为false
         // 如：{'checkResult':{'chooseImage':true},'errMsg':'checkJsApi:ok'}
       },
