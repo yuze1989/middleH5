@@ -100,7 +100,7 @@ export default {
       this.$router.push({
         path: 'workDetails',
         query: {
-          id,
+          batchNo: id,
         },
       });
     },

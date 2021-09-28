@@ -198,7 +198,6 @@ export default {
 
   .icon-xiayibu2,
   .icon-xiala2 {
-    font-size: 5px;
     color: #999999;
   }
 
