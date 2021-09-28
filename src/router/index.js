@@ -135,7 +135,9 @@ router.beforeEach((to, form, next) => {
           if (data.corpId) {
             sessionStorage.setItem('corpId', data.corpId);
           }
-          localStorage.setItem('token', data.token);
+          if (data.token) {
+            localStorage.setItem('token', data.token);
+          }
           localStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {
             sessionStorage.setItem('channel', options.channel);
