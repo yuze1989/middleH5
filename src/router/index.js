@@ -5,7 +5,7 @@ import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
 import Config from '../utils/config';
 
-// import speechArt from '../views/speechArt.vue';
+import speechArt from '../views/speechArt.vue';
 
 Vue.use(VueRouter);
 
@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/',
     name: 'speechArt',
-    component: () => import(/* webpackChunkName: "about" */'../views/material.vue'),
+    component: speechArt,
     meta: {
       tabbarshow: true,
       type: 1,
