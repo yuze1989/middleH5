@@ -96,12 +96,13 @@ const routes = [
 ];
 
 const router = new VueRouter({
-
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
 });
 
 router.beforeEach((to, form, next) => {
+  alert(to.path);
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
