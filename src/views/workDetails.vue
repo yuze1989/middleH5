@@ -6,13 +6,15 @@
         <div class="state" v-if="dataList.overdueFlag">逾期</div>
       </div>
       <div class="task">{{dataList.sopRuleName}}</div>
-      <div class="push-date" v-if="dataList.taskStatus === 2">
+      <div class="push-date">
         <div>推送时间：{{taskTime}}</div>
-        <div class="overdue" v-if="dataList.overdueFlag">
-          逾期时间({{dataList.taskOverdueTimeStr}})</div>
-        <div class="surplus" v-else>剩余时间({{dataList.taskSurplusTimeStr}})</div>
+        <div v-if="dataList.taskStatus !== 3">
+          <div class="overdue" v-if="dataList.overdueFlag">
+            逾期时间({{dataList.taskOverdueTimeStr}})</div>
+          <div class="surplus" v-else>剩余时间({{dataList.taskSurplusTimeStr}})</div>
+        </div>
       </div>
-      <div class="task" v-else>完成时间：{{ finishTime}}</div>
+      <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{ finishTime}}</div>
     </div>
     <div class="hr"></div>
     <!-- 推送内容 -->
@@ -50,9 +52,9 @@
     <div class="content" style="margin-bottom: 60px;">
       <div class="content-tip">推送群聊</div>
       <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
-      @click="change(item)">
+      @click.stop="change(item)">
         <div class="list-flex">
-          <div>
+          <div v-if="dataList.taskStatus !== 3">
             <div v-if="item.taskStatus === 2">
               <i class="iconfont icon-weixuanze" v-show="!item.isSelect"></i>
               <i class="iconfont icon-xuanze" v-show="item.isSelect"></i>
@@ -75,10 +77,10 @@
             </div>
           </div>
         </div>
-        <div class="icon" @click="share(item)"><i class="iconfont icon-fasong"></i></div>
+        <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i></div>
       </div>
     </div>
-    <div class="footer">
+    <div class="footer" v-if="dataList.taskStatus !== 3">
       <div class="footer-left" @click="cancel">取消</div>
       <div class="footer-right" @click="determine">完成</div>
     </div>

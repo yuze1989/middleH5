@@ -25,12 +25,13 @@
           <div class="task-name">{{item.sopName}}</div>
         </div>
         <div class="task">{{item.sopRuleName}}</div>
-        <div class="push-date" v-if="item.taskStatus === 2">
+        <div class="push-date">
           <div>推送时间：{{ getyyyyMMdd(item.taskTime) }}</div>
           <div class="overdue" v-if="item.overdueFlag">逾期时间({{item.taskOverdueTimeStr}})</div>
          <div class="surplus" v-else>剩余时间({{item.taskSurplusTimeStr}})</div>
         </div>
-        <div class="task" v-else>完成时间：{{getyyyyMMdd(item.finishTime)}}</div>
+        <div class="task" v-if="item.taskStatus === 3">
+          完成时间：{{getyyyyMMdd(item.finishTime)}}</div>
       </div>
      </List>
     </div>
