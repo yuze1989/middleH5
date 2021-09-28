@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <img src="../assets/jurisdiction.png"/>
-    <div>您{{msg}}</div>
+    <div>{{msg}}</div>
     <div>请联系贵公司管理员</div>
   </div>
 </template>

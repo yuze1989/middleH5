@@ -27,13 +27,13 @@ instance.interceptors.response.use(
     const { data } = response;
     switch (data.errCode) {
       case '0100000005':
-        window.location.href = `https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=${data.errMessage}`;
+        window.location.href = 'https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=您没有访问权限，请联系您所在企业的管理员';
         break;
       case '0100000006':
-        window.location.href = 'https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=没有购买账户席位';
+        window.location.href = 'https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=您没有访问权限，请联系您所在企业的管理员；';
         break;
       case '0100000007':
-        window.location.href = `https://test-scrm.juzhunshuyu.com/jurisdiction?msg=${data.errMessage}`;
+        window.location.href = 'https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=您没有访问权限，请联系您所在企业的管理员；';
         break;
       default:
         return data;
@@ -41,7 +41,10 @@ instance.interceptors.response.use(
     return data;
   },
   // (response) => (response.data),
-  (error) => (Promise.reject(error)),
+  (error) => {
+    window.location.href = 'https://test-scrm.juzhunshuyu.com/middleH5/jurisdiction?msg=请检查网络情况后再尝试访问；';
+    Promise.reject(error);
+  },
 );
 
 const http = {
