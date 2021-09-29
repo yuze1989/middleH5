@@ -105,7 +105,7 @@ router.beforeEach((to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     const token = sessionStorage.getItem('token');
     if (!token && !options.code && options.appid) {
       const sourceId = options.channel || '';
