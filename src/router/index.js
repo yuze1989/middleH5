@@ -137,7 +137,9 @@ router.beforeEach((to, form, next) => {
             sessionStorage.setItem('agentId', data.agentId);
           }
           if (data.corpId) {
+            localStorage.removeItem('corpId');
             localStorage.corpId = data.corpId;
+            alert(data.corpId);
             const corpid = sessionStorage.getItem('corpId');
             alert(corpid);
           }
