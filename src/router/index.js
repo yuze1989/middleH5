@@ -127,7 +127,6 @@ router.beforeEach((to, form, next) => {
         channel: options.channel,
       }).then((res) => {
         const { success, data } = res;
-        console.log(data);
         if (success) {
           sessionStorage.setItem('unionId', data.unionid);
           sessionStorage.setItem('openid', data.openid);
@@ -142,6 +141,7 @@ router.beforeEach((to, form, next) => {
           }
           if (data.token) {
             sessionStorage.setItem('token', data.token);
+            alert(data.token);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {
