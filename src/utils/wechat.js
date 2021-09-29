@@ -24,7 +24,6 @@ const Wechat = {
       success: (res) => {
         if (type === 1) {
           wx.invoke('sendChatMessage', info, () => {
-
           });
         } else {
           wx.invoke('openExistedChatWithMsg', info, (msg) => {
