@@ -141,6 +141,12 @@ export default {
             // 结束上拉加载状态
             that.finished = true;
           }
+        } else {
+          Toast.loading({
+            message: res.errMessage,
+            duration: 1000,
+            type: 'fail',
+          });
         }
       });
     },
@@ -207,6 +213,7 @@ export default {
             Toast.loading({
               duration: 1,
             });
+
             Wechat.sendChatMessage(data, 1);
           } else {
             Toast.loading({
@@ -231,7 +238,6 @@ export default {
             [type]: type === 'content' ? obj.content : res.data,
           },
         };
-        console.log(data);
         Wechat.sendChatMessage(data, 1);
         this.shake = true;
         Toast.loading({

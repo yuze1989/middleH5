@@ -43,6 +43,7 @@ const Wechat = {
     });
   },
   sendChatMessage: (info) => {
+    console.log(info);
     Wechat.setAgentConfig(info, 1);
   },
   openExistedChatWithMsg: (info) => {
