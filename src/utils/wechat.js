@@ -7,7 +7,7 @@ const Wechat = {
   setWxConfig: async () => {
     console.log(window.location.href);
     const url = window.location.href.split('#')[0];
-    url.replace(/appId/g, 'corpId');
+    url.replace(/appid/g, 'corpId');
     const res = await Http.post('/scrm/wechat/js-api-signature', {
       corpId: sessionStorage.getItem('corpId'),
       url,
@@ -46,7 +46,6 @@ const Wechat = {
     });
   },
   sendChatMessage: (info) => {
-    alert(123);
     Wechat.setAgentConfig(info, 1);
   },
   openExistedChatWithMsg: (info) => {
