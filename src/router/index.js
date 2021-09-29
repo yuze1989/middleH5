@@ -140,11 +140,7 @@ router.beforeEach((to, form, next) => {
             sessionStorage.setItem('corpId', data.corpId);
           }
           if (data.token) {
-            localStorage.removeItem('token');
-            alert(data.token);
             localStorage.token = data.token;
-            const token2 = localStorage.getItem('token');
-            alert(token2);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {

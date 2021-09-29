@@ -114,8 +114,6 @@ export default {
     },
     getList() {
       const that = this;
-      const token = localStorage.getItem('token');
-      alert(token);
       if (that.indexTap === 0) {
         that.snapshot = true;
       }
