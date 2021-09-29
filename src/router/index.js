@@ -4,7 +4,7 @@ import Http from '../utils/http';
 import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
 import Config from '../utils/config';
-
+import store from '@/store';
 import speechArt from '../views/speechArt.vue';
 
 Vue.use(VueRouter);
@@ -139,7 +139,9 @@ router.beforeEach((to, form, next) => {
           if (data.corpId) {
             localStorage.removeItem('corpId');
             localStorage.corpId = data.corpId;
+            store.dispatch('SETCORPID', data.corpId);
             alert(data.corpId);
+            alert(store.state.corpid);
             const corpid = sessionStorage.getItem('corpId');
             alert(corpid);
           }
