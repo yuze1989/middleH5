@@ -117,6 +117,7 @@ router.beforeEach((to, form, next) => {
       return;
     }
     if (!token && options.code) {
+      alert(1);
       Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
         code: options.code,
@@ -124,7 +125,6 @@ router.beforeEach((to, form, next) => {
       }).then((res) => {
         const { success, data } = res;
         if (success) {
-          alert(data.token);
           sessionStorage.setItem('unionId', data.unionid);
           sessionStorage.setItem('openid', data.openid);
           if (data.userId) {
@@ -149,7 +149,6 @@ router.beforeEach((to, form, next) => {
         next();
       });
     }
-    alert(token);
     return;
   }
   next();
