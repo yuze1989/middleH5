@@ -58,6 +58,8 @@ export default {
   },
   methods: {
     clickItem(path) {
+      alert(this.url);
+      alert(path);
       this.$emit('goUrl', path);
     },
   },
