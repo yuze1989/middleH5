@@ -14,17 +14,15 @@ const util = {
     return option;
   },
   go(code) {
-    if (code === '0100000005') {
-      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=您没有操作权限，请联系您所在企业的管理员`;
-    }
-    if (code === '0100000006') {
-      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=您没有访问权限，请联系您所在企业的管理员`;
-    }
-    if (code === '0100000007') {
-      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=您没有访问权限，请联系您所在企业的管理员`;
-    }
-    if (code === -1) {
-      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=请检查网络情况后再尝试访问`;
+    const errorList = new Map([
+      ['0100000005', ['您没有操作权限，请联系您所在企业的管理员', 0]],
+      ['0100000006', ['您没有访问权限，请联系您所在企业的管理员', 0]],
+      ['0100000007', ['您没有访问权限，请联系您所在企业的管理员', 0]],
+      [0, ['检查网络情况后 再尝试访问', 1]],
+    ]);
+    if (errorList.get(code)) {
+      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=
+      ${errorList.get(code)[0]}&type=${errorList.get(code)[1]}`;
     }
   },
   getyyyyMMdd(time) {

@@ -1,8 +1,9 @@
 <template>
   <div class="box">
-    <img src="../assets/jurisdiction.png"/>
+    <img src="../assets/error.png" v-if="type === '1'"/>
+    <img src="../assets/jurisdiction.png" v-else />
     <div>{{msg}}</div>
-    <div>请联系贵公司管理员</div>
+    <div v-if="type !== '1'">请联系贵公司管理员</div>
   </div>
 </template>
 
@@ -13,10 +14,12 @@ export default {
   data() {
     return {
       msg: '',
+      type: 0,
     };
   },
   mounted() {
     this.msg = this.$route.query.msg;
+    this.type = this.$route.query.type;
   },
   methods: {
 

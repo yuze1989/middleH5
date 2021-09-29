@@ -14,16 +14,16 @@
           <i class="iconfont icon-xiayibu2" v-if="!item.isShow"></i>
           <i class="iconfont icon-xiala2" v-else></i>
           <i class="iconfont icon-wenjianjia1"></i>
-          <div>{{item.head}}</div>
+          <div>{{item.name}}</div>
         </div>
         <!-- 隐藏部分 -->
-        <div :class="item.isShow ? 'yes' : 'no' " v-for="(str,subscript) in item.body"
+        <div :class="item.isShow ? 'yes' : 'no' " v-for="(obj,subscript) in item.speechList"
         :key="subscript">
           <div class="left">
-              <i class="iconfont icon-fasong1" @click.stop="share(str)"></i>
+              <i class="iconfont icon-fasong1" @click.stop="share(obj)"></i>
           </div>
           <div class="right" @click.stop="stop">
-            <textOver :content="str.tex" v-if="item.isShow"></textOver>
+            <textOver :content="obj.text" v-if="item.isShow"></textOver>
           </div>
         </div>
       </div>
@@ -50,38 +50,12 @@ export default {
       nav: ['企业常用语', '个人常用语'],
 
       // 数据
-      itemList: [{
-        head: '赏识在于角度的转',
-        isShow: false,
-        body: [
-          { tex: '一、客服过滤的高机X总，您好，我是巨准SC我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第       一、可以帮助企业管理客户的微信帐号资料； 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-          { tex: '一、指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-          { tex: ' 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-          { tex: '一、客服过滤的高机X总，您好，我是巨准SC我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第       一、可以帮助企业管理客户的微信帐号资料； 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-        ],
-      }, {
-        head: '赏识在于角度的转',
-        isShow: false,
-        body: [
-          { tex: '一、客服过滤的高机X总，您好，我是巨准SC我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第       一、可以帮助企业管理客户的微信帐号资料； 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-          { tex: '一、指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-          { tex: ' 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-          { tex: '一、客服过滤的高机X总，您好，我是巨准SC我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第       一、可以帮助企业管理客户的微信帐号资料； 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-        ],
-      }, {
-        head: '赏识在于角度的转',
-        isShow: false,
-        body: [
-          { tex: '一、客服过滤的高机X总，您好，我是巨准SC我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第       一、可以帮助企业管理客户的微信帐号资料； 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-          { tex: '一、指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-          { tex: ' 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-          { tex: '一、客服过滤的高机X总，您好，我是巨准SC我们巨准SCRM基于微信，做了一个客户管理和营销的系统；第       一、可以帮助企业管理客户的微信帐号资料； 第二、 可以监控、 指导销售聊天， 防止销售飞防止销售飞防止销售飞' },
-        ],
-      }],
+      itemList: [],
     };
   },
   mounted() {
     Wechat.setWxConfig();
+    this.getList();
   },
   methods: {
     // 阻止冒泡
@@ -89,17 +63,31 @@ export default {
     // 分享
     share(item) {
       const obj = item;
-      console.log(obj);
+      const data = {
+        msgtype: 'text',
+        enterChat: true,
+        text: {
+          content: obj.text, // 文本内容
+        },
+      };
+      Wechat.sendChatMessage(data, 1);
+      this.shake = true;
+      Toast.loading({
+        duration: 1,
+      });
     },
     getList() {
       const that = this;
-      Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
-        taskStatus: that.type + 2,
-        pageIndex: that.pageIndex,
-        pageSize: 20,
+      Http.post('/scrm/comm/rest/speech/list-speech-group-right', {
+        speechType: that.type + 1,
       }, '').then((res) => {
         if (res.success) {
-          console.log(res);
+          res.data.forEach((obj) => {
+            const e = obj;
+            e.isShow = false;
+          });
+          that.itemList = res.data;
+          console.log(that.itemList);
         } else {
           Toast(res.errMessage);
         }
