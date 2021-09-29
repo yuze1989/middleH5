@@ -13,9 +13,21 @@
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
+    <script type="text/javascript">
+      var headEle = document.getElementsByTagName('head')[0];
+      var scriptEle = document.createElement('script');
+      scriptEle.type = 'text/javascript';
+      scriptEle.async = true;
+      scriptEle.src = window.location.protocol + '//cdn.jsdelivr.net/npm/eruda';
+      headEle.appendChild(scriptEle);
+      scriptEle.onload = function() {
+        eruda.init();
+      }
+    </script>
     <!-- built files will be auto injected -->
   </body>
 </html>
