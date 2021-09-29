@@ -110,7 +110,7 @@ export default {
     // tab切换
     change(index) {
       this.type = index;
-      console.log(index);
+      this.getList();
     },
   },
 };
