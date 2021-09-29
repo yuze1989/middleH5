@@ -116,16 +116,19 @@ router.beforeEach((to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
-    alert(options.appid);
-    alert(options.code);
-    alert(options.channel);
+    // alert(options.appid);//ww56913ac074369956
+    // alert(options.code);//Z2E2_56NR3bWkZ-w9lom6-pYVDc2yIvMZF2pS-YKTZE
+    // alert(options.channel);//1
+    alert(token);
     if (!token && options.code) {
+      alert(1);
       Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
         code: options.code,
         channel: options.channel,
       }).then((res) => {
         const { success, data } = res;
+        alert(JSON.stringify(data));
         if (success) {
           sessionStorage.setItem('unionId', data.unionid);
           sessionStorage.setItem('openid', data.openid);
