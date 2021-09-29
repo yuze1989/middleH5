@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Util from './util';
+// import Util from './util';
 
 const baseURL = process.env.NODE_ENV === 'production' ? 'https://test-scrm.juzhunshuyu.com' : '';
 const instance = axios.create({
@@ -26,12 +26,12 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   (response) => {
     const { data } = response;
-    Util.go(data.errCode);
+    // Util.go(data.errCode);
     return data;
   },
   // (response) => (response.data),
   (error) => {
-    Util.go('errCode');
+    // Util.go('errCode');
     Promise.reject(error);
   },
 );
