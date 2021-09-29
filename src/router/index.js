@@ -124,6 +124,7 @@ router.beforeEach((to, form, next) => {
       }).then((res) => {
         const { success, data } = res;
         if (success) {
+          alert(data.token);
           sessionStorage.setItem('unionId', data.unionid);
           sessionStorage.setItem('openid', data.openid);
           if (data.userId) {
