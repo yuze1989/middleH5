@@ -6,9 +6,11 @@ let wxSignature;
 const Wechat = {
   setWxConfig: async () => {
     console.log(window.location.href);
+    const url = window.location.href.split('#')[0];
+    url.replace(/appId/g, 'corpId');
     const res = await Http.post('/scrm/wechat/js-api-signature', {
       corpId: sessionStorage.getItem('corpId'),
-      url: window.location.href.split('#')[0],
+      url,
     });
     wxSignature = res.data;
   },
