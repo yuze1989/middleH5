@@ -127,6 +127,7 @@ router.beforeEach((to, form, next) => {
         channel: options.channel,
       }).then((res) => {
         const { success, data } = res;
+        console.log(data);
         if (success) {
           sessionStorage.setItem('unionId', data.unionid);
           sessionStorage.setItem('openid', data.openid);
@@ -137,11 +138,13 @@ router.beforeEach((to, form, next) => {
             sessionStorage.setItem('agentId', data.agentId);
           }
           if (data.corpId) {
-            localStorage.corpId = data.corpId;
+            sessionStorage.setItem('corpId', data.corpId);
             store.dispatch('SETCORPID', data.corpId);
+            const corpid = sessionStorage.getItem('corpId');
+            console.log(corpid);
           }
           if (data.token) {
-            localStorage.token = data.token;
+            sessionStorage.setItem('token', data.token);
             store.dispatch('SETTOKEN', data.token);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
