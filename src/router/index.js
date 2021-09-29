@@ -137,15 +137,12 @@ router.beforeEach((to, form, next) => {
             sessionStorage.setItem('agentId', data.agentId);
           }
           if (data.corpId) {
-            localStorage.removeItem('corpId');
             localStorage.corpId = data.corpId;
             store.dispatch('SETCORPID', data.corpId);
-            alert(data.corpId);
-            const corpid = sessionStorage.getItem('corpId');
-            alert(corpid);
           }
           if (data.token) {
             localStorage.token = data.token;
+            store.dispatch('SETTOKEN', data.token);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {
