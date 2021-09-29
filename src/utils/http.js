@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Util from './util';
-import store from '@/store';
 
 const baseURL = process.env.NODE_ENV === 'production' ? 'https://test-scrm.juzhunshuyu.com' : '';
 const instance = axios.create({
@@ -14,10 +13,10 @@ instance.interceptors.request.use((config) => {
   const globalOptStr = sessionStorage.getItem('globalOpt');
   const globalOpt = !globalOptStr ? {} : JSON.parse(globalOptStr);
   const configTemp = config;
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   configTemp.headers = config.headers || {};
   Object.assign(config.headers, globalOpt);
-  configTemp.headers.token = token || store.state.corpid;// || 'mockToken';
+  configTemp.headers.token = token;// || 'mockToken';
   return config;
 }, (error) => {
   Promise.reject(error);
