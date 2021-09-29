@@ -140,7 +140,9 @@ router.beforeEach((to, form, next) => {
             sessionStorage.setItem('corpId', data.corpId);
           }
           if (data.token) {
-            sessionStorage.setItem('token', data.token);
+            localStorage.removeItem('token');
+            alert(data.token);
+            localStorage.token = data.token;
             const token2 = localStorage.getItem('token');
             alert(token2);
           }
