@@ -158,7 +158,7 @@ router.beforeEach((to, form, next) => {
         next();
       });
     }
-    return;
+    // return;
   }
   next();
 });
