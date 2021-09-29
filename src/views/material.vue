@@ -98,6 +98,8 @@ export default {
     };
   },
   mounted() {
+    const token = localStorage.getItem('token');
+    alert(token);
     Wechat.setWxConfig();
     this.height = document.documentElement.clientHeight - 150;
   },
