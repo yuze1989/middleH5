@@ -148,7 +148,8 @@ router.beforeEach((to, form, next) => {
         next();
       });
     }
-    // return;
+    alert(token);
+    return;
   }
   next();
 });
