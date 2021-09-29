@@ -31,7 +31,7 @@ instance.interceptors.response.use(
   },
   // (response) => (response.data),
   (error) => {
-    Util.go(0);
+    Util.go('errCode');
     Promise.reject(error);
   },
 );

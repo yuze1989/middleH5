@@ -1,7 +1,7 @@
 <template>
     <div class="bottom" v-if="type === 1">
       <div class="item" @click="clickItem('/')" :class="{active: url === '/'}">
-        <i class="iconfont icon-sucai" v-if="$route.path === '/'"></i>
+        <i class="iconfont icon-sucai" v-if="url=== '/'"></i>
         <i class="iconfont icon-sucai2" v-else></i>
         <div>话术</div>
       </div>
@@ -14,7 +14,7 @@
     </div>
     <div class="bottom" v-else>
       <div class="item" @click="clickItem('/workbench')" :class="{active: url === '/workbench'}">
-        <i class="iconfont icon-gongzuotai" v-if="$route.path === '/workbench'"></i>
+        <i class="iconfont icon-gongzuotai" v-if="url === '/workbench'"></i>
         <i class="iconfont icon-gongzuotai" v-else></i>
         <div>工作台</div>
       </div>
