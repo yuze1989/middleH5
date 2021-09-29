@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import Http from './http';
+import store from '@/store';
 
 let wxSignature;
 

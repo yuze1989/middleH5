@@ -141,7 +141,6 @@ router.beforeEach((to, form, next) => {
             localStorage.corpId = data.corpId;
             store.dispatch('SETCORPID', data.corpId);
             alert(data.corpId);
-            alert(store.state.corpid);
             const corpid = sessionStorage.getItem('corpId');
             alert(corpid);
           }
