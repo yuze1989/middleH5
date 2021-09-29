@@ -98,8 +98,6 @@ export default {
     };
   },
   mounted() {
-    const token = localStorage.getItem('token');
-    alert(token);
     Wechat.setWxConfig();
     this.height = document.documentElement.clientHeight - 150;
   },
@@ -125,6 +123,8 @@ export default {
         pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
+        const token = localStorage.getItem('token');
+        console.log(token);
         if (res.success) {
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
