@@ -141,7 +141,8 @@ router.beforeEach((to, form, next) => {
           }
           if (data.token) {
             sessionStorage.setItem('token', data.token);
-            alert(data.token);
+            const token2 = localStorage.getItem('token');
+            alert(token2);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {
