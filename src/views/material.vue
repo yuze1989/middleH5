@@ -117,14 +117,14 @@ export default {
       if (that.indexTap === 0) {
         that.snapshot = true;
       }
+      const token = localStorage.getItem('token');
+      console.log(token);
       Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
         materialType: that.indexTap + 1,
         pageIndex: that.pageIndex,
         pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
-        const token = localStorage.getItem('token');
-        console.log(token);
         if (res.success) {
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
