@@ -12,6 +12,7 @@ const Wechat = {
     wxSignature = res.data;
   },
   setAgentConfig: (info, type) => {
+    console.log(info);
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
       agentid: sessionStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
@@ -34,7 +35,7 @@ const Wechat = {
         // 回调
       },
       fail: (res) => {
-        alert(JSON.stringify(res));
+        console.log(res);
         if (res.errMsg.indexOf('function not exist') > -1) {
           alert('版本过低请升级');
         }
