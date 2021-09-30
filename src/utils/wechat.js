@@ -25,7 +25,6 @@ const Wechat = {
           });
         } else {
           wx.invoke('openExistedChatWithMsg', info, (msg) => {
-            alert(JSON.stringify(msg));
             console.log(msg);
           });
         }
@@ -43,7 +42,6 @@ const Wechat = {
     Wechat.setAgentConfig(info, 1);
   },
   openExistedChatWithMsg: (info) => {
-    alert(234);
     Wechat.setAgentConfig(info, 2);
   },
   setApi: (configInfo) => {
