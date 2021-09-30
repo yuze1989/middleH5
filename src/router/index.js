@@ -102,11 +102,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, form, next) => {
-  alert(to.path);
-  alert(form.path);
-  console.log(to.path, '-----------', form.path);
   if (Env.getType().platformType === 'WX_GZ') {
-    alert(1);
     const url = window.location.href;
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('token');
@@ -124,7 +120,6 @@ router.beforeEach((to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
-    console.log(token, options.code);
     if (!token && options.code) {
       Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
@@ -149,6 +144,7 @@ router.beforeEach((to, form, next) => {
           if (data.token) {
             sessionStorage.setItem('token', data.token);
             store.dispatch('SETTOKEN', data.token);
+            alert(token);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {
