@@ -144,7 +144,6 @@ router.beforeEach((to, form, next) => {
           if (data.token) {
             sessionStorage.setItem('token', data.token);
             store.dispatch('SETTOKEN', data.token);
-            alert(token);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {
@@ -155,8 +154,9 @@ router.beforeEach((to, form, next) => {
       }).finally(() => {
         next();
       });
+      return;
     }
-    return;
+    // return;
   }
   next();
 });
