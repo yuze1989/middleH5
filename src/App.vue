@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     go(src) {
-      this.$router.push(src);
+      this.$router.push(`${src}/`);
     },
     // clickItem(path) {
     //   this.$router.push(path);
