@@ -102,6 +102,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, form, next) => {
+  alert(to.path);
+  alert(form.path);
   console.log(to.path, '-----------', form.path);
   if (Env.getType().platformType === 'WX_GZ') {
     alert(1);
