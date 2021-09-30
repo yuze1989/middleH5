@@ -141,8 +141,6 @@ router.beforeEach((to, form, next) => {
           if (data.corpId) {
             sessionStorage.setItem('corpId', data.corpId);
             store.dispatch('SETCORPID', data.corpId);
-            const corpid = sessionStorage.getItem('corpId');
-            console.log(corpid);
           }
           if (data.token) {
             sessionStorage.setItem('token', data.token);

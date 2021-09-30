@@ -105,6 +105,7 @@ export default {
     onLoad() {
       this.getList();
       this.pageIndex += 1;
+      console.log(123);
     },
     onRefresh() {
       this.pageIndex = 1;

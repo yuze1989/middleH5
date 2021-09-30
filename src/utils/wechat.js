@@ -5,8 +5,6 @@ let wxSignature;
 
 const Wechat = {
   setWxConfig: async () => {
-    const corpid = sessionStorage.getItem('corpId');
-    console.log(corpid);
     const res = await Http.post('/scrm/wechat/js-api-signature', {
       corpId: sessionStorage.getItem('corpId'),
       url: window.location.href.split('#')[0],
