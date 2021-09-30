@@ -288,6 +288,12 @@ export default {
     font-size: 10px;
     margin: 2px 2px 0 0;
   }
+
+  li:nth-last-of-type(1) {
+    width: 10px;
+    margin: 0;
+  }
+
   li {
     border-bottom: 2px rgba(0, 0, 0, 0) solid;
     text-align: center;
