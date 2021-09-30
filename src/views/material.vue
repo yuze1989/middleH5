@@ -5,6 +5,7 @@
       :key="index" @click="change(index)">
         {{item.name}}
       </li>
+      <li></li>
     </ul>
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
       <div class="content-box" :style="'min-height:' + height + 'px'">
@@ -287,7 +288,6 @@ export default {
     font-size: 10px;
     margin: 2px 2px 0 0;
   }
-
   li {
     border-bottom: 2px rgba(0, 0, 0, 0) solid;
     text-align: center;
@@ -312,7 +312,6 @@ export default {
     font-size: 14px;
     color: #333333;
     letter-spacing: 0;
-    padding: 0 20px 0 0;
   }
 
   .content-box {
