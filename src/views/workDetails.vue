@@ -11,7 +11,7 @@
         <div v-if="dataList.taskStatus !== 3">
           <div class="overdue" v-if="dataList.overdueFlag">
             (逾期时间：{{dataList.taskOverdueTimeStr}})</div>
-          <div class="surplus" v-else>(剩余时间{{dataList.taskSurplusTimeStr}})</div>
+          <div class="surplus" v-else>(剩余时间：{{dataList.taskSurplusTimeStr}})</div>
         </div>
       </div>
       <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{ finishTime}}</div>
@@ -81,7 +81,7 @@
       </div>
     </div>
     <div class="footer" v-if="dataList.taskStatus !== 3">
-      <div class="footer-left" @click="cancel">取消</div>
+      <div class="footer-left" @click="cancel">全选</div>
       <div class="footer-right" @click="determine">完成</div>
     </div>
   </div>
@@ -102,6 +102,7 @@ export default {
       idList: [],
       taskTime: '',
       finishTime: '',
+      selectAll: false,
     };
   },
   mounted() {
@@ -161,12 +162,13 @@ export default {
       Toast.success('复制成功');
       document.body.removeChild(input); // 删除临时实例
     },
-    // 取消
+    // 取消全选 --- 全选
     cancel() {
       this.idList = [];
+      this.selectAll = !this.selectAll;
       this.dataList.sopTaskList.forEach((item) => {
         const data = item;
-        data.isSelect = false;
+        data.isSelect = this.selectAll;
       });
     },
     // 完成

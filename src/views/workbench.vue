@@ -30,7 +30,7 @@
           <div v-if="item.taskStatus !== 3">
             <div class="overdue" v-if="item.overdueFlag">
               (逾期时间：{{item.taskOverdueTimeStr}})</div>
-            <div class="surplus" v-else>剩余时间({{item.taskSurplusTimeStr}})</div>
+            <div class="surplus" v-else>(剩余时间：{{item.taskSurplusTimeStr}})</div>
           </div>
         </div>
         <div class="task" v-if="item.taskStatus === 3">
