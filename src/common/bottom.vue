@@ -7,7 +7,7 @@
       </div>
       <div class="item" @click="clickItem('/material')"
       :class="{active: url === '/material'}">
-        <i class="iconfont icon-huashu" v-if="url === '/material'"></i>
+        <i class="iconfont icon-huashu" v-if="url === '/material/'"></i>
         <i class="iconfont icon-huashu2" v-else></i>
         <div>素材</div>
       </div>
