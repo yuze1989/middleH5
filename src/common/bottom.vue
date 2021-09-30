@@ -1,42 +1,32 @@
 <template>
-    <div class="bottom" v-if="type === 1">
-      <div class="item" @click="clickItem('/')" :class="{active: url === '/'}">
-        <i class="iconfont icon-sucai" v-if="url=== '/'"></i>
-        <i class="iconfont icon-sucai2" v-else></i>
-        <div>话术</div>
-      </div>
-      <div class="item" @click="clickItem('/material')"
-      :class="{active: url === '/material'}">
-        <i class="iconfont icon-huashu" v-if="url === '/material'"></i>
-        <i class="iconfont icon-huashu2" v-else></i>
-        <div>素材</div>
-      </div>
+  <div class="bottom" v-if="type === 1">
+    <div class="item" @click="clickItem('/')" :class="{active: url === '/'}">
+      <i :class="url=== '/' ? 'icon-sucai' : 'icon-sucai2'" class="iconfont"></i>
+      <div>话术</div>
     </div>
-    <div class="bottom" v-else>
-      <div class="item" @click="clickItem('/workbench')" :class="{active: url === '/workbench'}">
-        <i class="iconfont icon-gongzuotai" v-if="url === '/workbench'"></i>
-        <i class="iconfont icon-gongzuotai" v-else></i>
-        <div>工作台</div>
-      </div>
-      <div class="item" @click="clickItem('/customer')"
-      :class="{active: url === '/customer'}">
-        <i class="iconfont icon-kehu2" v-if="url === '/customer'"></i>
-        <i class="iconfont icon-kehu" v-else></i>
-        <div>客户</div>
-      </div>
-      <div class="item" @click="clickItem('/marketing')"
-      :class="{active: url === '/marketing'}">
-        <i class="iconfont icon-yingxiao" v-if="url === '/marketing'"></i>
-        <i class="iconfont icon-yingxiao" v-else></i>
-        <div>营销</div>
-      </div>
-      <div class="item" @click="clickItem('/surplus')"
-      :class="{active: url === '/surplus'}">
-        <i class="iconfont icon-gengduo" v-if="url === '/surplus'"></i>
-        <i class="iconfont icon-gengduo" v-else></i>
-        <div>更多</div>
-      </div>
+    <div class="item" @click="clickItem('/material')" :class="{active: url === '/material'}">
+      <i :class="url=== '/material' ? 'icon-huashu' : 'icon-huashu2'" class="iconfont"></i>
+      <div>素材</div>
     </div>
+  </div>
+  <div class="bottom" v-else>
+    <div class="item" @click="clickItem('/workbench')" :class="{active: url === '/workbench'}">
+      <i :class="url=== '/workbench' ? 'icon-gongzuotai' : 'icon-gongzuotai'" class="iconfont"></i>
+      <div>工作台</div>
+    </div>
+    <div class="item" @click="clickItem('/customer')" :class="{active: url === '/customer'}">
+      <i :class="url=== '/customer' ? 'icon-kehu2' : 'icon-kehu'" class="iconfont"></i>
+      <div>客户</div>
+    </div>
+    <div class="item" @click="clickItem('/marketing')" :class="{active: url === '/marketing'}">
+      <i :class="url=== '/marketing' ? 'icon-yingxiao' : 'icon-yingxiao'" class="iconfont"></i>
+      <div>营销</div>
+    </div>
+    <div class="item" @click="clickItem('/surplus')" :class="{active: url === '/surplus'}">
+      <i :class="url=== '/surplus' ? 'icon-gengduo' : 'icon-gengduo'" class="iconfont"></i>
+      <div>更多</div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -58,16 +48,18 @@ export default {
   },
   methods: {
     clickItem(path) {
-      this.$emit('goUrl', path);
+      this.$router.push(path);
+      // this.$emit('goUrl', path);
     },
   },
 
 };
 </script>
 <style scoped="scoped">
-  body{
+  body {
     margin: 0;
   }
+
   .bottom {
     position: fixed;
     bottom: 0px;
@@ -89,6 +81,7 @@ export default {
     color: #999999;
     letter-spacing: 0;
   }
+
   .active {
     color: #1890FF;
   }

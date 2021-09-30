@@ -5,13 +5,15 @@
       :key="index" @click="change(index)">
         {{item.name}}
       </li>
+      <li></li>
     </ul>
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
       <div class="content-box" :style="'min-height:' + height + 'px'">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
          @load="onLoad" finished-text="没有更多了">
-          <div class="article" v-for="(item,index) in dataList" :key="index" @click="go(item)">
+          <div class="article" v-for="(item,index) in dataList" :key="index"
+          @click="goDetails(item)">
             <div class="left">
               <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
               <img :src="item.materialEnclosureUrl" v-if="indexTap === 2">
@@ -105,7 +107,6 @@ export default {
     onLoad() {
       this.getList();
       this.pageIndex += 1;
-      console.log(123);
     },
     onRefresh() {
       this.pageIndex = 1;
@@ -151,7 +152,7 @@ export default {
         }
       });
     },
-    go(obj) {
+    goDetails(obj) {
       if (this.indexTap === 0) {
         Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
           snapshotid: obj.id,
@@ -286,10 +287,6 @@ export default {
     color: #FFFFFF;
     font-size: 10px;
     margin: 2px 2px 0 0;
-  }
-
-  li:nth-last-of-type(1) {
-    padding-right: 20px;
   }
 
   li {

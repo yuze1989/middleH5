@@ -87,7 +87,6 @@ export default {
             e.isShow = false;
           });
           that.itemList = res.data;
-          console.log(that.itemList);
         } else {
           Toast(res.errMessage);
         }
