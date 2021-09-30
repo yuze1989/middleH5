@@ -10,7 +10,7 @@
         <div>推送时间：{{taskTime}}</div>
         <div v-if="dataList.taskStatus !== 3">
           <div class="overdue" v-if="dataList.overdueFlag">
-            (逾期时间{{dataList.taskOverdueTimeStr}})</div>
+            (逾期时间：{{dataList.taskOverdueTimeStr}})</div>
           <div class="surplus" v-else>(剩余时间{{dataList.taskSurplusTimeStr}})</div>
         </div>
       </div>

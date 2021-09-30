@@ -29,7 +29,7 @@
           <div>推送时间：{{ getyyyyMMdd(item.taskTime) }}</div>
           <div v-if="item.taskStatus !== 3">
             <div class="overdue" v-if="item.overdueFlag">
-              (逾期时间{{item.taskOverdueTimeStr}})</div>
+              (逾期时间：{{item.taskOverdueTimeStr}})</div>
             <div class="surplus" v-else>剩余时间({{item.taskSurplusTimeStr}})</div>
           </div>
         </div>
