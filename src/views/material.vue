@@ -140,10 +140,7 @@ export default {
             // 清除下拉刷新状态
             that.refreshing = false;
             that.loading = false;
-            if (that.dataList.length === res.totalCount) {
-              // 结束上拉加载状态
-              that.finished = true;
-            }
+            that.finished = true;
             that.pageIndex += 1;
           }
         } else {
@@ -185,7 +182,7 @@ export default {
       this.pageIndex = 1;
       this.dataList = [];
       this.finished = false;
-      this.onLoad();
+      // this.onLoad();
     },
     uploadFileToWx(typeId, obj, msgType, url) {
       Toast.loading({

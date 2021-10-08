@@ -125,10 +125,7 @@ export default {
             if (that.pageIndex === 1) {
               that.sum = res.totalCount;
             }
-            if (that.dataList.length === res.totalCount) {
-              // 结束上拉加载状态
-              that.finished = true;
-            }
+            that.finished = true;
             // 清除下拉刷新状态
             that.refreshing = false;
             that.loading = false;
@@ -145,7 +142,7 @@ export default {
       this.pageIndex = 1;
       this.dataList = [];
       this.finished = false;
-      this.onLoad();
+      // this.onLoad();
     },
   },
 };
