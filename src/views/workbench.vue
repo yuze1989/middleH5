@@ -144,6 +144,7 @@ export default {
     change(index) {
       this.type = index;
       store.dispatch('SETTYPE', this.type + 2);
+      alert(this.$store.state.type);
       this.pageIndex = 1;
       this.finished = false;
       this.dataList = [];
