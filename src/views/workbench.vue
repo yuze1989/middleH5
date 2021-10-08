@@ -111,6 +111,7 @@ export default {
     },
     getList() {
       const that = this;
+      alert(that.$store.state.type);
       Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
         taskStatus: that.$store.state.type,
         pageIndex: that.pageIndex,
