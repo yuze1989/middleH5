@@ -107,7 +107,6 @@ export default {
     onLoad() {
       this.getList();
       this.pageIndex += 1;
-      console.log(123);
     },
     onRefresh() {
       this.pageIndex = 1;
@@ -143,8 +142,8 @@ export default {
           if (that.dataList.length >= res.totalCount) {
             // 结束上拉加载状态
             that.finished = true;
+            that.loading = false;
           }
-          console.log(that.finished, that.loading);
         } else {
           Toast.loading({
             message: res.errMessage,
@@ -183,7 +182,6 @@ export default {
       this.indexTap = index;
       this.pageIndex = 1;
       this.finished = false;
-      this.loading = false;
       this.dataList = [];
     },
     uploadFileToWx(typeId, obj, msgType, url) {

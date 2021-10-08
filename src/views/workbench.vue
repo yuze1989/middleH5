@@ -132,6 +132,7 @@ export default {
           if (that.dataList.length >= res.totalCount) {
             // 结束上拉加载状态
             that.finished = true;
+            that.loading = false;
           }
         } else {
           Toast(res.errMessage);
@@ -143,7 +144,6 @@ export default {
       this.type = index;
       this.pageIndex = 1;
       this.finished = false;
-      this.loading = false;
       this.dataList = [];
     },
   },
