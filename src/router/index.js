@@ -45,6 +45,7 @@ const routes = [
     meta: {
       tabbarshow: false,
       type: 2,
+      keepAlive: true,
     },
     component: () => import('../views/workbench.vue'),
   },

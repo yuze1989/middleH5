@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+    <keep-alive>
     <router-view />
+    </keep-alive>
     <div v-if="$route.meta.type === 1">
       <bottom :url="$route.path" v-if="$route.meta.tabbarshow"></bottom>
     </div>
