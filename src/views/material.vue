@@ -181,11 +181,9 @@ export default {
     change(index) {
       this.indexTap = index;
       this.pageIndex = 1;
-      this.finished = false;
       this.dataList = [];
-      if (this.finished) {
-        this.getList();
-      }
+      this.finished = false;
+      this.onLoad();
     },
     uploadFileToWx(typeId, obj, msgType, url) {
       Toast.loading({
