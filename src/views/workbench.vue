@@ -128,6 +128,7 @@ export default {
           that.sum = res.totalCount;
           // 清除下拉刷新状态
           that.refreshing = false;
+          that.loading = false;
           if (that.dataList.length >= res.totalCount) {
             // 结束上拉加载状态
             that.finished = true;
@@ -141,8 +142,8 @@ export default {
     change(index) {
       this.type = index;
       this.pageIndex = 1;
+      this.finished = false;
       this.dataList = [];
-      this.getList();
     },
   },
 };

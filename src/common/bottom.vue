@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom" v-if="type === 1">
+  <div class="bottom">
     <div class="item" @click="clickItem('/')" :class="{active: url === '/'}">
       <i :class="url=== '/' ? 'icon-sucai' : 'icon-sucai2'" class="iconfont"></i>
       <div>话术</div>
@@ -7,24 +7,6 @@
     <div class="item" @click="clickItem('/material')" :class="{active: url === '/material'}">
       <i :class="url=== '/material' ? 'icon-huashu' : 'icon-huashu2'" class="iconfont"></i>
       <div>素材</div>
-    </div>
-  </div>
-  <div class="bottom" v-else>
-    <div class="item" @click="clickItem('/workbench')" :class="{active: url === '/workbench'}">
-      <i :class="url=== '/workbench' ? 'icon-gongzuotai' : 'icon-gongzuotai'" class="iconfont"></i>
-      <div>工作台</div>
-    </div>
-    <div class="item" @click="clickItem('/customer')" :class="{active: url === '/customer'}">
-      <i :class="url=== '/customer' ? 'icon-kehu2' : 'icon-kehu'" class="iconfont"></i>
-      <div>客户</div>
-    </div>
-    <div class="item" @click="clickItem('/marketing')" :class="{active: url === '/marketing'}">
-      <i :class="url=== '/marketing' ? 'icon-yingxiao' : 'icon-yingxiao'" class="iconfont"></i>
-      <div>营销</div>
-    </div>
-    <div class="item" @click="clickItem('/surplus')" :class="{active: url === '/surplus'}">
-      <i :class="url=== '/surplus' ? 'icon-gengduo' : 'icon-gengduo'" class="iconfont"></i>
-      <div>更多</div>
     </div>
   </div>
 </template>

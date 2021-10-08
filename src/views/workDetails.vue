@@ -56,8 +56,8 @@
         <div class="list-flex">
           <div v-if="dataList.taskStatus !== 3">
             <div v-if="item.taskStatus === 2">
-              <i class="iconfont icon-weixuanze" v-show="!item.isSelect"></i>
-              <i class="iconfont icon-xuanze" v-show="item.isSelect"></i>
+              <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
+              class="iconfont"></i>
             </div>
             <div v-else>
               <i class="iconfont icon-xuanze" style="color: #E5E5E5 !important;"></i>

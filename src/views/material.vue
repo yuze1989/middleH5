@@ -107,6 +107,7 @@ export default {
     onLoad() {
       this.getList();
       this.pageIndex += 1;
+      console.log(123);
     },
     onRefresh() {
       this.pageIndex = 1;
@@ -119,11 +120,10 @@ export default {
       if (that.indexTap === 0) {
         that.snapshot = true;
       }
-
       Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
         materialType: that.indexTap + 1,
         pageIndex: that.pageIndex,
-        pageSize: 20,
+        pageSize: 5,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
         if (res.success) {
@@ -137,12 +137,14 @@ export default {
           }
           that.dataList.push(...res.data);
           that.sum = res.totalCount;
+          that.loading = false;
           // 清除上拉刷新状态
           that.refreshing = false;
           if (that.dataList.length >= res.totalCount) {
             // 结束上拉加载状态
             that.finished = true;
           }
+          console.log(that.finished, that.loading);
         } else {
           Toast.loading({
             message: res.errMessage,
@@ -180,8 +182,8 @@ export default {
     change(index) {
       this.indexTap = index;
       this.pageIndex = 1;
+      this.finished = false;
       this.dataList = [];
-      this.getList();
     },
     uploadFileToWx(typeId, obj, msgType, url) {
       Toast.loading({
