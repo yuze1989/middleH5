@@ -25,7 +25,6 @@ const routes = [
     meta: {
       tabbarshow: true,
       type: 1,
-      keepAlive: true,
     },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route

@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <keep-alive>
-     <router-view v-if="$route.meta.keepAlive" class="app-middle-content"/>
-    </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive" class="app-middle-content"/>
+    <router-view />
     <div v-if="$route.meta.type === 1">
       <bottom :url="$route.path" v-if="$route.meta.tabbarshow"></bottom>
     </div>
