@@ -25,6 +25,7 @@ const routes = [
     meta: {
       tabbarshow: true,
       type: 1,
+      keepAlive: true,
     },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -45,6 +46,7 @@ const routes = [
     meta: {
       tabbarshow: false,
       type: 2,
+      keepAlive: true,
     },
     component: () => import('../views/workbench.vue'),
   },
