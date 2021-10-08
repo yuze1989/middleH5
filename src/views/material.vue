@@ -137,14 +137,13 @@ export default {
           }
           that.dataList.push(...res.data);
           that.sum = res.totalCount;
-          if (that.dataList.length >= res.totalCount) {
-            // 结束上拉加载状态
-            that.finished = true;
-          }
           // 清除下拉刷新状态
           that.refreshing = false;
           that.loading = false;
-          console.log(that.refreshing, that.loading);
+          if (that.dataList.length === res.totalCount) {
+            // 结束上拉加载状态
+            that.finished = true;
+          }
         } else {
           Toast.loading({
             message: res.errMessage,
@@ -184,6 +183,9 @@ export default {
       this.pageIndex = 1;
       this.finished = false;
       this.dataList = [];
+      if (this.finished) {
+        this.getList();
+      }
     },
     uploadFileToWx(typeId, obj, msgType, url) {
       Toast.loading({
