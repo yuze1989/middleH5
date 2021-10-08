@@ -144,10 +144,8 @@ export default {
       store.dispatch('SETTYPE', index + 2);
       this.pageIndex = 1;
       this.dataList = [];
-      if (this.finished) {
-        this.onLoad();
-      }
       this.finished = false;
+      this.onLoad();
     },
   },
 };

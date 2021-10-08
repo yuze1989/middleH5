@@ -184,10 +184,8 @@ export default {
       this.indexTap = index;
       this.pageIndex = 1;
       this.dataList = [];
-      alert(this.finished);
-      if (!this.finished) {
-        this.onLoad();
-      }
+      this.finished = false;
+      this.onLoad();
     },
     uploadFileToWx(typeId, obj, msgType, url) {
       Toast.loading({
