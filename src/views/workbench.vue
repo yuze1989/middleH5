@@ -122,18 +122,18 @@ export default {
             that.dataList = [];
             // 停止上拉加载
             that.finished = true;
+            that.loading = false;
             return;
           }
           that.dataList.push(...res.data);
           that.sum = res.totalCount;
-          // 清除下拉刷新状态
-          that.refreshing = false;
-          that.loading = false;
           if (that.dataList.length >= res.totalCount) {
             // 结束上拉加载状态
             that.finished = true;
-            that.loading = false;
           }
+          // 清除下拉刷新状态
+          that.refreshing = false;
+          that.loading = false;
         } else {
           Toast(res.errMessage);
         }
