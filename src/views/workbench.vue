@@ -134,8 +134,6 @@ export default {
           // 清除下拉刷新状态
           that.refreshing = false;
           that.loading = false;
-          alert(that.loading);
-          alert(that.refreshing);
         } else {
           Toast(res.errMessage);
         }
