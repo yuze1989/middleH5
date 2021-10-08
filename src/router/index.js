@@ -106,6 +106,7 @@ router.beforeEach((to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
+    alert(options.batchNo);
     // localStorage.removeItem('token');
     const token = sessionStorage.getItem('token');
     let src = window.location.pathname;
