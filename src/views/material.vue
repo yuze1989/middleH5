@@ -183,6 +183,7 @@ export default {
       this.indexTap = index;
       this.pageIndex = 1;
       this.finished = false;
+      this.loading = false;
       this.dataList = [];
     },
     uploadFileToWx(typeId, obj, msgType, url) {
