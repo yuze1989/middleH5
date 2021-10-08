@@ -184,6 +184,7 @@ export default {
       this.indexTap = index;
       this.pageIndex = 1;
       this.dataList = [];
+      alert(this.finished);
       if (this.finished) {
         this.onLoad();
       }
