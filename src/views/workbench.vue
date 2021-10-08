@@ -134,6 +134,7 @@ export default {
           // 清除下拉刷新状态
           that.refreshing = false;
           that.loading = false;
+          console.log(that.loading, that.refreshing);
         } else {
           Toast(res.errMessage);
         }
@@ -144,7 +145,6 @@ export default {
       this.type = index;
       this.pageIndex = 1;
       this.finished = false;
-      this.loading = false;
       this.dataList = [];
     },
   },
