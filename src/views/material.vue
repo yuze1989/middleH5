@@ -123,7 +123,7 @@ export default {
       Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
         materialType: that.indexTap + 1,
         pageIndex: that.pageIndex,
-        pageSize: 5,
+        pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
         if (res.success) {
