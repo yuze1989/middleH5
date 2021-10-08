@@ -45,6 +45,7 @@
 <script>
 import { List, PullRefresh, Toast } from 'vant';
 import Http from '../utils/http';
+import store from '@/store';
 
 export default {
   components: {
@@ -111,7 +112,7 @@ export default {
     getList() {
       const that = this;
       Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
-        taskStatus: that.type + 2,
+        taskStatus: that.$store.state.type,
         pageIndex: that.pageIndex,
         pageSize: 20,
       }, '').then((res) => {
@@ -142,6 +143,7 @@ export default {
     // tab切换
     change(index) {
       this.type = index;
+      store.dispatch('SETTOKEN', this.type + 2);
       this.pageIndex = 1;
       this.finished = false;
       this.dataList = [];
