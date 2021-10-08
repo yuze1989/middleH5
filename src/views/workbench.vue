@@ -144,6 +144,7 @@ export default {
       this.type = index;
       this.pageIndex = 1;
       this.finished = false;
+      this.loading = false;
       this.dataList = [];
     },
   },
