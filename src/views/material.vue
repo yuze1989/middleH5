@@ -106,7 +106,6 @@ export default {
   methods: {
     onLoad() {
       this.getList();
-      this.pageIndex += 1;
     },
     onRefresh() {
       this.pageIndex = 1;
@@ -133,16 +132,19 @@ export default {
             // 停止上拉加载
             that.finished = true;
             that.loading = false;
-            return;
-          }
-          that.dataList.push(...res.data);
-          that.sum = res.totalCount;
-          // 清除下拉刷新状态
-          that.refreshing = false;
-          that.loading = false;
-          if (that.dataList.length === res.totalCount) {
-            // 结束上拉加载状态
-            that.finished = true;
+          } else {
+            that.dataList.push(...res.data);
+            if (that.pageIndex === 1) {
+              that.sum = res.totalCount;
+            }
+            // 清除下拉刷新状态
+            that.refreshing = false;
+            that.loading = false;
+            if (that.dataList.length === res.totalCount) {
+              // 结束上拉加载状态
+              that.finished = true;
+            }
+            that.pageIndex += 1;
           }
         } else {
           Toast.loading({
@@ -182,8 +184,10 @@ export default {
       this.indexTap = index;
       this.pageIndex = 1;
       this.dataList = [];
+      if (this.finished) {
+        this.onLoad();
+      }
       this.finished = false;
-      this.onLoad();
     },
     uploadFileToWx(typeId, obj, msgType, url) {
       Toast.loading({

@@ -8,7 +8,7 @@
     <div class="hr"></div>
     <div class="top-nav">
       <div v-for="(item,index) in nav" :key="index">
-        <div :class="{active: type === index}" @click="change(index)">
+        <div :class="{active: ($store.state.type-2) === index}" @click="change(index)">
           {{item}}
         </div>
       </div>
@@ -65,9 +65,6 @@ export default {
       sum: 0,
       // 头部选项卡
       nav: ['未完成', '已完成'],
-
-      // 选中的样式下标
-      type: 0,
     };
   },
   mounted() {
@@ -93,7 +90,6 @@ export default {
     },
     onLoad() {
       this.getList();
-      this.pageIndex += 1;
     },
     onRefresh() {
       this.pageIndex = 1;
@@ -111,7 +107,6 @@ export default {
     },
     getList() {
       const that = this;
-      alert(that.$store.state.type);
       Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
         taskStatus: that.$store.state.type,
         pageIndex: that.pageIndex,
@@ -125,17 +120,20 @@ export default {
             // 停止上拉加载
             that.finished = true;
             that.loading = false;
-            return;
+          } else {
+            that.dataList.push(...res.data);
+            if (that.pageIndex === 1) {
+              that.sum = res.totalCount;
+            }
+            if (that.dataList.length === res.totalCount) {
+              // 结束上拉加载状态
+              that.finished = true;
+            }
+            // 清除下拉刷新状态
+            that.refreshing = false;
+            that.loading = false;
+            that.pageIndex += 1;
           }
-          that.dataList.push(...res.data);
-          that.sum = res.totalCount;
-          if (that.dataList.length >= res.totalCount) {
-            // 结束上拉加载状态
-            that.finished = true;
-          }
-          // 清除下拉刷新状态
-          that.refreshing = false;
-          that.loading = false;
         } else {
           Toast(res.errMessage);
         }
@@ -143,13 +141,13 @@ export default {
     },
     // tab切换
     change(index) {
-      this.type = index;
-      store.dispatch('SETTYPE', this.type + 2);
-      alert(this.$store.state.type);
+      store.dispatch('SETTYPE', index + 2);
       this.pageIndex = 1;
-      this.finished = false;
       this.dataList = [];
-      this.onLoad();
+      if (this.finished) {
+        this.onLoad();
+      }
+      this.finished = false;
     },
   },
 };
