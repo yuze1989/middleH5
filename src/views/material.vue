@@ -140,7 +140,10 @@ export default {
             // 清除下拉刷新状态
             that.refreshing = false;
             that.loading = false;
-            that.finished = true;
+            if (that.dataList.length === res.totalCount) {
+              // 结束上拉加载状态
+              that.finished = true;
+            }
             that.pageIndex += 1;
           }
         } else {
@@ -181,8 +184,10 @@ export default {
       this.indexTap = index;
       this.pageIndex = 1;
       this.dataList = [];
+      if (!this.finished) {
+        this.onLoad();
+      }
       this.finished = false;
-      // this.onLoad();
     },
     uploadFileToWx(typeId, obj, msgType, url) {
       Toast.loading({
