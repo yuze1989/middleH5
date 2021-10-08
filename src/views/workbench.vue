@@ -143,7 +143,7 @@ export default {
     // tab切换
     change(index) {
       this.type = index;
-      store.dispatch('SETTOKEN', this.type + 2);
+      store.dispatch('SETTYPE', this.type + 2);
       this.pageIndex = 1;
       this.finished = false;
       this.dataList = [];
