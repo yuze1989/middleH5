@@ -4,7 +4,6 @@ import Http from '../utils/http';
 import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
 import Config from '../utils/config';
-import store from '@/store';
 import speechArt from '../views/speechArt.vue';
 
 Vue.use(VueRouter);
@@ -25,7 +24,6 @@ const routes = [
     meta: {
       tabbarshow: true,
       type: 1,
-      keepAlive: true,
     },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -143,11 +141,9 @@ router.beforeEach((to, form, next) => {
           }
           if (data.corpId) {
             sessionStorage.setItem('corpId', data.corpId);
-            store.dispatch('SETCORPID', data.corpId);
           }
           if (data.token) {
             sessionStorage.setItem('token', data.token);
-            store.dispatch('SETTOKEN', data.token);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {

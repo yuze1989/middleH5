@@ -1,7 +1,7 @@
 <template>
   <div class="box-bos">
     <ul>
-      <li :class="{'active':indexTap === index}" v-for="(item,index) in lists"
+      <li :class="{'active': $store.state.navType === index}" v-for="(item,index) in lists"
       :key="index" @click="change(index)">
         {{item.name}}
       </li>
@@ -16,8 +16,8 @@
           @click="goDetails(item)">
             <div class="left">
               <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
-              <img :src="item.materialEnclosureUrl" v-if="indexTap === 2">
-              <img :src="item.coverPicUrl || lists[indexTap].url" v-else>
+              <img :src="item.materialEnclosureUrl" v-if="$store.state.navType === 2">
+              <img :src="item.coverPicUrl || lists[$store.state.navType].url" v-else>
             </div>
             <div class="right">
               <div class="name">{{item.title}}</div>
@@ -40,6 +40,7 @@ import { List, PullRefresh, Toast } from 'vant';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
 import Config from '../utils/config';
+import store from '@/store';
 
 export default {
   components: {
@@ -115,11 +116,11 @@ export default {
     },
     getList() {
       const that = this;
-      if (that.indexTap === 0) {
+      if (that.$store.state.navType === 0) {
         that.snapshot = true;
       }
       Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
-        materialType: that.indexTap + 1,
+        materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
         pageSize: 20,
         snapshotFlag: that.snapshot,
@@ -156,7 +157,7 @@ export default {
       });
     },
     goDetails(obj) {
-      if (this.indexTap === 0) {
+      if (this.$store.state.navType === 0) {
         Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
           snapshotid: obj.id,
         }, '').then((res) => {
@@ -181,7 +182,8 @@ export default {
     },
     // tab切换
     change(index) {
-      this.indexTap = index;
+      store.dispatch('SETNACVTYPE', index);
+      console.log(this.$store.state.navType);
       this.pageIndex = 1;
       this.dataList = [];
       if (!this.finished) {
@@ -204,7 +206,7 @@ export default {
       if (this.shake) {
         return;
       }
-      const { type, materal } = this.lists[this.indexTap];
+      const { type, materal } = this.lists[this.$store.state.navType];
       if (msgType === 'news') {
         Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
           [materal]: obj.id,
@@ -235,7 +237,7 @@ export default {
       }
 
       Http.post('/scrm/comm/rest/marketing-material/upload-file-to-wx', {
-        materialType: typeId,
+        materialType: this.$store.state.navType,
         materialEnclosureId: obj.materialEnclosureId,
       }, '').then((res) => {
         console.log(res);
@@ -256,7 +258,7 @@ export default {
     // 分享
     share(obj) {
       const maxsize = 10 * 1024 * 1024;
-      let { msgType } = this.lists[this.indexTap];
+      let { msgType } = this.lists[this.$store.state.navType];
       this.shake = false;
       // 判断视频是否超过10m
       if (obj.fileSize >= maxsize && msgType === 'video') {
