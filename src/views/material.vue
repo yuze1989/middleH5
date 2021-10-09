@@ -57,8 +57,6 @@ export default {
       sum: 0,
       shake: false,
 
-      // 选中的下标
-      indexTap: 0,
       height: 0,
       // 头部选项卡
       lists: [
@@ -188,7 +186,6 @@ export default {
     change(index) {
       store.dispatch('SETNACVTYPE', index);
       sessionStorage.setItem('navType', index);
-      console.log(this.$store.state.navType);
       this.pageIndex = 1;
       this.dataList = [];
       if (!this.finished) {
@@ -196,7 +193,7 @@ export default {
       }
       this.finished = false;
     },
-    uploadFileToWx(typeId, obj, msgType, url) {
+    uploadFileToWx(obj, msgType, url) {
       Toast.loading({
         type: 'loading',
         duration: 0,
@@ -268,9 +265,9 @@ export default {
       // 判断视频是否超过10m
       if (obj.fileSize >= maxsize && msgType === 'video') {
         msgType = 'news';
-        this.uploadFileToWx(this.indexTap + 1, obj, msgType, obj.materialEnclosureUrl);
+        this.uploadFileToWx(obj, msgType, obj.materialEnclosureUrl);
       } else {
-        this.uploadFileToWx(this.indexTap + 1, obj, msgType, '');
+        this.uploadFileToWx(obj, msgType, '');
       }
     },
   },

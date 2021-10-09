@@ -115,6 +115,7 @@ router.beforeEach((to, form, next) => {
       if (sum > 1) {
         return;
       }
+      window.parent.close();
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
