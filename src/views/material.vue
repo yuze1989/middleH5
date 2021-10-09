@@ -119,7 +119,6 @@ export default {
       if (that.$store.state.navType === 0) {
         that.snapshot = true;
       }
-      alert(that.$store.state.navType);
       Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
         materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
