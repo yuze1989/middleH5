@@ -103,7 +103,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, form, next) => {
-  console.log(form);
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
@@ -119,6 +118,7 @@ router.beforeEach((to, form, next) => {
         return;
       }
       const sourceId = options.channel || '';
+      window.close();
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
       }&redirect_uri=${
