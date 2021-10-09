@@ -21,19 +21,17 @@ const Wechat = {
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
       success: () => {
         if (type === 1) {
-          alert(123);
-          wx.invoke('sendChatMessage', info, (msg) => {
-            alert(JSON.stringify(msg));
+          wx.invoke('sendChatMessage', info, () => {
           });
         } else {
           wx.invoke('openExistedChatWithMsg', info, () => {
-            console.log(22222);
           });
         }
         // 回调
       },
       fail: (res) => {
-        alert(JSON.stringify(res));
+        console.log(res.errMsg);
+        alert(res.errMsg);
         if (res.errMsg.indexOf('function not exist') > -1) {
           alert('版本过低请升级');
         }
