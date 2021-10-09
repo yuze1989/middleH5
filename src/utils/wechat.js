@@ -30,8 +30,6 @@ const Wechat = {
         // 回调
       },
       fail: (res) => {
-        console.log(res.errMsg);
-        alert(res.errMsg);
         if (res.errMsg.indexOf('function not exist') > -1) {
           alert('版本过低请升级');
         }
