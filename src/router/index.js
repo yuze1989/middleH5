@@ -119,6 +119,7 @@ router.beforeEach((to, form, next) => {
       }&redirect_uri=${
         encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo}`)
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
+      next();
       return;
     }
     if (!token && options.code) {
