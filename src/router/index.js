@@ -118,7 +118,6 @@ router.beforeEach((to, form, next) => {
         return;
       }
       const sourceId = options.channel || '';
-      window.close();
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
       }&redirect_uri=${
