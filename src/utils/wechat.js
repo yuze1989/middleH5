@@ -12,7 +12,7 @@ const Wechat = {
     wxSignature = res.data;
   },
   setAgentConfig: (info, type) => {
-    console.log(123);
+    alert(JSON.stringify(msg));
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
       agentid: sessionStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
@@ -20,7 +20,7 @@ const Wechat = {
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
-      success: (res) => {
+      success: () => {
         if (type === 1) {
           wx.invoke('sendChatMessage', info, (msg) => {
             alert(JSON.stringify(msg));
@@ -30,7 +30,6 @@ const Wechat = {
             console.log(msg);
           });
         }
-        console.log(res);
         // 回调
       },
       fail: (res) => {
