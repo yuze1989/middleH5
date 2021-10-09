@@ -102,6 +102,10 @@ export default {
   },
   mounted() {
     Wechat.setWxConfig();
+    const navType = sessionStorage.getItem('navType');
+    if (navType) {
+      store.dispatch('SETNACVTYPE', navType);
+    }
     this.height = document.documentElement.clientHeight - 150;
   },
   methods: {
@@ -183,6 +187,7 @@ export default {
     // tab切换
     change(index) {
       store.dispatch('SETNACVTYPE', index);
+      sessionStorage.setItem('navType', index);
       console.log(this.$store.state.navType);
       this.pageIndex = 1;
       this.dataList = [];
