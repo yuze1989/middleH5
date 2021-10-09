@@ -237,7 +237,7 @@ export default {
       }
 
       Http.post('/scrm/comm/rest/marketing-material/upload-file-to-wx', {
-        materialType: this.$store.state.navType,
+        materialType: this.$store.state.navType + 1,
         materialEnclosureId: obj.materialEnclosureId,
       }, '').then((res) => {
         console.log(res);
