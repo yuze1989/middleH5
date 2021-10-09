@@ -12,7 +12,7 @@ const Wechat = {
     wxSignature = res.data;
   },
   setAgentConfig: (info, type) => {
-    alert(JSON.stringify(msg));
+    alert(123);
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
       agentid: sessionStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
