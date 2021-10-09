@@ -103,9 +103,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, form, next) => {
-  alert(1);
   if (Env.getType().platformType === 'WX_GZ') {
-    alert(2);
     const url = window.location.href;
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('token');
