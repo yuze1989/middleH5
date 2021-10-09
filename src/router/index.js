@@ -150,7 +150,6 @@ router.beforeEach((to, form, next) => {
             sessionStorage.setItem('channel', options.channel);
           }
         }
-        next();
       }).finally(() => {
         next();
       });
