@@ -60,35 +60,49 @@ export default {
       height: 0,
       // 头部选项卡
       lists: [
-        { name: '文章', msgType: 'news', materal: 'snapshotId' },
-        { name: '链接', msgType: 'text', type: 'content' },
-        { name: '海报', msgType: 'image', type: 'mediaid' },
         {
-          name: '视频', msgType: 'video', type: 'mediaid', materal: 'materialId',
+          name: '文章', msgType: 'news', materal: 'snapshotId', headType: 'article',
+        },
+        {
+          name: '链接', msgType: 'text', type: 'content', headType: 'link',
+        },
+        {
+          name: '海报', msgType: 'image', type: 'mediaid', headType: 'posters',
+        },
+        {
+          name: '视频',
+          msgType: 'video',
+          type: 'mediaid',
+          materal: 'materialId',
+          headType: 'video',
         },
         {
           name: 'PDF',
           msgType: 'file',
           type: 'mediaid',
           url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png',
+          headType: 'pdf',
         },
         {
           name: 'PPT',
           msgType: 'file',
           type: 'mediaid',
           url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
+          headType: 'ppt',
         },
         {
           name: '表格',
           msgType: 'file',
           type: 'mediaid',
           url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
+          headType: 'excel',
         },
         {
           name: '文档',
           msgType: 'file',
           type: 'mediaid',
           url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
+          headType: 'word',
         },
       ],
       // 数据
@@ -118,10 +132,11 @@ export default {
     },
     getList() {
       const that = this;
+      const { headType } = that.lists[that.$store.state.navType];
       if (that.$store.state.navType === 0) {
         that.snapshot = true;
       }
-      Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
+      Http.post(`/scrm/material/list-marketing-material/${headType}`, {
         materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
         pageSize: 20,
