@@ -134,7 +134,8 @@ export default {
       alert(this.loading);
       if (this.dataList.length === this.sum) {
         this.finished = true;
-        this.loading = false;
+      } else {
+        this.finished = false;
       }
       this.dataList = [];
       this.onLoad();
