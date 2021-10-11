@@ -32,7 +32,7 @@
         </List>
       </div>
     </PullRefresh>
-    <jurisdiction :err="err" :type="errType" v-show="err"></jurisdiction>
+    <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 
@@ -119,7 +119,6 @@ export default {
   mounted() {
     Wechat.setWxConfig();
     const navType = parseInt(sessionStorage.getItem('navType'), 0);
-    this.errType = parseInt(this.$store.state.navType, 0);
     if (navType) {
       store.dispatch('SETNACVTYPE', navType);
     }
