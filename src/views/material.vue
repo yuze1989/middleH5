@@ -60,7 +60,7 @@ export default {
       // 提示数量
       sum: 0,
       shake: false,
-      err: '0100000005',
+      err: '',
       errType: 0,
       height: 0,
       // 头部选项卡
