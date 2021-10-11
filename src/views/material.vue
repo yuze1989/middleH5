@@ -8,7 +8,7 @@
       <li style="margin: 0;width: 10px;"></li>
     </ul>
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
-      <div class="content-box" :style="'min-height:' + height + 'px'">
+      <div class="content-box" :style="'min-height:' + height + 'px'" v-if="!err">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
          @load="onLoad" finished-text="没有更多了">
@@ -31,7 +31,9 @@
           </div>
         </List>
       </div>
+      <jurisdiction :err="err" :type="errType" v-if="err"></jurisdiction>
     </PullRefresh>
+
   </div>
 </template>
 
@@ -41,11 +43,13 @@ import Http from '../utils/http';
 import Wechat from '../utils/wechat';
 import Config from '../utils/config';
 import store from '@/store';
+import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
   components: {
     List,
     PullRefresh,
+    jurisdiction,
   },
   name: 'about',
   data() {
@@ -56,7 +60,8 @@ export default {
       // 提示数量
       sum: 0,
       shake: false,
-
+      err: '0100000005',
+      errType: 0,
       height: 0,
       // 头部选项卡
       lists: [
@@ -115,6 +120,7 @@ export default {
   mounted() {
     Wechat.setWxConfig();
     const navType = parseInt(sessionStorage.getItem('navType'), 0);
+    this.errType = parseInt(this.$store.state.navType, 0);
     if (navType) {
       store.dispatch('SETNACVTYPE', navType);
     }
@@ -165,6 +171,7 @@ export default {
             that.pageIndex += 1;
           }
         } else {
+          that.err = res.errCode;
           Toast.loading({
             message: res.errMessage,
             duration: 1000,

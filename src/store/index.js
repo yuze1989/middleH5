@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     type: 2,
     navType: 0,
+    errstate: 0,
   },
   mutations: {
     SETNACVTYPE(state, data) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     SETTYPE(state, data) {
       state.type = data;
     },
+    SETERRSTATE(state, data) {
+      state.errstate = data;
+    },
   },
   actions: {
     SETNACVTYPE({ commit }, data) {
@@ -22,6 +26,9 @@ export default new Vuex.Store({
     },
     SETTYPE({ commit }, data) {
       commit('SETTYPE', data);
+    },
+    SETERRSTATE({ commit }, data) {
+      commit('SETERRSTATE', data);
     },
   },
   modules: {
