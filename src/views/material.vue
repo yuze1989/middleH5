@@ -130,15 +130,16 @@ export default {
     },
     onRefresh() {
       this.pageIndex = 1;
-      alert(this.finished);
-      alert(this.loading);
+      this.dataList = [];
       if (this.dataList.length === this.sum) {
         this.finished = true;
       } else {
         this.finished = false;
       }
-      this.dataList = [];
-      this.onLoad();
+      alert(this.finished);
+      if (!this.finished) {
+        this.onLoad();
+      }
     },
     getList() {
       const that = this;
