@@ -184,10 +184,8 @@ export default {
           });
         }
       })
-        .catch((error) => {
-          if (error === {}) {
-            that.err = 'errCode';
-          }
+        .catch(() => {
+          that.err = 'errCode';
         });
     },
     goDetails(obj) {
