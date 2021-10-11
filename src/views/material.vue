@@ -7,7 +7,7 @@
       </li>
       <li style="margin: 0;width: 10px;"></li>
     </ul>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="whether">
+    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="!err">
       <div class="content-box" :style="'min-height:' + height + 'px'">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
@@ -32,7 +32,7 @@
         </List>
       </div>
     </PullRefresh>
-    <jurisdiction :err="err" :type="errType" v-show="!whether"></jurisdiction>
+    <jurisdiction :err="err" :type="errType" v-show="err"></jurisdiction>
   </div>
 </template>
 
@@ -60,7 +60,6 @@ export default {
       sum: 0,
       shake: false,
       err: '',
-      whether: true,
       errType: 0,
       height: 0,
       // 头部选项卡
@@ -139,7 +138,6 @@ export default {
     },
     getList() {
       const that = this;
-      that.whether = true;
       const { headType } = that.lists[that.$store.state.navType];
       if (that.$store.state.navType === 0) {
         that.snapshot = true;
@@ -151,6 +149,7 @@ export default {
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
         if (res.success) {
+          that.err = '';
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
             // 清空数组
@@ -173,8 +172,7 @@ export default {
             that.pageIndex += 1;
           }
         } else {
-          that.whether = false;
-          alert(that.whether);
+          that.err = res.errCode;
           Toast.loading({
             message: res.errMessage,
             duration: 1000,
