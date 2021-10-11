@@ -132,6 +132,7 @@ export default {
       this.pageIndex = 1;
       if (this.dataList.length === this.sum) {
         this.finished = true;
+        this.loading = false;
       }
       this.dataList = [];
       this.onLoad();
