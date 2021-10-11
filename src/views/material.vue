@@ -183,7 +183,7 @@ export default {
         }
       })
         .catch((error) => {
-          alert(error);
+          alert(JSON.stringify(error));
           that.err = 'errCode';
         });
     },
