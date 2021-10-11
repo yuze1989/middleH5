@@ -130,8 +130,7 @@ export default {
     },
     onRefresh() {
       this.pageIndex = 1;
-      this.finished = true;
-      this.loading = false;
+      this.finished = false;
       this.dataList = [];
       this.onLoad();
     },
