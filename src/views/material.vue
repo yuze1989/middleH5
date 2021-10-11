@@ -131,11 +131,7 @@ export default {
     onRefresh() {
       this.pageIndex = 1;
       this.dataList = [];
-      if (this.dataList.length === this.sum) {
-        this.finished = true;
-      } else {
-        this.finished = false;
-      }
+      this.finished = false;
       this.onLoad();
     },
     getList() {
@@ -147,7 +143,7 @@ export default {
       Http.post(`/scrm/material/list-marketing-material/${headType}`, {
         materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
-        pageSize: 20,
+        pageSize: 1,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
         if (res.success) {

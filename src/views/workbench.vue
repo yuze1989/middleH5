@@ -98,7 +98,7 @@ export default {
     onRefresh() {
       this.pageIndex = 1;
       this.dataList = [];
-      this.finished = true;
+      this.finished = false;
       this.onLoad();
     },
     go(id) {
