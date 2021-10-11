@@ -130,6 +130,7 @@ export default {
     },
     onRefresh() {
       this.pageIndex = 1;
+      alert(this.sum);
       if (this.dataList.length === this.sum) {
         this.finished = true;
         this.loading = false;
