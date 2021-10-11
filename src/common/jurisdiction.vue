@@ -29,6 +29,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.errorList[this.err]);
   },
   methods: {
 
