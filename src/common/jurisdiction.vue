@@ -1,8 +1,8 @@
 <template>
   <div class="box">
-    <img src="../assets/error.png" v-if="type === 1"/>
+    <img src="../assets/error.png" v-if="errorList[err] === 'errCode'"/>
     <img src="../assets/jurisdiction.png" v-else />
-    <div>{{type === 1 ? errorList[errCode] : errorList[err]}}</div>
+    <div>{{errorList[err]}}</div>
     <div v-if="type !== 1">请联系贵公司管理员</div>
   </div>
 </template>
@@ -14,7 +14,6 @@ export default {
   data() {
     return {
       msg: '',
-      type: 0,
       errorList: {
         '0100000005': '您没有操作权限，请联系您所在企业的管理员',
         '0100000006': '您没有访问权限，请联系您所在企业的管理员',
@@ -30,7 +29,6 @@ export default {
     },
   },
   mounted() {
-    this.type = parseInt(this.$store.state.navType, 0);
   },
   methods: {
 

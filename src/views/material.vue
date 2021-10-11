@@ -183,8 +183,9 @@ export default {
         }
       })
         .catch((error) => {
-          alert(JSON.stringify(error));
-          that.err = 'errCode';
+          if (!error) {
+            that.err = 'errCode';
+          }
         });
     },
     goDetails(obj) {

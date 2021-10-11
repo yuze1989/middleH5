@@ -1,7 +1,6 @@
 import axios from 'axios';
 // import Util from './util';
 // import Config from './config';
-import store from '@/store';
 
 const baseURL = process.env.NODE_ENV === 'production' ? 'https://test-scrm.juzhunshuyu.com' : '';
 const instance = axios.create({
@@ -11,11 +10,6 @@ const instance = axios.create({
 });
 // 请求拦截添加头部参数等
 instance.interceptors.request.use((config) => {
-  if (!window.navigator.onLine) {
-    store.dispatch('SETERRSTATE', 1);
-  } else {
-    store.dispatch('SETERRSTATE', 0);
-  }
   const globalOptStr = sessionStorage.getItem('globalOpt');
   const globalOpt = !globalOptStr ? {} : JSON.parse(globalOptStr);
   const configTemp = config;
@@ -25,7 +19,6 @@ instance.interceptors.request.use((config) => {
   configTemp.headers.token = token || 'mockToken';
   return config;
 }, (error) => {
-  store.dispatch('SETERRSTATE', 1);
   Promise.reject(error);
 });
 
