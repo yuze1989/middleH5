@@ -11,7 +11,7 @@ const instance = axios.create({
 });
 // 请求拦截添加头部参数等
 instance.interceptors.request.use((config) => {
-  if (!config) {
+  if (!window.navigator.onLine) {
     store.dispatch('SETERRSTATE', 1);
   } else {
     store.dispatch('SETERRSTATE', 0);
