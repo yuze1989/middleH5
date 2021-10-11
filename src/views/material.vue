@@ -134,7 +134,7 @@ export default {
       if (this.dataList.length === this.sum) {
         this.finished = true;
       } else {
-        this.finished = true;
+        this.finished = false;
       }
       this.onLoad();
     },
