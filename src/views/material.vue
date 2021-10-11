@@ -7,7 +7,7 @@
       </li>
       <li style="margin: 0;width: 10px;"></li>
     </ul>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="!err">
+    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="whether">
       <div class="content-box" :style="'min-height:' + height + 'px'">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
@@ -32,7 +32,7 @@
         </List>
       </div>
     </PullRefresh>
-    <jurisdiction :err="err" :type="errType" v-if="err"></jurisdiction>
+    <jurisdiction :err="err" :type="errType" v-else></jurisdiction>
   </div>
 </template>
 
@@ -60,6 +60,7 @@ export default {
       sum: 0,
       shake: false,
       err: '',
+      whether: true,
       errType: 0,
       height: 0,
       // 头部选项卡
@@ -132,6 +133,7 @@ export default {
     onRefresh() {
       this.pageIndex = 1;
       this.finished = true;
+      this.loading = false;
       this.dataList = [];
       this.onLoad();
     },
@@ -147,7 +149,7 @@ export default {
         pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
-        that.err = '';
+        that.whether = true;
         if (res.success) {
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
@@ -171,7 +173,7 @@ export default {
             that.pageIndex += 1;
           }
         } else {
-          that.err = res.errCode;
+          that.whether = false;
           Toast.loading({
             message: res.errMessage,
             duration: 1000,
