@@ -1,9 +1,9 @@
 <template>
   <div class="box">
-    <img src="../assets/error.png" v-if="errorList[err] === 'errCode'"/>
+    <img src="../assets/error.png" v-if="err === 'errCode'"/>
     <img src="../assets/jurisdiction.png" v-else />
     <div>{{errorList[err]}}</div>
-    <div v-if="type !== 1">请联系贵公司管理员</div>
+    <div v-if="err !== 'errCode'">请联系贵公司管理员</div>
   </div>
 </template>
 
