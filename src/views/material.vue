@@ -139,6 +139,7 @@ export default {
     },
     getList() {
       const that = this;
+      that.whether = true;
       const { headType } = that.lists[that.$store.state.navType];
       if (that.$store.state.navType === 0) {
         that.snapshot = true;
@@ -149,7 +150,6 @@ export default {
         pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
-        that.whether = true;
         if (res.success) {
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
@@ -174,6 +174,7 @@ export default {
           }
         } else {
           that.whether = false;
+          alert(that.whether);
           Toast.loading({
             message: res.errMessage,
             duration: 1000,
