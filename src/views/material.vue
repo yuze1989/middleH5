@@ -183,7 +183,11 @@ export default {
             type: 'fail',
           });
         }
-      });
+      })
+        .catch((error) => {
+          alert(error);
+          that.err = 'errCode';
+        });
     },
     goDetails(obj) {
       if (this.$store.state.navType === 0) {
