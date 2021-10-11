@@ -134,12 +134,9 @@ export default {
       if (this.dataList.length === this.sum) {
         this.finished = true;
       } else {
-        this.finished = false;
+        this.finished = true;
       }
-      alert(this.finished);
-      if (!this.finished) {
-        this.onLoad();
-      }
+      this.onLoad();
     },
     getList() {
       const that = this;
