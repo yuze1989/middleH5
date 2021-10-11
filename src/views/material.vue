@@ -184,7 +184,7 @@ export default {
         }
       })
         .catch((error) => {
-          if (!error) {
+          if (error === {}) {
             that.err = 'errCode';
           }
         });
