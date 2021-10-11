@@ -32,7 +32,7 @@
         </List>
       </div>
     </PullRefresh>
-    <jurisdiction :err="err" :type="errType" v-else></jurisdiction>
+    <jurisdiction :err="err" :type="errType" v-if="!whether"></jurisdiction>
   </div>
 </template>
 
