@@ -7,8 +7,8 @@
       </li>
       <li style="margin: 0;width: 10px;"></li>
     </ul>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh">
-      <div class="content-box" :style="'min-height:' + height + 'px'" v-if="!err">
+    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="!err">
+      <div class="content-box" :style="'min-height:' + height + 'px'">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
          @load="onLoad" finished-text="没有更多了">
@@ -31,9 +31,8 @@
           </div>
         </List>
       </div>
-      <jurisdiction :err="err" :type="errType" v-if="err"></jurisdiction>
     </PullRefresh>
-
+    <jurisdiction :err="err" :type="errType" v-if="err"></jurisdiction>
   </div>
 </template>
 
