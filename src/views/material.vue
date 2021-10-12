@@ -144,7 +144,7 @@ export default {
       Http.post(`/scrm/material/list-marketing-material/${headType}`, {
         materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
-        pageSize: 1,
+        pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
         if (res.success) {
