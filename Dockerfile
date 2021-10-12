@@ -2,7 +2,7 @@ FROM node:alpine as builder
 
 COPY . .
 
-RUN cnpm install
+RUN npm install
 RUN npm run build
 
 ARG ACTIVE=prod
