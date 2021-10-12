@@ -19,6 +19,15 @@ const routes = [
     },
   },
   {
+    path: '/speechArt',
+    name: 'speechArt',
+    component: speechArt,
+    meta: {
+      tabbarshow: true,
+      type: 1,
+    },
+  },
+  {
     path: '/material',
     name: 'material',
     meta: {
@@ -97,11 +106,11 @@ router.beforeEach((to, form, next) => {
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('token');
     const token = sessionStorage.getItem('token');
-    let src = window.location.pathname;
+    const src = window.location.pathname;
     if (!token && !options.code && options.appid) {
-      if (src.charAt(src.length - 1) === '/') {
-        src = src.substr(0, src.length - 1);
-      }
+      // if (src.charAt(src.length - 1) === '/') {
+      //   src = src.substr(0, src.length - 1);
+      // }
       const sum = +1;
       if (sum > 1) {
         return;
