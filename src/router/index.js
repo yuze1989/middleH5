@@ -19,6 +19,15 @@ const routes = [
     },
   },
   {
+    path: '/speechArt',
+    name: 'speechArt',
+    component: speechArt,
+    meta: {
+      tabbarshow: true,
+      type: 1,
+    },
+  },
+  {
     path: '/material',
     name: 'material',
     meta: {
