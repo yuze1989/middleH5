@@ -2,9 +2,8 @@ import axios from 'axios';
 // import Util from './util';
 // import Config from './config';
 
-const baseURL = process.env.NODE_ENV === 'production' ? 'https://test-scrm.juzhunshuyu.com' : '';
+const baseURL = process.env.NODE_ENV === 'production' ? 'https://scrm.juzhunshuyu.com' : 'https://test-scrm.juzhunshuyu.com';
 const instance = axios.create({
-  // baseURL: 'https://test-scrm.juzhunshuyu.com',
   timeout: 100000, // 请求超时时间
   baseURL,
 });
