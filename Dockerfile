@@ -2,7 +2,7 @@ FROM registry.cn-hangzhou.aliyuncs.com/jz-common/node:alpine as builder
 
 COPY . .
 
-RUN yarn install
+RUN yarn install --registry=https://registry.npm.taobao.org/
 RUN yarn run build
 
 ARG ACTIVE=prod
