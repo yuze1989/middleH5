@@ -1,19 +1,12 @@
 import axios from 'axios';
 // import Util from './util';
-import Config from './config';
+// import Config from './config';
 
-const baseURL = process.env.NODE_ENV === 'production' ? 'https://test-scrm.juzhunshuyu.com' : '';
+const baseURL = process.env.NODE_ENV === 'production' ? 'https://scrm.juzhunshuyu.com' : 'https://test-scrm.juzhunshuyu.com';
 const instance = axios.create({
-  // baseURL: 'https://test-scrm.juzhunshuyu.com',
   timeout: 100000, // 请求超时时间
   baseURL,
 });
-const errorList = {
-  '0100000005': ['您没有操作权限，请联系您所在企业的管理员', 0],
-  '0100000006': ['您没有访问权限，请联系您所在企业的管理员', 0],
-  '0100000007': ['您没有访问权限，请联系您所在企业的管理员', 0],
-  errCode: ['检查网络情况后 再尝试访问', 1],
-};
 // 请求拦截添加头部参数等
 instance.interceptors.request.use((config) => {
   const globalOptStr = sessionStorage.getItem('globalOpt');
@@ -33,19 +26,18 @@ instance.interceptors.response.use(
   (response) => {
     const { data } = response;
     // Util.go(data.errCode);
-    if (errorList[data.errCode]) {
-      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=
-      ${errorList[data.errCode][0]}&type=${errorList[data.errCode][1]}`;
-    }
+    // if (errorList[data.errCode]) {
+    //   window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=
+    //   ${errorList[data.errCode][0]}&type=${errorList[data.errCode][1]}`;
+    // }
     return data;
   },
   // (response) => (response.data),
   (error) => {
-    // Util.go('errCode');
-    if (errorList.errCode) {
-      window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=
-      ${errorList.errCode[0]}&type=${errorList.errCode[1]}`;
-    }
+    // if (errorList.errCode) {
+    //   window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=
+    //   ${errorList.errCode[0]}&type=${errorList.errCode[1]}`;
+    // }
     Promise.reject(error);
   },
 );

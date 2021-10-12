@@ -1,13 +1,13 @@
 <template>
   <div class="box-bos">
     <ul>
-      <li :class="{'active':indexTap === index}" v-for="(item,index) in lists"
+      <li :class="{'active': $store.state.navType === index}" v-for="(item,index) in lists"
       :key="index" @click="change(index)">
         {{item.name}}
       </li>
       <li style="margin: 0;width: 10px;"></li>
     </ul>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh">
+    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="!err">
       <div class="content-box" :style="'min-height:' + height + 'px'">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
@@ -16,8 +16,8 @@
           @click="goDetails(item)">
             <div class="left">
               <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
-              <img :src="item.materialEnclosureUrl" v-if="indexTap === 2">
-              <img :src="item.coverPicUrl || lists[indexTap].url" v-else>
+              <img :src="item.materialEnclosureUrl" v-if="$store.state.navType === 2">
+              <img :src="item.coverPicUrl || lists[$store.state.navType].url" v-else>
             </div>
             <div class="right">
               <div class="name">{{item.title}}</div>
@@ -32,6 +32,7 @@
         </List>
       </div>
     </PullRefresh>
+    <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 
@@ -40,11 +41,14 @@ import { List, PullRefresh, Toast } from 'vant';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
 import Config from '../utils/config';
+import store from '@/store';
+import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
   components: {
     List,
     PullRefresh,
+    jurisdiction,
   },
   name: 'about',
   data() {
@@ -55,41 +59,54 @@ export default {
       // 提示数量
       sum: 0,
       shake: false,
-
-      // 选中的下标
-      indexTap: 0,
+      err: '',
+      errType: 0,
       height: 0,
       // 头部选项卡
       lists: [
-        { name: '文章', msgType: 'news', materal: 'snapshotId' },
-        { name: '链接', msgType: 'text', type: 'content' },
-        { name: '海报', msgType: 'image', type: 'mediaid' },
         {
-          name: '视频', msgType: 'video', type: 'mediaid', materal: 'materialId',
+          name: '文章', msgType: 'news', materal: 'snapshotId', headType: 'article',
+        },
+        {
+          name: '链接', msgType: 'text', type: 'content', headType: 'link',
+        },
+        {
+          name: '海报', msgType: 'image', type: 'mediaid', headType: 'posters',
+        },
+        {
+          name: '视频',
+          msgType: 'video',
+          type: 'mediaid',
+          materal: 'materialId',
+          headType: 'video',
         },
         {
           name: 'PDF',
           msgType: 'file',
           type: 'mediaid',
           url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png',
+          headType: 'pdf',
         },
         {
           name: 'PPT',
           msgType: 'file',
           type: 'mediaid',
           url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
+          headType: 'ppt',
         },
         {
           name: '表格',
           msgType: 'file',
           type: 'mediaid',
           url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
+          headType: 'excel',
         },
         {
           name: '文档',
           msgType: 'file',
           type: 'mediaid',
           url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
+          headType: 'word',
         },
       ],
       // 数据
@@ -101,6 +118,10 @@ export default {
   },
   mounted() {
     Wechat.setWxConfig();
+    const navType = parseInt(sessionStorage.getItem('navType'), 0);
+    if (navType) {
+      store.dispatch('SETNACVTYPE', navType);
+    }
     this.height = document.documentElement.clientHeight - 150;
   },
   methods: {
@@ -109,22 +130,24 @@ export default {
     },
     onRefresh() {
       this.pageIndex = 1;
-      this.finished = true;
       this.dataList = [];
+      this.finished = false;
       this.onLoad();
     },
     getList() {
       const that = this;
-      if (that.indexTap === 0) {
+      const { headType } = that.lists[that.$store.state.navType];
+      if (that.$store.state.navType === 0) {
         that.snapshot = true;
       }
-      Http.post('/scrm/comm/rest/marketing-material/list-marketing-material', {
-        materialType: that.indexTap + 1,
+      Http.post(`/scrm/material/list-marketing-material/${headType}`, {
+        materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
-        pageSize: 20,
+        pageSize: 1,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
         if (res.success) {
+          that.err = '';
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
             // 清空数组
@@ -147,16 +170,20 @@ export default {
             that.pageIndex += 1;
           }
         } else {
+          that.err = res.errCode;
           Toast.loading({
             message: res.errMessage,
             duration: 1000,
             type: 'fail',
           });
         }
-      });
+      })
+        .catch(() => {
+          that.err = 'errCode';
+        });
     },
     goDetails(obj) {
-      if (this.indexTap === 0) {
+      if (this.$store.state.navType === 0) {
         Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
           snapshotid: obj.id,
         }, '').then((res) => {
@@ -181,7 +208,8 @@ export default {
     },
     // tab切换
     change(index) {
-      this.indexTap = index;
+      store.dispatch('SETNACVTYPE', index);
+      sessionStorage.setItem('navType', index);
       this.pageIndex = 1;
       this.dataList = [];
       if (!this.finished) {
@@ -189,7 +217,7 @@ export default {
       }
       this.finished = false;
     },
-    uploadFileToWx(typeId, obj, msgType, url) {
+    uploadFileToWx(obj, msgType, url) {
       Toast.loading({
         type: 'loading',
         duration: 0,
@@ -204,7 +232,7 @@ export default {
       if (this.shake) {
         return;
       }
-      const { type, materal } = this.lists[this.indexTap];
+      const { type, materal } = this.lists[this.$store.state.navType];
       if (msgType === 'news') {
         Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
           [materal]: obj.id,
@@ -235,7 +263,7 @@ export default {
       }
 
       Http.post('/scrm/comm/rest/marketing-material/upload-file-to-wx', {
-        materialType: typeId,
+        materialType: this.$store.state.navType + 1,
         materialEnclosureId: obj.materialEnclosureId,
       }, '').then((res) => {
         console.log(res);
@@ -256,14 +284,14 @@ export default {
     // 分享
     share(obj) {
       const maxsize = 10 * 1024 * 1024;
-      let { msgType } = this.lists[this.indexTap];
+      let { msgType } = this.lists[this.$store.state.navType];
       this.shake = false;
       // 判断视频是否超过10m
       if (obj.fileSize >= maxsize && msgType === 'video') {
         msgType = 'news';
-        this.uploadFileToWx(this.indexTap + 1, obj, msgType, obj.materialEnclosureUrl);
+        this.uploadFileToWx(obj, msgType, obj.materialEnclosureUrl);
       } else {
-        this.uploadFileToWx(this.indexTap + 1, obj, msgType, '');
+        this.uploadFileToWx(obj, msgType, '');
       }
     },
   },

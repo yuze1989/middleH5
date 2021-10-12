@@ -68,6 +68,10 @@ export default {
     };
   },
   mounted() {
+    const type = parseInt(sessionStorage.getItem('type'), 0);
+    if (type) {
+      store.dispatch('SETTYPE', type);
+    }
     this.height = document.documentElement.clientHeight - 140;
   },
   methods: {
@@ -94,7 +98,7 @@ export default {
     onRefresh() {
       this.pageIndex = 1;
       this.dataList = [];
-      this.finished = true;
+      this.finished = false;
       this.onLoad();
     },
     go(id) {
@@ -142,6 +146,7 @@ export default {
     // tab切换
     change(index) {
       store.dispatch('SETTYPE', index + 2);
+      sessionStorage.setItem('type', index + 2);
       this.pageIndex = 1;
       this.dataList = [];
       if (!this.finished) {

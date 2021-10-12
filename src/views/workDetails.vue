@@ -21,7 +21,7 @@
     <div class="content">
       <div class="content-tip" style="border: none;">推送内容</div>
       <div class="flex" v-for="(item,index) in dataList.sopRuleContentList" :key="index"
-      @click="copy(item)">
+      >
         <div class="left">
           <i class="iconfont icon-wenzi" v-if="item.contentType === 1"></i>
           <i class="iconfont icon-tupian" v-if="item.contentType === 2"></i>
@@ -34,7 +34,7 @@
               <span v-if="item.contentType === 2">图片</span>
               <span v-if="item.contentType === 3">链接</span>
             </div>
-            <div class="copy">
+            <div class="copy" @click="copy(item)">
               <i class="iconfont icon-fuzhi"></i>
               <span>复制</span>
              </div>

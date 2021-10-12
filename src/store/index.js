@@ -5,30 +5,23 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    corpid: '',
-    token: '',
     type: 2,
+    navType: 0,
   },
   mutations: {
-    SETCORPID(state, data) {
-      state.corpid = data;
+    SETNACVTYPE(state, data) {
+      state.navType = data;
     },
     SETTYPE(state, data) {
       state.type = data;
     },
-    SETTOKEN(state, data) {
-      state.token = data;
-    },
   },
   actions: {
-    SETCORPID({ commit }, data) {
-      commit('SETCORPID', data);
+    SETNACVTYPE({ commit }, data) {
+      commit('SETNACVTYPE', data);
     },
     SETTYPE({ commit }, data) {
       commit('SETTYPE', data);
-    },
-    SETTOKEN({ commit }, data) {
-      commit('SETTOKEN', data);
     },
   },
   modules: {

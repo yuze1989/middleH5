@@ -19,16 +19,8 @@ const Wechat = {
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
-      success: (res) => {
-        if (type === 1) {
-          wx.invoke('sendChatMessage', info, () => {
-          });
-        } else {
-          wx.invoke('openExistedChatWithMsg', info, (msg) => {
-            console.log(msg);
-          });
-        }
-        console.log(res);
+      success: () => {
+        wx.invoke(type === 1 ? 'sendChatMessage' : 'openExistedChatWithMsg', info, () => {});
         // 回调
       },
       fail: (res) => {
@@ -64,7 +56,7 @@ const Wechat = {
       success: (res) => {
         // window.isSetWxconfig = true // 在window中添加isSetWxconfig,判断是否进行页面刷新
         console.log('检查jsapi==', res);
-        alert(JSON.stringify(res));
+        // alert(JSON.stringify(res));
         // 以键值对的形式返回，可用的api值true，不可用为false
         // 如：{'checkResult':{'chooseImage':true},'errMsg':'checkJsApi:ok'}
       },

@@ -4,7 +4,6 @@ import Http from '../utils/http';
 import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
 import Config from '../utils/config';
-import store from '@/store';
 import speechArt from '../views/speechArt.vue';
 
 Vue.use(VueRouter);
@@ -20,12 +19,20 @@ const routes = [
     },
   },
   {
+    path: '/speechArt',
+    name: 'speechArt',
+    component: speechArt,
+    meta: {
+      tabbarshow: true,
+      type: 1,
+    },
+  },
+  {
     path: '/material',
     name: 'material',
     meta: {
       tabbarshow: true,
       type: 1,
-      keepAlive: true,
     },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -85,15 +92,6 @@ const routes = [
     },
     component: () => import('../views/workDetails.vue'),
   },
-  {
-    path: '/jurisdiction',
-    name: 'jurisdiction',
-    meta: {
-      tabbarshow: false,
-      type: 2,
-    },
-    component: () => import('../views/jurisdiction.vue'),
-  },
 ];
 
 const router = new VueRouter({
@@ -108,16 +106,20 @@ router.beforeEach((to, form, next) => {
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('token');
     const token = sessionStorage.getItem('token');
-    let src = window.location.pathname;
+    const src = window.location.pathname;
     if (!token && !options.code && options.appid) {
-      if (src.charAt(src.length - 1) === '/') {
-        src = src.substr(0, src.length - 1);
+      // if (src.charAt(src.length - 1) === '/') {
+      //   src = src.substr(0, src.length - 1);
+      // }
+      const sum = +1;
+      if (sum > 1) {
+        return;
       }
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
       }&redirect_uri=${
-        encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}`)
+        encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo}`)
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
@@ -128,7 +130,6 @@ router.beforeEach((to, form, next) => {
         channel: options.channel,
       }).then((res) => {
         const { success, data } = res;
-        console.log(data);
         if (success) {
           sessionStorage.setItem('unionId', data.unionid);
           sessionStorage.setItem('openid', data.openid);
@@ -140,11 +141,9 @@ router.beforeEach((to, form, next) => {
           }
           if (data.corpId) {
             sessionStorage.setItem('corpId', data.corpId);
-            store.dispatch('SETCORPID', data.corpId);
           }
           if (data.token) {
             sessionStorage.setItem('token', data.token);
-            store.dispatch('SETTOKEN', data.token);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {
