@@ -69,7 +69,7 @@ export default {
           content: item.text, // 文本内容
         },
       };
-      Wechat.sendChatMessage(data, 1, item.id);
+      Wechat.sendChatMessage(data, item.id);
       this.shake = true;
       Toast.loading({
         duration: 1,

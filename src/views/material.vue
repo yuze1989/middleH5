@@ -250,7 +250,7 @@ export default {
               duration: 1,
             });
 
-            Wechat.sendChatMessage(data, 1);
+            Wechat.sendChatMessage(data);
           } else {
             Toast.loading({
               message: res.errMessage,
@@ -274,7 +274,7 @@ export default {
             [type]: type === 'content' ? obj.content : res.data,
           },
         };
-        Wechat.sendChatMessage(data, 1);
+        Wechat.sendChatMessage(data);
         this.shake = true;
         Toast.loading({
           duration: 1,
