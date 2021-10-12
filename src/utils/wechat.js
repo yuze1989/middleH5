@@ -20,10 +20,8 @@ const Wechat = {
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
       success: () => {
-        wx.invoke(type === 1 ? 'sendChatMessage' : 'openExistedChatWithMsg', info, (res) => {
-          alert(id);
-          if (res.err_msg === 'openExistedChatWithMsg:ok' && id) {
-            alert(1);
+        wx.invoke(type === 1 ? 'sendChatMessage' : 'openExistedChatWithMsg', info, () => {
+          if (id) {
             // 记录话术分享次数
             Http.post('/scrm/comm/rest/speech/speech-send', {
               speechId: id,
