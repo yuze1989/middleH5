@@ -5,6 +5,12 @@ COPY . .
 RUN yarn install --registry=http://mirrors.tencentyun.com/npm
 RUN yarn run build
 
+ARG ACTIVE=prod
+
+ENV ACTIVE ${ACTIVE}
+
+COPY ./public/nginx-${ACTIVE}.conf  /dist/nginx.conf
+
 WORKDIR /dist
 
 # 选择更小体积的基础镜像
