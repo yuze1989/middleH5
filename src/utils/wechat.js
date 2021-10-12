@@ -21,9 +21,7 @@ const Wechat = {
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
       success: () => {
         wx.invoke(type === 1 ? 'sendChatMessage' : 'openExistedChatWithMsg', info, (res) => {
-          alert(id);
           if (res.err_msg === 'openExistedChatWithMsg:ok' && id) {
-            alert(1);
             // 记录话术分享次数
             Http.post('/scrm/comm/rest/speech/speech-send', {
               speechId: id,
@@ -39,8 +37,8 @@ const Wechat = {
       },
     });
   },
-  sendChatMessage: (info) => {
-    Wechat.setAgentConfig(info, 1);
+  sendChatMessage: (info, id) => {
+    Wechat.setAgentConfig(info, 1, id);
   },
   openExistedChatWithMsg: (info) => {
     Wechat.setAgentConfig(info, 2);
