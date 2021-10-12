@@ -111,10 +111,10 @@ router.beforeEach((to, form, next) => {
       // if (src.charAt(src.length - 1) === '/') {
       //   src = src.substr(0, src.length - 1);
       // }
-      const sum = +1;
-      if (sum > 1) {
-        return;
-      }
+      // const sum = +1;
+      // if (sum > 1) {
+      //   return;
+      // }
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid

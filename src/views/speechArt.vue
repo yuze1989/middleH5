@@ -62,15 +62,14 @@ export default {
     stop() {},
     // 分享
     share(item) {
-      const obj = item;
       const data = {
         msgtype: 'text',
         enterChat: true,
         text: {
-          content: obj.text, // 文本内容
+          content: item.text, // 文本内容
         },
       };
-      Wechat.sendChatMessage(data, 1);
+      Wechat.sendChatMessage(data, 1, item.id);
       this.shake = true;
       Toast.loading({
         duration: 1,
