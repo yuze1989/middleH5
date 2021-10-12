@@ -132,6 +132,7 @@ export default {
       this.pageIndex = 1;
       this.dataList = [];
       this.finished = false;
+      this.loading = true;
       this.onLoad();
     },
     getList() {

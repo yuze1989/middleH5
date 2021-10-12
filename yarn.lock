@@ -9414,7 +9414,7 @@
     "spdx-correct" "^3.0.0"
     "spdx-expression-parse" "^3.0.0"
 
-"vant@^2.12.27":
+"vant@^2.12.29":
   "integrity" "sha512-LFLShCM6TFGv2yfDqBDQRuTd7vS7LjmsHpdJLbmyt1rqtGU1yOamtIgMVvvjKluqg5FoIvcBjaO94p6lKAf9NQ=="
   "resolved" "https://registry.npmjs.org/vant/-/vant-2.12.29.tgz"
   "version" "2.12.29"
