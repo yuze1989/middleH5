@@ -2,7 +2,7 @@ FROM registry.cn-hangzhou.aliyuncs.com/jz-common/node:alpine as builder
 
 COPY . .
 
-RUN yarn install --registry=http://mirrors.tencentyun.com/npm
+RUN yarn install
 RUN yarn run build
 
 ARG ACTIVE=prod
