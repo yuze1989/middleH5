@@ -1,0 +1,32 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: middleh5-nginx-${ACTIVE}
+  namespace: scrm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: middleh5-nginx-${ACTIVE}
+  template:
+    metadata:
+      labels:
+        app: middleh5-nginx-${ACTIVE}
+    spec:
+      containers:
+        - name: middleh5-nginx-${ACTIVE}
+          image: ${IMAGE}
+          imagePullPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: scrm
+  name: middleh5-nginx-${ACTIVE}
+spec:
+  selector:
+    app: middleh5-nginx-${ACTIVE}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
