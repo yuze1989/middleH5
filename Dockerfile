@@ -2,8 +2,8 @@ FROM node:alpine as builder
 
 COPY . .
 
-RUN yarn install --registry=http://mirrors.tencentyun.com/npm
-RUN yarn run build
+RUN cnpm install
+RUN npm run build
 
 ARG ACTIVE=prod
 
