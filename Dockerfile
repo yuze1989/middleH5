@@ -1,9 +1,9 @@
-FROM node:alpine as builder
+FROM registry.cn-hangzhou.aliyuncs.com/jz-common/node:alpine as builder
 
 COPY . .
 
-RUN npm install
-RUN npm run build
+RUN yarn install --registry=http://mirrors.tencentyun.com/npm
+RUN yarn run build
 
 ARG ACTIVE=prod
 
@@ -14,7 +14,7 @@ COPY ./public/nginx-${ACTIVE}.conf  /dist/nginx.conf
 WORKDIR /dist
 
 # 选择更小体积的基础镜像
-FROM nginx:alpine
+FROM registry.cn-hangzhou.aliyuncs.com/jz-common/nginx:alpine
 
 COPY --from=builder /dist /usr/share/nginx/html
 
