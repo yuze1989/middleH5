@@ -114,49 +114,48 @@ router.beforeEach((to, form, next) => {
       return;
     }
     // if (!token && !options.code && options.appid) {
-    setTimeout(() => {
-      if (!token && options.appid && options.appid !== corpId && !options.code) {
-        const sourceId = options.channel || '';
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
-          options.appid
-        }&redirect_uri=${
-          encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo || ''}`)
-        }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
-        return;
-      }
-      if (!token && options.code) {
-        Http.post('/scrm/wechat/get-oauth-user-info', {
-          corpId: options.appid,
-          code: options.code,
-          channel: options.channel,
-        }).then((res) => {
-          const { success, data } = res;
-          if (success) {
-            localStorage.setItem('unionId', data.unionid);
-            localStorage.setItem('openid', data.openid);
-            if (data.userId) {
-              localStorage.setItem('userId', data.userId);
-            }
-            if (data.agentId) {
-              localStorage.setItem('agentId', data.agentId);
-            }
-            if (data.corpId) {
-              localStorage.setItem('corpId', data.corpId);
-            }
-            if (data.token) {
-              localStorage.setItem('token', data.token);
-            }
-            localStorage.setItem('wxInfo', JSON.stringify(res.data));
-            if (options.channel) {
-              localStorage.setItem('channel', options.channel);
-            }
+    if (!token && options.appid && options.appid !== corpId && !options.code) {
+      const sourceId = options.channel || '';
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
+        options.appid
+      }&redirect_uri=${
+        encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo || ''}`)
+      }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
+      return;
+    }
+    if (!token && options.code) {
+      Http.post('/scrm/wechat/get-oauth-user-info', {
+        corpId: options.appid,
+        code: options.code,
+        channel: options.channel,
+      }).then((res) => {
+        const { success, data } = res;
+        if (success) {
+          localStorage.setItem('unionId', data.unionid);
+          localStorage.setItem('openid', data.openid);
+          if (data.userId) {
+            localStorage.setItem('userId', data.userId);
           }
-          next();
-        }).finally(() => {
-          next();
-        });
-      }
-    }, 500);
+          if (data.agentId) {
+            localStorage.setItem('agentId', data.agentId);
+          }
+          if (data.corpId) {
+            localStorage.setItem('corpId', data.corpId);
+          }
+          if (data.token) {
+            localStorage.setItem('token', data.token);
+          }
+          localStorage.setItem('wxInfo', JSON.stringify(res.data));
+          if (options.channel) {
+            localStorage.setItem('channel', options.channel);
+          }
+        }
+        next();
+      }).finally(() => {
+        next();
+      });
+      return;
+    }
     // return;
   }
   next();
