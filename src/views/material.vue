@@ -123,8 +123,15 @@ export default {
       store.dispatch('SETNACVTYPE', navType);
     }
     this.height = document.documentElement.clientHeight - 150;
+    window.addEventListener('beforeunload', (e) => this.beforeunloadHandler(e));
+  },
+  destroyed() {
+    window.removeEventListener('beforeunload', (e) => this.beforeunloadHandler(e));
   },
   methods: {
+    beforeunloadHandler(e) {
+      console.log(e);
+    },
     onLoad() {
       this.getList();
     },
