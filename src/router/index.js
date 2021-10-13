@@ -100,7 +100,7 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, form, next) => {
+router.beforeEach(async (to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     // localStorage.removeItem('token');
@@ -124,39 +124,33 @@ router.beforeEach((to, form, next) => {
       return;
     }
     if (!token && options.code) {
-      Http.post('/scrm/wechat/get-oauth-user-info', {
+      const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
         code: options.code,
         channel: options.channel,
-      }).then((res) => {
-        const { success, data } = res;
-        if (success) {
-          localStorage.setItem('unionId', data.unionid);
-          localStorage.setItem('openid', data.openid);
-          if (data.userId) {
-            localStorage.setItem('userId', data.userId);
-          }
-          if (data.agentId) {
-            localStorage.setItem('agentId', data.agentId);
-          }
-          if (data.corpId) {
-            localStorage.setItem('corpId', data.corpId);
-          }
-          if (data.token) {
-            localStorage.setItem('token', data.token);
-          }
-          localStorage.setItem('wxInfo', JSON.stringify(res.data));
-          if (options.channel) {
-            localStorage.setItem('channel', options.channel);
-          }
-        }
-        next();
-      }).finally(() => {
-        next();
       });
-      return;
+      const { success, data } = res;
+      if (success) {
+        localStorage.setItem('unionId', data.unionid);
+        localStorage.setItem('openid', data.openid);
+        if (data.userId) {
+          localStorage.setItem('userId', data.userId);
+        }
+        if (data.agentId) {
+          localStorage.setItem('agentId', data.agentId);
+        }
+        if (data.corpId) {
+          localStorage.setItem('corpId', data.corpId);
+        }
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
+        localStorage.setItem('wxInfo', JSON.stringify(res.data));
+        if (options.channel) {
+          localStorage.setItem('channel', options.channel);
+        }
+      }
     }
-    // return;
   }
   next();
 });
