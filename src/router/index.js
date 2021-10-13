@@ -115,7 +115,7 @@ router.beforeEach((to, form, next) => {
       }).then((res) => {
         const { success, data } = res;
         console.log(success);
-        alert(success);
+        console.log(data);
         if (success) {
           sessionStorage.setItem('unionId', data.unionid);
           sessionStorage.setItem('openid', data.openid);
