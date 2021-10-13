@@ -153,7 +153,7 @@ router.beforeEach((to, form, next) => {
       });
       return;
     }
-    if (options.appid !== corpId && token) {
+    if (options.appid !== corpId && token && !options.code) {
       localStorage.clear();
       return;
     }
