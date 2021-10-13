@@ -63,7 +63,6 @@ export default {
       Http.post('/scrm/h5/marketing-material/get-by-share-id', {
         shareId: that.id,
       }, '').then((res) => {
-        // alert(JSON.stringify(res));
         if (res.success) {
           that.data = res.data;
           document.title = res.data.title;
