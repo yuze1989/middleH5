@@ -108,10 +108,6 @@ router.beforeEach((to, form, next) => {
     const token = localStorage.getItem('token');
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
-    if (options.appid !== corpId && token && !options.code) {
-      localStorage.clear();
-      return;
-    }
     // if (!token && !options.code && options.appid) {
     if (!token && options.appid && options.appid !== corpId && !options.code) {
       const sourceId = options.channel || '';
@@ -121,6 +117,9 @@ router.beforeEach((to, form, next) => {
         encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo || ''}`)
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
+    }
+    if (options.appid !== corpId && token && !options.code) {
+      localStorage.clear();
     }
     if (!token && options.code) {
       Http.post('/scrm/wechat/get-oauth-user-info', {
@@ -155,6 +154,7 @@ router.beforeEach((to, form, next) => {
       });
       return;
     }
+
     // return;
   }
   next();
