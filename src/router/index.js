@@ -105,17 +105,14 @@ router.beforeEach((to, form, next) => {
     const url = window.location.href;
     // localStorage.removeItem('token');
     const options = Util.getUrlOption(url);
+    localStorage.clear();
     const token = localStorage.getItem('token');
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
     // if (!token && !options.code && options.appid) {
-    alert(options.appid);
-    alert(corpId);
     console.log(options.appid, corpId);
     if (!token && options.appid && options.appid !== corpId && !options.code) {
-      alert(1);
       localStorage.clear();
-      alert(corpId);
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
