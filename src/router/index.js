@@ -83,6 +83,15 @@ const routes = [
     },
     component: () => import('../views/workDetails.vue'),
   },
+  {
+    path: '/portraitDetails',
+    name: 'portraitDetails',
+    meta: {
+      tabbarshow: false,
+      type: 2,
+    },
+    component: () => import('../views/portraitDetails.vue'),
+  },
 ];
 
 const router = new VueRouter({
@@ -97,9 +106,11 @@ router.beforeEach((to, form, next) => {
     console.log(url);
     const options = Util.getUrlOption(url);
     // localStorage.removeItem('token');
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
-    if (!token && !options.code && options.appid) {
+    // if (!token && !options.code && options.appid) {
+    if (options.appid === corpId) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
@@ -116,23 +127,23 @@ router.beforeEach((to, form, next) => {
       }).then((res) => {
         const { success, data } = res;
         if (success) {
-          sessionStorage.setItem('unionId', data.unionid);
-          sessionStorage.setItem('openid', data.openid);
+          localStorage.setItem('unionId', data.unionid);
+          localStorage.setItem('openid', data.openid);
           if (data.userId) {
-            sessionStorage.setItem('userId', data.userId);
+            localStorage.setItem('userId', data.userId);
           }
           if (data.agentId) {
-            sessionStorage.setItem('agentId', data.agentId);
+            localStorage.setItem('agentId', data.agentId);
           }
           if (data.corpId) {
-            sessionStorage.setItem('corpId', data.corpId);
+            localStorage.setItem('corpId', data.corpId);
           }
           if (data.token) {
-            sessionStorage.setItem('token', data.token);
+            localStorage.setItem('token', data.token);
           }
-          sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
+          localStorage.setItem('wxInfo', JSON.stringify(res.data));
           if (options.channel) {
-            sessionStorage.setItem('channel', options.channel);
+            localStorage.setItem('channel', options.channel);
           }
         }
         next();

@@ -2,7 +2,7 @@ import axios from 'axios';
 // import Util from './util';
 // import Config from './config';
 
-const baseURL = process.env.NODE_ENV === 'production' ? 'https://scrm.juzhunshuyu.com' : 'https://test-scrm.juzhunshuyu.com';
+const baseURL = process.env.NODE_ENV === 'production' ? 'https://test-scrm.juzhunshuyu.com' : 'https://test-scrm.juzhunshuyu.com';
 const instance = axios.create({
   timeout: 100000, // 请求超时时间
   baseURL,
@@ -12,7 +12,7 @@ instance.interceptors.request.use((config) => {
   const globalOptStr = sessionStorage.getItem('globalOpt');
   const globalOpt = !globalOptStr ? {} : JSON.parse(globalOptStr);
   const configTemp = config;
-  const token = sessionStorage.getItem('token');
+  const token = localStorage.getItem('token');
   configTemp.headers = config.headers || {};
   Object.assign(config.headers, globalOpt);
   configTemp.headers.token = token;// || 'mockToken';
