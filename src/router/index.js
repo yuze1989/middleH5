@@ -128,6 +128,7 @@ router.beforeEach((to, form, next) => {
           }
           if (data.token) {
             alert(data.token);
+
             sessionStorage.setItem('token', data.token);
           }
           sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
