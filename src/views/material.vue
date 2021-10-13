@@ -124,6 +124,12 @@ export default {
     }
     this.height = document.documentElement.clientHeight - 150;
   },
+  watch: {
+    $route(to, from) {
+      console.log(from.path);// 从哪来
+      console.log(to.path);// 到哪去
+    },
+  },
   methods: {
     onLoad() {
       this.getList();
