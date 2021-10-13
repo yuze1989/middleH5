@@ -92,6 +92,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, form, next) => {
+  console.log(to);
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
