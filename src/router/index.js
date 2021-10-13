@@ -111,8 +111,9 @@ router.beforeEach((to, form, next) => {
     const src = window.location.pathname;
     // if (!token && !options.code && options.appid) {
     console.log(options.appid, corpId, options.code, token);
-    if (options.appid !== corpId && token) {
+    if (options.appid !== corpId) {
       localStorage.clear();
+      return;
     }
     if (!token && options.appid && options.appid !== corpId && !options.code) {
       const sourceId = options.channel || '';
