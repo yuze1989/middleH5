@@ -26,19 +26,9 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   (response) => {
     const { data } = response;
-    // Util.go(data.errCode);
-    // if (errorList[data.errCode]) {
-    //   window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=
-    //   ${errorList[data.errCode][0]}&type=${errorList[data.errCode][1]}`;
-    // }
     return data;
   },
-  // (response) => (response.data),
   (error) => {
-    // if (errorList.errCode) {
-    //   window.location.href = `${Config.redirect_uri}/middleH5/jurisdiction?msg=
-    //   ${errorList.errCode[0]}&type=${errorList.errCode[1]}`;
-    // }
     Promise.reject(error);
   },
 );
