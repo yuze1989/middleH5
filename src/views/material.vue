@@ -126,6 +126,7 @@ export default {
   },
   watch: {
     $route(to, from) {
+      alert(to.path);
       console.log(from.path);// 从哪来
       console.log(to.path);// 到哪去
     },
