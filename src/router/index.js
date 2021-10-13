@@ -111,7 +111,7 @@ router.beforeEach((to, form, next) => {
     const src = window.location.pathname;
     // if (!token && !options.code && options.appid) {
     console.log(options.appid, corpId, options.code, token);
-    if (options.appid !== corpId) {
+    if (options.appid !== corpId && token) {
       localStorage.clear();
     }
     if (!token && options.appid && options.appid !== corpId && !options.code) {
