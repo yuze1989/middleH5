@@ -124,17 +124,6 @@ export default {
     }
     this.height = document.documentElement.clientHeight - 150;
   },
-  watch: {
-    $route: {
-      handler(val, oldval) {
-        alert(val);
-        console.log(val);// 新路由信息
-        console.log(oldval);// 老路由信息
-      },
-      // 深度观察监听
-      deep: true,
-    },
-  },
   methods: {
     onLoad() {
       this.getList();
