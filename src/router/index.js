@@ -19,15 +19,6 @@ const routes = [
     },
   },
   {
-    path: '/speechArt',
-    name: 'speechArt',
-    component: speechArt,
-    meta: {
-      tabbarshow: true,
-      type: 1,
-    },
-  },
-  {
     path: '/material',
     name: 'material',
     meta: {
@@ -108,13 +99,14 @@ router.beforeEach((to, form, next) => {
     const token = sessionStorage.getItem('token');
     const src = window.location.pathname;
     if (!token && !options.code && options.appid) {
+      alert(1);
       // if (src.charAt(src.length - 1) === '/') {
       //   src = src.substr(0, src.length - 1);
       // }
-      const sum = +1;
-      if (sum > 1) {
-        return;
-      }
+      // const sum = +1;
+      // if (sum > 1) {
+      //   return;
+      // }
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid

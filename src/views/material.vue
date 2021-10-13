@@ -132,6 +132,7 @@ export default {
       this.pageIndex = 1;
       this.dataList = [];
       this.finished = false;
+      this.loading = true;
       this.onLoad();
     },
     getList() {
@@ -143,7 +144,7 @@ export default {
       Http.post(`/scrm/material/list-marketing-material/${headType}`, {
         materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
-        pageSize: 1,
+        pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
         if (res.success) {
@@ -250,7 +251,7 @@ export default {
               duration: 1,
             });
 
-            Wechat.sendChatMessage(data, 1);
+            Wechat.sendChatMessage(data);
           } else {
             Toast.loading({
               message: res.errMessage,
@@ -274,7 +275,7 @@ export default {
             [type]: type === 'content' ? obj.content : res.data,
           },
         };
-        Wechat.sendChatMessage(data, 1);
+        Wechat.sendChatMessage(data);
         this.shake = true;
         Toast.loading({
           duration: 1,

@@ -11,7 +11,7 @@ const Wechat = {
     });
     wxSignature = res.data;
   },
-  setAgentConfig: (info, type) => {
+  setAgentConfig: (info, type, id) => {
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
       agentid: sessionStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
@@ -20,7 +20,14 @@ const Wechat = {
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
       success: () => {
-        wx.invoke(type === 1 ? 'sendChatMessage' : 'openExistedChatWithMsg', info, () => {});
+        wx.invoke(type === 1 ? 'sendChatMessage' : 'openExistedChatWithMsg', info, () => {
+          if (id) {
+            // 记录话术分享次数
+            Http.post('/scrm/comm/rest/speech/speech-send', {
+              speechId: id,
+            }, '').then(() => {});
+          }
+        });
         // 回调
       },
       fail: (res) => {
@@ -30,8 +37,8 @@ const Wechat = {
       },
     });
   },
-  sendChatMessage: (info) => {
-    Wechat.setAgentConfig(info, 1);
+  sendChatMessage: (info, id) => {
+    Wechat.setAgentConfig(info, 1, id);
   },
   openExistedChatWithMsg: (info) => {
     Wechat.setAgentConfig(info, 2);
