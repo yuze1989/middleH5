@@ -125,10 +125,13 @@ export default {
     this.height = document.documentElement.clientHeight - 150;
   },
   watch: {
-    $route(to, from) {
-      alert(to.path);
-      console.log(from.path);// 从哪来
-      console.log(to.path);// 到哪去
+    $route: {
+      handler(val, oldval) {
+        console.log(val);// 新路由信息
+        console.log(oldval);// 老路由信息
+      },
+      // 深度观察监听
+      deep: true,
     },
   },
   methods: {
