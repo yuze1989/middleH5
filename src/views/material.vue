@@ -256,7 +256,6 @@ export default {
             Toast.loading({
               duration: 1,
             });
-
             Wechat.sendChatMessage(data);
           } else {
             Toast.loading({
