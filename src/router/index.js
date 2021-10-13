@@ -105,7 +105,7 @@ router.beforeEach((to, form, next) => {
     const url = window.location.href;
     console.log(url);
     const options = Util.getUrlOption(url);
-    // localStorage.removeItem('token');
+    localStorage.removeItem('token');
     const token = localStorage.getItem('token');
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
