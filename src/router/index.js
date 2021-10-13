@@ -99,6 +99,7 @@ router.beforeEach((to, form, next) => {
     const token = sessionStorage.getItem('token');
     const src = window.location.pathname;
     if (!token && !options.code && options.appid) {
+      alert(1);
       // if (src.charAt(src.length - 1) === '/') {
       //   src = src.substr(0, src.length - 1);
       // }
