@@ -103,20 +103,14 @@ const router = new VueRouter({
 router.beforeEach((to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
-    console.log(url);
-    const options = Util.getUrlOption(url);
     // localStorage.removeItem('token');
+    const options = Util.getUrlOption(url);
     const token = localStorage.getItem('token');
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
     // if (!token && !options.code && options.appid) {
-    /*
-      * 1.options.appid
-      * 2.options.appid !== corpId
-      * 3.!token
-      * 4.!options.code
-      */
     if (!token && options.appid && options.appid !== corpId && !options.code) {
+      localStorage.clear();
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
