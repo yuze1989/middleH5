@@ -115,7 +115,7 @@ router.beforeEach((to, form, next) => {
       * 2.options.appid !== corpId
       * 3.!token
       */
-    if (!token && options.corpId && options.appid !== corpId) {
+    if (!token && options.appid && options.appid !== corpId) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
