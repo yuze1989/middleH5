@@ -127,6 +127,7 @@ export default {
   watch: {
     $route: {
       handler(val, oldval) {
+        alert(val);
         console.log(val);// 新路由信息
         console.log(oldval);// 老路由信息
       },
