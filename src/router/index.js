@@ -101,20 +101,18 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, form, next) => {
+  const url = window.location.href;
+  // localStorage.removeItem('token');
+  const options = Util.getUrlOption(url);
+  // localStorage.clear();
+  const token = localStorage.getItem('token');
+  const corpId = localStorage.getItem('corpId');
+  const src = window.location.pathname;
+  if (options.appid !== corpId) {
+    console.log(2);
+    localStorage.clear();
+  }
   if (Env.getType().platformType === 'WX_GZ') {
-    const url = window.location.href;
-    // localStorage.removeItem('token');
-    const options = Util.getUrlOption(url);
-    // localStorage.clear();
-    const token = localStorage.getItem('token');
-    const corpId = localStorage.getItem('corpId');
-    const src = window.location.pathname;
-    if (options.appid !== corpId) {
-      console.log(2);
-      localStorage.clear();
-      next();
-    }
-    console.log(token, options.appid, corpId, options.code);
     // if (!token && !options.code && options.appid) {
     if (!token && options.appid && options.appid !== corpId && !options.code) {
       console.log(3);
