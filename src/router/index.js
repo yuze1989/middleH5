@@ -120,6 +120,7 @@ router.beforeEach(async (to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
+    console.log(openid, token);
     if (openid && !token) {
       Http.post(' /scrm/wechat/oauth-user-info-openid', {
         channel: localStorage.getItem('channel'),
@@ -128,6 +129,7 @@ router.beforeEach(async (to, form, next) => {
       }, '').then((res) => {
         const { success, data } = res;
         if (success) {
+          console.log(data);
           sessionStorage.setItem('token', data.token);
         }
       });
