@@ -127,6 +127,7 @@ router.beforeEach(async (to, form, next) => {
         corpId: localStorage.getItem('corpId'),
         openId: openid,
       }, '').then((res) => {
+        console.log(res);
         const { success, data } = res;
         if (success) {
           console.log(data);
