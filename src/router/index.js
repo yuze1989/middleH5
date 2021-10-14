@@ -101,19 +101,27 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, form, next) => {
-  const url = window.location.href;
-  // localStorage.removeItem('token');
-  const options = Util.getUrlOption(url);
-  // localStorage.clear();
-  const token = localStorage.getItem('token');
-  const corpId = localStorage.getItem('corpId');
-  const src = window.location.pathname;
-  if (options.appid !== corpId) {
-    console.log(2);
-    localStorage.clear();
-  }
-  console.log(token);
   if (Env.getType().platformType === 'WX_GZ') {
+    const url = window.location.href;
+    // localStorage.removeItem('token');
+    const options = Util.getUrlOption(url);
+    // localStorage.clear();
+    const token = localStorage.getItem('token');
+    const corpId = localStorage.getItem('corpId');
+    const src = window.location.pathname;
+    if (options.appid !== corpId) {
+      console.log(2);
+      // localStorage.clear();
+      localStorage.removeItem('unionId');
+      localStorage.removeItem('openid');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('agentId');
+      localStorage.removeItem('corpId');
+      localStorage.removeItem('token');
+      localStorage.removeItem('wxInfo');
+      localStorage.removeItem('channel');
+    }
+    console.log(token);
     // if (!token && !options.code && options.appid) {
     if (!token && options.appid && options.appid !== corpId && !options.code) {
       console.log(3);
