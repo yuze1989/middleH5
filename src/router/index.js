@@ -112,6 +112,7 @@ router.beforeEach(async (to, form, next) => {
     console.log(2);
     localStorage.clear();
   }
+  console.log(token);
   if (Env.getType().platformType === 'WX_GZ') {
     // if (!token && !options.code && options.appid) {
     if (!token && options.appid && options.appid !== corpId && !options.code) {
