@@ -103,20 +103,14 @@ const router = new VueRouter({
 router.beforeEach(async (to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
-    // localStorage.removeItem('token');
     const options = Util.getUrlOption(url);
-    // localStorage.clear();
-    let token = localStorage.getItem('token');
-    let corpId = localStorage.getItem('corpId');
+    const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
     if (options.appid !== corpId) {
       localStorage.clear();
-      token = '';
-      corpId = '';
     }
-    // if (!token && !options.code && options.appid) {
-    if (!token && options.appid && options.appid !== corpId && !options.code) {
-      console.log(3);
+    const token = localStorage.getItem('token');
+    if (!token && options.appid && !options.code) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
@@ -127,7 +121,6 @@ router.beforeEach(async (to, form, next) => {
     }
 
     if (!token && options.code) {
-      console.log(1);
       const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
         code: options.code,
