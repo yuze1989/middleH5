@@ -60,7 +60,6 @@ export default {
       sum: 0,
       shake: false,
       err: '',
-      errType: 0,
       height: 0,
       // 头部选项卡
       lists: [

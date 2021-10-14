@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <div class="content">
+    <div class="content" v-if="!err">
       <div class="content-box" v-for="(item, index) in itemList" :key="index"
       @click.stop="open(item)">
         <div class="flex">
@@ -28,6 +28,7 @@
         </div>
       </div>
     </div>
+    <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 
@@ -36,16 +37,18 @@ import { Toast } from 'vant';
 import textOver from '../components/textOver.vue';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
+import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
   components: {
     textOver,
+    jurisdiction,
   },
   data() {
     return {
       // 选中的样式下标
       type: 0,
-
+      err: '',
       // 头部选项卡
       nav: ['企业常用语', '个人常用语'],
 
@@ -80,6 +83,7 @@ export default {
       Http.post('/scrm/comm/rest/speech/list-speech-group-right', {
         speechType: that.type + 1,
       }, '').then((res) => {
+        that.err = '';
         if (res.success) {
           res.data.forEach((obj) => {
             const e = obj;
@@ -87,9 +91,13 @@ export default {
           });
           that.itemList = res.data;
         } else {
+          that.err = res.errCode;
           Toast(res.errMessage);
         }
-      });
+      })
+        .catch(() => {
+          that.err = 'errCode';
+        });
     },
     // 展开开关
     open(list) {
