@@ -120,14 +120,12 @@ router.beforeEach(async (to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
-    console.log(openid, token);
     if (openid && !token) {
       Http.post(' /scrm/wechat/oauth-user-info-openid', {
         channel: localStorage.getItem('channel'),
         corpId: localStorage.getItem('corpId'),
         openId: openid,
       }, '').then((res) => {
-        console.log(res);
         const { success, data } = res;
         if (success) {
           console.log(data);
@@ -144,7 +142,7 @@ router.beforeEach(async (to, form, next) => {
       const { success, data } = res;
       if (success) {
         localStorage.setItem('unionId', data.unionid);
-        localStorage.setItem('openid', data.openid);
+        localStorage.setItem('openid', data.openId);
         if (data.userId) {
           localStorage.setItem('userId', data.userId);
         }
