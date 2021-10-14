@@ -109,19 +109,8 @@ router.beforeEach(async (to, form, next) => {
     const token = localStorage.getItem('token');
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
-    console.log(options.appid, corpId);
     if (options.appid !== corpId) {
       localStorage.clear();
-    }
-    // if (!token && !options.code && options.appid) {
-    if (!token && options.appid && options.appid !== corpId && !options.code) {
-      const sourceId = options.channel || '';
-      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
-        options.appid
-      }&redirect_uri=${
-        encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo || ''}`)
-      }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
-      return;
     }
     if (!token && options.code) {
       const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
@@ -149,6 +138,16 @@ router.beforeEach(async (to, form, next) => {
         if (options.channel) {
           localStorage.setItem('channel', options.channel);
         }
+      }
+      // if (!token && !options.code && options.appid) {
+      if (!token && options.appid && options.appid !== corpId && !options.code) {
+        const sourceId = options.channel || '';
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
+          options.appid
+        }&redirect_uri=${
+          encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo || ''}`)
+        }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
+        return;
       }
     }
   }
