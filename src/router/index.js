@@ -105,12 +105,12 @@ router.beforeEach(async (to, form, next) => {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
     let corpId = localStorage.getItem('corpId');
-    const openid = localStorage.getItem('openid');
     const src = window.location.pathname;
     if (options.appid !== corpId && options.appid) {
       localStorage.clear();
       corpId = '';
     }
+    const openid = localStorage.getItem('openid');
     const token = sessionStorage.getItem('token');
     if (!openid && options.appid && !options.code) {
       const sourceId = options.channel || '';
