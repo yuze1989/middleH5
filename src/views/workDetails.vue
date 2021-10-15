@@ -119,7 +119,7 @@ export default {
       const data = {
         chatId: obj.wxGroupChatId,
       };
-      Wechat.openExistedChatWithMsg(data);
+      Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
     },
     change(obj) {
       const data = obj;

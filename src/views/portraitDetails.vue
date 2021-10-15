@@ -112,7 +112,7 @@ export default {
   mounted() {
     Wechat.setWxConfig();
     setTimeout(() => {
-      Wechat.getCurExternalContact();
+      Wechat.setAgentConfig('', 'getCurExternalContact');
     }, 500);
   },
   methods: {

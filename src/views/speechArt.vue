@@ -78,7 +78,7 @@ export default {
           content: item.text, // 文本内容
         },
       };
-      Wechat.sendChatMessage(data, item.id);
+      Wechat.setAgentConfig(data, 'sendChatMessage', this.Statistics(item.id));
       this.shake = true;
       Toast.loading({
         duration: 1,

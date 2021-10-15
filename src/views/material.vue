@@ -127,7 +127,6 @@ export default {
     onLoad() {
       this.getList();
     },
-
     onRefresh() {
       this.pageIndex = 1;
       this.dataList = [];
@@ -250,7 +249,7 @@ export default {
             Toast.loading({
               duration: 1,
             });
-            Wechat.sendChatMessage(data);
+            Wechat.setAgentConfig(data, 'sendChatMessage');
           } else {
             Toast.loading({
               message: res.errMessage,
@@ -274,7 +273,7 @@ export default {
             [type]: type === 'content' ? obj.content : res.data,
           },
         };
-        Wechat.sendChatMessage(data);
+        Wechat.setAgentConfig(data, 'sendChatMessage');
         this.shake = true;
         Toast.loading({
           duration: 1,
