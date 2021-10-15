@@ -18,9 +18,10 @@ const Wechat = {
       timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
-      jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
+      jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact'], // 必填，传入需要使用的接口名称
       success: () => {
-        wx.invoke(type === 1 ? 'sendChatMessage' : 'openExistedChatWithMsg', info, () => {
+        wx.invoke(type, info, (res) => {
+          console.log(res, '成功');
           if (id) {
             // 记录话术分享次数
             Http.post('/scrm/comm/rest/speech/speech-send', {
@@ -31,6 +32,7 @@ const Wechat = {
         // 回调
       },
       fail: (res) => {
+        console.log('失败', res);
         if (res.errMsg.indexOf('function not exist') > -1) {
           // alert('版本过低请升级');
         }
@@ -38,10 +40,13 @@ const Wechat = {
     });
   },
   sendChatMessage: (info, id) => {
-    Wechat.setAgentConfig(info, 1, id);
+    Wechat.setAgentConfig(info, 'sendChatMessage', id);
   },
   openExistedChatWithMsg: (info) => {
-    Wechat.setAgentConfig(info, 2);
+    Wechat.setAgentConfig(info, 'openExistedChatWithMsg');
+  },
+  getCurExternalContact: () => {
+    Wechat.setAgentConfig('', 'getCurExternalContact');
   },
   setApi: (configInfo) => {
     wx.config({

@@ -79,6 +79,7 @@
 // import Http from '../utils/http';
 // import Utils from '../utils/util';
 // import { List, PullRefresh } from 'vant';
+import Wechat from '../utils/wechat';
 
 export default {
   // components: {
@@ -109,6 +110,8 @@ export default {
     };
   },
   mounted() {
+    Wechat.setWxConfig();
+    Wechat.getCurExternalContact();
   },
   methods: {
     onLoad() {
