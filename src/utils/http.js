@@ -26,9 +26,9 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   (response) => {
     const { data } = response;
-    if (data.errCode === '0100000004') {
-      sessionStorage.removeItem('token');
-    }
+    // if (data.errCode === '0100000004') {
+    //   sessionStorage.removeItem('token');
+    // }
     return data;
   },
   (error) => {
