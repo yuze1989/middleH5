@@ -122,7 +122,7 @@ router.beforeEach(async (to, form, next) => {
     }
     console.log(openid);
     if (openid && !token) {
-      Http.post(' /scrm/wechat/oauth-user-info-openid', {
+      Http.post('/scrm/wechat/oauth-user-info-openid', {
         channel: localStorage.getItem('channel'),
         corpId: localStorage.getItem('corpId'),
         openId: openid,
