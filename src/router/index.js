@@ -106,9 +106,8 @@ router.beforeEach(async (to, form, next) => {
     const options = Util.getUrlOption(url);
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
-    alert(corpId);
     if (options.appid !== corpId && options.appid) {
-      localStorage.clear();
+      // localStorage.clear();
     }
     const openid = localStorage.getItem('openid');
     const token = sessionStorage.getItem('token');
@@ -129,7 +128,6 @@ router.beforeEach(async (to, form, next) => {
       }, '').then((res) => {
         const { success, data } = res;
         if (success) {
-          console.log(data);
           sessionStorage.setItem('token', data.token);
         }
       });
