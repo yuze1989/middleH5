@@ -104,11 +104,12 @@ router.beforeEach(async (to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
-    const corpId = localStorage.getItem('corpId');
+    let corpId = localStorage.getItem('corpId');
     const openid = localStorage.getItem('openid');
     const src = window.location.pathname;
     if (options.appid !== corpId && options.appid) {
       localStorage.clear();
+      corpId = '';
     }
     const token = sessionStorage.getItem('token');
     if (!openid && options.appid && !options.code) {
@@ -120,7 +121,6 @@ router.beforeEach(async (to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
-    console.log(openid);
     if (openid && !token) {
       Http.post('/scrm/wechat/oauth-user-info-openid', {
         channel: localStorage.getItem('channel'),
