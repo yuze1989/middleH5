@@ -109,11 +109,11 @@ export default {
         }],
     };
   },
-  mounted() {
+  created() {
     Wechat.setWxConfig();
-    setTimeout(() => {
-      Wechat.setAgentConfig('', 'getCurExternalContact');
-    }, 500);
+  },
+  mounted() {
+    Wechat.setAgentConfig('', 'getCurExternalContact');
   },
   methods: {
     onLoad() {
