@@ -127,6 +127,7 @@ export default {
     onLoad() {
       this.getList();
     },
+
     onRefresh() {
       this.pageIndex = 1;
       this.dataList = [];
