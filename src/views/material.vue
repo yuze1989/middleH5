@@ -171,11 +171,7 @@ export default {
           }
         } else {
           that.err = res.errCode;
-          Toast.loading({
-            message: res.errMessage,
-            duration: 1000,
-            type: 'fail',
-          });
+          Toast(res.errMessage);
         }
       })
         .catch(() => {

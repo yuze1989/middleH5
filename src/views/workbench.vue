@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh">
+    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="!err">
     <div class="content" :style="'min-height:' + height + 'px'">
        <div class="content-tip">日常任务提醒</div>
       <List v-model="loading" :finished="finished"
@@ -39,6 +39,7 @@
      </List>
     </div>
      </PullRefresh>
+     <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 
@@ -46,11 +47,13 @@
 import { List, PullRefresh, Toast } from 'vant';
 import Http from '../utils/http';
 import store from '@/store';
+import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
   components: {
     List,
     PullRefresh,
+    jurisdiction,
   },
   name: 'workbench',
   data() {
@@ -60,6 +63,7 @@ export default {
       loading: false,
       finished: false,
       dataList: [],
+      err: '',
       pageIndex: 1,
       // 提示数量
       sum: 0,
@@ -117,6 +121,7 @@ export default {
         pageIndex: that.pageIndex,
         pageSize: 20,
       }, '').then((res) => {
+        that.err = '';
         if (res.success) {
           // 判断获取数据条数若等于0
           if (res.data.totalCount === 0) {
@@ -140,9 +145,13 @@ export default {
             that.pageIndex += 1;
           }
         } else {
+          that.err = res.errCode;
           Toast(res.errMessage);
         }
-      });
+      })
+        .catch(() => {
+          that.err = 'errCode';
+        });
     },
     // tab切换
     change(index) {
