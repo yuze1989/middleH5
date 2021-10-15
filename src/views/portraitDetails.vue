@@ -110,7 +110,7 @@ export default {
     };
   },
   async mounted() {
-    Wechat.setWxConfig();
+    await Wechat.setWxConfig();
     Wechat.setAgentConfig('', 'getCurExternalContact');
   },
   methods: {
