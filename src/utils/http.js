@@ -13,6 +13,7 @@ instance.interceptors.request.use((config) => {
   const globalOpt = !globalOptStr ? {} : JSON.parse(globalOptStr);
   const configTemp = config;
   const token = sessionStorage.getItem('token');
+  console.log(token, '-------');
   configTemp.headers = config.headers || {};
   Object.assign(config.headers, globalOpt);
   configTemp.headers.token = token;// || 'mockToken';
