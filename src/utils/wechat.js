@@ -22,9 +22,7 @@ const Wechat = {
       success: () => {
         wx.invoke(type, info, (res) => {
           console.log(res, '成功');
-          if (func) {
-            func();
-          }
+          func();
         });
         // 回调
       },
