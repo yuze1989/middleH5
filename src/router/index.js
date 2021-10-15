@@ -121,18 +121,15 @@ router.beforeEach(async (to, form, next) => {
       return;
     }
     if (openid && !token) {
-      console.log(openid);
-      Http.post('/scrm/wechat/oauth-user-info-openid', {
+      const res = await Http.post('/scrm/wechat/oauth-user-info-openid', {
         channel: localStorage.getItem('channel'),
         corpId: localStorage.getItem('corpId'),
         openId: openid,
-      }, '').then((res) => {
-        const { success, data } = res;
-        if (success) {
-          sessionStorage.setItem('token', data.token);
-          console.log(sessionStorage.getItem('token'));
-        }
       });
+      const { success, data } = res;
+      if (success) {
+        sessionStorage.setItem('token', data.token);
+      }
     }
     if (!token && options.code) {
       const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
