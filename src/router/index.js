@@ -104,11 +104,10 @@ router.beforeEach(async (to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
-    let corpId = localStorage.getItem('corpId');
+    const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
     if (options.appid !== corpId && options.appid) {
       localStorage.clear();
-      corpId = '';
     }
     const openid = localStorage.getItem('openid');
     const token = sessionStorage.getItem('token');
