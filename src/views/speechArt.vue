@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="top-nav">
+    <div class="top-nav" v-if="err !== '0100000006'">
       <div v-for="(item,index) in nav" :key="index">
         <div :class="{active: type === index}" @click="change(index)">
           {{item}}

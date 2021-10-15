@@ -1,5 +1,6 @@
 <template>
   <div class="box">
+    <div v-if="err !== '0100000006'">
     <div class="top">
       <i class="iconfont icon-huashu2"></i>
       <span class="span">办事事项</span>
@@ -13,6 +14,7 @@
         </div>
       </div>
     </div>
+     </div>
     <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="!err">
     <div class="content" :style="'min-height:' + height + 'px'">
        <div class="content-tip">日常任务提醒</div>

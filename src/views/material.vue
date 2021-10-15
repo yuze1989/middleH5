@@ -1,6 +1,6 @@
 <template>
   <div class="box-bos">
-    <ul>
+    <ul v-if="err !== '0100000006'">
       <li :class="{'active': $store.state.navType === index}" v-for="(item,index) in lists"
       :key="index" @click="change(index)">
         {{item.name}}
