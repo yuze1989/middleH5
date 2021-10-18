@@ -52,7 +52,7 @@
     <!-- 动态部分 -->
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
       <List v-model="loading" :finished="finished" offset="100"
-      @load="onLoad" finished-text="没有更多了">
+      @load="onLoad" finished-text="没有更多了" :mmediate-check="false">
         <div v-for="(item,index) in list" :key="index">
           <div class="tate">
             <div>{{item.dateStr}}</div>
@@ -105,6 +105,7 @@ export default {
     Wechat.setAgentConfig('', 'getCurExternalContact', () => {
       console.log(sessionStorage.getItem('userId'), '123');
       that.getDetails();
+      that.getList();
     });
   },
   methods: {
