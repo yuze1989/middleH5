@@ -105,11 +105,10 @@ export default {
   },
   methods: {
     async onLoad() {
-      const setWxConfig = await Wechat.setWxConfig();
-      const getCurExternalContact = await Wechat.setAgentConfig('', 'getCurExternalContact');
-      console.log(setWxConfig, getCurExternalContact);
-      this.getList();
+      await Wechat.setWxConfig();
+      Wechat.setAgentConfig('', 'getCurExternalContact');
       this.getDetails();
+      this.getList();
     },
     getyyyyMMdd(time) {
       const date = new Date(time);
