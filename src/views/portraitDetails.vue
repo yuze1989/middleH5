@@ -102,7 +102,7 @@ export default {
   },
   async created() {
     await Wechat.setWxConfig();
-    await Wechat.setAgentConfig('', 'getCurExternalContact');
+    Wechat.setAgentConfig('', 'getCurExternalContact');
   },
   mounted() {
     console.log(sessionStorage.getItem('userId'), '123');
