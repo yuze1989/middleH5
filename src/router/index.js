@@ -5,7 +5,6 @@ import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
 import Config from '../utils/config';
 import speechArt from '../views/speechArt.vue';
-import Wechat from '../utils/wechat';
 
 Vue.use(VueRouter);
 
@@ -102,10 +101,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, form, next) => {
-  if (to.path === '/portraitDetails') {
-    await Wechat.setWxConfig();
-    await Wechat.setAgentConfig('', 'getCurExternalContact');
-  }
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);

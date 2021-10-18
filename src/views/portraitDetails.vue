@@ -81,7 +81,7 @@
 <script>
 import { List, PullRefresh } from 'vant';
 import Http from '../utils/http';
-// import Wechat from '../utils/wechat';
+import Wechat from '../utils/wechat';
 
 export default {
   components: {
@@ -101,8 +101,8 @@ export default {
     };
   },
   async mounted() {
-    // await Wechat.setWxConfig();
-    // await Wechat.setAgentConfig('', 'getCurExternalContact');
+    await Wechat.setWxConfig();
+    await Wechat.setAgentConfig('', 'getCurExternalContact');
     console.log(sessionStorage.getItem('userId'), '123');
     this.getDetails();
   },
