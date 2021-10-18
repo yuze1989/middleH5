@@ -105,6 +105,8 @@ export default {
     await Wechat.setWxConfig();
     await Wechat.setAgentConfig('', 'getCurExternalContact');
     this.userId = sessionStorage.getItem('userId');
+    console.log(this.userId);
+    console.log(1);
     this.getDetails();
   },
   methods: {
@@ -123,6 +125,7 @@ export default {
       return `${y}-${m}-${d}`;
     },
     getDetails() {
+      console.log(2);
       Http.post('/scrm/customer/getCustomerDetailForSidebar', {
         externalUserId: this.userId,
       }, '').then((res) => {
@@ -142,6 +145,7 @@ export default {
       this.onLoad();
     },
     getList() {
+      console.log(3);
       const that = this;
       Http.post('/scrm/customer/listCustomerTrendForSidebar', {
         externalUserId: that.userId, // 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ',
