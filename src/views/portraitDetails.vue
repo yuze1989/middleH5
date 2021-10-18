@@ -101,10 +101,11 @@ export default {
     };
   },
   mounted() {
+    const that = this;
     Wechat.setWxConfig();
     Wechat.setAgentConfig('', 'getCurExternalContact', () => {
       console.log(sessionStorage.getItem('userId'), '123');
-      this.getDetails();
+      that.getDetails();
     });
   },
   methods: {
