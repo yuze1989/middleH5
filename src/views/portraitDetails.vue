@@ -103,8 +103,8 @@ export default {
   async mounted() {
     await Wechat.setWxConfig();
     await Wechat.setAgentConfig('', 'getCurExternalContact');
-    console.log(sessionStorage.getItem('userId'), '123');
-    this.getDetails();
+    await console.log(sessionStorage.getItem('userId'), '123');
+    await this.getDetails();
   },
   methods: {
     onLoad() {
