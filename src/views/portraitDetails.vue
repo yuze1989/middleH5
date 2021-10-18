@@ -52,7 +52,7 @@
     <!-- 动态部分 -->
     <PullRefresh v-model="refreshing" @refresh="onRefresh">
       <List v-model="loading" :finished="finished" offset="100"
-      @load="onLoad" finished-text="没有更多了" :mmediate-check="false">
+      @load="onLoad" finished-text="没有更多了" :immediate-check="false">
         <div v-for="(item,index) in list" :key="index">
           <div class="tate">
             <div>{{item.dateStr}}</div>
