@@ -119,10 +119,6 @@ export default {
       return `${y}-${m}-${d}`;
     },
     getDetails() {
-      if (!sessionStorage.getItem('userId')) {
-        this.getDetails();
-        return;
-      }
       Http.post('/scrm/customer/getCustomerDetailForSidebar', {
         externalUserId: sessionStorage.getItem('userId'),
       }, '').then((res) => {
@@ -143,10 +139,6 @@ export default {
     },
     getList() {
       const that = this;
-      if (!sessionStorage.getItem('userId')) {
-        that.getList();
-        return;
-      }
       Http.post('/scrm/customer/listCustomerTrendForSidebar', {
         externalUserId: sessionStorage.getItem('userId'), // 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ',
         pageSize: 10,
