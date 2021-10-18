@@ -107,7 +107,9 @@ export default {
     this.userId = sessionStorage.getItem('userId');
     console.log(this.userId);
     console.log(1);
-    this.getDetails();
+    setTimeout(function () {
+      this.getDetails();
+    }, 500);
   },
   methods: {
     onLoad() {
@@ -125,7 +127,6 @@ export default {
       return `${y}-${m}-${d}`;
     },
     getDetails() {
-      console.log(2);
       Http.post('/scrm/customer/getCustomerDetailForSidebar', {
         externalUserId: this.userId,
       }, '').then((res) => {
