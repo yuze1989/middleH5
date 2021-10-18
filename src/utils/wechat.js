@@ -21,7 +21,7 @@ const Wechat = {
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact'], // 必填，传入需要使用的接口名称
       success: () => {
         wx.invoke(type, info, (res) => {
-          console.log(res, '成功');
+          sessionStorage.setItem('userId', res.userId);
           if (func) {
             func();
           }
@@ -29,7 +29,6 @@ const Wechat = {
         // 回调
       },
       fail: (res) => {
-        console.log('失败', res);
         if (res.errMsg.indexOf('function not exist') > -1) {
           // alert('版本过低请升级');
         }

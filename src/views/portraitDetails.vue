@@ -2,9 +2,9 @@
   <div>
     <div class="box">
     <div class="top">
-      <img src="../assets/error.png" >
+      <img :src="useData.avatar" >
       <div>
-        <div>郭藁辉</div>
+        <div>{{useData.name}}</div>
         <div :style="{color:source === 1 ? '#00BD5D' : '#1890ff'}">@微信</div>
       </div>
     </div>
@@ -13,24 +13,25 @@
     </div>
     <div class="info flex">
       <div>添加时间：---</div>
-      <div>电话：---</div>
+      <div>电话：{{useData.mobile}}</div>
     </div>
     <div class="info flex">
-      <div>年龄：---</div>
-      <div>邮箱：---</div>
+      <div>年龄：{{useData.age}}</div>
+      <div>邮箱：{{useData.email}}</div>
     </div>
     <div class="info label">
       <div>企业标签：</div>
-      <div class="label-box" v-for="(item,index) in label" :key="index">{{item.name}}</div>
+      <div class="label-box" v-for="(item,index) in useData.TagDTO" :key="index">
+      {{item.name}}</div>
     </div>
     <div class="board">
       <div>
         <div>客户评分</div>
-        <div class="font">0</div>
+        <div class="font">{{useData.grade}}</div>
       </div>
       <div>
         <div>客户积分</div>
-        <div class="font">0</div>
+        <div class="font">{{useData.score}}</div>
       </div>
       <div style="border: none;">
         <div>跟进状态</div>
@@ -76,10 +77,10 @@
   <!-- </PullRefresh> -->
 </template>
 <script>
-// import Http from '../utils/http';
+import Http from '../utils/http';
 // import Utils from '../utils/util';
 // import { List, PullRefresh } from 'vant';
-import Wechat from '../utils/wechat';
+// import Wechat from '../utils/wechat';
 
 export default {
   // components: {
@@ -90,6 +91,7 @@ export default {
     return {
       source: 2,
       label: [{ name: '高意向' }, { name: '低意向' }],
+      useData: {},
       refreshing: false,
       loading: false,
       finished: false,
@@ -110,12 +112,25 @@ export default {
     };
   },
   async mounted() {
-    await Wechat.setWxConfig();
-    Wechat.setAgentConfig('', 'getCurExternalContact');
+    // await Wechat.setWxConfig();
+    // Wechat.setAgentConfig('', 'getCurExternalContact');
+    this.getDetails();
   },
   methods: {
     onLoad() {
       this.getList();
+    },
+    getDetails() {
+      Http.post('/scrm/customer/getCustomerDetailForSidebar', {
+        externalUserId: 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ', // sessionStorage.getItem('userId'),
+      }, '').then((res) => {
+        if (res.success) {
+          this.useData = res.data;
+          console.log(res);
+        } else {
+          // Toast(res.errMessage);
+        }
+      });
     },
     onRefresh() {
       this.pageIndex = 1;
@@ -201,6 +216,16 @@ export default {
   }
   .flex div{
     flex: 1;
+    overflow: hidden;
+    word-break: break-all;
+    /* break-all(允许在单词内换行。) */
+    text-overflow: ellipsis;
+    /* 超出部分省略号 */
+    display: -webkit-box;
+    /** 对象作为伸缩盒子模型显示 **/
+    -webkit-box-orient: vertical;
+    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+    -webkit-line-clamp: 1;
   }
   .label{
     display: flex;
