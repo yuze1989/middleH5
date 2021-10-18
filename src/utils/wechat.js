@@ -11,8 +11,8 @@ const Wechat = {
     });
     wxSignature = res.data;
   },
-  setAgentConfig: (info, type, func) => {
-    Wechat.setWxConfig();
+  setAgentConfig: async (info, type, func) => {
+    await Wechat.setWxConfig();
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
       agentid: localStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
