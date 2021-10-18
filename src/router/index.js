@@ -120,7 +120,6 @@ router.beforeEach(async (to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
-    console.log(4);
     if (openid && !token) {
       const res = await Http.post('/scrm/wechat/oauth-user-info-openid', {
         channel: localStorage.getItem('channel'),
@@ -129,13 +128,10 @@ router.beforeEach(async (to, form, next) => {
       });
       const { success, data } = res;
       if (success) {
-        console.log(2);
         sessionStorage.setItem('token', data.token);
-        console.log(sessionStorage.getItem('token'), '========');
       }
     }
     if (!token && options.code) {
-      console.log(1);
       const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
         code: options.code,
@@ -156,7 +152,6 @@ router.beforeEach(async (to, form, next) => {
         }
         if (data.token) {
           sessionStorage.setItem('token', data.token);
-          console.log(data.token, '123');
         }
         localStorage.setItem('wxInfo', JSON.stringify(res.data));
         if (options.channel) {

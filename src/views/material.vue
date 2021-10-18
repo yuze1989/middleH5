@@ -149,9 +149,7 @@ export default {
         if (res.success) {
           that.err = '';
           // 判断获取数据条数若等于0
-          if (res.data.totalCount === 0) {
-            // 清空数组
-            that.dataList = [];
+          if (res.totalCount === 0) {
             // 停止上拉加载
             that.finished = true;
             that.loading = false;

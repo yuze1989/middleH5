@@ -126,7 +126,7 @@ export default {
         that.err = '';
         if (res.success) {
           // 判断获取数据条数若等于0
-          if (res.data.totalCount === 0) {
+          if (res.totalCount === 0) {
             // 清空数组
             that.dataList = [];
             // 停止上拉加载
@@ -140,6 +140,7 @@ export default {
             if (that.dataList.length === res.totalCount) {
               // 结束上拉加载状态
               that.finished = true;
+              that.loading = false;
             }
             // 清除下拉刷新状态
             that.refreshing = false;
