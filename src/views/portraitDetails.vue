@@ -100,15 +100,16 @@ export default {
       list: [],
     };
   },
-  // async mounted() {
+  mounted() {
 
-  // },
+  },
   methods: {
     async onLoad() {
-      await Wechat.setWxConfig();
-      await Wechat.setAgentConfig('', 'getCurExternalContact');
-      this.getDetails();
+      const setWxConfig = await Wechat.setWxConfig();
+      const getCurExternalContact = await Wechat.setAgentConfig('', 'getCurExternalContact');
+      console.log(setWxConfig, getCurExternalContact);
       this.getList();
+      this.getDetails();
     },
     getyyyyMMdd(time) {
       const date = new Date(time);
