@@ -103,7 +103,7 @@ export default {
   async mounted() {
     await Wechat.setWxConfig();
     await Wechat.setAgentConfig('', 'getCurExternalContact');
-    this.getDetails();
+    await this.getDetails();
   },
   methods: {
     onLoad() {
