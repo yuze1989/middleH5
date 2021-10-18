@@ -98,11 +98,13 @@ export default {
       finished: false,
       pageIndex: 1,
       list: [],
+      userId: '',
     };
   },
   async mounted() {
     await Wechat.setWxConfig();
-    Wechat.setAgentConfig('', 'getCurExternalContact');
+    await Wechat.setAgentConfig('', 'getCurExternalContact');
+    this.userId = sessionStorage.getItem('userId');
     this.getDetails();
   },
   methods: {
@@ -122,7 +124,7 @@ export default {
     },
     getDetails() {
       Http.post('/scrm/customer/getCustomerDetailForSidebar', {
-        externalUserId: sessionStorage.getItem('userId'),
+        externalUserId: this.userId,
       }, '').then((res) => {
         if (res.success) {
           this.useData = res.data;
@@ -142,7 +144,7 @@ export default {
     getList() {
       const that = this;
       Http.post('/scrm/customer/listCustomerTrendForSidebar', {
-        externalUserId: sessionStorage.getItem('userId'), // 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ',
+        externalUserId: that.userId, // 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ',
         pageSize: 10,
         pageIndex: that.pageIndex,
       }, '').then((res) => {
