@@ -120,7 +120,7 @@ export default {
     },
     getDetails() {
       Http.post('/scrm/customer/getCustomerDetailForSidebar', {
-        externalUserId: 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ', // sessionStorage.getItem('userId'),
+        externalUserId: sessionStorage.getItem('userId'),
       }, '').then((res) => {
         if (res.success) {
           this.useData = res.data;
@@ -140,7 +140,7 @@ export default {
     getList() {
       const that = this;
       Http.post('/scrm/customer/listCustomerTrendForSidebar', {
-        externalUserId: 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ', // sessionStorage.getItem('userId'),
+        externalUserId: sessionStorage.getItem('userId'), // 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ',
         pageSize: 10,
         pageIndex: that.pageIndex,
       }, '').then((res) => {
