@@ -15,7 +15,7 @@ instance.interceptors.request.use((config) => {
   const token = sessionStorage.getItem('token');
   configTemp.headers = config.headers || {};
   Object.assign(config.headers, globalOpt);
-  configTemp.headers.token = token;
+  configTemp.headers.token = token || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyOTgifQ.UE59KldfMZdliAHaFlGlVhIp9fozIXy-yqKPIAYP4pI';
   return config;
 }, (error) => {
   Promise.reject(error);

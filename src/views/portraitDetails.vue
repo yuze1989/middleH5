@@ -79,7 +79,7 @@
   </div>
 </template>
 <script>
-import { List, PullRefresh, Toast } from 'vant';
+import { List, PullRefresh } from 'vant';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
 
@@ -103,7 +103,9 @@ export default {
   async mounted() {
     await Wechat.setWxConfig();
     await Wechat.setAgentConfig('', 'getCurExternalContact');
-    this.getDetails();
+    setTimeout(function () {
+      this.getDetails();
+    }, 1000);
   },
   methods: {
     onLoad() {
@@ -125,8 +127,6 @@ export default {
         if (res.success) {
           this.useData = res.data;
           this.useData.gmtCreate = this.getyyyyMMdd(this.useData.gmtCreate);
-        } else {
-          Toast(res.errMessage);
         }
       });
     },
@@ -164,8 +164,6 @@ export default {
             }
             that.pageIndex += 1;
           }
-        } else {
-          Toast(res.errMessage);
         }
       });
     },
