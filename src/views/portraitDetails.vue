@@ -100,12 +100,12 @@ export default {
       list: [],
     };
   },
-  async created() {
+  created() {
+    console.log(sessionStorage.getItem('userId'), '123');
+  },
+  async mounted() {
     await Wechat.setWxConfig();
     Wechat.setAgentConfig('', 'getCurExternalContact');
-  },
-  mounted() {
-    console.log(sessionStorage.getItem('userId'), '123');
     this.getDetails();
   },
   methods: {
