@@ -100,12 +100,12 @@ export default {
       list: [],
     };
   },
-  async mounted() {
+  async created() {
     await Wechat.setWxConfig();
     await Wechat.setAgentConfig('', 'getCurExternalContact');
-    setTimeout(function () {
-      this.getDetails();
-    }, 1000);
+  },
+  mounted() {
+    this.getDetails();
   },
   methods: {
     onLoad() {
