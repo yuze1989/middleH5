@@ -98,15 +98,12 @@ export default {
       finished: false,
       pageIndex: 1,
       list: [],
-      userId: '',
     };
   },
   async mounted() {
     await Wechat.setWxConfig();
     await Wechat.setAgentConfig('', 'getCurExternalContact');
-    this.userId = sessionStorage.getItem('userId');
-    console.log(this.userId);
-    await this.getDetails();
+    this.getDetails();
   },
   methods: {
     onLoad() {
@@ -122,9 +119,12 @@ export default {
       return `${y}-${m}-${d}`;
     },
     getDetails() {
-      console.log(this.userId, '2');
+      if (!sessionStorage.getItem('userId')) {
+        this.getDetails();
+        return;
+      }
       Http.post('/scrm/customer/getCustomerDetailForSidebar', {
-        externalUserId: this.userId,
+        externalUserId: sessionStorage.getItem('userId'),
       }, '').then((res) => {
         if (res.success) {
           this.useData = res.data;
@@ -142,10 +142,13 @@ export default {
       this.onLoad();
     },
     getList() {
-      console.log(this.userId, '1');
       const that = this;
+      if (!sessionStorage.getItem('userId')) {
+        that.getList();
+        return;
+      }
       Http.post('/scrm/customer/listCustomerTrendForSidebar', {
-        externalUserId: that.userId, // 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ',
+        externalUserId: sessionStorage.getItem('userId'), // 'wmuUNZDwAAABHuwXqYCtn3Gg-EnK7BUQ',
         pageSize: 10,
         pageIndex: that.pageIndex,
       }, '').then((res) => {
