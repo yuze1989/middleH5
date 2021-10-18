@@ -100,13 +100,14 @@ export default {
       list: [],
     };
   },
-  async mounted() {
-    await Wechat.setWxConfig();
-    await Wechat.setAgentConfig('', 'getCurExternalContact');
-    await this.getDetails();
-  },
+  // async mounted() {
+
+  // },
   methods: {
-    onLoad() {
+    async onLoad() {
+      await Wechat.setWxConfig();
+      await Wechat.setAgentConfig('', 'getCurExternalContact');
+      this.getDetails();
       this.getList();
     },
     getyyyyMMdd(time) {
