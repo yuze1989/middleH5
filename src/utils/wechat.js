@@ -22,6 +22,7 @@ const Wechat = {
       success: () => {
         wx.invoke(type, info, (res) => {
           sessionStorage.setItem('userId', res.userId);
+          console.log(sessionStorage.getItem('userId'));
           if (func) {
             func();
           }

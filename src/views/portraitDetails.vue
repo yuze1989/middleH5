@@ -105,6 +105,7 @@ export default {
     await Wechat.setAgentConfig('', 'getCurExternalContact');
   },
   mounted() {
+    console.log(sessionStorage.getItem('userId'), '123');
     this.getDetails();
   },
   methods: {
