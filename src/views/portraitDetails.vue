@@ -100,9 +100,9 @@ export default {
       list: [],
     };
   },
-  mounted() {
+  async mounted() {
     const that = this;
-    Wechat.setWxConfig();
+    await Wechat.setWxConfig();
     Wechat.setAgentConfig('', 'getCurExternalContact', () => {
       console.log(sessionStorage.getItem('userId'), '123');
       that.getDetails();
