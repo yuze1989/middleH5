@@ -92,7 +92,6 @@ export default {
     return {
       source: 2,
       TagDTO: [],
-      label: [{ name: '高意向' }, { name: '低意向' }],
       useData: {},
       refreshing: false,
       loading: false,
@@ -104,7 +103,6 @@ export default {
   mounted() {
     const that = this;
     Wechat.setAgentConfig('', 'getCurExternalContact', () => {
-      console.log(sessionStorage.getItem('userId'), '123');
       that.getDetails();
       that.getList();
       that.getTag();
@@ -130,6 +128,7 @@ export default {
         if (res.success) {
           this.useData = res.data;
           this.useData.gmtCreate = this.getyyyyMMdd(this.useData.gmtCreate);
+          console.log(this.useData);
         }
       });
     },
@@ -139,6 +138,7 @@ export default {
       }, '').then((res) => {
         if (res.success) {
           this.TagDTO = res.data.pubTagDTOList;
+          console.log(res.data);
         }
       });
     },
