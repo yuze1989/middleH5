@@ -126,9 +126,8 @@ export default {
         externalUserId: sessionStorage.getItem('userId'),
       }, '').then((res) => {
         if (res.success) {
-          this.useData = res.data;
-          this.useData.gmtCreate = this.getyyyyMMdd(this.useData.gmtCreate);
-          console.log(this.useData);
+          this.TagDTO = res.data.pubTagDTOList;
+          console.log(res.data.pubTagDTOList);
         }
       });
     },
@@ -137,8 +136,9 @@ export default {
         externalUserId: sessionStorage.getItem('userId'),
       }, '').then((res) => {
         if (res.success) {
-          this.TagDTO = res.data.pubTagDTOList;
-          console.log(res.data);
+          this.useData = res.data;
+          this.useData.gmtCreate = this.getyyyyMMdd(this.useData.gmtCreate);
+          console.log(this.useData);
         }
       });
     },
@@ -249,7 +249,7 @@ export default {
     color: rgba(0, 0, 0, 0.65);
     line-height: 20px;
     text-align: center;
-    margin-right: 6px;
+    margin: 6px 6px 0px 0;
   }
 
   .board {
