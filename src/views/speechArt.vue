@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="top-nav">
+    <div class="top-nav" v-if="err !== '0100000006'">
       <div v-for="(item,index) in nav" :key="index">
         <div :class="{active: type === index}" @click="change(index)">
           {{item}}
@@ -57,12 +57,17 @@ export default {
     };
   },
   mounted() {
-    Wechat.setWxConfig();
     this.getList();
   },
   methods: {
     // 阻止冒泡
     stop() {},
+    // 记录话术分享次数
+    Statistics(id) {
+      Http.post('/scrm/comm/rest/speech/speech-send', {
+        speechId: id,
+      }, '').then(() => {});
+    },
     // 分享
     share(item) {
       const data = {
@@ -72,7 +77,7 @@ export default {
           content: item.text, // 文本内容
         },
       };
-      Wechat.sendChatMessage(data, item.id);
+      Wechat.setAgentConfig(data, 'sendChatMessage', this.Statistics(item.id));
       this.shake = true;
       Toast.loading({
         duration: 1,

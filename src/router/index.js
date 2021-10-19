@@ -105,11 +105,11 @@ router.beforeEach(async (to, form, next) => {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
     const corpId = localStorage.getItem('corpId');
-    const openid = localStorage.getItem('openid');
     const src = window.location.pathname;
     if (options.appid !== corpId && options.appid) {
       localStorage.clear();
     }
+    const openid = localStorage.getItem('openid');
     const token = sessionStorage.getItem('token');
     if (!openid && options.appid && !options.code) {
       const sourceId = options.channel || '';
@@ -120,19 +120,16 @@ router.beforeEach(async (to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
-    console.log(openid, token);
     if (openid && !token) {
-      Http.post(' /scrm/wechat/oauth-user-info-openid', {
+      const res = await Http.post('/scrm/wechat/oauth-user-info-openid', {
         channel: localStorage.getItem('channel'),
         corpId: localStorage.getItem('corpId'),
         openId: openid,
-      }, '').then((res) => {
-        const { success, data } = res;
-        if (success) {
-          console.log(data);
-          sessionStorage.setItem('token', data.token);
-        }
       });
+      const { success, data } = res;
+      if (success) {
+        sessionStorage.setItem('token', data.token);
+      }
     }
     if (!token && options.code) {
       const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
@@ -143,7 +140,7 @@ router.beforeEach(async (to, form, next) => {
       const { success, data } = res;
       if (success) {
         localStorage.setItem('unionId', data.unionid);
-        localStorage.setItem('openid', data.openid);
+        localStorage.setItem('openid', data.openId);
         if (data.userId) {
           localStorage.setItem('userId', data.userId);
         }
