@@ -240,7 +240,7 @@ export default {
           if (res.success) {
             data.news = {
               // H5消息页面url 必填
-              link: url || `${Config.redirect_uri}/middleH5/details?id=${res.data}`,
+              link: url || `${Config.redirect_uri}/sh5/details?id=${res.data}`,
               title: obj.title, // H5消息标题
               desc: obj.description, // H5消息摘要
               imgUrl: obj.coverPicUrl, // H5消息封面图片URL
