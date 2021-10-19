@@ -116,7 +116,6 @@ export default {
     };
   },
   mounted() {
-    Wechat.setWxConfig();
     const navType = parseInt(sessionStorage.getItem('navType'), 0);
     if (navType) {
       store.dispatch('SETNACVTYPE', navType);

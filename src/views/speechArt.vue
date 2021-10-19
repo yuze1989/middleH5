@@ -57,7 +57,6 @@ export default {
     };
   },
   mounted() {
-    Wechat.setWxConfig();
     this.getList();
   },
   methods: {

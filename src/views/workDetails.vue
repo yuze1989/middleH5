@@ -113,7 +113,6 @@ export default {
     };
   },
   mounted() {
-    Wechat.setWxConfig();
     this.batchNo = this.$route.query.batchNo;
     this.getList();
   },

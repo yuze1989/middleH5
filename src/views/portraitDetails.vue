@@ -23,7 +23,7 @@
       </div>
       <div class="info label">
         <div>企业标签：</div>
-        <div class="label-box" v-for="(item,index) in useData.TagDTO" :key="index">
+        <div class="label-box" v-for="(item,index) in TagDTO" :key="index">
           {{item.name}}
         </div>
       </div>
@@ -38,7 +38,7 @@
         </div>
         <div style="border: none;">
           <div>跟进状态</div>
-          <div class="font">新客户</div>
+          <div class="font">{{useData.followStatusName}}</div>
         </div>
       </div>
     </div>
@@ -91,6 +91,7 @@ export default {
   data() {
     return {
       source: 2,
+      TagDTO: [],
       label: [{ name: '高意向' }, { name: '低意向' }],
       useData: {},
       refreshing: false,
@@ -106,6 +107,7 @@ export default {
       console.log(sessionStorage.getItem('userId'), '123');
       that.getDetails();
       that.getList();
+      that.getTag();
     });
   },
   methods: {
@@ -121,13 +123,22 @@ export default {
       d = d < 10 ? (`0${d}`) : d;
       return `${y}-${m}-${d}`;
     },
-    getDetails() {
-      Http.post('/scrm/customer/getCustomerDetailForSidebar', {
+    getTag() {
+      Http.post('/scrm/customer/getCustomerTagForSidebar', {
         externalUserId: sessionStorage.getItem('userId'),
       }, '').then((res) => {
         if (res.success) {
           this.useData = res.data;
           this.useData.gmtCreate = this.getyyyyMMdd(this.useData.gmtCreate);
+        }
+      });
+    },
+    getDetails() {
+      Http.post('/scrm/customer/getCustomerDetailForSidebar', {
+        externalUserId: sessionStorage.getItem('userId'),
+      }, '').then((res) => {
+        if (res.success) {
+          this.TagDTO = res.data.pubTagDTOList;
         }
       });
     },
