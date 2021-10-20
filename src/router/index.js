@@ -132,7 +132,8 @@ router.beforeEach(async (to, form, next) => {
         openId: openid,
       });
       const { success, data } = res;
-      if (success) {
+      if (success && data.token) {
+        console.log(data.token);
         sessionStorage.setItem('token', data.token);
       }
     }
