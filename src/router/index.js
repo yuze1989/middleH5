@@ -157,8 +157,10 @@ router.beforeEach(async (to, form, next) => {
         if (options.channel) {
           localStorage.setItem('channel', options.channel);
         }
+        next();
       }
     }
+    return;
   }
   next();
 });
