@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { Toast } from 'vant';
 import Http from '../utils/http';
 import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
@@ -111,6 +112,10 @@ router.beforeEach(async (to, form, next) => {
     }
     const openid = localStorage.getItem('openid');
     const token = sessionStorage.getItem('token');
+    if (!openid && !options.appid && !options.code) {
+      Toast('appid为空');
+      return;
+    }
     if (!openid && options.appid && !options.code) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
