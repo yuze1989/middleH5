@@ -138,6 +138,7 @@ router.beforeEach(async (to, form, next) => {
         next();
       }
     }
+    
     if (!token && options.code) {
       const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
