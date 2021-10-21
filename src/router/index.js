@@ -102,7 +102,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, form, next) => {
-  if (Env.getType().platformType === 'WX_GZ1') {
+  if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
     const corpId = localStorage.getItem('corpId');
