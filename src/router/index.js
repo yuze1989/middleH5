@@ -29,7 +29,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('../views/material.vue'),
+    component: () => import(/* webpackChunkName: "about" */'../views/material.vue'),
   },
   {
     path: '/details',
@@ -110,8 +110,8 @@ router.beforeEach(async (to, form, next) => {
     if (options.appid !== corpId && options.appid) {
       localStorage.clear();
     }
-    const openid = localStorage.getItem('openId');
-    const token = sessionStorage.getItem('token');
+    const openid = localStorage.getItem('openid');
+    let token = sessionStorage.getItem('token');
     if (!openid && !options.appid && !options.code) {
       Toast('appid为空');
       return;
@@ -133,9 +133,8 @@ router.beforeEach(async (to, form, next) => {
       });
       const { success, data } = res;
       if (success && data.token) {
-        console.log(data.token);
+        token = data.token;
         sessionStorage.setItem('token', data.token);
-        next();
       }
     }
     if (!token && options.code) {
@@ -146,7 +145,6 @@ router.beforeEach(async (to, form, next) => {
       });
       const { success, data } = res;
       if (success) {
-        console.log(data);
         const arr = ['unionId', 'openId', 'userId', 'agentId', 'corpId'];
         arr.forEach((item) => {
           if (data[item]) {
@@ -154,11 +152,16 @@ router.beforeEach(async (to, form, next) => {
           }
         });
         if (data.token) {
+          token = data.token;
           sessionStorage.setItem('token', data.token);
         }
-        next();
+        localStorage.setItem('wxInfo', JSON.stringify(res.data));
+        if (options.channel) {
+          localStorage.setItem('channel', options.channel);
+        }
       }
     }
+    if (token) next();
     return;
   }
   next();
