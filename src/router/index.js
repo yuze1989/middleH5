@@ -110,7 +110,7 @@ router.beforeEach(async (to, form, next) => {
     if (options.appid !== corpId && options.appid) {
       localStorage.clear();
     }
-    const openid = localStorage.getItem('openid');
+    const openid = localStorage.getItem('openId');
     const token = sessionStorage.getItem('token');
     if (!openid && !options.appid && !options.code) {
       Toast('appid为空');
@@ -146,23 +146,14 @@ router.beforeEach(async (to, form, next) => {
       });
       const { success, data } = res;
       if (success) {
-        localStorage.setItem('unionId', data.unionid);
-        localStorage.setItem('openid', data.openId);
-        if (data.userId) {
-          localStorage.setItem('userId', data.userId);
-        }
-        if (data.agentId) {
-          localStorage.setItem('agentId', data.agentId);
-        }
-        if (data.corpId) {
-          localStorage.setItem('corpId', data.corpId);
-        }
+        const arr = ['unionId', 'openId', 'userId', 'agentId', 'corpId'];
+        arr.forEach((item) => {
+          if (data[item]) {
+            localStorage.setItem(item, data[item]);
+          }
+        });
         if (data.token) {
           sessionStorage.setItem('token', data.token);
-        }
-        localStorage.setItem('wxInfo', JSON.stringify(res.data));
-        if (options.channel) {
-          localStorage.setItem('channel', options.channel);
         }
         next();
       }
