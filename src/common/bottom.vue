@@ -31,8 +31,8 @@ export default {
   methods: {
     clickItem(path) {
       console.log(path);
-      this.$router.push(path);
-      // this.$emit('goUrl', path);
+      // this.$router.push(path);
+      this.$emit('goUrl', path);
     },
   },
 
