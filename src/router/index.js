@@ -146,6 +146,7 @@ router.beforeEach(async (to, form, next) => {
       });
       const { success, data } = res;
       if (success) {
+        console.log(data);
         const arr = ['unionId', 'openId', 'userId', 'agentId', 'corpId'];
         arr.forEach((item) => {
           if (data[item]) {
