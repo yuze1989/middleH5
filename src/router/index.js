@@ -135,6 +135,7 @@ router.beforeEach(async (to, form, next) => {
       if (success && data.token) {
         console.log(data.token);
         sessionStorage.setItem('token', data.token);
+        next();
       }
     }
     if (!token && options.code) {
