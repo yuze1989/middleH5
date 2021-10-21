@@ -1,6 +1,6 @@
 import Env from './deviceinfo';
 
-const redirectUri = process.env.NODE_ENV === 'production' ? 'https://www.juzhun.com' : 'https://test-scrm.juzhun.com';
+const redirectUri = process.env.NODE_ENV === 'production' ? 'https://www.juzhun.com' : 'https://test-scrm.juzhunshuyu.com';
 
 export default {
   redirect_uri: redirectUri,
