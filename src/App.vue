@@ -2,7 +2,7 @@
   <div id="app">
     <router-view />
     <div v-if="$route.meta.type === 1">
-      <bottom :url="$route.path" v-if="$route.meta.tabbarshow" @goUrl='goUrl'></bottom>
+      <bottom :url="$route.path" v-if="$route.meta.tabbarshow"></bottom>
     </div>
     <div v-else>
       <workBottom  :url="$route.path" v-if="$route.meta.tabbarshow"></workBottom>
@@ -25,9 +25,9 @@ export default {
     };
   },
   methods: {
-    goUrl(url) {
-      this.$router.push(url);
-    },
+    // goUrl(url) {
+    //   this.$router.push(url);
+    // },
   },
 
 };
