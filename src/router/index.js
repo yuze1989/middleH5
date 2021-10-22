@@ -111,6 +111,9 @@ router.beforeEach(async (to, form, next) => {
       localStorage.clear();
     }
     const openid = localStorage.getItem('openId');
+    if (openid === 'null') {
+      localStorage.clear();
+    }
     let token = sessionStorage.getItem('token');
     if (!openid && !options.appid && !options.code) {
       Toast('appid为空');
