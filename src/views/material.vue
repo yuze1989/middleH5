@@ -258,7 +258,6 @@ export default {
         materialType: this.$store.state.navType + 1,
         materialEnclosureId: obj.materialEnclosureId,
       }, '').then((res) => {
-        console.log(res);
         data = {
           msgtype: msgType,
           enterChat: true,

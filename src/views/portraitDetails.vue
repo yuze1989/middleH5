@@ -127,7 +127,6 @@ export default {
       }, '').then((res) => {
         if (res.success) {
           this.TagDTO = res.data.pubTagDTOList;
-          console.log(res.data.pubTagDTOList);
         }
       });
     },
@@ -138,7 +137,6 @@ export default {
         if (res.success) {
           this.useData = res.data;
           this.useData.gmtCreate = this.getyyyyMMdd(this.useData.gmtCreate);
-          console.log(this.useData);
         }
       });
     },

@@ -73,7 +73,6 @@ export default {
     },
     // 投诉
     complaint() {
-      console.log('投诉');
       // window.location.href = '';
     },
   },
