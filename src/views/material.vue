@@ -1,6 +1,6 @@
 <template>
   <div class="box-bos">
-    <ul>
+    <ul v-if="err !== '0100000006'">
       <li :class="{'active': $store.state.navType === index}" v-for="(item,index) in lists"
       :key="index" @click="change(index)">
         {{item.name}}
@@ -60,7 +60,6 @@ export default {
       sum: 0,
       shake: false,
       err: '',
-      errType: 0,
       height: 0,
       // 头部选项卡
       lists: [
@@ -117,7 +116,6 @@ export default {
     };
   },
   mounted() {
-    Wechat.setWxConfig();
     const navType = parseInt(sessionStorage.getItem('navType'), 0);
     if (navType) {
       store.dispatch('SETNACVTYPE', navType);
@@ -132,6 +130,7 @@ export default {
       this.pageIndex = 1;
       this.dataList = [];
       this.finished = false;
+      this.loading = true;
       this.onLoad();
     },
     getList() {
@@ -143,15 +142,13 @@ export default {
       Http.post(`/scrm/material/list-marketing-material/${headType}`, {
         materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
-        pageSize: 1,
+        pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
         if (res.success) {
           that.err = '';
           // 判断获取数据条数若等于0
-          if (res.data.totalCount === 0) {
-            // 清空数组
-            that.dataList = [];
+          if (res.totalCount === 0) {
             // 停止上拉加载
             that.finished = true;
             that.loading = false;
@@ -171,11 +168,7 @@ export default {
           }
         } else {
           that.err = res.errCode;
-          Toast.loading({
-            message: res.errMessage,
-            duration: 1000,
-            type: 'fail',
-          });
+          Toast(res.errMessage);
         }
       })
         .catch(() => {
@@ -240,7 +233,7 @@ export default {
           if (res.success) {
             data.news = {
               // H5消息页面url 必填
-              link: url || `${Config.redirect_uri}/middleH5/details?id=${res.data}`,
+              link: url || `${Config.redirect_uri}/sh5/details?id=${res.data}`,
               title: obj.title, // H5消息标题
               desc: obj.description, // H5消息摘要
               imgUrl: obj.coverPicUrl, // H5消息封面图片URL
@@ -249,8 +242,7 @@ export default {
             Toast.loading({
               duration: 1,
             });
-
-            Wechat.sendChatMessage(data, 1);
+            Wechat.setAgentConfig(data, 'sendChatMessage');
           } else {
             Toast.loading({
               message: res.errMessage,
@@ -266,7 +258,6 @@ export default {
         materialType: this.$store.state.navType + 1,
         materialEnclosureId: obj.materialEnclosureId,
       }, '').then((res) => {
-        console.log(res);
         data = {
           msgtype: msgType,
           enterChat: true,
@@ -274,7 +265,7 @@ export default {
             [type]: type === 'content' ? obj.content : res.data,
           },
         };
-        Wechat.sendChatMessage(data, 1);
+        Wechat.setAgentConfig(data, 'sendChatMessage');
         this.shake = true;
         Toast.loading({
           duration: 1,

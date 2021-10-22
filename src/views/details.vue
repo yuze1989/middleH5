@@ -18,7 +18,7 @@
           </div>
           <div class="footer-content" v-if="isShow">
             该文章由用户自主上传，文字版权归原作者所有。如您发现版权问题请点击
-            <span @click="complaint">投诉</span>
+            <!-- <span @click="complaint">投诉</span> -->
           </div>
           <div class="footer-tip">
             <div class="right-margin">——</div>
@@ -63,7 +63,6 @@ export default {
       Http.post('/scrm/h5/marketing-material/get-by-share-id', {
         shareId: that.id,
       }, '').then((res) => {
-        // alert(JSON.stringify(res));
         if (res.success) {
           that.data = res.data;
           document.title = res.data.title;
@@ -74,7 +73,6 @@ export default {
     },
     // 投诉
     complaint() {
-      console.log('投诉');
       // window.location.href = '';
     },
   },

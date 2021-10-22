@@ -11,6 +11,7 @@
 </template>
 <script>
 import bottom from './common/bottom.vue';
+
 import workBottom from './common/workBottom.vue';
 
 export default {
@@ -25,6 +26,9 @@ export default {
     };
   },
   methods: {
+    // goUrl(url) {
+    //   this.$router.push(url);
+    // },
   },
 
 };

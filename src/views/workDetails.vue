@@ -1,5 +1,6 @@
 <template>
   <div class="box">
+    <div v-if="!err">
     <div class="top-box">
       <div class="tite">
         <div class="task-name">{{dataList.sopName}}</div>
@@ -84,6 +85,8 @@
       <div class="footer-left" @click="cancel">全选</div>
       <div class="footer-right" @click="determine">完成</div>
     </div>
+    </div>
+    <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 
@@ -92,11 +95,15 @@ import { Toast } from 'vant';
 import Http from '../utils/http';
 import Utils from '../utils/util';
 import Wechat from '../utils/wechat';
+import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
-  name: 'workDetails',
+  components: {
+    jurisdiction,
+  },
   data() {
     return {
+      err: '',
       dataList: [],
       batchNo: '',
       idList: [],
@@ -106,7 +113,6 @@ export default {
     };
   },
   mounted() {
-    Wechat.setWxConfig();
     this.batchNo = this.$route.query.batchNo;
     this.getList();
   },
@@ -119,7 +125,7 @@ export default {
       const data = {
         chatId: obj.wxGroupChatId,
       };
-      Wechat.openExistedChatWithMsg(data, 2);
+      Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
     },
     change(obj) {
       const data = obj;
@@ -219,6 +225,7 @@ export default {
         batchNo: that.batchNo,
       }, '').then((res) => {
         if (res.success) {
+          that.err = '';
           res.data.sopTaskList.forEach((item) => {
             const data = item;
             data.isSelect = false;
@@ -227,13 +234,13 @@ export default {
           that.finishTime = Utils.getyyyyMMdd(res.data.finishTime);
           that.dataList = res.data;
         } else {
-          Toast.loading({
-            message: res.errMessage,
-            duration: 1000,
-            type: 'fail',
-          });
+          that.err = res.errCode;
+          Toast(res.errMessage);
         }
-      });
+      })
+        .catch(() => {
+          that.err = 'errCode';
+        });
     },
   },
 };

@@ -1,8 +1,8 @@
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  publicPath: '/middleH5/',
-  outputDir: 'middleH5',
+  publicPath: '/sh5/',
+  outputDir: 'sh5',
   configureWebpack: {
     resolve: {
       alias: {

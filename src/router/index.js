@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { Toast } from 'vant';
 import Http from '../utils/http';
 import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
@@ -11,15 +12,6 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    name: 'speechArt',
-    component: speechArt,
-    meta: {
-      tabbarshow: true,
-      type: 1,
-    },
-  },
-  {
-    path: '/speechArt',
     name: 'speechArt',
     component: speechArt,
     meta: {
@@ -92,6 +84,15 @@ const routes = [
     },
     component: () => import('../views/workDetails.vue'),
   },
+  {
+    path: '/portraitDetails',
+    name: 'portraitDetails',
+    meta: {
+      tabbarshow: false,
+      type: 2,
+    },
+    component: () => import('../views/portraitDetails.vue'),
+  },
 ];
 
 const router = new VueRouter({
@@ -100,63 +101,72 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, form, next) => {
+router.beforeEach(async (to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
-    // localStorage.removeItem('token');
-    const token = sessionStorage.getItem('token');
+    const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
-    if (!token && !options.code && options.appid) {
-      // if (src.charAt(src.length - 1) === '/') {
-      //   src = src.substr(0, src.length - 1);
-      // }
-      const sum = +1;
-      if (sum > 1) {
-        return;
-      }
+    if (options.appid !== corpId && options.appid) {
+      localStorage.clear();
+    }
+    let openid = localStorage.getItem('openId');
+    if (openid === 'null') {
+      localStorage.clear();
+      openid = '';
+    }
+    let token = sessionStorage.getItem('token');
+    if (!openid && !options.appid && !options.code) {
+      Toast('appid为空');
+      return;
+    }
+    if (!openid && options.appid && !options.code) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
       }&redirect_uri=${
-        encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo}`)
+        encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo || ''}`)
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
+    if (openid && !token) {
+      const res = await Http.post('/scrm/wechat/oauth-user-info-openid', {
+        channel: localStorage.getItem('channel'),
+        corpId: localStorage.getItem('corpId'),
+        openId: openid,
+      });
+      const { success, data } = res;
+      if (success && data.token) {
+        token = data.token;
+        sessionStorage.setItem('token', data.token);
+      }
+    }
     if (!token && options.code) {
-      Http.post('/scrm/wechat/get-oauth-user-info', {
+      const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
         code: options.code,
         channel: options.channel,
-      }).then((res) => {
-        const { success, data } = res;
-        if (success) {
-          sessionStorage.setItem('unionId', data.unionid);
-          sessionStorage.setItem('openid', data.openid);
-          if (data.userId) {
-            sessionStorage.setItem('userId', data.userId);
-          }
-          if (data.agentId) {
-            sessionStorage.setItem('agentId', data.agentId);
-          }
-          if (data.corpId) {
-            sessionStorage.setItem('corpId', data.corpId);
-          }
-          if (data.token) {
-            sessionStorage.setItem('token', data.token);
-          }
-          sessionStorage.setItem('wxInfo', JSON.stringify(res.data));
-          if (options.channel) {
-            sessionStorage.setItem('channel', options.channel);
-          }
-        }
-        next();
-      }).finally(() => {
-        next();
       });
-      return;
+      const { success, data } = res;
+      if (success) {
+        const arr = ['unionId', 'openId', 'userId', 'agentId', 'corpId'];
+        arr.forEach((item) => {
+          if (data[item]) {
+            localStorage.setItem(item, data[item]);
+          }
+        });
+        if (data.token) {
+          token = data.token;
+          sessionStorage.setItem('token', data.token);
+        }
+        localStorage.setItem('wxInfo', JSON.stringify(res.data));
+        if (options.channel) {
+          localStorage.setItem('channel', options.channel);
+        }
+      }
     }
-    // return;
+    if (token) next();
+    return;
   }
   next();
 });

@@ -1,13 +1,13 @@
 <template>
   <div class="box">
-    <div class="top-nav">
+    <div class="top-nav" v-if="err !== '0100000006'">
       <div v-for="(item,index) in nav" :key="index">
         <div :class="{active: type === index}" @click="change(index)">
           {{item}}
         </div>
       </div>
     </div>
-    <div class="content">
+    <div class="content" v-if="!err">
       <div class="content-box" v-for="(item, index) in itemList" :key="index"
       @click.stop="open(item)">
         <div class="flex">
@@ -28,6 +28,7 @@
         </div>
       </div>
     </div>
+    <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 
@@ -36,16 +37,18 @@ import { Toast } from 'vant';
 import textOver from '../components/textOver.vue';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
+import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
   components: {
     textOver,
+    jurisdiction,
   },
   data() {
     return {
       // 选中的样式下标
       type: 0,
-
+      err: '',
       // 头部选项卡
       nav: ['企业常用语', '个人常用语'],
 
@@ -54,23 +57,27 @@ export default {
     };
   },
   mounted() {
-    Wechat.setWxConfig();
     this.getList();
   },
   methods: {
     // 阻止冒泡
     stop() {},
+    // 记录话术分享次数
+    Statistics(id) {
+      Http.post('/scrm/comm/rest/speech/speech-send', {
+        speechId: id,
+      }, '').then(() => {});
+    },
     // 分享
     share(item) {
-      const obj = item;
       const data = {
         msgtype: 'text',
         enterChat: true,
         text: {
-          content: obj.text, // 文本内容
+          content: item.text, // 文本内容
         },
       };
-      Wechat.sendChatMessage(data, 1);
+      Wechat.setAgentConfig(data, 'sendChatMessage', this.Statistics(item.id));
       this.shake = true;
       Toast.loading({
         duration: 1,
@@ -81,6 +88,7 @@ export default {
       Http.post('/scrm/comm/rest/speech/list-speech-group-right', {
         speechType: that.type + 1,
       }, '').then((res) => {
+        that.err = '';
         if (res.success) {
           res.data.forEach((obj) => {
             const e = obj;
@@ -88,9 +96,13 @@ export default {
           });
           that.itemList = res.data;
         } else {
+          that.err = res.errCode;
           Toast(res.errMessage);
         }
-      });
+      })
+        .catch(() => {
+          that.err = 'errCode';
+        });
     },
     // 展开开关
     open(list) {

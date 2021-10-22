@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "24936733",
+      "name": "节点",
+      "font_class": "jiedian",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    },
+    {
+      "icon_id": "24610610",
+      "name": "商城",
+      "font_class": "shangcheng",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    },
+    {
+      "icon_id": "24610613",
+      "name": "小程序绑定",
+      "font_class": "xiaochengxubangding",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    },
+    {
+      "icon_id": "24610614",
+      "name": "小程序未绑定",
+      "font_class": "xiaochengxuweibangding",
+      "unicode": "e681",
+      "unicode_decimal": 59009
+    },
+    {
       "icon_id": "24582833",
       "name": "未选择",
       "font_class": "weixuanze",

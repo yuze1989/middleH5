@@ -6,35 +6,35 @@ let wxSignature;
 const Wechat = {
   setWxConfig: async () => {
     const res = await Http.post('/scrm/wechat/js-api-signature', {
-      corpId: sessionStorage.getItem('corpId'),
+      corpId: localStorage.getItem('corpId'),
       url: window.location.href.split('#')[0],
     });
     wxSignature = res.data;
   },
-  setAgentConfig: (info, type) => {
+  setAgentConfig: async (info, type, func) => {
+    await Wechat.setWxConfig();
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
-      agentid: sessionStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
+      agentid: localStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
       timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
-      jsApiList: ['sendChatMessage', 'openExistedChatWithMsg'], // 必填，传入需要使用的接口名称
+      jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact'], // 必填，传入需要使用的接口名称
       success: () => {
-        wx.invoke(type === 1 ? 'sendChatMessage' : 'openExistedChatWithMsg', info, () => {});
+        wx.invoke(type, info, (res) => {
+          sessionStorage.setItem('userId', res.userId);
+          if (func) {
+            func();
+          }
+        });
         // 回调
       },
       fail: (res) => {
         if (res.errMsg.indexOf('function not exist') > -1) {
-          alert('版本过低请升级');
+          // alert('版本过低请升级');
         }
       },
     });
-  },
-  sendChatMessage: (info) => {
-    Wechat.setAgentConfig(info, 1);
-  },
-  openExistedChatWithMsg: (info) => {
-    Wechat.setAgentConfig(info, 2);
   },
   setApi: (configInfo) => {
     wx.config({
@@ -46,9 +46,8 @@ const Wechat = {
       jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       openTagList: ['wx-open-launch-weapp'],
     });
-    wx.error((res) => {
+    wx.error(() => {
       // location.reload()
-      console.log('wx error ===', res);
     });
     wx.checkJsApi({
       jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'],
