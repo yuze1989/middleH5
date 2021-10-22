@@ -11,6 +11,7 @@
 </template>
 <script>
 import bottom from './common/bottom.vue';
+
 import workBottom from './common/workBottom.vue';
 
 export default {
