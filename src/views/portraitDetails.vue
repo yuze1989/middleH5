@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div  v-if="!err">
     <div class="box">
       <div class="top">
         <img :src="useData.avatar">
@@ -76,20 +77,25 @@
         </div>
   </List>
   </PullRefresh>
+    </div>
+    <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 <script>
 import { List, PullRefresh } from 'vant';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
+import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
   components: {
     List,
     PullRefresh,
+    jurisdiction,
   },
   data() {
     return {
+      err: '',
       source: 2,
       TagDTO: [],
       useData: {},
@@ -135,10 +141,16 @@ export default {
         externalUserId: sessionStorage.getItem('userId'),
       }, '').then((res) => {
         if (res.success) {
+          this.err = '';
           this.useData = res.data;
           this.useData.gmtCreate = this.getyyyyMMdd(this.useData.gmtCreate);
+        } else {
+          this.err = res.errCode;
         }
-      });
+      })
+        .catch(() => {
+          this.err = 'errCode';
+        });
     },
     onRefresh() {
       this.pageIndex = 1;
