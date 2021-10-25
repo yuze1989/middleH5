@@ -22,7 +22,9 @@ const Wechat = {
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact'], // 必填，传入需要使用的接口名称
       success: () => {
         wx.invoke(type, info, (res) => {
-          sessionStorage.setItem('userId', res.userId);
+          if (res.userId) {
+            sessionStorage.setItem('userId', res.userId);
+          }
           if (func) {
             func();
           }
