@@ -49,7 +49,8 @@ const Wechat = {
       jsApiList: ['updateAppMessageShareData', 'openExistedChatWithMsg', 'updateTimelineShareData'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       openTagList: ['wx-open-launch-weapp'],
     });
-    wx.error(() => {
+    wx.error((res) => {
+      console.log(res);
       // location.reload()
     });
     wx.checkJsApi({
@@ -61,6 +62,9 @@ const Wechat = {
         // alert(JSON.stringify(res));
         // 以键值对的形式返回，可用的api值true，不可用为false
         // 如：{'checkResult':{'chooseImage':true},'errMsg':'checkJsApi:ok'}
+      },
+      fail: (res) => {
+        console.log(res, '----111----11');
       },
     });
   },
