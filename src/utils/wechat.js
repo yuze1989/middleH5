@@ -33,7 +33,7 @@ const Wechat = {
           });
         } else {
           wx.openEnterpriseChat({
-            externalUserIds: id,
+            externalUserIds: info,
             groupName: '',
             success: (res) => {
               console.log(res, '----------------');
