@@ -23,7 +23,7 @@ const Wechat = {
         'externalUserIds'], // 必填，传入需要使用的接口名称
       success: () => {
         wx.invoke(type, info, (res) => {
-          console.log(res);
+          console.log(res, '=-====----===--=-=-=-=-=');
           if (res.userId) {
             sessionStorage.setItem('userId', res.userId);
           }
