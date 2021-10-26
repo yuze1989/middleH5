@@ -71,7 +71,7 @@ const Wechat = {
     }
     wx.ready(() => {
       wx.updateAppMessageShareData(shareInfo);
-      wx.updateAppMessageShareData(shareInfo);
+      wx.updateTimelineShareData(shareInfo);
       wx.openExistedChatWithMsg(shareInfo);
     });
     wx.updateAppMessageShareData(shareInfo);
