@@ -123,12 +123,19 @@ export default {
         // 任务完成不让分享
         return;
       }
-      const typeName = obj.targetType === 1 ? 'chatId' : 'externalUserIds';
-      const data = {
-        [typeName]: obj.wxGroupChatId,
-      };
-      Wechat.setAgentConfig(data, obj.targetType === 1 ? 'openExistedChatWithMsg'
-        : 'openEnterpriseChat');
+      let data = {};
+      if (obj.targetType === 1) {
+        data = {
+          chatId: obj.wxGroupChatId,
+        };
+        Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
+      } else {
+        data = {
+          externalUserIds: obj.wxGroupChatId,
+          groupName: '',
+        };
+        Wechat.setAgentConfig(data, 'openEnterpriseChat');
+      }
     },
     change(obj) {
       const data = obj;
