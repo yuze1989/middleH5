@@ -125,11 +125,11 @@ export default {
       }
       if (obj.targetType === 1) {
         const data = {
-          chatId: obj.wxGroupChatId,
+          chatId: obj.targetThirdId,
         };
         Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
       } else {
-        Wechat.openEnterpriseChat(obj.wxGroupChatId);
+        Wechat.openEnterpriseChat(obj.targetThirdId);
       }
     },
     change(obj) {
