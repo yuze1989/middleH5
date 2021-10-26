@@ -116,6 +116,7 @@ export default {
   mounted() {
     this.batchNo = this.$route.query.batchNo;
     this.getList();
+    Wechat.setWxConfig();
   },
   methods: {
     // 分享
@@ -130,7 +131,19 @@ export default {
         };
         Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
       } else {
-        Wechat.setAgentConfig(obj.targetThirdId);
+        Wechat.customShare({
+          externalUserIds: obj.targetThirdId,
+          groupName: '',
+          success: () => {
+            // 用户点击了分享后执行的回调函数
+          },
+          fail: (res) => {
+            console.log(res, '----111----11');
+            if (res.errMsg.indexOf('function not exist') > -1) {
+              // alert('版本过低请升级');
+            }
+          },
+        });
       }
     },
     change(obj) {
