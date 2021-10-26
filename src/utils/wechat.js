@@ -71,9 +71,9 @@ const Wechat = {
     wx.checkJsApi({
       jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'],
       openTagList: ['wx-open-launch-weapp'],
-      success: (res) => {
+      success: () => {
         // window.isSetWxconfig = true // 在window中添加isSetWxconfig,判断是否进行页面刷新
-        console.log('检查jsapi==', res);
+        // console.log('检查jsapi==', res);
         // alert(JSON.stringify(res));
         // 以键值对的形式返回，可用的api值true，不可用为false
         // 如：{'checkResult':{'chooseImage':true},'errMsg':'checkJsApi:ok'}
