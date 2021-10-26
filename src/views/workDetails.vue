@@ -6,7 +6,7 @@
         <div class="task-name">{{dataList.sopName}}</div>
         <div class="state" v-if="dataList.overdueFlag">逾期</div>
       </div>
-      <div class="task">{{dataList.sopRuleName}}</div>
+      <div class="task">{{dataList.sopType === 1 ? '群SOP' : '客户SOP'}}</div>
       <div class="push-date">
         <div>推送时间：{{taskTime}}</div>
         <div v-if="dataList.taskStatus !== 3">
@@ -69,7 +69,7 @@
           </div>
           <div>
             <div class="list-flex">
-              <div class="list-content">{{item.groupChatName}}</div>
+              <div class="list-content">{{item.targetName}}</div>
               <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
               {{item.taskStatus === 3 ? '已完成' : '未完成'}}</div>
             </div>
@@ -120,12 +120,15 @@ export default {
     // 分享
     share(obj) {
       if (obj.taskStatus === 3) {
+        // 任务完成不让分享
         return;
       }
+      const typeName = obj.targetType === 1 ? 'chatId' : 'externalUserIds';
       const data = {
-        chatId: obj.wxGroupChatId,
+        [typeName]: obj.wxGroupChatId,
       };
-      Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
+      Wechat.setAgentConfig(data, obj.targetType === 1 ? 'openExistedChatWithMsg'
+        : 'openEnterpriseChat');
     },
     change(obj) {
       const data = obj;
@@ -259,7 +262,7 @@ export default {
     margin: 2px 2px 0 0 !important;
   }
   .icon{
-    width: 24px;
+    min-width: 24px;
     height: 24px;
     background: #DCEEFF;
     box-shadow: 0 4px 30px 0 rgba(24,107,255,0.16);
@@ -268,7 +271,7 @@ export default {
     line-height: 24px;
   }
   .yes{
-    width: 46.5px;
+    min-width: 46.5px;
     height: 19px;
     background: #DCEEFF;
     border-radius: 9px;
@@ -279,7 +282,7 @@ export default {
     margin-left: 10px;
   }
   .no{
-    width: 46.5px;
+    min-width: 46.5px;
     height: 19px;
     line-height: 19px;
     background: #E5E5E5;
@@ -423,7 +426,7 @@ export default {
   }
   .group{
     background: #03C15E;
-    width: 46px;
+    min-width: 46px;
     height: 46px;
     border-radius: 4px;
     margin-right: 12px;

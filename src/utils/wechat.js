@@ -19,7 +19,8 @@ const Wechat = {
       timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
-      jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact'], // 必填，传入需要使用的接口名称
+      jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
+        'externalUserIds'], // 必填，传入需要使用的接口名称
       success: () => {
         wx.invoke(type, info, (res) => {
           if (res.userId) {

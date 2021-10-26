@@ -15,6 +15,7 @@ instance.interceptors.request.use((config) => {
   const token = sessionStorage.getItem('token');
   configTemp.headers = config.headers || {};
   Object.assign(config.headers, globalOpt);
+  // mockToken
   configTemp.headers.token = token;
   return config;
 }, (error) => {

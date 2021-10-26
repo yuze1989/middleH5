@@ -24,7 +24,7 @@
       @click="go(item.batchNo)">
         <div class="tite">
           <div class="state" v-if="item.overdueFlag">逾期</div>
-          <div class="task-name">{{item.sopName}}</div>
+          <div class="task-name">{{item.sopType === 1 ? '群SOP' : '客户SOP'}}</div>
         </div>
         <div class="task">{{item.sopRuleName}}</div>
         <div class="push-date">
