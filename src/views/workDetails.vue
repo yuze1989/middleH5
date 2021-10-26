@@ -78,7 +78,8 @@
             </div>
           </div>
         </div>
-        <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i></div>
+        <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i>
+        </div>
       </div>
     </div>
     <div class="footer" v-if="dataList.taskStatus !== 3">

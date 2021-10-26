@@ -35,6 +35,12 @@ const Wechat = {
         // 以键值对的形式返回，可用的api值true，不可用为false
         // 如：{'checkResult':{'chooseImage':true},'errMsg':'checkJsApi:ok'}
       },
+      fail: (res) => {
+        console.log(res, '\\\\\\\\\\\\\=====');
+        if (res.errMsg.indexOf('function not exist') > -1) {
+          // alert('版本过低请升级');
+        }
+      },
     });
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
