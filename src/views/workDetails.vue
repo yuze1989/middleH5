@@ -130,11 +130,7 @@ export default {
         };
         Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
       } else {
-        data = {
-          externalUserIds: obj.wxGroupChatId,
-          groupName: '',
-        };
-        Wechat.setAgentConfig(data, 'openEnterpriseChat');
+        Wechat.setAgentConfig(obj.wxGroupChatId);
       }
     },
     change(obj) {
