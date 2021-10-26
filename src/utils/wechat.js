@@ -11,39 +11,6 @@ const Wechat = {
     });
     wxSignature = res.data;
   },
-  openEnterpriseChat: async (id) => {
-    await Wechat.setWxConfig();
-    wx.agentConfig({
-      corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
-      agentid: localStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
-      timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
-      nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
-      signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
-      jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
-        'externalUserIds'], // 必填，传入需要使用的接口名称
-      success: () => {
-        wx.openEnterpriseChat({
-          externalUserIds: id,
-          groupName: '',
-          success: (res) => {
-            console.log(res, '----------------');
-          },
-          fail: (res) => {
-            console.log(res);
-            if (res.errMsg.indexOf('function not exist') > -1) {
-              // alert('版本过低请升级');
-            }
-          },
-        });
-        // 回调
-      },
-      fail: (res) => {
-        if (res.errMsg.indexOf('function not exist') > -1) {
-          // alert('版本过低请升级');
-        }
-      },
-    });
-  },
   setAgentConfig: async (info, type, func) => {
     await Wechat.setWxConfig();
     wx.agentConfig({
@@ -55,14 +22,30 @@ const Wechat = {
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
         'externalUserIds'], // 必填，传入需要使用的接口名称
       success: () => {
-        wx.invoke(type, info, (res) => {
-          if (res.userId) {
-            sessionStorage.setItem('userId', res.userId);
-          }
-          if (func) {
-            func();
-          }
-        });
+        if (type) {
+          wx.invoke(type, info, (res) => {
+            if (res.userId) {
+              sessionStorage.setItem('userId', res.userId);
+            }
+            if (func) {
+              func();
+            }
+          });
+        } else {
+          wx.openEnterpriseChat({
+            externalUserIds: id,
+            groupName: '',
+            success: (res) => {
+              console.log(res, '----------------');
+            },
+            fail: (res) => {
+              console.log(res, '===========');
+              if (res.errMsg.indexOf('function not exist') > -1) {
+                // alert('版本过低请升级');
+              }
+            },
+          });
+        }
         // 回调
       },
       fail: (res) => {

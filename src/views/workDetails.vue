@@ -129,7 +129,7 @@ export default {
         };
         Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
       } else {
-        Wechat.openEnterpriseChat(obj.targetThirdId);
+        Wechat.setAgentConfig(obj.targetThirdId);
       }
     },
     change(obj) {
