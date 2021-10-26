@@ -19,19 +19,9 @@ const Wechat = {
       timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录1
-      jsApiList: ['openExistedChatWithMsg'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
+        'externalUserIds'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       openTagList: ['wx-open-launch-weapp'],
-    });
-    wx.checkJsApi({
-      jsApiList: ['openExistedChatWithMsg'],
-      openTagList: ['wx-open-launch-weapp'],
-      success: (res) => {
-        // window.isSetWxconfig = true // 在window中添加isSetWxconfig,判断是否进行页面刷新
-        console.log('检查jsapi==', res);
-        // alert(JSON.stringify(res));
-        // 以键值对的形式返回，可用的api值true，不可用为false
-        // 如：{'checkResult':{'chooseImage':true},'errMsg':'checkJsApi:ok'}
-      },
     });
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
