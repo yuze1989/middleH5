@@ -16,7 +16,7 @@ instance.interceptors.request.use((config) => {
   configTemp.headers = config.headers || {};
   Object.assign(config.headers, globalOpt);
   // mockToken
-  configTemp.headers.token = token || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDkifQ.UfezkmfwuiW4fLWjbTGGmm05k7rRXMNJ3w8msagU_nA';
+  configTemp.headers.token = token;
   return config;
 }, (error) => {
   Promise.reject(error);
