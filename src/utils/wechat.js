@@ -36,7 +36,7 @@ const Wechat = {
         // 如：{'checkResult':{'chooseImage':true},'errMsg':'checkJsApi:ok'}
       },
       fail: (res) => {
-        console.log(res, '\\\\\\\\\\\\\=====');
+        console.log(res, '11``````');
         if (res.errMsg.indexOf('function not exist') > -1) {
           // alert('版本过低请升级');
         }
