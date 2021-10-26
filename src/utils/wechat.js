@@ -11,6 +11,21 @@ const Wechat = {
     });
     wxSignature = res.data;
   },
+  openEnterpriseChat: (id) => {
+    wx.openEnterpriseChat({
+      externalUserIds: id,
+      groupName: '',
+      success: (res) => {
+        console.log(res, '----------------');
+      },
+      fail: (res) => {
+        console.log(res);
+        if (res.errMsg.indexOf('function not exist') > -1) {
+          // alert('版本过低请升级');
+        }
+      },
+    });
+  },
   setAgentConfig: async (info, type, func) => {
     await Wechat.setWxConfig();
     wx.agentConfig({
@@ -29,19 +44,6 @@ const Wechat = {
           if (func) {
             func();
           }
-        });
-        wx.openEnterpriseChat({
-          externalUserIds: info,
-          groupName: '',
-          success: (res) => {
-            console.log(res, '----------------');
-          },
-          fail: (res) => {
-            console.log(res);
-            if (res.errMsg.indexOf('function not exist') > -1) {
-              // alert('版本过低请升级');
-            }
-          },
         });
         // 回调
       },

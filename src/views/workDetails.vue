@@ -123,14 +123,13 @@ export default {
         // 任务完成不让分享
         return;
       }
-      let data = {};
       if (obj.targetType === 1) {
-        data = {
+        const data = {
           chatId: obj.wxGroupChatId,
         };
         Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
       } else {
-        Wechat.setAgentConfig(obj.wxGroupChatId);
+        Wechat.openEnterpriseChat(obj.wxGroupChatId);
       }
     },
     change(obj) {
