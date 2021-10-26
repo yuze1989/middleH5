@@ -110,7 +110,7 @@ router.beforeEach(async (to, form, next) => {
     if (options.appid !== corpId && options.appid) {
       localStorage.clear();
     }
-    let openid = sessionStorage.getItem('openId');
+    let openid = localStorage.getItem('openId');
     if (openid === 'null') {
       localStorage.clear();
       openid = '';
@@ -149,15 +149,12 @@ router.beforeEach(async (to, form, next) => {
       });
       const { success, data } = res;
       if (success) {
-        const arr = ['unionId', 'userId', 'agentId', 'corpId'];
+        const arr = ['unionId', 'openId', 'userId', 'agentId', 'corpId'];
         arr.forEach((item) => {
           if (data[item]) {
             localStorage.setItem(item, data[item]);
           }
         });
-        if (data.openId) {
-          sessionStorage.setItem('openId', data.openId);
-        }
         if (data.token) {
           token = data.token;
           sessionStorage.setItem('token', data.token);
