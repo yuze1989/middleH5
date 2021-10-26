@@ -10,7 +10,7 @@ const Wechat = {
       url: window.location.href.split('#')[0],
     });
     wxSignature = res.data;
-    setApi(wxSignature);
+    Wechat.setApi(res.data);
   },
   setAgentConfig: async (info, type, func) => {
     await Wechat.setWxConfig();
