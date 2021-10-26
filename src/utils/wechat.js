@@ -70,13 +70,13 @@ const Wechat = {
       Wechat.setWxConfig();
     }
     wx.ready(() => {
-      wx.updateAppMessageShareData(shareInfo);
-      wx.updateTimelineShareData(shareInfo);
+      // wx.updateAppMessageShareData(shareInfo);
+      // wx.updateTimelineShareData(shareInfo);
       wx.openExistedChatWithMsg(shareInfo);
     });
-    wx.updateAppMessageShareData(shareInfo);
+    // wx.updateAppMessageShareData(shareInfo);
     wx.openExistedChatWithMsg(shareInfo);
-    wx.updateTimelineShareData(shareInfo);
+    // wx.updateTimelineShareData(shareInfo);
   },
 };
 
