@@ -3,7 +3,7 @@
     <div v-if="!err">
     <div class="top-box">
       <div class="tite">
-        <div class="task-name">{{dataList.sopName}}</div>
+        <div class="task-name">{{dataList.sopRuleName}}</div>
         <div class="state" v-if="dataList.overdueFlag">逾期</div>
       </div>
       <div class="task">{{dataList.sopType === 1 ? '群SOP' : '客户SOP'}}任务</div>
