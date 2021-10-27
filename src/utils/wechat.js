@@ -10,7 +10,6 @@ const Wechat = {
       url: window.location.href.split('#')[0],
     });
     wxSignature = res.data;
-    Wechat.setApi(res.data);
   },
   setAgentConfig: async (info, type, func) => {
     await Wechat.setWxConfig();
@@ -20,19 +19,37 @@ const Wechat = {
       timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
-      jsApiList: ['sendChatMessage', 'getCurExternalContact', 'externalUserIds'], // 必填，传入需要使用的接口名称
+      jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
+        'openEnterpriseChat'], // 必填，传入需要使用的接口名称
       success: () => {
-        wx.invoke(type, info, (res) => {
-          if (res.userId) {
-            sessionStorage.setItem('userId', res.userId);
-          }
-          if (func) {
-            func();
-          }
-        });
+        if (type) {
+          wx.invoke(type, info, (res) => {
+            if (res.userId) {
+              sessionStorage.setItem('userId', res.userId);
+            }
+            if (func) {
+              func();
+            }
+          });
+        } else {
+          wx.openEnterpriseChat({
+            externalUserIds: info,
+            groupName: '',
+            success: (res) => {
+              console.log(res, '----------------');
+            },
+            fail: (res) => {
+              console.log(res);
+              if (res.errMsg.indexOf('function not exist') > -1) {
+                // alert('版本过低请升级');
+              }
+            },
+          });
+        }
         // 回调
       },
       fail: (res) => {
+        console.log(res);
         if (res.errMsg.indexOf('function not exist') > -1) {
           // alert('版本过低请升级');
         }
@@ -46,25 +63,21 @@ const Wechat = {
       timestamp: configInfo.timestamp, // 必填，生成签名的时间戳
       nonceStr: configInfo.nonceStr, // 必填，生成签名的随机串
       signature: configInfo.signature, // 必填，签名，见附录1
-      jsApiList: ['updateAppMessageShareData', 'openExistedChatWithMsg', 'updateTimelineShareData'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       openTagList: ['wx-open-launch-weapp'],
     });
-    wx.error((res) => {
-      console.log(res);
+    wx.error(() => {
       // location.reload()
     });
     wx.checkJsApi({
-      jsApiList: ['updateAppMessageShareData', 'openExistedChatWithMsg', 'updateTimelineShareData'],
+      jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'],
       openTagList: ['wx-open-launch-weapp'],
-      success: () => {
+      success: (res) => {
         // window.isSetWxconfig = true // 在window中添加isSetWxconfig,判断是否进行页面刷新
         console.log('检查jsapi==', res);
         // alert(JSON.stringify(res));
         // 以键值对的形式返回，可用的api值true，不可用为false
         // 如：{'checkResult':{'chooseImage':true},'errMsg':'checkJsApi:ok'}
-      },
-      fail: (res) => {
-        console.log(res, '----111----11');
       },
     });
   },
@@ -74,13 +87,11 @@ const Wechat = {
       Wechat.setWxConfig();
     }
     wx.ready(() => {
-      // wx.updateAppMessageShareData(shareInfo);
-      // wx.updateTimelineShareData(shareInfo);
-      wx.openExistedChatWithMsg(shareInfo);
+      wx.updateAppMessageShareData(shareInfo);
+      wx.updateTimelineShareData(shareInfo);
     });
-    // wx.updateAppMessageShareData(shareInfo);
-    wx.openExistedChatWithMsg(shareInfo);
-    // wx.updateTimelineShareData(shareInfo);
+    wx.updateAppMessageShareData(shareInfo);
+    wx.updateTimelineShareData(shareInfo);
   },
 };
 

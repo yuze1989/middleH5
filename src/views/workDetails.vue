@@ -124,25 +124,18 @@ export default {
         // 任务完成不让分享
         return;
       }
+      let data;
       if (obj.targetType === 1) {
-        const data = {
+        data = {
           chatId: obj.targetThirdId,
         };
         Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
       } else {
-        Wechat.customShare({
+        data = {
           externalUserIds: obj.targetThirdId,
           groupName: '',
-          success: () => {
-            // 用户点击了分享后执行的回调函数
-          },
-          fail: (res) => {
-            console.log(res, '----111----11');
-            if (res.errMsg.indexOf('function not exist') > -1) {
-              // alert('版本过低请升级');
-            }
-          },
-        });
+        };
+        Wechat.setAgentConfig(data, 'openEnterpriseChat');
       }
     },
     change(obj) {
