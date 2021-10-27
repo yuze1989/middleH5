@@ -116,7 +116,6 @@ export default {
   mounted() {
     this.batchNo = this.$route.query.batchNo;
     this.getList();
-    Wechat.setWxConfig();
   },
   methods: {
     // 分享
