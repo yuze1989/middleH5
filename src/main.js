@@ -3,9 +3,14 @@ import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
 import store from './store';
+import weChat from './utils/wechat';
+import env from './utils/deviceinfo';
 import './assets/iconfont/iconfont.css';
 
 Vue.config.productionTip = false;
+if (env.getType().platformType === 'WX_GZ') {
+  weChat.setWxConfig();
+}
 
 new Vue({
   router,
