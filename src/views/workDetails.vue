@@ -6,7 +6,7 @@
         <div class="task-name">{{dataList.sopName}}</div>
         <div class="state" v-if="dataList.overdueFlag">逾期</div>
       </div>
-      <div class="task">{{dataList.sopType === 1 ? '群SOP' : '客户SOP'}}</div>
+      <div class="task">{{dataList.sopType === 1 ? '群SOP' : '客户SOP'}}任务</div>
       <div class="push-date">
         <div>推送时间：{{taskTime}}</div>
         <div v-if="dataList.taskStatus !== 3">
@@ -51,7 +51,7 @@
     <div class="hr"></div>
     <!-- 推送群聊 -->
     <div class="content" style="margin-bottom: 60px;">
-      <div class="content-tip">推送群聊</div>
+      <div class="content-tip">推送{{dataList.sopType === 1 ? '群聊' : '客户'}}</div>
       <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
       @click.stop="change(item)">
         <div class="list-flex">
@@ -200,7 +200,7 @@ export default {
       });
       if (that.idList.length === 0) {
         Toast.loading({
-          message: '请选择完成的群聊',
+          message: that.dataList.sopType ? '请选择完成的群聊' : '请选择完成的客户',
           duration: 1000,
           type: 'fail',
         });
