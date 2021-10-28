@@ -107,7 +107,7 @@ router.beforeEach(async (to, form, next) => {
     const options = Util.getUrlOption(url);
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
-    if (options.appid !== corpId && options.appid) {
+    if (options.appid && options.appid !== corpId) {
       localStorage.clear();
     }
     let openid = localStorage.getItem('openId');

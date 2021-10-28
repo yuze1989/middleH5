@@ -200,7 +200,7 @@ export default {
       });
       if (that.idList.length === 0) {
         Toast.loading({
-          message: that.dataList.sopType ? '请选择完成的群聊' : '请选择完成的客户',
+          message: that.dataList.sopType === 1 ? '请选择完成的群聊' : '请选择完成的客户',
           duration: 1000,
           type: 'fail',
         });
