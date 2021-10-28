@@ -35,11 +35,11 @@ const Wechat = {
           wx.openEnterpriseChat({
             externalUserIds: info,
             groupName: '',
-            success: (res) => {
-              console.log(res, '----------------');
+            success: () => {
+              // console.log(res, '----------------');
             },
-            fail: (res) => {
-              console.log(res);
+            fail: () => {
+              // console.log(res);
               if (res.errMsg.indexOf('function not exist') > -1) {
                 // alert('版本过低请升级');
               }
