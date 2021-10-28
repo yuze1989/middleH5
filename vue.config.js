@@ -3,6 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   publicPath: '/sh5/',
   outputDir: 'sh5',
+  filenameHashing: true,
   configureWebpack: {
     resolve: {
       alias: {
