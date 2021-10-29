@@ -3,10 +3,10 @@
     <div v-if="!err">
     <div class="top-box">
       <div class="tite">
-        <div class="task-name">{{dataList.sopName}}</div>
+        <div class="task-name">{{dataList.sopRuleName}}</div>
         <div class="state" v-if="dataList.overdueFlag">逾期</div>
       </div>
-      <div class="task">{{dataList.sopRuleName}}</div>
+      <div class="task">{{dataList.sopType === 1 ? '群SOP' : '客户SOP'}}任务</div>
       <div class="push-date">
         <div>推送时间：{{taskTime}}</div>
         <div v-if="dataList.taskStatus !== 3">
@@ -51,7 +51,7 @@
     <div class="hr"></div>
     <!-- 推送群聊 -->
     <div class="content" style="margin-bottom: 60px;">
-      <div class="content-tip">推送群聊</div>
+      <div class="content-tip">推送{{dataList.sopType === 1 ? '群聊' : '客户'}}</div>
       <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
       @click.stop="change(item)">
         <div class="list-flex">
@@ -69,7 +69,7 @@
           </div>
           <div>
             <div class="list-flex">
-              <div class="list-content">{{item.groupChatName}}</div>
+              <div class="list-content">{{item.targetName}}</div>
               <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
               {{item.taskStatus === 3 ? '已完成' : '未完成'}}</div>
             </div>
@@ -78,7 +78,8 @@
             </div>
           </div>
         </div>
-        <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i></div>
+        <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i>
+        </div>
       </div>
     </div>
     <div class="footer" v-if="dataList.taskStatus !== 3">
@@ -120,12 +121,22 @@ export default {
     // 分享
     share(obj) {
       if (obj.taskStatus === 3) {
+        // 任务完成不让分享
         return;
       }
-      const data = {
-        chatId: obj.wxGroupChatId,
-      };
-      Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
+      let data;
+      if (obj.targetType === 1) {
+        data = {
+          chatId: obj.targetThirdId,
+        };
+        Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
+      } else {
+        data = {
+          externalUserIds: obj.targetThirdId,
+          groupName: '',
+        };
+        Wechat.setAgentConfig(data, 'openEnterpriseChat');
+      }
     },
     change(obj) {
       const data = obj;
@@ -189,7 +200,7 @@ export default {
       });
       if (that.idList.length === 0) {
         Toast.loading({
-          message: '请选择完成的群聊',
+          message: that.dataList.sopType === 1 ? '请选择完成的群聊' : '请选择完成的客户',
           duration: 1000,
           type: 'fail',
         });
@@ -259,7 +270,7 @@ export default {
     margin: 2px 2px 0 0 !important;
   }
   .icon{
-    width: 24px;
+    min-width: 24px;
     height: 24px;
     background: #DCEEFF;
     box-shadow: 0 4px 30px 0 rgba(24,107,255,0.16);
@@ -268,7 +279,7 @@ export default {
     line-height: 24px;
   }
   .yes{
-    width: 46.5px;
+    min-width: 46.5px;
     height: 19px;
     background: #DCEEFF;
     border-radius: 9px;
@@ -279,7 +290,7 @@ export default {
     margin-left: 10px;
   }
   .no{
-    width: 46.5px;
+    min-width: 46.5px;
     height: 19px;
     line-height: 19px;
     background: #E5E5E5;
@@ -423,7 +434,7 @@ export default {
   }
   .group{
     background: #03C15E;
-    width: 46px;
+    min-width: 46px;
     height: 46px;
     border-radius: 4px;
     margin-right: 12px;
