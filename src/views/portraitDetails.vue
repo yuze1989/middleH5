@@ -83,6 +83,7 @@
 </template>
 <script>
 import { List, PullRefresh } from 'vant';
+import moment from 'moment';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
 import jurisdiction from '../common/jurisdiction.vue';
@@ -118,14 +119,8 @@ export default {
     onLoad() {
       this.getList();
     },
-    getyyyyMMdd(time) {
-      const date = new Date(time);
-      const y = date.getFullYear();
-      let m = date.getMonth() + 1;
-      m = m < 10 ? (`0${m}`) : m;
-      let d = date.getDate();
-      d = d < 10 ? (`0${d}`) : d;
-      return `${y}-${m}-${d}`;
+    time(value) {
+      return moment(value).format('YYYY-MM-DD HH:mm');
     },
     getTag() {
       Http.post('/scrm/customer/getCustomerTagForSidebar', {
@@ -143,7 +138,7 @@ export default {
         if (res.success) {
           this.err = '';
           this.useData = res.data;
-          this.useData.gmtCreate = this.getyyyyMMdd(this.useData.gmtCreate);
+          this.useData.gmtCreate = this.time(this.useData.gmtCreate);
         } else {
           this.err = res.errCode;
         }

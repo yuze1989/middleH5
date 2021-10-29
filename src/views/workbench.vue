@@ -28,7 +28,7 @@
         </div>
         <div class="task">{{item.sopType === 1 ? '群SOP' : '客户SOP'}}任务</div>
         <div class="push-date">
-          <div>推送时间：{{ getyyyyMMdd(item.taskTime) }}</div>
+          <div>推送时间：{{ time(item.taskTime) }}</div>
           <div v-if="item.taskStatus !== 3">
             <div class="overdue" v-if="item.overdueFlag">
               (逾期时间：{{item.taskOverdueTimeStr}})</div>
@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="task" v-if="item.taskStatus === 3">
-          完成时间：{{getyyyyMMdd(item.finishTime)}}</div>
+          完成时间：{{time(item.finishTime)}}</div>
       </div>
      </List>
     </div>
@@ -47,6 +47,7 @@
 
 <script>
 import { List, PullRefresh, Toast } from 'vant';
+import moment from 'moment';
 import Http from '../utils/http';
 import store from '@/store';
 import jurisdiction from '../common/jurisdiction.vue';
@@ -81,22 +82,8 @@ export default {
     this.height = document.documentElement.clientHeight - 140;
   },
   methods: {
-    getyyyyMMdd(time) {
-      const date = new Date(time);
-      const y = date.getFullYear();
-      let m = date.getMonth() + 1;
-      m = m < 10 ? (`0${m}`) : m;
-      let d = date.getDate();
-      d = d < 10 ? (`0${d}`) : d;
-      let h = date.getHours();
-      h = h < 10 ? (`0${h}`) : h;
-      let minute = date.getMinutes();
-      // 分
-      minute = minute < 10 ? (`0${minute}`) : minute;
-      // 秒
-      // let second = date.getSeconds();
-      // second = second < 10 ? (`0${second}`) : second;
-      return `${y}-${m}-${d} ${h}:${minute}`;
+    time(value) {
+      return moment(value).format('YYYY-MM-DD HH:mm');
     },
     onLoad() {
       this.getList();
@@ -110,7 +97,7 @@ export default {
     },
     go(id) {
       this.$router.push({
-        path: 'workDetails',
+        name: 'workDetails',
         query: {
           batchNo: id,
         },

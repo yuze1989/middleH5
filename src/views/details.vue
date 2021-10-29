@@ -17,7 +17,7 @@
             <i class="iconfont icon-shangla" v-else></i>
           </div>
           <div class="footer-content" v-if="isShow">
-            该文章由用户自主上传，文字版权归原作者所有。如您发现版权问题请点击
+            该文章由用户自主上传，文字版权归原作者所有。
             <!-- <span @click="complaint">投诉</span> -->
           </div>
           <div class="footer-tip">
@@ -33,8 +33,8 @@
 </template>
 <script>
 import { skeleton } from 'vant';
+import moment from 'moment';
 import Http from '../utils/http';
-import Utils from '../utils/util';
 
 export default {
   components: {
@@ -56,7 +56,9 @@ export default {
     this.getList();
   },
   methods: {
-
+    time(value) {
+      return moment(value).format('YYYY-MM-DD HH:mm');
+    },
     // 获取数据
     getList() {
       const that = this;
@@ -66,7 +68,7 @@ export default {
         if (res.success) {
           that.data = res.data;
           document.title = res.data.title;
-          that.gmtCreate = Utils.getyyyyMMdd(res.data.gmtCreate);
+          that.gmtCreate = this.time(res.data.gmtCreate);
           that.loading = false;
         }
       });
