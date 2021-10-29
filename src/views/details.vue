@@ -34,8 +34,7 @@
 <script>
 import { skeleton } from 'vant';
 import Http from '../utils/http';
-import Utils from '../utils/util';
-
+import moment from 'moment';
 export default {
   components: {
     skeleton,
@@ -56,7 +55,9 @@ export default {
     this.getList();
   },
   methods: {
-
+    time(value) {
+      return moment(value).format('YYYY-MM-DD HH:mm');
+    },
     // 获取数据
     getList() {
       const that = this;
@@ -66,7 +67,7 @@ export default {
         if (res.success) {
           that.data = res.data;
           document.title = res.data.title;
-          that.gmtCreate = Utils.getyyyyMMdd(res.data.gmtCreate);
+          that.gmtCreate = this.time(res.data.gmtCreate);
           that.loading = false;
         }
       });

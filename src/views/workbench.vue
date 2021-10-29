@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     time(value) {
-      return moment(value).format('YYYY-MM-DD HH:mm:ss');
+      return moment(value).format('YYYY-MM-DD HH:mm');
     },
     onLoad() {
       this.getList();

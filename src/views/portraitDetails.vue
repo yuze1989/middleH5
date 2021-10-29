@@ -83,8 +83,8 @@
 </template>
 <script>
 import { List, PullRefresh } from 'vant';
-import Http from '../utils/http';
 import moment from 'moment';
+import Http from '../utils/http';
 import Wechat from '../utils/wechat';
 import jurisdiction from '../common/jurisdiction.vue';
 
@@ -120,7 +120,7 @@ export default {
       this.getList();
     },
     time(value) {
-      return moment(value).format('YYYY-MM-DD HH:mm:ss');
+      return moment(value).format('YYYY-MM-DD HH:mm');
     },
     getTag() {
       Http.post('/scrm/customer/getCustomerTagForSidebar', {
