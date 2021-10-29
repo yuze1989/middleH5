@@ -74,7 +74,7 @@
               {{item.taskStatus === 3 ? '已完成' : '未完成'}}</div>
             </div>
             <div class="date" v-if="item.taskStatus === 3">
-              完成时间：{{getyyyyMMdd(item.taskFinishTime)}}
+              完成时间：{{time(item.taskFinishTime)}}
             </div>
           </div>
         </div>
@@ -93,8 +93,8 @@
 
 <script>
 import { Toast } from 'vant';
+import moment from 'moment';
 import Http from '../utils/http';
-import Utils from '../utils/util';
 import Wechat from '../utils/wechat';
 import jurisdiction from '../common/jurisdiction.vue';
 
@@ -142,22 +142,8 @@ export default {
       const data = obj;
       data.isSelect = !data.isSelect;
     },
-    getyyyyMMdd(time) {
-      const date = new Date(time);
-      const y = date.getFullYear();
-      let m = date.getMonth() + 1;
-      m = m < 10 ? (`0${m}`) : m;
-      let d = date.getDate();
-      d = d < 10 ? (`0${d}`) : d;
-      let h = date.getHours();
-      h = h < 10 ? (`0${h}`) : h;
-      let minute = date.getMinutes();
-      // 分
-      minute = minute < 10 ? (`0${minute}`) : minute;
-      // 秒
-      // let second = date.getSeconds();
-      // second = second < 10 ? (`0${second}`) : second;
-      return `${y}-${m}-${d} ${h}:${minute}`;
+    time(value) {
+      return moment(value).format('YYYY-MM-DD HH:mm:ss');
     },
     // 复制
     copy(obj) {
@@ -241,8 +227,8 @@ export default {
             const data = item;
             data.isSelect = false;
           });
-          that.taskTime = Utils.getyyyyMMdd(res.data.taskTime);
-          that.finishTime = Utils.getyyyyMMdd(res.data.finishTime);
+          that.taskTime = that.time(res.data.taskTime);
+          that.finishTime = that.time(res.data.finishTime);
           that.dataList = res.data;
         } else {
           that.err = res.errCode;

@@ -17,7 +17,7 @@
             <i class="iconfont icon-shangla" v-else></i>
           </div>
           <div class="footer-content" v-if="isShow">
-            该文章由用户自主上传，文字版权归原作者所有。如您发现版权问题请点击
+            该文章由用户自主上传，文字版权归原作者所有。
             <!-- <span @click="complaint">投诉</span> -->
           </div>
           <div class="footer-tip">
