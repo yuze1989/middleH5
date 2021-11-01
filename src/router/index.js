@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { Toast } from 'vant';
+import qs from 'qs';
 import Http from '../utils/http';
 import Env from '../utils/deviceinfo';
 import Util from '../utils/util';
@@ -107,6 +108,7 @@ router.beforeEach(async (to, form, next) => {
     const options = Util.getUrlOption(url);
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
+    const generalidArr = ['channel', 'appid', 'batchNo'];
     if (options.appid && options.appid !== corpId) {
       localStorage.clear();
     }
@@ -120,12 +122,18 @@ router.beforeEach(async (to, form, next) => {
       Toast('appid为空');
       return;
     }
+    const dataList = {};
+    generalidArr.forEach((item) => {
+      if (options[item]) {
+        dataList[item] = options[item];
+      }
+    });
     if (!openid && options.appid && !options.code) {
       const sourceId = options.channel || '';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
       }&redirect_uri=${
-        encodeURIComponent(`${Config.redirect_uri}${src}?channel=${sourceId}&appid=${options.appid}&batchNo=${options.batchNo || ''}`)
+        encodeURIComponent(`${Config.redirect_uri}${src}?${qs.stringify(dataList)}`)
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
