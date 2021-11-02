@@ -3,7 +3,6 @@
     <!-- <img src="../assets/error.png" v-if="err === 'errCode'"/> -->
     <img src="../assets/jurisdiction.png" v-if="err !== 'errCode'"/>
     <div>{{errorList[err]}}</div>
-    <div v-if="err !== 'errCode'">请联系贵公司管理员</div>
   </div>
 </template>
 
