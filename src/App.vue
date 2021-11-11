@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <router-view />
-    <div v-if="$route.meta.type === 1">
+   <!-- <div v-if="$route.meta.type === 1">
       <bottom :url="$route.path" v-if="$route.meta.tabbarshow"></bottom>
     </div>
     <div v-else>
       <workBottom  :url="$route.path" v-if="$route.meta.tabbarshow"></workBottom>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

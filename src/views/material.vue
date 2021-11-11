@@ -116,7 +116,6 @@ export default {
     };
   },
   mounted() {
-    document.title = '素材库';
     const navType = parseInt(sessionStorage.getItem('navType'), 0);
     if (navType) {
       store.dispatch('SETNACVTYPE', navType);
