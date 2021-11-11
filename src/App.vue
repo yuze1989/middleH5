@@ -10,15 +10,15 @@
   </div>
 </template>
 <script>
-import bottom from './common/bottom.vue';
+// import bottom from './common/bottom.vue';
 
-import workBottom from './common/workBottom.vue';
+// import workBottom from './common/workBottom.vue';
 
 export default {
-  components: {
-    bottom,
-    workBottom,
-  },
+  // components: {
+  //   bottom,
+  //   workBottom,
+  // },
   name: 'app',
   data() {
     return {
