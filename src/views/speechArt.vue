@@ -57,6 +57,7 @@ export default {
     };
   },
   mounted() {
+    document.title = '话术库';
     this.getList();
   },
   methods: {
