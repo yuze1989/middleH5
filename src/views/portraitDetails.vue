@@ -91,15 +91,15 @@
             <div class="generalization">
               <div>
                 <div>消费总金额</div>
-                <div class="font">¥ {{overview.totalConsumption}}</div>
+                <div class="font">¥ {{overview.totalConsumption || 0}}</div>
               </div>
               <div>
                 <div>消费总次数</div>
-                <div class="font">{{overview.numberOfPurchases}}</div>
+                <div class="font">{{overview.numberOfPurchases || 0}}</div>
               </div>
               <div style="border: none;">
                 <div>最近消费时间</div>
-                <div class="font">{{overview.lastPurchaseTime}}</div>
+                <div class="font">{{overview.lastPurchaseTime || '无'}}</div>
               </div>
             </div>
             <div class="distance">
