@@ -1,24 +1,24 @@
 <template>
   <div id="app">
     <router-view />
-    <div v-if="$route.meta.type === 1">
+   <!-- <div v-if="$route.meta.type === 1">
       <bottom :url="$route.path" v-if="$route.meta.tabbarshow"></bottom>
     </div>
     <div v-else>
       <workBottom  :url="$route.path" v-if="$route.meta.tabbarshow"></workBottom>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
-import bottom from './common/bottom.vue';
+// import bottom from './common/bottom.vue';
 
-import workBottom from './common/workBottom.vue';
+// import workBottom from './common/workBottom.vue';
 
 export default {
-  components: {
-    bottom,
-    workBottom,
-  },
+  // components: {
+  //   bottom,
+  //   workBottom,
+  // },
   name: 'app',
   data() {
     return {
