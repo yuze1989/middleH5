@@ -239,7 +239,6 @@ export default {
       this.pageIndex = 1;
       this.list = [];
       this.finished = false;
-      this.loading = true;
       this.onLoad();
     },
     getList() {
@@ -264,8 +263,10 @@ export default {
           // 判断获取数据条数若等于0
           if (res.totalCount === 0) {
             // 停止上拉加载
+            that.refreshing = false;
             that.finished = true;
             that.loading = false;
+            console.log(that.finished, that.loading);
           } else {
             that.list.push(...res.data);
             if (that.pageIndex === 1) {
@@ -277,6 +278,7 @@ export default {
             if (that.list.length === res.totalCount) {
               // 结束上拉加载状态
               that.finished = true;
+              that.loading = false;
             }
             that.pageIndex += 1;
           }
