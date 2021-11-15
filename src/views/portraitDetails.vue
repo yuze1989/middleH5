@@ -172,7 +172,6 @@ export default {
       that.getDetails();// 客户动态数据||订单详情
       that.getList();// 列表
       that.getTag();// 标签
-      that.getOverview();// 客户订单展示-消费概览
     });
   },
   methods: {
@@ -191,7 +190,7 @@ export default {
     },
     getOverview() {
       Http.post('/scrm/comm/rest/consumption-order/consumption-overview', {
-        customerId: '1',
+        customerId: sessionStorage.getItem('userId'),
         mobile: this.useData.mobile, // 1384949234,
         platformCode: 'ALL',
       }, '').then((res) => {
@@ -227,6 +226,7 @@ export default {
           this.err = '';
           this.useData = res.data;
           this.useData.gmtCreate = this.time(this.useData.gmtCreate);
+          this.getOverview();// 客户订单展示-消费概览
         } else {
           this.err = res.errCode;
         }
