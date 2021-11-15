@@ -201,7 +201,7 @@ export default {
     // tab切换
     change(index) {
       // 还没有数据还在加载不让切换
-      if (!this.useData.length) {
+      if (!this.useData.name) {
         return;
       }
 
