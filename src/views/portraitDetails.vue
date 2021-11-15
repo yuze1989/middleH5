@@ -204,6 +204,7 @@ export default {
       if (!this.useData) {
         return;
       }
+
       this.tabIndex = index;
       this.pageIndex = 1;
       this.list = [];
