@@ -200,6 +200,10 @@ export default {
     },
     // tab切换
     change(index) {
+      // 还没有数据还在加载不让切换
+      if (!this.useData) {
+        return;
+      }
       this.tabIndex = index;
       this.pageIndex = 1;
       this.list = [];
