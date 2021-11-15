@@ -201,7 +201,7 @@ export default {
     // tab切换
     change(index) {
       // 还没有数据还在加载不让切换
-      if (!this.useData) {
+      if (!this.useData.length) {
         return;
       }
 
@@ -286,6 +286,11 @@ export default {
             }
             that.pageIndex += 1;
           }
+        } else {
+          // 停止上拉加载
+          that.refreshing = false;
+          that.finished = true;
+          that.loading = false;
         }
       });
     },
