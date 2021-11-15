@@ -190,7 +190,6 @@ export default {
     },
     getOverview() {
       Http.post('/scrm/comm/rest/consumption-order/consumption-overview', {
-        customerId: sessionStorage.getItem('userId'),
         mobile: this.useData.mobile, // 1384949234,
         platformCode: 'ALL',
       }, '').then((res) => {
@@ -266,7 +265,6 @@ export default {
             that.refreshing = false;
             that.finished = true;
             that.loading = false;
-            console.log(that.finished, that.loading);
           } else {
             that.list.push(...res.data);
             if (that.pageIndex === 1) {
