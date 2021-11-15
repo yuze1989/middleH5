@@ -255,7 +255,7 @@ export default {
           platformCode: 'ALL',
           pageIndex: that.pageIndex,
           pageSize: 20,
-          receiverMobile: 18939499727, // that.useData.mobile,
+          receiverMobile: that.useData.mobile, // that.useData.mobile,
         };
       }
       Http.post(url, data, '').then((res) => {
