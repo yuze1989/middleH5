@@ -170,7 +170,6 @@ export default {
     const that = this;
     Wechat.setAgentConfig('', 'getCurExternalContact', () => {
       that.getDetails();// 客户动态数据||订单详情
-      that.getList();// 列表
       that.getTag();// 标签
     });
   },
@@ -183,7 +182,7 @@ export default {
       return totalPrice;
     },
     onLoad() {
-      this.getList();
+      this.getList();// 列表
     },
     time(value) {
       return moment(value).format('YYYY-MM-DD');
