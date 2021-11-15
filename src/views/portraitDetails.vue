@@ -238,6 +238,7 @@ export default {
       this.pageIndex = 1;
       this.list = [];
       this.finished = false;
+      this.loading = true;
       this.onLoad();
     },
     getList() {
@@ -254,7 +255,7 @@ export default {
           platformCode: 'ALL',
           pageIndex: that.pageIndex,
           pageSize: 20,
-          receiverMobile: that.useData.mobile,
+          receiverMobile: 18939499727, // that.useData.mobile,
         };
       }
       Http.post(url, data, '').then((res) => {
