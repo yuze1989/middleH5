@@ -244,7 +244,7 @@ export default {
     getList() {
       const that = this;
       const url = that.tabIndex === 0
-        ? '/scrm/customer/listCustomerTrendForSidebar' : '/scrm/platformOrder/listPageOrder';
+        ? '/scrm/customer/listCustomerTrendForSidebar' : '/scrm/comm/rest/consumption-order/list-page-order';
       let data = {};
       if (that.tabIndex === 0) {
         data = {
@@ -255,7 +255,7 @@ export default {
           platformCode: 'ALL',
           pageIndex: that.pageIndex,
           pageSize: 20,
-          receiverMobile: that.useData.mobile, // that.useData.mobile,
+          mobile: that.useData.mobile, // that.useData.mobile,
         };
       }
       Http.post(url, data, '').then((res) => {
