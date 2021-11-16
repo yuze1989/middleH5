@@ -123,7 +123,8 @@
                 </div>
               </div>
               <div class="order-address">
-                <div class="collect">收</div>
+                <!-- <div class="collect">收</div> -->
+                <i class="iconfont icon-shou collect"></i>
                 <div class="overf">
                 {{item.receiverState+item.receiverCity+item.receiverDistrict+
                 item.receiverAddress}}</div>
@@ -252,6 +253,7 @@ export default {
       this.list = [];
       this.finished = false;
       this.loading = true;
+      this.getOverview();// 客户订单展示-消费概览
       this.onLoad();
     },
     getList() {
@@ -273,6 +275,7 @@ export default {
       }
       Http.post(url, data, '').then((res) => {
         if (res.success) {
+          that.list = [];
           // 判断获取数据条数若等于0
           if (res.totalCount === 0) {
             // 停止上拉加载
@@ -323,18 +326,10 @@ export default {
     color: #333333;
   }
   .collect{
-    min-width: 16px;
-    min-height: 16px;
-    border: 0.5px solid #999999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
     margin-right: 4.5px;
-    font-size: 9px;
   }
   .order-address{
-    padding: 15px 0;
+    padding: 12px 0;
     border-top: 1px solid #F3F3F3;
     font-size: 12px;
     color: #999999;
