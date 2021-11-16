@@ -91,7 +91,8 @@
             <div class="generalization">
               <div>
                 <div>消费总金额</div>
-                <div class="font">¥ {{overview.totalConsumption || 0}}</div>
+                <div class="font">¥
+                {{tofixed(overview.totalConsumption) || 0}}</div>
               </div>
               <div>
                 <div>消费总次数</div>
@@ -123,11 +124,13 @@
               </div>
               <div class="order-address">
                 <div class="collect">收</div>
-                <div class="overf">{{item.receiverAddress}}</div>
+                <div class="overf">
+                {{item.receiverState+item.receiverCity+item.receiverDistrict+
+                item.receiverAddress}}</div>
               </div>
               <div class="order-money" v-if="item.platformSubOrderDTOList">
                 <div>订单金额:  <span>¥ {{add(item)}}</span></div>
-                <div>实付金额:  <span>¥ {{item.payment}}</span></div>
+                <div>实付金额:  <span>¥ {{tofixed(item.payment)}}</span></div>
               </div>
             </div>
           </div>
@@ -180,7 +183,12 @@ export default {
       item.platformSubOrderDTOList.forEach((subOrder) => {
         totalPrice += parseInt((subOrder.price * 1000), 0) / 1000;
       });
-      return totalPrice;
+      return totalPrice.toFixed(2);
+    },
+    tofixed(price) {
+      let totalPrice = 0;
+      totalPrice = parseInt((price * 1000), 0) / 1000;
+      return totalPrice.toFixed(2);
     },
     onLoad() {
       this.getList();
@@ -190,7 +198,7 @@ export default {
     },
     getOverview() {
       Http.post('/scrm/comm/rest/consumption-order/consumption-overview', {
-        mobile: this.useData.mobile, // 1384949234,
+        mobile: this.useData.mobile, // 18939499727
         platformCode: 'ALL',
       }, '').then((res) => {
         if (res.success) {
@@ -315,8 +323,8 @@ export default {
     color: #333333;
   }
   .collect{
-    width: 16px;
-    height: 16px;
+    min-width: 16px;
+    min-height: 16px;
     border: 0.5px solid #999999;
     line-height: 16px;
     text-align: center;
@@ -336,7 +344,7 @@ export default {
     display: flex;
     padding: 15px 0;
     border-top: 1px solid #F3F3F3;
-    align-items: center;
+    align-items: flex-start;
   }
   .order-introduce img{
     width: 44px;
@@ -461,7 +469,7 @@ export default {
   }
 
   .board {
-    margin: 8px 0;
+    margin: 12px 0;
     height: 74px;
     background: #F3F9FF;
     display: flex;
