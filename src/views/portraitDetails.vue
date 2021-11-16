@@ -115,15 +115,14 @@
                 <i class="iconfont icon-shangpu"></i>
                 <span class="shopName">{{item.sellerNick}}</span>
               </div>
-              <div class="order-introduce" v-for="(val,idx) in
-              item.platformSubOrderDTOList" :key="idx">
+              <div class="order-introduce" v-for="(val,key) in
+              item.platformSubOrderDTOList" :key="key">
                 <img :src="val.picPath">
                 <div class="order-tite">
                   {{val.title}}
                 </div>
               </div>
               <div class="order-address">
-                <!-- <div class="collect">收</div> -->
                 <i class="iconfont icon-shou collect"></i>
                 <div class="overf">
                 {{item.receiverState+item.receiverCity+item.receiverDistrict+
