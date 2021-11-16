@@ -187,7 +187,9 @@ export default {
     },
     tofixed(price) {
       let totalPrice = 0;
-      totalPrice = parseInt((price * 1000), 0) / 1000;
+      if (price) {
+        totalPrice = parseInt((price * 1000), 0) / 1000;
+      }
       return totalPrice.toFixed(2);
     },
     onLoad() {
