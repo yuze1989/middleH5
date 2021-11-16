@@ -144,7 +144,7 @@
 import { List, PullRefresh } from 'vant';
 import moment from 'moment';
 import Http from '../utils/http';
-import Wechat from '../utils/wechat';
+// import Wechat from '../utils/wechat';
 import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
@@ -171,11 +171,11 @@ export default {
   },
   mounted() {
     const that = this;
-    Wechat.setAgentConfig('', 'getCurExternalContact', () => {
-      that.getDetails();// 客户动态数据||订单详情
-      that.getList();// 列表
-      that.getTag();// 标签
-    });
+    // Wechat.setAgentConfig('', 'getCurExternalContact', () => {
+    that.getDetails();// 客户动态数据||订单详情
+    that.getList();// 列表
+    that.getTag();// 标签
+    // });
   },
   methods: {
     add(item) {
@@ -271,14 +271,14 @@ export default {
           platformCode: 'ALL',
           pageIndex: that.pageIndex,
           pageSize: 20,
-          mobile: that.useData.mobile, // that.useData.mobile,
+          mobile: that.useData.mobile,
         };
       }
       Http.post(url, data, '').then((res) => {
         if (res.success) {
-          that.list = [];
           // 判断获取数据条数若等于0
           if (res.totalCount === 0) {
+            that.list = [];
             // 停止上拉加载
             that.refreshing = false;
             that.finished = true;
