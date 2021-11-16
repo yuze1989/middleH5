@@ -300,6 +300,7 @@ export default {
           }
         } else {
           // 停止上拉加载
+          that.list = [];
           that.refreshing = false;
           that.finished = true;
           that.loading = false;
