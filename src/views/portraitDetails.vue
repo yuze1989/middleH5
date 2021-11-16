@@ -271,14 +271,14 @@ export default {
           platformCode: 'ALL',
           pageIndex: that.pageIndex,
           pageSize: 20,
-          mobile: that.useData.mobile, // that.useData.mobile,
+          mobile: that.useData.mobile,
         };
       }
       Http.post(url, data, '').then((res) => {
         if (res.success) {
-          that.list = [];
           // 判断获取数据条数若等于0
           if (res.totalCount === 0) {
+            that.list = [];
             // 停止上拉加载
             that.refreshing = false;
             that.finished = true;
@@ -300,6 +300,7 @@ export default {
           }
         } else {
           // 停止上拉加载
+          that.list = [];
           that.refreshing = false;
           that.finished = true;
           that.loading = false;
