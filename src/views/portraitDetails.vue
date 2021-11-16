@@ -144,7 +144,7 @@
 import { List, PullRefresh } from 'vant';
 import moment from 'moment';
 import Http from '../utils/http';
-// import Wechat from '../utils/wechat';
+import Wechat from '../utils/wechat';
 import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
@@ -171,11 +171,11 @@ export default {
   },
   mounted() {
     const that = this;
-    // Wechat.setAgentConfig('', 'getCurExternalContact', () => {
-    that.getDetails();// 客户动态数据||订单详情
-    that.getList();// 列表
-    that.getTag();// 标签
-    // });
+    Wechat.setAgentConfig('', 'getCurExternalContact', () => {
+      that.getDetails();// 客户动态数据||订单详情
+      that.getList();// 列表
+      that.getTag();// 标签
+    });
   },
   methods: {
     add(item) {
