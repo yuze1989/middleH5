@@ -1,99 +1,91 @@
 <template>
   <div class="box">
     <div v-if="!err">
-      <div class="top-box">
-        <div class="tite">
-          <div class="task-name">{{dataList.sopRuleName}}</div>
-          <div class="state" v-if="dataList.overdueFlag">逾期</div>
+    <div class="top-box">
+      <div class="tite">
+        <div class="task-name">{{dataList.sopRuleName}}</div>
+        <div class="state" v-if="dataList.overdueFlag">逾期</div>
+      </div>
+      <div class="task">{{dataList.sopType === 1 ? '群SOP' : '客户SOP'}}任务</div>
+      <div class="push-date">
+        <div>推送时间：{{taskTime}}</div>
+        <div v-if="dataList.taskStatus !== 3">
+          <div class="overdue" v-if="dataList.overdueFlag">
+            (逾期时间：{{dataList.taskOverdueTimeStr}})</div>
+          <div class="surplus" v-else>(剩余时间：{{dataList.taskSurplusTimeStr}})</div>
         </div>
-        <div class="task">{{dataList.sopType === 1 ? '群SOP' : '客户SOP'}}任务</div>
-        <div class="push-date">
-          <div>推送时间：{{taskTime}}</div>
+      </div>
+      <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{ finishTime}}</div>
+    </div>
+    <div class="hr"></div>
+    <!-- 推送内容 -->
+    <div class="content">
+      <div class="content-tip" style="border: none;">推送内容</div>
+      <div class="flex" v-for="(item,index) in dataList.sopRuleContentList" :key="index"
+      >
+        <div class="left">
+          <i class="iconfont icon-wenzi" v-if="item.contentType === 1"></i>
+          <i class="iconfont icon-tupian" v-if="item.contentType === 2"></i>
+          <i class="iconfont icon-bianzu" v-if="item.contentType === 3"></i>
+        </div>
+        <div class="right">
+          <div class="right-top">
+            <div class="right-tite">
+              <span v-if="item.contentType === 1">文本</span>
+              <span v-if="item.contentType === 2">图片</span>
+              <span v-if="item.contentType === 3">链接</span>
+            </div>
+            <div class="copy" @click="copy(item)">
+              <i class="iconfont icon-fuzhi"></i>
+              <span>复制</span>
+             </div>
+          </div>
+          <div class="right-content" v-if="item.contentType !== 2">
+          {{item.text || item.linkUrl}}</div>
+          <div class="right-content" v-else>
+            <img :src="item.imgUrl" >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hr"></div>
+    <!-- 推送群聊 -->
+    <div class="content" style="margin-bottom: 60px;">
+      <div class="content-tip">推送{{dataList.sopType === 1 ? '群聊' : '客户'}}</div>
+      <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
+      @click.stop="change(item)">
+        <div class="list-flex">
           <div v-if="dataList.taskStatus !== 3">
-            <div class="overdue" v-if="dataList.overdueFlag">
-              (逾期时间：{{dataList.taskOverdueTimeStr}})</div>
-            <div class="surplus" v-else>(剩余时间：{{dataList.taskSurplusTimeStr}})</div>
+            <div v-if="item.taskStatus === 2">
+              <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
+              class="iconfont"></i>
+            </div>
+            <div v-else>
+              <i class="iconfont icon-xuanze" style="color: #E5E5E5 !important;"></i>
+            </div>
+          </div>
+          <div class="group">
+            <i class="iconfont icon-touxiang"></i>
+          </div>
+          <div>
+            <div class="list-flex">
+              <div class="list-content">{{item.targetName}}</div>
+              <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
+              {{item.taskStatus === 3 ? '已完成' : '未完成'}}</div>
+            </div>
+            <div class="date" v-if="item.taskStatus === 3">
+              完成时间：{{time(item.taskFinishTime)}}
+            </div>
           </div>
         </div>
-        <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{ finishTime}}</div>
-      </div>
-      <div class="hr"></div>
-      <!-- 推送内容 -->
-      <div class="content">
-        <div class="content-tip" style="border: none;">推送内容</div>
-        <div class="flex" v-for="(item,index) in dataList.sopRuleContentList" :key="index">
-          <div class="left">
-            <i class="iconfont icon-wenzi" v-if="item.contentType === 1"></i>
-            <i class="iconfont icon-tupian" v-if="item.contentType === 2"></i>
-            <i class="iconfont icon-bianzu" v-if="item.contentType === 3"></i>
-          </div>
-          <div class="right">
-            <div class="right-top">
-              <div class="right-tite">
-                <span v-if="item.contentType === 1">文本</span>
-                <span v-if="item.contentType === 2">图片</span>
-                <span v-if="item.contentType === 3">链接</span>
-              </div>
-              <div class="copy" @click="copy(item)">
-                <i class="iconfont icon-fuzhi"></i>
-                <span>复制</span>
-              </div>
-            </div>
-            <div class="right-content" v-if="item.contentType !== 2">
-              {{item.text || item.linkUrl}}
-            </div>
-            <div class="right-content" v-else>
-              <img :src="item.imgUrl">
-            </div>
-          </div>
+        <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i>
         </div>
       </div>
-      <div class="hr"></div>
-      <!-- 推送群聊 -->
-      <div class="content" style="margin-bottom: 60px;">
-        <div class="content-tip">推送{{dataList.sopType === 1 ? '群聊' : '客户'}}</div>
-        <div class="list" v-for="(item,index) in dataList.sopTaskList"
-        :key="index" @click.stop="change(item)">
-          <div class="list-flex">
-            <div v-if="dataList.taskStatus !== 3">
-              <div v-if="item.taskStatus === 2">
-                <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
-                class="iconfont"></i>
-              </div>
-              <div v-else>
-                <i class="iconfont icon-xuanze" style="color: #E5E5E5 !important;"></i>
-              </div>
-            </div>
-            <div class="group">
-              <i class="iconfont icon-touxiang"></i>
-            </div>
-            <div>
-              <div class="list-flex">
-                <div class="list-content">{{item.targetName}}</div>
-                <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
-                  {{item.taskStatus === 3 ? '已完成' : '未完成'}}
-                </div>
-              </div>
-              <div class="date" v-if="item.taskStatus === 3">
-                完成时间：{{time(item.taskFinishTime)}}
-              </div>
-            </div>
-          </div>
-          <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i>
-          </div>
-        </div>
-      </div>
-      <!-- 是否完成任务 完成则不显示 -->
-      <div v-if="dataList.taskStatus !== 3">
-        <div v-if="dataList.sopType !== 3" class="footer">
-          <div class="footer-right" @click="sendout">立即发布</div>
-        </div>
-        <div v-if="dataList.sopType ===3 " class="footer">
-          <div class="footer-left" @click="cancel">全选</div>
-          <div class="footer-right" @click="determine">完成</div>
-        </div>
-
-      </div>
+    </div>
+    <div class="footer" v-if="dataList.taskStatus !== 3">
+      <div class="footer-left" @click="cancel">全选</div>
+      <div class="footer-right" @click="determine">完成</div>
+    </div>
     </div>
     <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
@@ -107,9 +99,7 @@ import Wechat from '../utils/wechat';
 import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
-  components: {
-    jurisdiction,
-  },
+  components: { jurisdiction },
   data() {
     return {
       err: '',
@@ -126,21 +116,6 @@ export default {
     this.getList();
   },
   methods: {
-    // 朋友圈sop发送
-    sendout() {
-      const data = {
-        text: {
-          content: '123', // 文本内容
-        },
-        attachments: [{
-          msgtype: 'image', // 消息类型，必填
-          image: {
-            imgUrl: '', // 图片的imgUrl,跟图片mediaid填其中一个即可
-          },
-        }],
-      };
-      Wechat.setAgentConfig(data, 'shareToExternalMoments');
-    },
     // 分享
     share(obj) {
       if (obj.taskStatus === 3) {
@@ -149,9 +124,7 @@ export default {
       }
       let data;
       if (obj.targetType === 1) {
-        data = {
-          chatId: obj.targetThirdId,
-        };
+        data = { chatId: obj.targetThirdId };
         Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
       } else {
         data = {
@@ -220,9 +193,7 @@ export default {
         duration: 0,
         forbidClick: true, // 禁用背景点击
       });
-      Http.post('/scrm/comm/rest/sop/finish-sop-task', {
-        idList: that.idList,
-      }, '').then((res) => {
+      Http.post('/scrm/comm/rest/sop/finish-sop-task', { idList: that.idList }, '').then((res) => {
         if (res.success) {
           that.getList();
           Toast.loading({
@@ -241,9 +212,7 @@ export default {
     },
     getList() {
       const that = this;
-      Http.post('/scrm/comm/rest/sop/get-sop-task-batch-detail', {
-        batchNo: that.batchNo,
-      }, '').then((res) => {
+      Http.post('/scrm/comm/rest/sop/get-sop-task-batch-detail', { batchNo: that.batchNo }, '').then((res) => {
         if (res.success) {
           that.err = '';
           res.data.sopTaskList.forEach((item) => {
@@ -266,33 +235,28 @@ export default {
 };
 </script>
 <style scoped="scoped">
-  .icon-fuzhi,
-  .icon-xuanze {
+  .icon-fuzhi,.icon-xuanze{
     color: #1890FF !important;
   }
-
-  .icon-touxiang {
+  .icon-touxiang{
     color: #FFFFFF !important;
     font-size: 30px !important;
     margin: 0px !important;
   }
-
-  .icon-fasong {
+  .icon-fasong{
     color: #1890FF !important;
     margin: 2px 2px 0 0 !important;
   }
-
-  .icon {
+  .icon{
     min-width: 24px;
     height: 24px;
     background: #DCEEFF;
-    box-shadow: 0 4px 30px 0 rgba(24, 107, 255, 0.16);
+    box-shadow: 0 4px 30px 0 rgba(24,107,255,0.16);
     border-radius: 50%;
     text-align: center;
     line-height: 24px;
   }
-
-  .yes {
+  .yes{
     min-width: 46.5px;
     height: 19px;
     background: #DCEEFF;
@@ -303,56 +267,48 @@ export default {
     color: #1890FF;
     margin-left: 10px;
   }
-
-  .no {
+  .no{
     min-width: 46.5px;
     height: 19px;
     line-height: 19px;
     background: #E5E5E5;
     border-radius: 9px;
     font-size: 10px;
-    color: rgba(0, 0, 0, 0.25);
+    color: rgba(0,0,0,0.25);
     text-align: center;
     margin-left: 10px;
   }
-
-  .top-box {
-    margin: 10px 0 10px 15px;
-    font-size: 12px;
-    color: #999999;
-    letter-spacing: 0;
+  .top-box{
+     margin: 10px 0 10px 15px;
+     font-size: 12px;
+     color: #999999;
+     letter-spacing: 0;
   }
-
-  .right-top {
+  .right-top{
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
-  .content-tip {
+  .content-tip{
     font-size: 14px;
     color: #333333;
     letter-spacing: 0;
     padding-bottom: 12px;
   }
-
-  .content {
+  .content{
     margin: 10px 0 10px 15px;
   }
-
-  .task {
+  .task{
     margin-top: 6px;
   }
-
-  .push-date {
+  .push-date{
     margin-top: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
-  .state {
-    background: rgba(231, 120, 120, 0.1);
+  .state{
+    background: rgba(231,120,120,0.1);
     text-align: center;
     text-align: center;
     line-height: 30px;
@@ -360,10 +316,9 @@ export default {
     width: 79px;
     height: 30px;
     border-radius: 50px 0 0 50px;
-    color: rgba(250, 82, 82, 1);
+    color: rgba(250,82,82,1);
     letter-spacing: 0;
   }
-
   .top {
     padding: 11px 15px;
     font-size: 14px;
@@ -374,16 +329,14 @@ export default {
     align-items: center;
     font-weight: 500;
   }
-
-  .tite {
+  .tite{
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
-  .task-name {
+  .task-name{
     font-size: 14px;
-    color: rgba(0, 0, 0, 0.65);
+    color: rgba(0,0,0,0.65);
     letter-spacing: 0;
     overflow: hidden;
     word-break: break-all;
@@ -392,69 +345,58 @@ export default {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
   }
-
-  .overdue {
+  .overdue{
     font-size: 12px;
     color: #FA5252;
     letter-spacing: 0;
     margin-right: 10px;
   }
-
-  .surplus {
+  .surplus{
     color: #1890FF;
   }
-
   .hr {
     width: 100%;
     height: 5px;
     background-color: #E5E5E5;
   }
-
-  .flex {
+  .flex{
     display: flex;
     border-top: 1px solid #E5E5E5;
     padding: 12px 15px 12px 0;
     align-items: baseline;
   }
-
-  .list {
+  .list{
     display: flex;
     justify-content: space-between;
     padding: 12px 15px 12px 0;
     align-items: center;
     border-top: 1px solid #E5E5E5;
   }
-
-  .left {
+  .left{
     display: flex;
     align-items: flex-start;
   }
-
-  .iconfont {
+  .iconfont{
     font-size: 14px;
     color: #999999;
     margin-right: 10px;
   }
-
-  .right-tite {
+  .right-tite{
     font-size: 16px;
     color: #333333;
     letter-spacing: 0;
   }
-
-  .copy {
+  .copy{
     font-size: 14px;
     color: #1890FF;
     letter-spacing: 0;
   }
-
-  .right {
+  .right{
     width: 100%;
   }
-
-  .right-content {
+  .right-content{
     font-size: 14px;
-    color: rgba(0, 0, 0, 0.65);
+    color: rgba(0,0,0,0.65);
     letter-spacing: 0;
     overflow: hidden;
     word-break: break-all;
@@ -464,13 +406,11 @@ export default {
     -webkit-line-clamp: 2;
     margin-top: 10px;
   }
-
-  .right-content img {
+  .right-content img{
     width: 100px;
     height: 100px;
   }
-
-  .group {
+  .group{
     background: #03C15E;
     min-width: 46px;
     height: 46px;
@@ -480,13 +420,11 @@ export default {
     justify-content: center;
     align-items: center;
   }
-
-  .list-flex {
+  .list-flex{
     display: flex;
     align-items: center;
   }
-
-  .list-content {
+  .list-content{
     width: 75%;
     font-size: 16px;
     color: #333333;
@@ -498,15 +436,13 @@ export default {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
   }
-
-  .date {
+  .date{
     font-size: 14px;
     color: #999999;
     letter-spacing: 0;
     margin-top: 6px;
   }
-
-  .footer {
+  .footer{
     position: fixed;
     bottom: 0;
     display: flex;
@@ -518,8 +454,7 @@ export default {
     width: 100%;
     padding: 10px 0;
   }
-
-  .footer-left {
+  .footer-left{
     width: 152px;
     height: 40px;
     border: 0.5px solid #E5E5E5;
@@ -529,8 +464,7 @@ export default {
     font-size: 16px;
     color: #333333;
   }
-
-  .footer-right {
+  .footer-right{
     width: 152px;
     font-size: 16px;
     color: #FFFFFF;

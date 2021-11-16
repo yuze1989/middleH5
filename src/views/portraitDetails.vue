@@ -55,7 +55,7 @@
       </div>
       <!-- 客户动态 -->
       <div class="distance">
-        <div class="tite">
+        <div class="title">
           <div class="border"></div>
           <div>{{tabIndex === 0 ? '动态' : '消费概览'}}</div>
         </div>
@@ -66,7 +66,7 @@
           :immediate-check="false">
           <!-- 动态部分 -->
           <div v-for="(item,index) in list" :key="index" v-show="tabIndex === 0">
-            <div class="tate">
+            <div class="date">
               <div>{{item.dateStr}}</div>
             </div>
             <div style="margin: 8px 0;">
@@ -74,7 +74,7 @@
               v-for="(obj,subscript) in item.customerTrendDTOList" :key="subscript">
                 <div class="content-left">{{obj.timeStr}}</div>
                 <div>
-                  <div class="content-tite">
+                  <div class="content-title">
                     <i class="iconfont icon-jiedian"></i>
                     <span>{{obj.eventName}}</span>
                   </div>
@@ -104,7 +104,7 @@
               </div>
             </div>
             <div class="distance">
-              <div class="tite">
+              <div class="title">
                 <div class="border"></div>
                 <div>订单详情</div>
               </div>
@@ -118,7 +118,7 @@
               <div class="order-introduce" v-for="(val,key) in
               item.platformSubOrderDTOList" :key="key">
                 <img :src="val.picPath">
-                <div class="order-tite">
+                <div class="order-title">
                   {{val.title}}
                 </div>
               </div>
@@ -357,7 +357,7 @@ export default {
     /** 设置或检索伸缩盒对象的子元素的排列方式 **/
     -webkit-line-clamp: 1;
   }
-  .order-tite{
+  .order-title{
     font-size: 14px;
     color: #333333;
     overflow: hidden;
@@ -507,7 +507,7 @@ export default {
     padding: 20px 15px 15px 15px;
   }
 
-  .tite {
+  .title {
     font-size: 16px;
     color: #333333;
     display: flex;
@@ -522,7 +522,7 @@ export default {
     border-radius: 1.5px;
   }
 
-  .tate {
+  .date {
     padding: 8px 15px;
     border-top: 1px solid #F3F3F3;
     border-bottom: 1px solid #F3F3F3;
@@ -543,12 +543,12 @@ export default {
     margin-right: 12px;
   }
 
-  .content-tite {
+  .content-title {
     font-size: 14px;
     color: #333333;
   }
 
-  .content-tite span {
+  .content-title span {
     margin-left: 10px;
   }
 
