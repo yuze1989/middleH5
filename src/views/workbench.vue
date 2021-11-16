@@ -117,6 +117,7 @@ export default {
             // 清空数组
             that.dataList = [];
             // 停止上拉加载
+            that.refreshing = false;
             that.finished = true;
             that.loading = false;
           } else {

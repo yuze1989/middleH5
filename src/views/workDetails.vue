@@ -99,9 +99,7 @@ import Wechat from '../utils/wechat';
 import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
-  components: {
-    jurisdiction,
-  },
+  components: { jurisdiction },
   data() {
     return {
       err: '',
@@ -126,9 +124,7 @@ export default {
       }
       let data;
       if (obj.targetType === 1) {
-        data = {
-          chatId: obj.targetThirdId,
-        };
+        data = { chatId: obj.targetThirdId };
         Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
       } else {
         data = {
@@ -197,9 +193,7 @@ export default {
         duration: 0,
         forbidClick: true, // 禁用背景点击
       });
-      Http.post('/scrm/comm/rest/sop/finish-sop-task', {
-        idList: that.idList,
-      }, '').then((res) => {
+      Http.post('/scrm/comm/rest/sop/finish-sop-task', { idList: that.idList }, '').then((res) => {
         if (res.success) {
           that.getList();
           Toast.loading({
@@ -218,9 +212,7 @@ export default {
     },
     getList() {
       const that = this;
-      Http.post('/scrm/comm/rest/sop/get-sop-task-batch-detail', {
-        batchNo: that.batchNo,
-      }, '').then((res) => {
+      Http.post('/scrm/comm/rest/sop/get-sop-task-batch-detail', { batchNo: that.batchNo }, '').then((res) => {
         if (res.success) {
           that.err = '';
           res.data.sopTaskList.forEach((item) => {

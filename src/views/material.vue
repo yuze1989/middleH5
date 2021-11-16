@@ -150,6 +150,7 @@ export default {
           // 判断获取数据条数若等于0
           if (res.totalCount === 0) {
             // 停止上拉加载
+            that.refreshing = false;
             that.finished = true;
             that.loading = false;
           } else {

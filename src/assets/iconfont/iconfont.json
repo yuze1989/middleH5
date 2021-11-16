@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "25750747",
+      "name": "收",
+      "font_class": "shou",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "25602790",
+      "name": "商铺",
+      "font_class": "shangpu",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
       "icon_id": "24936733",
       "name": "节点",
       "font_class": "jiedian",
