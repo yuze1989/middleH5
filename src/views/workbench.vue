@@ -8,7 +8,7 @@
     </div>
     <div class="hr"></div>
     <div class="top-nav">
-      <div v-for="(item,index) in nav" :key="index">
+      <div v-for="(item,index) in nav" :key="index" class="nav-box">
         <div :class="{active: ($store.state.type-2) === index}" @click="change(index)">
           {{item}}
         </div>
@@ -111,31 +111,27 @@ export default {
         pageSize: 20,
       }, '').then((res) => {
         that.err = '';
-        if (res.success) {
-          // 判断获取数据条数若等于0
-          if (res.totalCount === 0) {
-            // 清空数组
-            that.dataList = [];
-            // 停止上拉加载
-            that.refreshing = false;
+        if (res.success && res.totalCount !== 0) {
+          that.dataList.push(...res.data);
+          if (that.pageIndex === 1) {
+            that.sum = res.totalCount;
+          }
+          if (that.dataList.length === res.totalCount) {
+            // 结束上拉加载状态
             that.finished = true;
             that.loading = false;
-          } else {
-            that.dataList.push(...res.data);
-            if (that.pageIndex === 1) {
-              that.sum = res.totalCount;
-            }
-            if (that.dataList.length === res.totalCount) {
-              // 结束上拉加载状态
-              that.finished = true;
-              that.loading = false;
-            }
-            // 清除下拉刷新状态
-            that.refreshing = false;
-            that.loading = false;
-            that.pageIndex += 1;
           }
+          // 清除下拉刷新状态
+          that.refreshing = false;
+          that.loading = false;
+          that.pageIndex += 1;
         } else {
+          // 清空数组
+          that.dataList = [];
+          // 停止上拉加载
+          that.refreshing = false;
+          that.finished = true;
+          that.loading = false;
           that.err = res.errCode;
           Toast(res.errMessage);
         }
@@ -160,8 +156,8 @@ export default {
 </script>
 <style scoped="scoped">
   .top {
-    padding: 11px 15px;
-    font-size: 14px;
+    padding: 1.1rem 1.5rem;
+    font-size: 1.4rem;
     color: #1890FF;
     letter-spacing: 0;
     text-align: center;
@@ -170,56 +166,56 @@ export default {
     font-weight: 500;
   }
   .span {
-    margin: 0 10px;
-    font-size: 16px;
+    margin: 0 1rem;
+    font-size: 1.6rem;
     color: #333333;
   }
 
   .hr {
     width: 100%;
-    height: 5px;
+    height: 0.5rem;
     background-color: #E5E5E5;
   }
   .top-nav {
-    height: 44px;
+    height: 4.4rem;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
     letter-spacing: 0;
     text-align: center;
     justify-content: space-evenly;
-    border-bottom: 1px solid #F3F3F3;
+    border-bottom: 0.1rem solid #F3F3F3;
   }
 
-  .top-nav div {
-    height: 40px;
-    line-height: 40px;
+  .nav-box {
+    height: 4rem;
+    line-height: 4rem;
   }
   .active {
     color: #1890FF;
-    border-bottom: 2px #1890FF solid;
+    border-bottom: 0.2rem #1890FF solid;
   }
   .content{
-    margin: 10px 0 10px 15px;
-     margin-bottom: 50px;
+    margin: 1rem 0 1rem 1.5rem;
+     margin-bottom: 5rem;
   }
   .content-tip{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
     letter-spacing: 0;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #F3F3F3;
+    padding-bottom: 1.2rem;
+    border-bottom: 0.1rem solid #F3F3F3;
   }
   .content-block{
-   padding: 12px 15px 12px 0;
-   font-size: 12px;
+   padding: 1.2rem 1.5rem 1.2rem 0;
+   font-size: 1.2rem;
    color: #999999;
    letter-spacing: 0;
-   border-bottom: 1px solid #F3F3F3;
+   border-bottom: 0.1rem solid #F3F3F3;
   }
   .task-name{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: rgba(0,0,0,0.65);
     letter-spacing: 0;
     overflow: hidden;
@@ -234,26 +230,26 @@ export default {
     align-items: center;
   }
   .task{
-    margin-top: 6px;
+    margin-top: 0.6rem;
   }
   .push-date{
-    margin-top: 6px;
+    margin-top: 0.6rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
   .state{
     background: rgba(231,120,120,0.1);
-    border-radius: 2px;
+    border-radius: 0.2rem;
     text-align: center;
-    padding: 2px 5px;
-    font-size: 12px;
+    padding: 0.2rem 0.5rem;
+    font-size: 1.2rem;
     color: rgba(250,82,82,1);
     letter-spacing: 0;
-    margin-right: 10px;
+    margin-right: 1rem;
   }
   .overdue{
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #FA5252;
     letter-spacing: 0;
   }

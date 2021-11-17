@@ -13,6 +13,16 @@ const util = {
     }
     return option;
   },
+  setRem: () => {
+    const scale = document.documentElement.clientWidth / 750;
+    document.documentElement.style.fontSize = `${20 * Math.min(scale, 2)}px`;
+  },
+  onresizeRem: () => {
+    util.setRem();
+    window.onresize = () => {
+      util.setRem();
+    };
+  },
 };
 
 export default util;
