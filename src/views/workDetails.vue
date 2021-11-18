@@ -240,47 +240,47 @@ export default {
   }
   .icon-touxiang{
     color: #FFFFFF !important;
-    font-size: 30px !important;
-    margin: 0px !important;
+    font-size: 3rem !important;
+    margin: 0 !important;
   }
   .icon-fasong{
     color: #1890FF !important;
-    margin: 2px 2px 0 0 !important;
+    margin: 0.2rem 0.2rem 0 0 !important;
   }
   .icon{
-    min-width: 24px;
-    height: 24px;
+    min-width: 2.4rem;
+    height: 2.4rem;
     background: #DCEEFF;
-    box-shadow: 0 4px 30px 0 rgba(24,107,255,0.16);
+    box-shadow: 0 0.4rem 3rem 0 rgba(24,107,255,0.16);
     border-radius: 50%;
     text-align: center;
-    line-height: 24px;
+    line-height: 2.4rem;
   }
   .yes{
-    min-width: 46.5px;
-    height: 19px;
+    min-width: 4.65rem;
+    height: 1.9rem;
     background: #DCEEFF;
-    border-radius: 9px;
-    font-size: 10px;
+    border-radius: 0.9rem;
+    font-size: 1rem;
     text-align: center;
-    line-height: 19px;
+    line-height: 1.9rem;
     color: #1890FF;
-    margin-left: 10px;
+    margin-left: 1rem;
   }
   .no{
-    min-width: 46.5px;
-    height: 19px;
-    line-height: 19px;
+    min-width: 4.65rem;
+    height: 1.9rem;
+    line-height: 1.9rem;
     background: #E5E5E5;
-    border-radius: 9px;
-    font-size: 10px;
+    border-radius: 0.9rem;
+    font-size: 1rem;
     color: rgba(0,0,0,0.25);
     text-align: center;
-    margin-left: 10px;
+    margin-left: 1rem;
   }
   .top-box{
-     margin: 10px 0 10px 15px;
-     font-size: 12px;
+     margin: 1rem 0 1rem 1.5rem;
+     font-size: 1.2rem;
      color: #999999;
      letter-spacing: 0;
   }
@@ -290,19 +290,19 @@ export default {
     justify-content: space-between;
   }
   .content-tip{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
     letter-spacing: 0;
-    padding-bottom: 12px;
+    padding-bottom: 1.2rem;
   }
   .content{
-    margin: 10px 0 10px 15px;
+    margin: 1rem 0 1rem 1.5rem;
   }
   .task{
-    margin-top: 6px;
+    margin-top: 0.6rem;
   }
   .push-date{
-    margin-top: 6px;
+    margin-top: 0.6rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -311,17 +311,17 @@ export default {
     background: rgba(231,120,120,0.1);
     text-align: center;
     text-align: center;
-    line-height: 30px;
-    font-size: 16px;
-    width: 79px;
-    height: 30px;
-    border-radius: 50px 0 0 50px;
+    line-height: 3rem;
+    font-size: 1.6rem;
+    width: 7.9rem;
+    height: 3rem;
+    border-radius: 5rem 0 0 5rem;
     color: rgba(250,82,82,1);
     letter-spacing: 0;
   }
   .top {
-    padding: 11px 15px;
-    font-size: 14px;
+    padding: 1.1rem 1.5rem;
+    font-size: 1.4rem;
     color: #1890FF;
     letter-spacing: 0;
     text-align: center;
@@ -335,7 +335,7 @@ export default {
     justify-content: space-between;
   }
   .task-name{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: rgba(0,0,0,0.65);
     letter-spacing: 0;
     overflow: hidden;
@@ -346,48 +346,48 @@ export default {
     -webkit-line-clamp: 1;
   }
   .overdue{
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #FA5252;
     letter-spacing: 0;
-    margin-right: 10px;
+    margin-right: 1rem;
   }
   .surplus{
     color: #1890FF;
   }
   .hr {
     width: 100%;
-    height: 5px;
+    height: 0.5rem;
     background-color: #E5E5E5;
   }
   .flex{
     display: flex;
-    border-top: 1px solid #E5E5E5;
-    padding: 12px 15px 12px 0;
+    border-top: 0.1rem solid #E5E5E5;
+    padding: 1.2rem 1.5rem 1.2rem 0;
     align-items: baseline;
   }
   .list{
     display: flex;
     justify-content: space-between;
-    padding: 12px 15px 12px 0;
+    padding: 1.2rem 1.5rem 1.2rem 0;
     align-items: center;
-    border-top: 1px solid #E5E5E5;
+    border-top: 0.1rem solid #E5E5E5;
   }
   .left{
     display: flex;
     align-items: flex-start;
   }
   .iconfont{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #999999;
-    margin-right: 10px;
+    margin-right: 1rem;
   }
   .right-tite{
-    font-size: 16px;
+    font-size: 1.6rem;
     color: #333333;
     letter-spacing: 0;
   }
   .copy{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #1890FF;
     letter-spacing: 0;
   }
@@ -395,7 +395,7 @@ export default {
     width: 100%;
   }
   .right-content{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: rgba(0,0,0,0.65);
     letter-spacing: 0;
     overflow: hidden;
@@ -404,18 +404,18 @@ export default {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    margin-top: 10px;
+    margin-top: 1rem;
   }
   .right-content img{
-    width: 100px;
-    height: 100px;
+    width: 10rem;
+    height: 10rem;
   }
   .group{
     background: #03C15E;
-    min-width: 46px;
-    height: 46px;
-    border-radius: 4px;
-    margin-right: 12px;
+    min-width: 4.6rem;
+    height: 4.6rem;
+    border-radius: 0.4rem;
+    margin-right: 1.2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -426,7 +426,7 @@ export default {
   }
   .list-content{
     width: 75%;
-    font-size: 16px;
+    font-size: 1.6rem;
     color: #333333;
     letter-spacing: 0;
     overflow: hidden;
@@ -437,10 +437,10 @@ export default {
     -webkit-line-clamp: 1;
   }
   .date{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #999999;
     letter-spacing: 0;
-    margin-top: 6px;
+    margin-top: 0.6rem;
   }
   .footer{
     position: fixed;
@@ -450,28 +450,28 @@ export default {
     background-color: #FFFFFF;
     z-index: 1;
     justify-content: space-evenly;
-    border-top: 0.5px solid #E5E5E5;
+    border-top: 0.05rem solid #E5E5E5;
     width: 100%;
-    padding: 10px 0;
+    padding: 1rem 0;
   }
   .footer-left{
-    width: 152px;
-    height: 40px;
-    border: 0.5px solid #E5E5E5;
-    border-radius: 2.5px;
+    width: 15.2rem;
+    height: 4rem;
+    border: 0.05rem solid #E5E5E5;
+    border-radius: 0.25rem;
     text-align: center;
-    line-height: 40px;
-    font-size: 16px;
+    line-height: 4rem;
+    font-size: 1.6rem;
     color: #333333;
   }
   .footer-right{
-    width: 152px;
+    width: 15.2rem;
     font-size: 16px;
     color: #FFFFFF;
-    line-height: 40px;
+    line-height: 4rem;
     text-align: center;
-    height: 40px;
+    height: 4rem;
     background: #1890FF;
-    border-radius: 2.5px;
+    border-radius: 0.25rem;
   }
 </style>

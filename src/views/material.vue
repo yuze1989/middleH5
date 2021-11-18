@@ -1,7 +1,8 @@
 <template>
   <div class="box-bos">
     <ul v-if="err !== '0100000006'">
-      <li :class="{'active': $store.state.navType === index}" v-for="(item,index) in lists"
+      <li :class="{'active': $store.state.navType === index}"
+      v-for="(item,index) in lists"
       :key="index" @click="change(index)">
         {{item.name}}
       </li>
@@ -145,29 +146,24 @@ export default {
         pageSize: 20,
         snapshotFlag: that.snapshot,
       }, '').then((res) => {
-        if (res.success) {
+        if (res.success && res.totalCount !== 0) {
           that.err = '';
-          // 判断获取数据条数若等于0
-          if (res.totalCount === 0) {
-            // 停止上拉加载
-            that.refreshing = false;
-            that.finished = true;
-            that.loading = false;
-          } else {
-            that.dataList.push(...res.data);
-            if (that.pageIndex === 1) {
-              that.sum = res.totalCount;
-            }
-            // 清除下拉刷新状态
-            that.refreshing = false;
-            that.loading = false;
-            if (that.dataList.length === res.totalCount) {
-              // 结束上拉加载状态
-              that.finished = true;
-            }
-            that.pageIndex += 1;
+          that.dataList.push(...res.data);
+          if (that.pageIndex === 1) {
+            that.sum = res.totalCount;
           }
+          // 清除下拉刷新状态
+          that.refreshing = false;
+          that.loading = false;
+          if (that.dataList.length === res.totalCount) {
+            // 结束上拉加载状态
+            that.finished = true;
+          }
+          that.pageIndex += 1;
         } else {
+          that.refreshing = false;
+          that.finished = true;
+          that.loading = false;
           that.err = res.errCode;
           Toast(res.errMessage);
         }
@@ -296,7 +292,7 @@ export default {
 
   .active {
     color: #1890FF;
-    border-bottom: 2px #1890FF solid;
+    border-bottom: 0.2rem #1890FF solid;
     font-weight: bolder;
   }
 
@@ -306,48 +302,48 @@ export default {
 
   .icon-fasong1 {
     color: #1890FF;
-    font-size: 22px;
+    font-size: 2.2rem;
   }
 
   .icon-fasong {
     color: #FFFFFF;
-    font-size: 10px;
-    margin: 2px 2px 0 0;
+    font-size: 1rem;
+    margin: 0.2rem 0.2rem 0 0;
   }
   li {
-    border-bottom: 2px rgba(0, 0, 0, 0) solid;
+    border-bottom: 0.2rem rgba(0, 0, 0, 0) solid;
     text-align: center;
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
     letter-spacing: 0;
     text-align: center;
     -ms-flex-negative: 0;
     flex-shrink: 0;
-    padding: 10px 0;
-    margin: 0 20px;
+    padding: 1rem 0;
+    margin: 0 2rem;
   }
 
   ul {
-    height: 44px;
+    height: 4.4rem;
     display: flex;
     align-items: center;
     overflow: auto;
     padding-left: 0;
     list-style: none;
     margin: 0;
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
     letter-spacing: 0;
   }
 
   .content-box {
-    margin-bottom: 80px;
-    border-top: 1px solid #F3F3F3;
-    padding: 10px 20px 0 20px;
+    margin-bottom: 8rem;
+    border-top: 0.1rem solid #F3F3F3;
+    padding: 1rem 2rem 0 2rem;
   }
 
   .tip {
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #999999;
     letter-spacing: 0;
     text-align: justify;
@@ -355,10 +351,10 @@ export default {
 
   .article {
     opacity: 1;
-    padding: 10px 0;
+    padding: 1rem 0;
     display: flex;
     align-items: flex-start;
-    border-bottom: #F3F3F3 1px dashed;
+    border-bottom: #F3F3F3 0.1rem dashed;
   }
 
   .left {
@@ -367,19 +363,19 @@ export default {
   }
 
   .left img {
-    margin: 0 10px 0 8px;
-    width: 46px;
-    height: 46px;
+    margin: 0 1rem 0 0.8rem;
+    width: 4.6rem;
+    height: 4.6rem;
   }
 
   .flex {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 3px;
+    margin-top: 0.3rem;
   }
 
   .name {
-    font-size: 16px;
+    font-size: 1.6rem;
     color: #333333;
     letter-spacing: 0;
     overflow: hidden;
@@ -396,18 +392,18 @@ export default {
   }
 
   .ad {
-    margin: 0 8px 8px 0;
-    padding: 6px 9px;
+    margin: 0 0.8rem 0.8rem 0;
+    padding: 0.6rem 0.9rem;
     background: rgba(24, 144, 255, 0.05);
-    border-radius: 1px;
+    border-radius: 0.1rem;
     opacity: 0.5;
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #275783;
-    line-height: 10px;
+    line-height: 1rem;
   }
 
   .sizi {
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #999999;
     letter-spacing: 0;
     text-align: justify;
@@ -426,14 +422,14 @@ export default {
 
   .footer {
     display: flex;
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #1890FF;
     letter-spacing: 0;
     text-align: justify;
   }
 
   .footer div {
-    margin: 20px 0 15px 0;
+    margin: 2rem 0 1.5rem 0;
     text-align: center;
     flex: 1;
   }

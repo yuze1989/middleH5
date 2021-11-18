@@ -17,12 +17,8 @@
         <div class="info flex">
           <div class="overf">添加时间：{{useData.gmtCreate}}</div>
           <div class="overf">电话：{{useData.mobile}}</div>
-        </div>
-        <div class="info flex">
           <div class="overf">年龄：{{useData.age}}</div>
           <div class="overf">邮箱：{{useData.email}}</div>
-        </div>
-        <div class="info label">
           <div class="overf">企业标签：</div>
           <div class="label-box" v-for="(item,index) in TagDTO" :key="index">
             {{item.name}}
@@ -30,17 +26,17 @@
         </div>
         <!-- 客户评分 -->
         <div class="board">
-          <div>
+          <div class="generalization-border">
             <div>客户评分</div>
-            <div class="font overf">{{useData.grade}}</div>
+            <div class="font">{{useData.grade}}</div>
           </div>
-          <div>
+          <div class="generalization-border">
             <div>客户积分</div>
-            <div class="font overf">{{useData.score}}</div>
+            <div class="font ">{{useData.score}}</div>
           </div>
-          <div style="border: none;">
+          <div class="generalization-border">
             <div>跟进状态</div>
-            <div class="font overf">{{useData.followStatusName}}</div>
+            <div class="font">{{useData.followStatusName}}</div>
           </div>
         </div>
       </div>
@@ -79,7 +75,8 @@
                     <span>{{obj.eventName}}</span>
                   </div>
                   <div class="event" :style=" subscript + 1 ===
-                item.customerTrendDTOList.length ?'border: none;':''" v-html="obj.content">
+                item.customerTrendDTOList.length ?'border: none;':''"
+                v-html="obj.content">
                   </div>
                 </div>
               </div>
@@ -89,16 +86,16 @@
           <!-- 全量消费部分 -->
           <div v-show="tabIndex !== 0">
             <div class="generalization">
-              <div>
+              <div class="generalization-border">
                 <div>消费总金额</div>
                 <div class="font">¥
                 {{tofixed(overview.totalConsumption) || 0}}</div>
               </div>
-              <div>
+              <div class="generalization-border">
                 <div>消费总次数</div>
                 <div class="font">{{overview.numberOfPurchases || 0}}</div>
               </div>
-              <div style="border: none;">
+              <div class="generalization-border">
                 <div>最近消费时间</div>
                 <div class="font">{{overview.lastPurchaseTime || '无'}}</div>
               </div>
@@ -181,14 +178,14 @@ export default {
     add(item) {
       let totalPrice = 0;
       item.platformSubOrderDTOList.forEach((subOrder) => {
-        totalPrice += parseInt((subOrder.price * 1000), 0) / 1000;
+        totalPrice += Number(subOrder.price);
       });
       return totalPrice.toFixed(2);
     },
     tofixed(price) {
       let totalPrice = 0;
       if (price) {
-        totalPrice = parseInt((price * 1000), 0) / 1000;
+        totalPrice = Number(price);
       }
       return totalPrice.toFixed(2);
     },
@@ -261,43 +258,25 @@ export default {
       const that = this;
       const url = that.tabIndex === 0
         ? '/scrm/customer/listCustomerTrendForSidebar' : '/scrm/comm/rest/consumption-order/list-page-order';
-      let data = {};
-      if (that.tabIndex === 0) {
-        data = {
-          externalUserId: sessionStorage.getItem('userId'),
-        };
-      } else {
-        data = {
-          platformCode: 'ALL',
-          pageIndex: that.pageIndex,
-          pageSize: 20,
-          mobile: that.useData.mobile,
-        };
-      }
+      const variable = that.tabIndex === 0 ? 'externalUserId' : 'platformCode';
+      const data = {
+        [variable]: that.tabIndex === 0 ? sessionStorage.getItem('userId') : 'ALL',
+        pageIndex: that.pageIndex,
+        pageSize: 20,
+        mobile: that.useData.mobile,
+      };
       Http.post(url, data, '').then((res) => {
-        if (res.success) {
-          // 判断获取数据条数若等于0
-          if (res.totalCount === 0) {
-            that.list = [];
-            // 停止上拉加载
-            that.refreshing = false;
+        if (res.success && res.totalCount !== 0) {
+          that.list.push(...res.data);
+          // 清除下拉刷新状态
+          that.refreshing = false;
+          that.loading = false;
+          if (that.list.length === res.totalCount) {
+            // 结束上拉加载状态
             that.finished = true;
             that.loading = false;
-          } else {
-            that.list.push(...res.data);
-            if (that.pageIndex === 1) {
-              that.sum = res.totalCount;
-            }
-            // 清除下拉刷新状态
-            that.refreshing = false;
-            that.loading = false;
-            if (that.list.length === res.totalCount) {
-              // 结束上拉加载状态
-              that.finished = true;
-              that.loading = false;
-            }
-            that.pageIndex += 1;
           }
+          that.pageIndex += 1;
         } else {
           // 停止上拉加载
           that.list = [];
@@ -312,43 +291,47 @@ export default {
 </script>
 <style scoped>
   .box {
-    padding: 15px 15px 0 15px;
+    padding: 1.5rem 1.5rem 0 1.5rem;
   }
   .order-money{
-    padding-top: 15px;
-    border-top: 1px solid #F3F3F3;
+    padding-top: 1.5rem;
+    border-top: 0.1rem solid #F3F3F3;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #999999;
   }
   .order-money span{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
   }
   .collect{
-    margin-right: 4.5px;
+    margin-right: 0.45rem;
   }
   .order-address{
-    padding: 12px 0;
-    border-top: 1px solid #F3F3F3;
-    font-size: 12px;
+    padding: 1.2rem 0;
+    border-top: 0.1rem solid #F3F3F3;
+    font-size: 1.2rem;
     color: #999999;
     display: flex;
     align-items: center;
   }
   .order-introduce{
     display: flex;
-    padding: 15px 0;
-    border-top: 1px solid #F3F3F3;
+    padding: 1.5rem 0;
+    border-top: 0.1rem solid #F3F3F3;
     align-items: flex-start;
   }
   .order-introduce img{
-    width: 44px;
-    margin-right: 12px;
+    width: 4.4rem;
+    margin-right: 1.2rem;
+  }
+  .overf:nth-child(-n+4){
+    width: 50%;
   }
   .overf{
+    padding: 0.4rem 0;
     overflow: hidden;
     word-break: break-all;
     /* break-all(允许在单词内换行。) */
@@ -361,7 +344,7 @@ export default {
     -webkit-line-clamp: 1;
   }
   .order-title{
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
     overflow: hidden;
     word-break: break-all;
@@ -375,77 +358,73 @@ export default {
     -webkit-line-clamp: 2;
   }
   .icon-shangpu{
-    font-size: 15px !important;
+    font-size: 1.5rem !important;
     color: #999999;
   }
   .order-box{
-    border: 0.5px solid #EEEEEE;
-    border-radius: 4px;
-    margin: 0 15px 15px 15px;
-    padding: 10px;
+    border: 0.05rem solid #EEEEEE;
+    border-radius: 0.4rem;
+    margin: 0 1.5rem 1.5rem 1.5rem;
+    padding: 1rem;
   }
   .shopName{
-    margin-left: 7.5px;
-    font-size: 12px;
+    margin-left: 0.75rem;
+    font-size: 1.2rem;
     color: rgba(0,0,0,0.65);
   }
   .icon-jiedian {
-    font-size: 16px;
+    font-size: 1.6rem;
     color: #1890FF;
   }
 
   .top-nav {
-    height: 44px;
+    height: 4.4rem;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
     letter-spacing: 0;
     text-align: center;
     justify-content: space-evenly;
-    border-bottom: 1px solid #F3F3F3;
+    border-bottom: 0.1rem solid #F3F3F3;
   }
 
   .active {
     color: #1890FF;
-    border-bottom: 2px #1890FF solid;
+    border-bottom: 0.2rem #1890FF solid;
   }
 
   .top-nav div {
-    height: 40px;
-    line-height: 40px;
+    height: 4rem;
+    line-height: 4rem;
   }
 
   .top {
     display: flex;
     font-family: PingFangSC-Medium;
     align-items: center;
-    font-size: 13px;
+    font-size: 1.3rem;
     color: #333333;
-    margin-bottom: 4px;
+    margin-bottom: 0.4rem;
   }
 
   .top img {
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
+    width: 5rem;
+    height: 5rem;
+    margin-right: 1rem;
   }
 
   .info {
-    padding: 4px 0;
+    padding: 0.4rem 0;
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #999999;
   }
 
   .flex {
     display: flex;
+    flex-wrap: wrap;
   }
-
-  .flex div {
-    flex: 1;
-  }
-
   .label {
     display: flex;
     align-items: center;
@@ -453,65 +432,66 @@ export default {
   }
 
   .label-box {
-    width: 45px;
-    height: 20px;
+    width: 4.5rem;
+    height: 2rem;
     background: rgba(24, 144, 255, 0.05);
-    border: 0.5px solid rgba(24, 144, 255, 0.25);
-    border-radius: 1px;
-    line-height: 20px;
-    font-size: 11px;
+    border: 0.05rem solid rgba(24, 144, 255, 0.25);
+    border-radius: 0.1rem;
+    line-height: 2rem;
+    font-size: 1.1rem;
     color: rgba(0, 0, 0, 0.65);
-    line-height: 20px;
+    line-height: 2rem;
     text-align: center;
-    margin: 6px 6px 0px 0;
+    margin: 0.6rem 0.6rem 0 0;
   }
 
   .board {
-    margin: 12px 0;
-    height: 74px;
+    margin: 1.2rem 0;
+    height: 7.4rem;
     background: #F3F9FF;
     display: flex;
     align-items: center;
     font-family: PingFangSC-Regular;
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #999999;
   }
 
   .generalization {
-    border: 0.5px solid #EEEEEE;
+    border: 0.05rem solid #EEEEEE;
     display: flex;
     align-items: center;
-    height: 68px;
-    margin: 0 15px;
-    font-size: 12px;
+    height: 6.8rem;
+    margin: 0 1.5rem;
+    font-size: 1.2rem;
     color: rgba(0, 0, 0, 0.45);
   }
 
-  .generalization>div,
-  .board>div {
+  .generalization-border{
     flex: 1;
     text-align: center;
-    border-right: solid #DDDDDD 1px;
+    border-right: solid #DDDDDD 0.1rem;
   }
-
+  .generalization-border:nth-child(3n){
+    border: none;
+  }
   .font {
-    font-size: 16px;
-    margin-top: 8px;
+    font-size: 1.6rem;
+    margin-top: 0.8rem;
     color: #333333;
   }
 
   .hr {
-    height: 8px;
-    margin: 4px 0;
+    height: 0.8rem;
+    margin: 0.4rem 0;
     background: #F5F5F5;
   }
 
   .distance {
-    padding: 20px 15px 15px 15px;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
   }
 
   .title {
-    font-size: 16px;
+    font-size: 1.6rem;
     color: #333333;
     display: flex;
     align-items: center;
@@ -519,17 +499,17 @@ export default {
 
   .border {
     background-color: #1890FF;
-    height: 12px;
-    width: 3px;
-    margin-right: 12px;
-    border-radius: 1.5px;
+    height: 1.2rem;
+    width: 0.3rem;
+    margin-right: 1.2rem;
+    border-radius: 0.15rem;
   }
 
   .date {
-    padding: 8px 15px;
-    border-top: 1px solid #F3F3F3;
-    border-bottom: 1px solid #F3F3F3;
-    font-size: 12px;
+    padding: 0.8rem 1.5rem;
+    border-top: 0.1rem solid #F3F3F3;
+    border-bottom: 0.1rem solid #F3F3F3;
+    font-size: 1.2rem;
     color: #999999;
     display: flex;
     align-items: center;
@@ -537,29 +517,28 @@ export default {
 
   .content {
     display: flex;
-    padding: 0 15px;
+    padding: 0 1.5rem;
   }
 
   .content-left {
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #999999;
-    margin-right: 12px;
+    margin-right: 1.2rem;
   }
 
   .content-title {
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
   }
 
   .content-title span {
-    margin-left: 10px;
+    margin-left: 1rem;
   }
-
   .event {
-    font-size: 14px;
-    padding: 8px 0px 8px 18px;
-    margin: 4px 7px;
-    border-left: 1px solid #1890FF;
+    font-size: 1.4rem;
+    padding: 0.8rem 0px 0.8rem 1.8rem;
+    margin: 0.4rem 0.7rem;
+    border-left: 0.1rem solid #1890FF;
     color: rgba(0, 0, 0, 0.65);
   }
 </style>

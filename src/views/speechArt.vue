@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="top-nav" v-if="err !== '0100000006'">
-      <div v-for="(item,index) in nav" :key="index">
+      <div v-for="(item,index) in nav" :key="index" class="tab-box">
         <div :class="{active: type === index}" @click="change(index)">
           {{item}}
         </div>
@@ -129,15 +129,15 @@ export default {
 <style type="text/css" scoped>
   .mask-top{
     display: flex;
-    margin: 8px 0;
-    font-size: 12px;
+    margin: 0.8rem 0;
+    font-size: 1.2rem;
     color: rgba(0,0,0,0.65);
     text-align: justify;
   }
   .mask-top img{
-    width: 39px;
-    height: 39px;
-    margin-right: 10px;
+    width: 3.9rem;
+    height: 3.9rem;
+    margin-right: 1rem;
   }
   .no {
     /* transition: all 1s; */
@@ -151,41 +151,41 @@ export default {
     opacity: 1;
     /* transition: all 1s; */
     align-items: center;
-    padding: 10px 0 10px 20px;
-    border-bottom: #F3F3F3 1px dashed;
+    padding: 1rem 0 1rem 2rem;
+    border-bottom: #F3F3F3 0.1rem dashed;
   }
 
   .right {
-    font-size: 12px;
+    font-size: 1.2rem;
     color: rgba(0, 0, 0, 0.65);
     letter-spacing: 0;
     text-align: justify;
-    padding: 0 15px 0px 10px;
+    padding: 0 1.5rem 0 1rem;
   }
 
  .icon-fasong1 {
   color: #1890FF;
-   font-size: 22px;
+   font-size: 2.2rem;
  }
   .content {
-    padding: 10px 0 10px 10px;
+    padding: 1rem 0 1rem 1rem;
   }
 
   .icon-fasong {
     color: #FFFFFF;
-    font-size: 10px;
-    margin: 2px 2px 0 0;
+    font-size: 1rem;
+    margin: 0.2rem 0.2rem 0 0;
   }
 
   .icon-xiayibu2,
   .icon-xiala2 {
-    font-size: 8px;
+    font-size: 0.8rem;
     color: #999999;
   }
 
   .icon-wenjianjia1 {
     color: #1890FF;
-    margin: 0 8px;
+    margin: 0 0.8rem;
   }
 
   .flex {
@@ -194,38 +194,38 @@ export default {
   }
 
   .content-box {
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
-    padding-bottom: 12px;
+    padding-bottom: 1.2rem;
   }
 
   .collapse-item {
     color: red;
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
   }
 
   .top-nav {
-    height: 44px;
+    height: 4.4rem;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #333333;
     letter-spacing: 0;
     text-align: center;
     justify-content: space-evenly;
-    border-bottom: 1px solid #F3F3F3;
+    border-bottom: 0.1rem solid #F3F3F3;
   }
 
-  .top-nav div {
-    height: 40px;
-    line-height: 40px;
+  .tab-box {
+    height: 4rem;
+    line-height: 4rem;
   }
 
   .active {
     color: #1890FF;
-    border-bottom: 2px #1890FF solid;
+    border-bottom: 0.2rem #1890FF solid;
   }
   .box{
-    margin-bottom: 80px;
+    margin-bottom: 8rem;
   }
 </style>
