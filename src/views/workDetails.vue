@@ -179,10 +179,7 @@ export default {
         data = { chatId: obj.targetThirdId };
         Wechat.setAgentConfig(data, 'openExistedChatWithMsg');
       } else {
-        data = {
-          externalUserIds: obj.targetThirdId,
-          groupName: '',
-        };
+        data = obj.targetThirdId;
         Wechat.setAgentConfig(data, '');
       }
     },
