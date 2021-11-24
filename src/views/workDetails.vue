@@ -183,7 +183,7 @@ export default {
           externalUserIds: obj.targetThirdId,
           groupName: '',
         };
-        Wechat.setAgentConfig(data, 'shareToExternalMoments');
+        Wechat.setAgentConfig(data, '');
       }
     },
     change(obj) {
@@ -246,11 +246,6 @@ export default {
         });
         return;
       }
-      Toast.loading({
-        type: 'loading',
-        duration: 0,
-        forbidClick: true, // 禁用背景点击
-      });
       Http.post('/scrm/comm/rest/sop/finish-sop-task', { idList: that.idList }, '').then((res) => {
         if (res.success) {
           that.getList();

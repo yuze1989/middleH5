@@ -165,10 +165,9 @@ export default {
           that.err = res.errCode;
           Toast(res.errMessage);
         }
-      })
-        .catch(() => {
-          that.err = 'errCode';
-        });
+      }).catch(() => {
+        that.err = 'errCode';
+      });
     },
     goDetails(obj) {
       if (this.$store.state.navType === 0) {
