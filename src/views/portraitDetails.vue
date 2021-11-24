@@ -122,8 +122,8 @@
                 </div>
               </div>
               <div class="order-money" v-if="item.platformSubOrderDTOList">
-                <div>订单金额: <span>¥ {{add(item)}}</span></div>
-                <div>实付金额: <span>¥ {{tofixed(item.payment)}}</span></div>
+                <div>订单金额 <span>¥ {{add(item)}}</span></div>
+                <div>实付金额 <span>¥ {{tofixed(item.payment)}}</span></div>
               </div>
             </div>
           </div>
@@ -293,7 +293,7 @@ export default {
     padding: 1.5rem 1.5rem 0 1.5rem;
   }
   .useName{
-    font-size: 3.2rem;
+    font-size: 1.6rem;
   }
   .dynamic-magrin {
     margin: 0.8rem 0;
@@ -340,7 +340,7 @@ export default {
 
   .order-introduce {
     display: flex;
-    padding: 1.5rem 0;
+    padding-top: 1.5rem;
     border-top: 0.1rem solid #F3F3F3;
     align-items: flex-start;
   }
@@ -481,7 +481,7 @@ export default {
   .generalization-border {
     flex: 1;
     text-align: center;
-    border-right: solid #DDDDDD 0.1rem;
+    border-right: solid #F3F3F3 0.1rem;
   }
 
   .generalization-border:nth-child(3n) {

@@ -1,6 +1,7 @@
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
+  productionSourceMap: false, // process.env.NODE_ENV !== 'production',
   publicPath: '/sh5/',
   outputDir: 'sh5',
   filenameHashing: true,
