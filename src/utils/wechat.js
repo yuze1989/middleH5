@@ -12,7 +12,6 @@ const Wechat = {
     wxSignature = res.data;
   },
   setAgentConfig: async (info, type, func) => {
-    console.log(type);
     await Wechat.setWxConfig();
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
@@ -23,30 +22,14 @@ const Wechat = {
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
         'openEnterpriseChat', 'shareToExternalMoments'], // 必填，传入需要使用的接口名称
       success: () => {
-        if (type) {
-          wx.invoke(type, info, (res) => {
-            if (res.userId) {
-              sessionStorage.setItem('userId', res.userId);
-            }
-            if (func) {
-              func();
-            }
-          });
-        } else {
-          wx.openEnterpriseChat({
-            externalUserIds: info,
-            groupName: '',
-            success: (res) => {
-              console.log(res, info);
-            },
-            fail: (res) => {
-              console.log(res);
-              if (res.errMsg.indexOf('function not exist') > -1) {
-                // alert('版本过低请升级');
-              }
-            },
-          });
-        }
+        wx.invoke(type, info, (res) => {
+          if (res.userId) {
+            sessionStorage.setItem('userId', res.userId);
+          }
+          if (func) {
+            func();
+          }
+        });
         // 回调
       },
       fail: (res) => {
