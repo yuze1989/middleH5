@@ -13,13 +13,24 @@
           </div>
         </div>
         <div class="info">
-          来源：{{useData.dataFrom === 1 ?'企业微信' :'后台手动添加'}}
+          来源：
+          <span class="font-color">
+          {{useData.dataFrom === 1 ?'企业微信' :'后台手动添加'}}
+          </span>
         </div>
         <div class="info flex">
-          <div class="ellipsis">添加时间：{{useData.gmtCreate || '--'}}</div>
-          <div class="ellipsis">电话：{{useData.mobile|| '--'}}</div>
-          <div class="ellipsis">年龄：{{useData.age|| '--'}}</div>
-          <div class="ellipsis">邮箱：{{useData.email|| '--'}}</div>
+          <div class="ellipsis">添加时间：
+            <span class="font-color">{{useData.gmtCreate || '--'}}</span>
+          </div>
+          <div class="ellipsis">电话：
+            <span class="font-color">{{useData.mobile|| '--'}}</span>
+          </div>
+          <div class="ellipsis">年龄：
+            <span class="font-color">{{useData.age|| '--'}}</span>
+          </div>
+          <div class="ellipsis">邮箱：
+            <span class="font-color">{{useData.email|| '--'}}</span>
+          </div>
           <div>企业标签：</div>
           <div class="label-box" v-for="(item,index) in TagDTO" :key="index">
             {{item.name}}
@@ -307,7 +318,9 @@ export default {
     color: #999999 !important;
     margin-left: 0.8rem;
   }
-
+  .font-color{
+    color: rgba(0, 0, 0, 0.65);
+  }
   .color {
     color: rgba(0, 0, 0, 0.45);
   }
@@ -420,7 +433,7 @@ export default {
     align-items: center;
     font-size: 1.3rem;
     color: #333333;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.6rem;
   }
 
   .top img {
@@ -430,7 +443,6 @@ export default {
   }
 
   .info {
-    padding: 0.4rem 0;
     font-size: 1.4rem;
     color: #999999;
   }

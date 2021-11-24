@@ -2,31 +2,29 @@
   <div class="box">
     <jurisdiction :err="err" v-if="err"></jurisdiction>
     <div v-else>
-      <div class="block-box">
-        <div class="top-box">
-          <div class="title">
-            <div class="task-name">{{dataList.sopRuleName}}</div>
-            <div class="state" v-if="dataList.overdueFlag">逾期</div>
-          </div>
-          <div class="task">{{sopType[dataList.sopType]}}SOP任务</div>
-          <div class="push-date">
-            <div>推送时间：{{taskTime}}</div>
-            <div v-if="dataList.taskStatus !== 3">
-              <div class="overdue" v-if="dataList.overdueFlag">
-                (逾期时间：{{dataList.taskOverdueTimeStr}})</div>
-              <div class="surplus" v-else>(剩余时间：{{dataList.taskSurplusTimeStr}})</div>
-            </div>
-          </div>
-          <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{finishTime}}</div>
+      <div class="top-box">
+        <div class="title">
+          <div class="task-name">{{dataList.sopRuleName}}</div>
+          <div class="state" v-if="dataList.overdueFlag">逾期</div>
         </div>
+        <div class="task">{{sopType[dataList.sopType]}}SOP任务</div>
+        <div class="push-date">
+          <div>推送时间：{{taskTime}}</div>
+          <div v-if="dataList.taskStatus !== 3">
+            <div class="overdue" v-if="dataList.overdueFlag">
+              (逾期时间：{{dataList.taskOverdueTimeStr}})</div>
+            <div class="surplus" v-else>(剩余时间：{{dataList.taskSurplusTimeStr}})</div>
+          </div>
+        </div>
+        <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{finishTime}}</div>
       </div>
       <div class="box-margin">
         <!-- 推送内容 -->
         <div class="block-box">
           <div class="content">
-            <div class="content-tip" style="border: none;">推送内容</div>
-            <div class="flex" v-for="(item,index) in dataList.sopRuleContentList"
-            :key="index">
+            <div class="content-tip">推送内容</div>
+            <div class="flex"
+            v-for="(item,index) in dataList.sopRuleContentList" :key="index">
               <div class="left">
                 <i class="iconfont icon-wenzi" v-if="item.contentType === 1"></i>
                 <i class="iconfont icon-tupian" v-if="item.contentType === 2"></i>
@@ -55,36 +53,40 @@
           </div>
         </div>
         <!-- 推送群聊 -->
-        <div class="content content-margin" v-if="dataList.sopType !== 3">
-          <div class="content-tip">推送{{sopType[dataList.sopType]}}</div>
-          <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
-          @click.stop="change(item)">
-            <div class="list-flex">
-              <div v-if="dataList.taskStatus !== 3">
-                <div v-if="item.taskStatus === 2">
-                  <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
-                  class="iconfont"></i>
-                </div>
-                <div v-else>
-                  <i class="iconfont icon-xuanze" style="color: #E5E5E5 !important;"></i>
-                </div>
-              </div>
-              <div class="group">
-                <i class="iconfont icon-touxiang"></i>
-              </div>
-              <div>
-                <div class="list-flex">
-                  <div class="list-content">{{item.targetName}}</div>
-                  <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
-                    {{item.taskStatus === 3 ? '已完成' : '未完成'}}
+        <div class="block-box" v-if="dataList.sopType !== 3">
+          <div class="content content-margin">
+            <div class="content-tip">推送{{sopType[dataList.sopType]}}</div>
+            <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
+            @click.stop="change(item)">
+              <div class="list-flex">
+                <div v-if="dataList.taskStatus !== 3">
+                  <div v-if="item.taskStatus === 2">
+                    <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
+                    class="iconfont"></i>
+                  </div>
+                  <div v-else>
+                    <i class="iconfont icon-xuanze"
+                    style="color: #E5E5E5 !important;"></i>
                   </div>
                 </div>
-                <div class="date" v-if="item.taskStatus === 3">
-                  完成时间：{{time(item.taskFinishTime)}}
+                <div class="group">
+                  <i class="iconfont icon-touxiang"></i>
+                </div>
+                <div>
+                  <div class="list-flex">
+                    <div class="list-content">{{item.targetName}}</div>
+                    <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
+                      {{item.taskStatus === 3 ? '已完成' : '未完成'}}
+                    </div>
+                  </div>
+                  <div class="date" v-if="item.taskStatus === 3">
+                    完成时间：{{time(item.taskFinishTime)}}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i>
+              <div class="icon" @click.stop="share(item)">
+                <i class="iconfont icon-fasong"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -158,8 +160,7 @@ export default {
         text: this.title,
         attachments: addressArr,
       };
-      Http.post('/scrm/comm/rest/sop/finish-friend-sop-task',
-        { batchNo: this.batchNo }, '').then((res) => {
+      Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
         if (res.success) {
           Wechat.setAgentConfig(data, 'shareToExternalMoments');
         } else {
@@ -250,8 +251,7 @@ export default {
         duration: 0,
         forbidClick: true, // 禁用背景点击
       });
-      Http.post('/scrm/comm/rest/sop/finish-sop-task',
-        { idList: that.idList }, '').then((res) => {
+      Http.post('/scrm/comm/rest/sop/finish-sop-task', { idList: that.idList }, '').then((res) => {
         if (res.success) {
           that.getList();
           Toast(res.errMessage);
@@ -291,6 +291,7 @@ export default {
   .icon-xuanze {
     color: #1890FF !important;
   }
+
   .icon-touxiang {
     color: #FFFFFF !important;
     font-size: 3rem !important;
@@ -301,16 +302,19 @@ export default {
     color: #1890FF !important;
     margin: 0.1rem 0.1rem 0 0 !important;
   }
-  .block-box::after{
+
+  .block-box::before {
     display: block;
     content: "";
     width: 100%;
     height: 0.5rem;
     background-color: #E5E5E5;
   }
-  .box-margin{
+
+  .box-margin {
     margin-bottom: 6.4rem;
   }
+
   .icon {
     padding: 0.4rem;
     background: #DCEEFF;
@@ -318,9 +322,11 @@ export default {
     border-radius: 50%;
     text-align: center;
   }
-  .content-margin{
+
+  .content-margin {
     margin-bottom: 6rem;
   }
+
   .yes {
     min-width: 4.65rem;
     background: #DCEEFF;
@@ -377,7 +383,7 @@ export default {
   .state {
     background: rgba(231, 120, 120, 0.1);
     text-align: center;
-    padding:0.4rem 2.4rem;
+    padding: 0.4rem 2.4rem;
     font-size: 1.6rem;
     border-radius: 5rem 0 0 5rem;
     color: rgba(250, 82, 82, 1);
@@ -392,6 +398,7 @@ export default {
     align-items: center;
     font-weight: 500;
   }
+
   .title {
     display: flex;
     align-items: center;
@@ -415,6 +422,7 @@ export default {
   .surplus {
     color: #1890FF;
   }
+
   .flex {
     display: flex;
     border-top: 0.1rem solid #E5E5E5;
@@ -440,6 +448,7 @@ export default {
     color: #999999;
     margin-right: 1rem;
   }
+
   .right-title {
     font-size: 1.6rem;
     color: #333333;
@@ -518,14 +527,17 @@ export default {
     border: 0.05rem solid #E5E5E5;
     color: #333333;
   }
-  .footer-left,.footer-right{
+
+  .footer-left,
+  .footer-right {
     flex: 1;
     margin: 0 2rem;
     border-radius: 0.25rem;
     text-align: center;
-    padding:1rem 0;
+    padding: 1rem 0;
     font-size: 1.6rem;
   }
+
   .footer-right {
     color: #FFFFFF;
     background: #1890FF;
