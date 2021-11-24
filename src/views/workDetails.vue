@@ -183,7 +183,7 @@ export default {
           externalUserIds: obj.targetThirdId,
           groupName: '',
         };
-        Wechat.setAgentConfig(data, '');
+        Wechat.setAgentConfig(data, 'openEnterpriseChat');
       }
     },
     change(obj) {
