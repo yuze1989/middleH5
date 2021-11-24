@@ -6,7 +6,7 @@
         <div class="top">
           <img :src="useData.avatar">
           <div>
-            <div>{{useData.name}}</div>
+            <div class="useName">{{useData.name}}</div>
             <div :style="{color:useData.wxType === 1 ? '#00BD5D' : '#1890ff'}">@
               {{useData.wxType === 1 ? '微信' : '企业微信'}}
             </div>
@@ -109,7 +109,7 @@
               </div>
               <div class="order-introduce" v-for="(val,key) in
               item.platformSubOrderDTOList" :key="key">
-                <img :src="val.picPath || '../assets/default.png'">
+                <img :src="val.picPath || require('../assets/default.png')">
                 <div class="order-title">
                   {{val.title}}
                 </div>
@@ -292,7 +292,9 @@ export default {
   .box {
     padding: 1.5rem 1.5rem 0 1.5rem;
   }
-
+  .useName{
+    font-size: 3.2rem;
+  }
   .dynamic-magrin {
     margin: 0.8rem 0;
   }
@@ -453,7 +455,7 @@ export default {
     font-size: 1.1rem;
     color: rgba(0, 0, 0, 0.65);
     text-align: center;
-    margin: 0.6rem 0.6rem 0 0;
+    margin: 0.3rem;
   }
 
   .board {

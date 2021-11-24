@@ -20,7 +20,7 @@ const Wechat = {
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
-        'openEnterpriseChat'], // 必填，传入需要使用的接口名称
+        'openEnterpriseChat', 'shareToExternalMoments'], // 必填，传入需要使用的接口名称
       success: () => {
         if (type) {
           wx.invoke(type, info, (res) => {
