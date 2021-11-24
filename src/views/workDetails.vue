@@ -7,7 +7,7 @@
           <div class="task-name">{{dataList.sopRuleName}}</div>
           <div class="state" v-if="dataList.overdueFlag">逾期</div>
         </div>
-        <div class="task">{{sopType[dataList.sopType]}}SOP任务</div>
+        <div class="task">{{sopType[dataList.sopType]}}任务</div>
         <div class="push-date">
           <div>推送时间：{{taskTime}}</div>
           <div v-if="dataList.taskStatus !== 3">
