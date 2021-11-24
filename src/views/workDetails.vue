@@ -20,70 +20,72 @@
           <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{finishTime}}</div>
         </div>
       </div>
-      <!-- 推送内容 -->
-      <div class="block-box">
-        <div class="content">
-          <div class="content-tip" style="border: none;">推送内容</div>
-          <div class="flex" v-for="(item,index) in dataList.sopRuleContentList"
-          :key="index">
-            <div class="left">
-              <i class="iconfont icon-wenzi" v-if="item.contentType === 1"></i>
-              <i class="iconfont icon-tupian" v-if="item.contentType === 2"></i>
-              <i class="iconfont icon-bianzu" v-if="item.contentType === 3"></i>
-            </div>
-            <div class="right">
-              <div class="right-top">
-                <div class="right-title">
-                  <span v-if="item.contentType === 1">文本</span>
-                  <span v-if="item.contentType === 2">图片</span>
-                  <span v-if="item.contentType === 3">链接</span>
-                </div>
-                <div class="copy" @click="copy(item)">
-                  <i class="iconfont icon-fuzhi"></i>
-                  <span>复制</span>
-                </div>
+      <div class="box-margin">
+        <!-- 推送内容 -->
+        <div class="block-box">
+          <div class="content">
+            <div class="content-tip" style="border: none;">推送内容</div>
+            <div class="flex" v-for="(item,index) in dataList.sopRuleContentList"
+            :key="index">
+              <div class="left">
+                <i class="iconfont icon-wenzi" v-if="item.contentType === 1"></i>
+                <i class="iconfont icon-tupian" v-if="item.contentType === 2"></i>
+                <i class="iconfont icon-bianzu" v-if="item.contentType === 3"></i>
               </div>
-              <div class="right-content" v-if="item.contentType !== 2">
-                {{item.text || item.linkUrl}}
-              </div>
-              <div class="right-content" v-else>
-                <img :src="item.imgUrl">
+              <div class="right">
+                <div class="right-top">
+                  <div class="right-title">
+                    <span v-if="item.contentType === 1">文本</span>
+                    <span v-if="item.contentType === 2">图片</span>
+                    <span v-if="item.contentType === 3">链接</span>
+                  </div>
+                  <div class="copy" @click="copy(item)">
+                    <i class="iconfont icon-fuzhi"></i>
+                    <span>复制</span>
+                  </div>
+                </div>
+                <div class="right-content" v-if="item.contentType !== 2">
+                  {{item.text || item.linkUrl}}
+                </div>
+                <div class="right-content" v-else>
+                  <img :src="item.imgUrl">
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- 推送群聊 -->
-      <div class="content content-margin" v-if="dataList.sopType !== 3">
-        <div class="content-tip">推送{{sopType[dataList.sopType]}}</div>
-        <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
-        @click.stop="change(item)">
-          <div class="list-flex">
-            <div v-if="dataList.taskStatus !== 3">
-              <div v-if="item.taskStatus === 2">
-                <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
-                class="iconfont"></i>
-              </div>
-              <div v-else>
-                <i class="iconfont icon-xuanze" style="color: #E5E5E5 !important;"></i>
-              </div>
-            </div>
-            <div class="group">
-              <i class="iconfont icon-touxiang"></i>
-            </div>
-            <div>
-              <div class="list-flex">
-                <div class="list-content">{{item.targetName}}</div>
-                <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
-                  {{item.taskStatus === 3 ? '已完成' : '未完成'}}
+        <!-- 推送群聊 -->
+        <div class="content content-margin" v-if="dataList.sopType !== 3">
+          <div class="content-tip">推送{{sopType[dataList.sopType]}}</div>
+          <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
+          @click.stop="change(item)">
+            <div class="list-flex">
+              <div v-if="dataList.taskStatus !== 3">
+                <div v-if="item.taskStatus === 2">
+                  <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
+                  class="iconfont"></i>
+                </div>
+                <div v-else>
+                  <i class="iconfont icon-xuanze" style="color: #E5E5E5 !important;"></i>
                 </div>
               </div>
-              <div class="date" v-if="item.taskStatus === 3">
-                完成时间：{{time(item.taskFinishTime)}}
+              <div class="group">
+                <i class="iconfont icon-touxiang"></i>
+              </div>
+              <div>
+                <div class="list-flex">
+                  <div class="list-content">{{item.targetName}}</div>
+                  <div :class="item.taskStatus === 3 ? 'yes' : 'no'">
+                    {{item.taskStatus === 3 ? '已完成' : '未完成'}}
+                  </div>
+                </div>
+                <div class="date" v-if="item.taskStatus === 3">
+                  完成时间：{{time(item.taskFinishTime)}}
+                </div>
               </div>
             </div>
-          </div>
-          <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i>
+            <div class="icon" @click.stop="share(item)"><i class="iconfont icon-fasong"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -305,6 +307,9 @@ export default {
     width: 100%;
     height: 0.5rem;
     background-color: #E5E5E5;
+  }
+  .box-margin{
+    margin-bottom: 6.4rem;
   }
   .icon {
     padding: 0.4rem;
