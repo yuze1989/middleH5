@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div v-if="!err">
+    <jurisdiction :err="err" v-if="err"></jurisdiction>
+    <div v-else>
       <div class="box">
         <div class="top">
           <img :src="useData.avatar">
@@ -15,11 +16,11 @@
           来源：{{useData.dataFrom === 1 ?'企业微信' :'后台手动添加'}}
         </div>
         <div class="info flex">
-          <div class="overf">添加时间：{{useData.gmtCreate}}</div>
-          <div class="overf">电话：{{useData.mobile}}</div>
-          <div class="overf">年龄：{{useData.age}}</div>
-          <div class="overf">邮箱：{{useData.email}}</div>
-          <div class="overf">企业标签：</div>
+          <div class="ellipsis">添加时间：{{useData.gmtCreate || '--'}}</div>
+          <div class="ellipsis">电话：{{useData.mobile|| '--'}}</div>
+          <div class="ellipsis">年龄：{{useData.age|| '--'}}</div>
+          <div class="ellipsis">邮箱：{{useData.email|| '--'}}</div>
+          <div>企业标签：</div>
           <div class="label-box" v-for="(item,index) in TagDTO" :key="index">
             {{item.name}}
           </div>
@@ -31,8 +32,8 @@
             <div class="font">{{useData.grade}}</div>
           </div>
           <div class="generalization-border">
-            <div>客户积分</div>
-            <div class="font ">{{useData.score}}</div>
+            <div>可用积分</div>
+            <div class="font">{{useData.score}}</div>
           </div>
           <div class="generalization-border">
             <div>跟进状态</div>
@@ -51,23 +52,20 @@
       </div>
       <!-- 客户动态 -->
       <div class="distance">
-        <div class="title">
-          <div class="border"></div>
-          <div>{{tabIndex === 0 ? '动态' : '消费概览'}}</div>
-        </div>
+        <div>{{tabIndex === 0 ? '动态' : '消费概览'}}</div>
       </div>
       <PullRefresh v-model="refreshing" @refresh="onRefresh">
-        <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
-        finished-text="没有更多了"
+        <List v-model="loading" :finished="finished" offset="100"
+        @load="onLoad" finished-text="没有更多了"
           :immediate-check="false">
           <!-- 动态部分 -->
           <div v-for="(item,index) in list" :key="index" v-show="tabIndex === 0">
             <div class="date">
               <div>{{item.dateStr}}</div>
             </div>
-            <div style="margin: 8px 0;">
-              <div class="content"
-              v-for="(obj,subscript) in item.customerTrendDTOList" :key="subscript">
+            <div class="dynamic-magrin">
+              <div class="content" v-for="(obj,subscript) in
+              item.customerTrendDTOList" :key="subscript">
                 <div class="content-left">{{obj.timeStr}}</div>
                 <div>
                   <div class="content-title">
@@ -75,8 +73,7 @@
                     <span>{{obj.eventName}}</span>
                   </div>
                   <div class="event" :style=" subscript + 1 ===
-                item.customerTrendDTOList.length ?'border: none;':''"
-                v-html="obj.content">
+                item.customerTrendDTOList.length ?'border: none;':''" v-html="obj.content">
                   </div>
                 </div>
               </div>
@@ -89,7 +86,8 @@
               <div class="generalization-border">
                 <div>消费总金额</div>
                 <div class="font">¥
-                {{tofixed(overview.totalConsumption) || 0}}</div>
+                  {{tofixed(overview.totalConsumption) || 0}}
+                </div>
               </div>
               <div class="generalization-border">
                 <div>消费总次数</div>
@@ -101,44 +99,44 @@
               </div>
             </div>
             <div class="distance">
-              <div class="title">
-                <div class="border"></div>
-                <div>订单详情</div>
-              </div>
+              <div>订单详情</div>
             </div>
             <!-- 订单列表 -->
             <div class="order-box" v-for="(item,index) in list" :key="index">
-              <div style="margin-bottom: 9.5px;">
+              <div class="order-margin">
                 <i class="iconfont icon-shangpu"></i>
                 <span class="shopName">{{item.sellerNick}}</span>
               </div>
               <div class="order-introduce" v-for="(val,key) in
               item.platformSubOrderDTOList" :key="key">
-                <img :src="val.picPath">
+                <img :src="val.picPath || '../assets/default.png'">
                 <div class="order-title">
                   {{val.title}}
                 </div>
               </div>
               <div class="order-address">
                 <i class="iconfont icon-shou collect"></i>
-                <div class="overf">
-                {{item.receiverState+item.receiverCity+item.receiverDistrict+
-                item.receiverAddress}}</div>
+                <div class="ellipsis">
+                  {{item.receiverState+item.receiverCity+item.receiverDistrict+
+                item.receiverAddress}}
+                </div>
               </div>
               <div class="order-money" v-if="item.platformSubOrderDTOList">
-                <div>订单金额:  <span>¥ {{add(item)}}</span></div>
-                <div>实付金额:  <span>¥ {{tofixed(item.payment)}}</span></div>
+                <div>订单金额: <span>¥ {{add(item)}}</span></div>
+                <div>实付金额: <span>¥ {{tofixed(item.payment)}}</span></div>
               </div>
             </div>
           </div>
         </List>
       </PullRefresh>
     </div>
-    <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 <script>
-import { List, PullRefresh } from 'vant';
+import {
+  List,
+  PullRefresh,
+} from 'vant';
 import moment from 'moment';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
@@ -164,30 +162,32 @@ export default {
       list: [],
       nav: ['客户动态', '全量消费'],
       overview: '',
+      dateDype: 1, // 1 开始时间 2结束时间
+      chartDom: {},
+      consumption: [], // 消费
+      selectDate: '',
     };
   },
   mounted() {
     const that = this;
     Wechat.setAgentConfig('', 'getCurExternalContact', () => {
-      that.getDetails();// 客户动态数据||订单详情
-      that.getList();// 列表
-      that.getTag();// 标签
+      that.getDetails(); // 客户动态数据||订单详情
+      that.getList(); // 列表
+      that.getTag(); // 标签
     });
   },
   methods: {
+
     add(item) {
       let totalPrice = 0;
       item.platformSubOrderDTOList.forEach((subOrder) => {
         totalPrice += Number(subOrder.price);
       });
-      return totalPrice.toFixed(2);
+      return totalPrice;
     },
     tofixed(price) {
-      let totalPrice = 0;
-      if (price) {
-        totalPrice = Number(price);
-      }
-      return totalPrice.toFixed(2);
+      const totalPrice = price ? Number(price) : 0;
+      return totalPrice;
     },
     onLoad() {
       this.getList();
@@ -211,7 +211,6 @@ export default {
       if (!this.useData.name) {
         return;
       }
-
       this.tabIndex = index;
       this.pageIndex = 1;
       this.list = [];
@@ -223,6 +222,7 @@ export default {
     getTag() {
       Http.post('/scrm/customer/getCustomerTagForSidebar', {
         externalUserId: sessionStorage.getItem('userId'),
+        // externalUserId: 'wmuUNZDwAAhjQTsJGjwrgXHYQ4XzhwlQ',
       }, '').then((res) => {
         if (res.success) {
           this.TagDTO = res.data.pubTagDTOList;
@@ -230,14 +230,13 @@ export default {
       });
     },
     getDetails() {
-      Http.post('/scrm/customer/getCustomerDetailForSidebar', {
-        externalUserId: sessionStorage.getItem('userId'),
-      }, '').then((res) => {
+      Http.post('/scrm/customer/getCustomerDetailForSidebar', { externalUserId: sessionStorage.getItem('userId') },
+        '').then((res) => {
         if (res.success) {
           this.err = '';
           this.useData = res.data;
           this.useData.gmtCreate = this.time(this.useData.gmtCreate);
-          this.getOverview();// 客户订单展示-消费概览
+          this.getOverview(); // 客户订单展示-消费概览
         } else {
           this.err = res.errCode;
         }
@@ -251,7 +250,7 @@ export default {
       this.list = [];
       this.finished = false;
       this.loading = true;
-      this.getOverview();// 客户订单展示-消费概览
+      this.getOverview(); // 客户订单展示-消费概览
       this.onLoad();
     },
     getList() {
@@ -293,7 +292,24 @@ export default {
   .box {
     padding: 1.5rem 1.5rem 0 1.5rem;
   }
-  .order-money{
+
+  .dynamic-magrin {
+    margin: 0.8rem 0;
+  }
+
+  .order-margin {
+    margin-bottom: 0.95rem;
+  }
+  .icon-xiala {
+    font-size: 0.8rem !important;
+    color: #999999 !important;
+    margin-left: 0.8rem;
+  }
+
+  .color {
+    color: rgba(0, 0, 0, 0.45);
+  }
+  .order-money {
     padding-top: 1.5rem;
     border-top: 0.1rem solid #F3F3F3;
     display: flex;
@@ -302,76 +318,76 @@ export default {
     font-size: 1.2rem;
     color: #999999;
   }
-  .order-money span{
+
+  .order-money span {
     font-size: 1.4rem;
     color: #333333;
   }
-  .collect{
+
+  .collect {
     margin-right: 0.45rem;
   }
-  .order-address{
+
+  .order-address {
     padding: 1.2rem 0;
-    border-top: 0.1rem solid #F3F3F3;
     font-size: 1.2rem;
     color: #999999;
     display: flex;
     align-items: center;
   }
-  .order-introduce{
+
+  .order-introduce {
     display: flex;
     padding: 1.5rem 0;
     border-top: 0.1rem solid #F3F3F3;
     align-items: flex-start;
   }
-  .order-introduce img{
+
+  .order-introduce img {
     width: 4.4rem;
     margin-right: 1.2rem;
   }
-  .overf:nth-child(-n+4){
+
+  .flex .ellipsis{
     width: 50%;
   }
-  .overf{
+
+  .ellipsis {
     padding: 0.4rem 0;
     overflow: hidden;
-    word-break: break-all;
-    /* break-all(允许在单词内换行。) */
     text-overflow: ellipsis;
-    /* 超出部分省略号 */
-    display: -webkit-box;
-    /** 对象作为伸缩盒子模型显示 **/
-    -webkit-box-orient: vertical;
-    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-    -webkit-line-clamp: 1;
+    white-space: nowrap;
   }
-  .order-title{
+
+  .order-title {
     font-size: 1.4rem;
     color: #333333;
     overflow: hidden;
     word-break: break-all;
-    /* break-all(允许在单词内换行。) */
     text-overflow: ellipsis;
-    /* 超出部分省略号 */
     display: -webkit-box;
-    /** 对象作为伸缩盒子模型显示 **/
     -webkit-box-orient: vertical;
-    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
     -webkit-line-clamp: 2;
   }
-  .icon-shangpu{
+
+  .icon-shangpu {
     font-size: 1.5rem !important;
     color: #999999;
   }
-  .order-box{
+
+  .order-box {
     border: 0.05rem solid #EEEEEE;
     border-radius: 0.4rem;
     margin: 0 1.5rem 1.5rem 1.5rem;
     padding: 1rem;
   }
-  .shopName{
+
+  .shopName {
     margin-left: 0.75rem;
     font-size: 1.2rem;
-    color: rgba(0,0,0,0.65);
+    color: rgba(0, 0, 0, 0.65);
   }
+
   .icon-jiedian {
     font-size: 1.6rem;
     color: #1890FF;
@@ -383,7 +399,6 @@ export default {
     align-items: center;
     font-size: 1.4rem;
     color: #333333;
-    letter-spacing: 0;
     text-align: center;
     justify-content: space-evenly;
     border-bottom: 0.1rem solid #F3F3F3;
@@ -395,13 +410,11 @@ export default {
   }
 
   .top-nav div {
-    height: 4rem;
-    line-height: 4rem;
+    padding: 1.2rem 0;
   }
 
   .top {
     display: flex;
-    font-family: PingFangSC-Medium;
     align-items: center;
     font-size: 1.3rem;
     color: #333333;
@@ -416,7 +429,6 @@ export default {
 
   .info {
     padding: 0.4rem 0;
-    font-family: PingFangSC-Regular;
     font-size: 1.4rem;
     color: #999999;
   }
@@ -424,7 +436,9 @@ export default {
   .flex {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
   }
+
   .label {
     display: flex;
     align-items: center;
@@ -432,15 +446,12 @@ export default {
   }
 
   .label-box {
-    width: 4.5rem;
-    height: 2rem;
+    padding: 0 1rem;
     background: rgba(24, 144, 255, 0.05);
     border: 0.05rem solid rgba(24, 144, 255, 0.25);
     border-radius: 0.1rem;
-    line-height: 2rem;
     font-size: 1.1rem;
     color: rgba(0, 0, 0, 0.65);
-    line-height: 2rem;
     text-align: center;
     margin: 0.6rem 0.6rem 0 0;
   }
@@ -451,7 +462,6 @@ export default {
     background: #F3F9FF;
     display: flex;
     align-items: center;
-    font-family: PingFangSC-Regular;
     font-size: 1.2rem;
     color: #999999;
   }
@@ -466,14 +476,16 @@ export default {
     color: rgba(0, 0, 0, 0.45);
   }
 
-  .generalization-border{
+  .generalization-border {
     flex: 1;
     text-align: center;
     border-right: solid #DDDDDD 0.1rem;
   }
-  .generalization-border:nth-child(3n){
+
+  .generalization-border:nth-child(3n) {
     border: none;
   }
+
   .font {
     font-size: 1.6rem;
     margin-top: 0.8rem;
@@ -482,27 +494,25 @@ export default {
 
   .hr {
     height: 0.8rem;
-    margin: 0.4rem 0;
     background: #F5F5F5;
   }
 
   .distance {
     padding: 2rem 1.5rem 1.5rem 1.5rem;
-  }
-
-  .title {
     font-size: 1.6rem;
     color: #333333;
     display: flex;
     align-items: center;
   }
 
-  .border {
+  .distance::before {
     background-color: #1890FF;
     height: 1.2rem;
     width: 0.3rem;
     margin-right: 1.2rem;
     border-radius: 0.15rem;
+    display: block;
+    content: "";
   }
 
   .date {
@@ -534,6 +544,7 @@ export default {
   .content-title span {
     margin-left: 1rem;
   }
+
   .event {
     font-size: 1.4rem;
     padding: 0.8rem 0px 0.8rem 1.8rem;

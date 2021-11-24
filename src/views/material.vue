@@ -9,7 +9,7 @@
       <li style="margin: 0;width: 10px;"></li>
     </ul>
     <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="!err">
-      <div class="content-box" :style="'min-height:' + height + 'px'">
+      <div class="content-box">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
          @load="onLoad" finished-text="没有更多了">
@@ -61,7 +61,6 @@ export default {
       sum: 0,
       shake: false,
       err: '',
-      height: 0,
       // 头部选项卡
       lists: [
         {
@@ -121,7 +120,6 @@ export default {
     if (navType) {
       store.dispatch('SETNACVTYPE', navType);
     }
-    this.height = document.documentElement.clientHeight - 150;
   },
   methods: {
     onLoad() {
@@ -315,7 +313,6 @@ export default {
     text-align: center;
     font-size: 1.4rem;
     color: #333333;
-    letter-spacing: 0;
     text-align: center;
     -ms-flex-negative: 0;
     flex-shrink: 0;
@@ -333,10 +330,10 @@ export default {
     margin: 0;
     font-size: 1.4rem;
     color: #333333;
-    letter-spacing: 0;
   }
 
   .content-box {
+    min-height: calc(100vh - 15rem);
     margin-bottom: 8rem;
     border-top: 0.1rem solid #F3F3F3;
     padding: 1rem 2rem 0 2rem;
@@ -345,7 +342,6 @@ export default {
   .tip {
     font-size: 1.2rem;
     color: #999999;
-    letter-spacing: 0;
     text-align: justify;
   }
 
@@ -377,18 +373,9 @@ export default {
   .name {
     font-size: 1.6rem;
     color: #333333;
-    letter-spacing: 0;
     overflow: hidden;
-    word-break: break-all;
-    /* break-all(允许在单词内换行。) */
+    white-space: nowrap;
     text-overflow: ellipsis;
-    /* 超出部分省略号 */
-    display: -webkit-box;
-    /** 对象作为伸缩盒子模型显示 **/
-    -webkit-box-orient: vertical;
-    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-    -webkit-line-clamp: 1;
-    /** 显示的行数 **/
   }
 
   .ad {
@@ -405,26 +392,16 @@ export default {
   .sizi {
     font-size: 1.4rem;
     color: #999999;
-    letter-spacing: 0;
     text-align: justify;
     overflow: hidden;
-    word-break: break-all;
-    /* break-all(允许在单词内换行。) */
+    white-space: nowrap;
     text-overflow: ellipsis;
-    /* 超出部分省略号 */
-    display: -webkit-box;
-    /** 对象作为伸缩盒子模型显示 **/
-    -webkit-box-orient: vertical;
-    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-    -webkit-line-clamp: 1;
-    /** 显示的行数 **/
   }
 
   .footer {
     display: flex;
     font-size: 1.4rem;
     color: #1890FF;
-    letter-spacing: 0;
     text-align: justify;
   }
 

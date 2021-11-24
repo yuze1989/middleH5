@@ -1,9 +1,9 @@
 <template>
     <div class="page">
       <skeleton title avatar :row="10" :loading="loading">
-      <div class="box" :style="'min-height:' + height + 'px'">
+      <div class="box">
         <div class="top">{{data.title}}</div>
-        <div class="txt">
+        <div class="text">
           <span>{{data.author}}</span>
           <span style="margin-left: 5px;">{{gmtCreate}}</span>
         </div>
@@ -18,7 +18,6 @@
           </div>
           <div class="footer-content" v-if="isShow">
             该文章由用户自主上传，文字版权归原作者所有。
-            <!-- <span @click="complaint">投诉</span> -->
           </div>
           <div class="footer-tip">
             <div class="right-margin">——</div>
@@ -43,7 +42,6 @@ export default {
   data() {
     return {
       loading: true,
-      height: 0,
       id: 0,
       isShow: false,
       gmtCreate: '',
@@ -51,7 +49,6 @@ export default {
     };
   },
   mounted() {
-    this.height = document.documentElement.clientHeight - 151;
     this.id = this.$route.query.id;
     this.getList();
   },
@@ -73,34 +70,32 @@ export default {
         }
       });
     },
-    // 投诉
-    complaint() {
-      // window.location.href = '';
-    },
   },
 };
 </script>
 <style scoped>
   .page {
-    padding: 15px;
+    padding: 1.5rem;
   }
-
+  .box{
+    min-height: calc(100vh - 15.1rem);
+  }
   .top {
-    font-size: 16px;
+    font-size: 1.6rem;
     color: #333333;
   }
 
-  .txt {
-    margin: 12px 0;
-    font-size: 14px;
+  .text {
+    margin: 1.2rem 0;
+    font-size: 1.4rem;
     color: #999999;
   }
   .footer-content {
-    margin: 10px 0;
-    padding: 5px;
+    margin: 1rem 0;
+    padding: 0.5rem;
     background: #F5F5F5;
-    border-radius: 2px;
-    font-size: 12px;
+    border-radius: 0.2rem;
+    font-size: 1.2rem;
     color: rgba(0, 0, 0, 0.25);
     text-align: justify;
   }
@@ -110,7 +105,7 @@ export default {
   }
 
   .content {
-    font-size: 14px;
+    font-size: 1.4rem;
     color: rgba(0, 0, 0, 0.65);
     text-align: justify;
   }
@@ -118,31 +113,31 @@ export default {
     max-width: 100%;
   }
   .footer {
-    margin-top: 20px;
-    font-size: 12px;
+    margin-top: 2rem;
+    font-size: 1.2rem;
     color: rgba(0, 0, 0, 0.25);
     text-align: justify;
   }
 
   .icon-xiala,
   .icon-shangla {
-    font-size: 5px;
+    font-size: 0.5rem;
     color: #999999;
-    margin: 5px;
+    margin: 0.5rem;
   }
 
   .footer-tip {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 1.4rem;
   }
 
   .right-margin {
-    margin-right: 10px;
+    margin-right: 1rem;
   }
 
   .left-margin {
-    margin-left: 10px;
+    margin-left: 1rem;
   }
 </style>
