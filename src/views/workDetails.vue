@@ -132,7 +132,7 @@ export default {
     this.batchNo = this.$route.query.batchNo;
     this.getList();
     const input = document.createElement('input'); // 直接构建input
-    input.value = 12333; // 设置内容
+    input.setAttribute('value', 123);// 设置内容
     document.body.appendChild(input); // 添加临时实例
     input.select(); // 选择实例内容
     document.execCommand('copy'); // 执行复制
