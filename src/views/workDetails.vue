@@ -211,14 +211,12 @@ export default {
           break;
         default:
       }
-      console.log(content);
       const input = document.createElement('input'); // 直接构建input
       input.value = content; // 设置内容
       document.body.appendChild(input); // 添加临时实例
       input.select(); // 选择实例内容
       document.execCommand('Copy'); // 执行复制
-      console.log(document.execCommand('Copy'));
-      Toast.success('复制成功');
+      Toast.success(document.execCommand('copy') ? '复制成功' : '复制失败');
       document.body.removeChild(input); // 删除临时实例
     },
     // 取消全选 --- 全选
