@@ -266,7 +266,6 @@ export default {
               data.isSelect = false;
             });
           }
-
           that.dataList = res.data;
           that.taskTime = that.time(res.data.taskTime);
           that.finishTime = that.time(res.data.finishTime);
