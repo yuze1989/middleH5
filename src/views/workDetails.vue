@@ -248,6 +248,7 @@ export default {
       }
       Http.post('/scrm/comm/rest/sop/finish-sop-task', { idList: that.idList }, '').then((res) => {
         if (res.success) {
+          Toast('已完成');
           that.getList();
         } else {
           Toast(res.errMessage);
