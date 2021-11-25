@@ -382,6 +382,7 @@ export default {
     font-size: 1.6rem;
     border-radius: 5rem 0 0 5rem;
     color: rgba(250, 82, 82, 1);
+    min-width: 8rem;
   }
 
   .top {
@@ -495,8 +496,11 @@ export default {
     font-size: 1.6rem;
     color: #333333;
     overflow: hidden;
-    white-space: nowrap;
+    word-break: break-all;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
   }
 
   .date {

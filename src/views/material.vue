@@ -382,8 +382,11 @@ export default {
     font-size: 1.6rem;
     color: #333333;
     overflow: hidden;
-    white-space: nowrap;
+    word-break: break-all;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
   }
 
   .ad {
@@ -402,8 +405,11 @@ export default {
     color: #999999;
     text-align: justify;
     overflow: hidden;
-    white-space: nowrap;
+    word-break: break-all;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
   }
 
   .footer {

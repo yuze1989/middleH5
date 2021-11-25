@@ -256,6 +256,7 @@ export default {
     font-size: 1.2rem;
     color: rgba(250, 82, 82, 1);
     margin-right: 1rem;
+    min-width: 3.4rem;
   }
 
   .overdue {
