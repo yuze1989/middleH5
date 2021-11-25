@@ -46,12 +46,12 @@ import store from '@/store';
 import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
+  name: 'about',
   components: {
     List,
     PullRefresh,
     jurisdiction,
   },
-  name: 'about',
   data() {
     return {
       refreshing: false,

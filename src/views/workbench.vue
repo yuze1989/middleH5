@@ -54,12 +54,12 @@ import store from '@/store';
 import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
+  name: 'workbench',
   components: {
     List,
     PullRefresh,
     jurisdiction,
   },
-  name: 'workbench',
   data() {
     return {
       refreshing: false,
