@@ -146,6 +146,8 @@ export default {
       if (that.$store.state.navType === 0) {
         that.snapshot = true;
       }
+      // 清除下拉刷新状态
+      that.refreshing = false;
       Http.post(`/scrm/material/list-marketing-material/${headType}`, {
         materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
@@ -158,8 +160,6 @@ export default {
           if (that.pageIndex === 1) {
             that.sum = res.totalCount;
           }
-          // 清除下拉刷新状态
-          that.refreshing = false;
           that.loading = false;
           if (that.dataList.length === res.totalCount) {
             // 结束上拉加载状态
@@ -167,11 +167,12 @@ export default {
           }
           that.pageIndex += 1;
         } else {
-          that.refreshing = false;
           that.finished = true;
           that.loading = false;
           that.err = res.errCode;
-          Toast(res.errMessage);
+          if (res.errMessage) {
+            Toast(res.errMessage);
+          }
         }
       }).catch(() => {
         that.err = 'errCode';

@@ -109,6 +109,8 @@ export default {
     },
     getList() {
       const that = this;
+      // 清除下拉刷新状态
+      that.refreshing = false;
       Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
         taskStatus: that.$store.state.type,
         pageIndex: that.pageIndex,
@@ -125,15 +127,12 @@ export default {
             that.finished = true;
             that.loading = false;
           }
-          // 清除下拉刷新状态
-          that.refreshing = false;
           that.loading = false;
           that.pageIndex += 1;
         } else {
           // 清空数组
           that.dataList = [];
           // 停止上拉加载
-          that.refreshing = false;
           that.finished = true;
           that.loading = false;
           that.err = res.errCode;

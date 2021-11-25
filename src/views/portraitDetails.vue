@@ -275,11 +275,11 @@ export default {
         pageSize: 20,
         mobile: that.useData.mobile,
       };
+      // 清除下拉刷新状态
+      that.refreshing = false;
       Http.post(url, data, '').then((res) => {
         if (res.success && res.totalCount !== 0) {
-          that.list.push(...res.data);
-          // 清除下拉刷新状态
-          that.refreshing = false;
+          that.list = that.pageIndex === 1 ? res.data : that.list.concat(that.list);
           that.loading = false;
           if (that.list.length === res.totalCount) {
             // 结束上拉加载状态
@@ -290,7 +290,6 @@ export default {
         } else {
           // 停止上拉加载
           that.list = [];
-          that.refreshing = false;
           that.finished = true;
           that.loading = false;
         }
