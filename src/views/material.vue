@@ -2,17 +2,18 @@
   <div class="box-bos">
     <ul v-if="err !== '0100000006'">
       <li :class="{'active': $store.state.navType === index}"
-      v-for="(item,index) in lists"
-      :key="index" @click="change(index)">
+      v-for="(item,index) in lists" :key="index"
+        @click="change(index)">
         {{item.name}}
       </li>
-      <li style="margin: 0;width: 10px;"></li>
+      <li class="margin"></li>
     </ul>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="!err">
+    <jurisdiction :err="err" v-if="err"></jurisdiction>
+    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else>
       <div class="content-box">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
-         @load="onLoad" finished-text="没有更多了">
+        @load="onLoad" finished-text="没有更多了">
           <div class="article" v-for="(item,index) in dataList" :key="index"
           @click="goDetails(item)">
             <div class="left">
@@ -33,7 +34,6 @@
         </List>
       </div>
     </PullRefresh>
-    <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 
@@ -62,51 +62,59 @@ export default {
       shake: false,
       err: '',
       // 头部选项卡
-      lists: [
-        {
-          name: '文章', msgType: 'news', materal: 'snapshotId', headType: 'article',
-        },
-        {
-          name: '链接', msgType: 'text', type: 'content', headType: 'link',
-        },
-        {
-          name: '海报', msgType: 'image', type: 'mediaid', headType: 'posters',
-        },
-        {
-          name: '视频',
-          msgType: 'video',
-          type: 'mediaid',
-          materal: 'materialId',
-          headType: 'video',
-        },
-        {
-          name: 'PDF',
-          msgType: 'file',
-          type: 'mediaid',
-          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png',
-          headType: 'pdf',
-        },
-        {
-          name: 'PPT',
-          msgType: 'file',
-          type: 'mediaid',
-          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
-          headType: 'ppt',
-        },
-        {
-          name: '表格',
-          msgType: 'file',
-          type: 'mediaid',
-          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
-          headType: 'excel',
-        },
-        {
-          name: '文档',
-          msgType: 'file',
-          type: 'mediaid',
-          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
-          headType: 'word',
-        },
+      lists: [{
+        name: '文章',
+        msgType: 'news',
+        materal: 'snapshotId',
+        headType: 'article',
+      },
+      {
+        name: '链接',
+        msgType: 'text',
+        type: 'content',
+        headType: 'link',
+      },
+      {
+        name: '海报',
+        msgType: 'image',
+        type: 'mediaid',
+        headType: 'posters',
+      },
+      {
+        name: '视频',
+        msgType: 'video',
+        type: 'mediaid',
+        materal: 'materialId',
+        headType: 'video',
+      },
+      {
+        name: 'PDF',
+        msgType: 'file',
+        type: 'mediaid',
+        url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png',
+        headType: 'pdf',
+      },
+      {
+        name: 'PPT',
+        msgType: 'file',
+        type: 'mediaid',
+        url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
+        headType: 'ppt',
+      },
+      {
+        name: '表格',
+        msgType: 'file',
+        type: 'mediaid',
+        url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
+        headType: 'excel',
+      },
+      {
+        name: '文档',
+        msgType: 'file',
+        type: 'mediaid',
+        url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
+        headType: 'word',
+      },
       ],
       // 数据
       dataList: [],
@@ -307,6 +315,7 @@ export default {
     font-size: 1rem;
     margin: 0.2rem 0.2rem 0 0;
   }
+
   li {
     border-bottom: 0.2rem rgba(0, 0, 0, 0) solid;
     text-align: center;
@@ -408,5 +417,10 @@ export default {
     margin: 2rem 0 1.5rem 0;
     text-align: center;
     flex: 1;
+  }
+
+  .margin {
+    margin: 0;
+    width: 10px;
   }
 </style>

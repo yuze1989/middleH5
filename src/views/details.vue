@@ -1,6 +1,6 @@
 <template>
-    <div class="page">
-      <skeleton title avatar :row="10" :loading="loading">
+  <div class="page">
+    <skeleton title avatar :row="10" :loading="loading">
       <div class="box">
         <div class="top">{{data.title}}</div>
         <div class="text">
@@ -9,25 +9,24 @@
         </div>
         <div class="content" v-html="data.content">
         </div>
-         </div>
-        <div class="footer">
-          <div @click="isShow = !isShow">
-            <span>免责声明</span>
-            <i class="iconfont icon-xiala" v-if="!isShow"></i>
-            <i class="iconfont icon-shangla" v-else></i>
-          </div>
-          <div class="footer-content" v-if="isShow">
-            该文章由用户自主上传，文字版权归原作者所有。
-          </div>
-          <div class="footer-tip">
-            <div class="right-margin">——</div>
-            <div><i class="iconfont icon-juzhun"></i></div>
-            <div>巨准SCRM 提供技术支持</div>
-            <div class="left-margin">——</div>
-          </div>
+      </div>
+      <div class="footer">
+        <div @click="isShow = !isShow">
+          <span>免责声明</span>
+          <i class="iconfont icon-xiala" v-if="!isShow"></i>
+          <i class="iconfont icon-shangla" v-else></i>
         </div>
-        </skeleton>
-
+        <div class="footer-content" v-if="isShow">
+          该文章由用户自主上传，文字版权归原作者所有。
+        </div>
+        <div class="footer-tip">
+          <div class="right-margin">——</div>
+          <div><i class="iconfont icon-juzhun"></i></div>
+          <div>巨准SCRM 提供技术支持</div>
+          <div class="left-margin">——</div>
+        </div>
+      </div>
+    </skeleton>
   </div>
 </template>
 <script>
@@ -77,9 +76,11 @@ export default {
   .page {
     padding: 1.5rem;
   }
-  .box{
+
+  .box {
     min-height: calc(100vh - 15.1rem);
   }
+
   .top {
     font-size: 1.6rem;
     color: #333333;
@@ -90,6 +91,7 @@ export default {
     font-size: 1.4rem;
     color: #999999;
   }
+
   .footer-content {
     margin: 1rem 0;
     padding: 0.5rem;
@@ -109,9 +111,11 @@ export default {
     color: rgba(0, 0, 0, 0.65);
     text-align: justify;
   }
-  .content >>> img{
+
+  .content>>>img {
     max-width: 100%;
   }
+
   .footer {
     margin-top: 2rem;
     font-size: 1.2rem;
