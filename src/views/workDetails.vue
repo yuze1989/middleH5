@@ -131,6 +131,13 @@ export default {
   mounted() {
     this.batchNo = this.$route.query.batchNo;
     this.getList();
+    const input = document.createElement('input'); // 直接构建input
+    input.value = 12333; // 设置内容
+    document.body.appendChild(input); // 添加临时实例
+    input.select(); // 选择实例内容
+    document.execCommand('copy'); // 执行复制
+    Toast(document.execCommand('copy') ? '复制成功' : '复制失败');
+    document.body.removeChild(input); // 删除临时实例
   },
   methods: {
     WechatSOP() {
@@ -216,7 +223,7 @@ export default {
       document.body.appendChild(input); // 添加临时实例
       input.select(); // 选择实例内容
       document.execCommand('copy'); // 执行复制
-      Toast.success(document.execCommand('copy') ? '复制成功' : '复制失败');
+      Toast(document.execCommand('copy') ? '复制成功' : '复制失败');
       document.body.removeChild(input); // 删除临时实例
     },
     // 取消全选 --- 全选
