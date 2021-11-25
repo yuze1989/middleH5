@@ -150,7 +150,7 @@ import {
 } from 'vant';
 import moment from 'moment';
 import Http from '../utils/http';
-// import Wechat from '../utils/wechat';
+import Wechat from '../utils/wechat';
 import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
@@ -181,11 +181,11 @@ export default {
   },
   mounted() {
     const that = this;
-    // Wechat.setAgentConfig('', 'getCurExternalContact', () => {
-    that.getDetails(); // 客户动态数据||订单详情
-    that.getList(); // 列表
-    that.getTag(); // 标签
-    // });
+    Wechat.setAgentConfig('', 'getCurExternalContact', () => {
+      that.getDetails(); // 客户动态数据||订单详情
+      that.getList(); // 列表
+      that.getTag(); // 标签
+    });
   },
   methods: {
 
@@ -232,8 +232,8 @@ export default {
     },
     getTag() {
       Http.post('/scrm/customer/getCustomerTagForSidebar', {
-        // externalUserId: sessionStorage.getItem('userId'),
-        externalUserId: 'wmuUNZDwAAhjQTsJGjwrgXHYQ4XzhwlQ',
+        externalUserId: sessionStorage.getItem('userId'),
+        // externalUserId: 'wmuUNZDwAAhjQTsJGjwrgXHYQ4XzhwlQ',
       }, '').then((res) => {
         if (res.success) {
           this.TagDTO = res.data.pubTagDTOList;
@@ -241,7 +241,7 @@ export default {
       });
     },
     getDetails() {
-      Http.post('/scrm/customer/getCustomerDetailForSidebar', { externalUserId: 'wmuUNZDwAAhjQTsJGjwrgXHYQ4XzhwlQ' },
+      Http.post('/scrm/customer/getCustomerDetailForSidebar', { externalUserId: sessionStorage.getItem('userId') },
         '').then((res) => {
         if (res.success) {
           this.err = '';
@@ -270,7 +270,7 @@ export default {
         ? '/scrm/customer/listCustomerTrendForSidebar' : '/scrm/comm/rest/consumption-order/list-page-order';
       const variable = that.tabIndex === 0 ? 'externalUserId' : 'platformCode';
       const data = {
-        [variable]: that.tabIndex === 0 ? 'wmuUNZDwAAhjQTsJGjwrgXHYQ4XzhwlQ' : 'ALL',
+        [variable]: that.tabIndex === 0 ? sessionStorage.getItem('userId') : 'ALL',
         pageIndex: that.pageIndex,
         pageSize: 20,
         mobile: that.useData.mobile,
