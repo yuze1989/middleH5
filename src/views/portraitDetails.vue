@@ -289,7 +289,6 @@ export default {
           that.pageIndex += 1;
         } else {
           // 停止上拉加载
-          that.list = [];
           that.finished = true;
           that.loading = false;
         }
