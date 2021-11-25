@@ -47,14 +47,14 @@ export default {
    /** 显示的行数 **/
   }
 .icon-xiala,.icon-shangla{
-  font-size: 5px;
+  font-size: 0.5rem;
   color: #999999;
 }
 .btn {
-  font-size: 12px;
+  font-size: 1.2rem;
   color: #999999;
   letter-spacing: 0;
   text-align: justify;
-  margin: 5px 0;
+  margin: 0.5rem 0;
 }
 </style>

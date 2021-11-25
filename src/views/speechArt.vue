@@ -17,10 +17,10 @@
           <div>{{item.name}}</div>
         </div>
         <!-- 隐藏部分 -->
-        <div :class="item.isShow ? 'yes' : 'no' " v-for="(obj,subscript) in item.speechList"
-        :key="subscript">
+        <div :class="item.isShow ? 'yes' : 'no' " v-for="(obj,subscript) in
+        item.speechList" :key="subscript">
           <div class="left">
-              <i class="iconfont icon-fasong1" @click.stop="share(obj)"></i>
+            <i class="iconfont icon-fasong1" @click.stop="share(obj)"></i>
           </div>
           <div class="right" @click.stop="stop">
             <textOver :content="obj.text" v-if="item.isShow"></textOver>
@@ -127,18 +127,20 @@ export default {
 };
 </script>
 <style type="text/css" scoped>
-  .mask-top{
+  .mask-top {
     display: flex;
     margin: 0.8rem 0;
     font-size: 1.2rem;
-    color: rgba(0,0,0,0.65);
+    color: rgba(0, 0, 0, 0.65);
     text-align: justify;
   }
-  .mask-top img{
+
+  .mask-top img {
     width: 3.9rem;
     height: 3.9rem;
     margin-right: 1rem;
   }
+
   .no {
     /* transition: all 1s; */
     overflow: hidden;
@@ -163,10 +165,11 @@ export default {
     padding: 0 1.5rem 0 1rem;
   }
 
- .icon-fasong1 {
-  color: #1890FF;
-   font-size: 2.2rem;
- }
+  .icon-fasong1 {
+    color: #1890FF;
+    font-size: 2.2rem;
+  }
+
   .content {
     padding: 1rem 0 1rem 1rem;
   }
@@ -225,7 +228,8 @@ export default {
     color: #1890FF;
     border-bottom: 0.2rem #1890FF solid;
   }
-  .box{
+
+  .box {
     margin-bottom: 8rem;
   }
 </style>

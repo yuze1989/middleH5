@@ -2,17 +2,18 @@
   <div class="box-bos">
     <ul v-if="err !== '0100000006'">
       <li :class="{'active': $store.state.navType === index}"
-      v-for="(item,index) in lists"
-      :key="index" @click="change(index)">
+      v-for="(item,index) in lists" :key="index"
+        @click="change(index)">
         {{item.name}}
       </li>
-      <li style="margin: 0;width: 10px;"></li>
+      <li class="margin"></li>
     </ul>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-if="!err">
-      <div class="content-box" :style="'min-height:' + height + 'px'">
+    <jurisdiction :err="err" v-if="err"></jurisdiction>
+    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else>
+      <div class="content-box">
         <div class="tip">(共有{{sum}}个文章素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
-         @load="onLoad" finished-text="没有更多了">
+        @load="onLoad" finished-text="没有更多了">
           <div class="article" v-for="(item,index) in dataList" :key="index"
           @click="goDetails(item)">
             <div class="left">
@@ -33,7 +34,6 @@
         </List>
       </div>
     </PullRefresh>
-    <jurisdiction :err="err" v-show="err"></jurisdiction>
   </div>
 </template>
 
@@ -46,12 +46,12 @@ import store from '@/store';
 import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
+  name: 'about',
   components: {
     List,
     PullRefresh,
     jurisdiction,
   },
-  name: 'about',
   data() {
     return {
       refreshing: false,
@@ -61,53 +61,60 @@ export default {
       sum: 0,
       shake: false,
       err: '',
-      height: 0,
       // 头部选项卡
-      lists: [
-        {
-          name: '文章', msgType: 'news', materal: 'snapshotId', headType: 'article',
-        },
-        {
-          name: '链接', msgType: 'text', type: 'content', headType: 'link',
-        },
-        {
-          name: '海报', msgType: 'image', type: 'mediaid', headType: 'posters',
-        },
-        {
-          name: '视频',
-          msgType: 'video',
-          type: 'mediaid',
-          materal: 'materialId',
-          headType: 'video',
-        },
-        {
-          name: 'PDF',
-          msgType: 'file',
-          type: 'mediaid',
-          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png',
-          headType: 'pdf',
-        },
-        {
-          name: 'PPT',
-          msgType: 'file',
-          type: 'mediaid',
-          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
-          headType: 'ppt',
-        },
-        {
-          name: '表格',
-          msgType: 'file',
-          type: 'mediaid',
-          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
-          headType: 'excel',
-        },
-        {
-          name: '文档',
-          msgType: 'file',
-          type: 'mediaid',
-          url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
-          headType: 'word',
-        },
+      lists: [{
+        name: '文章',
+        msgType: 'news',
+        materal: 'snapshotId',
+        headType: 'article',
+      },
+      {
+        name: '链接',
+        msgType: 'text',
+        type: 'content',
+        headType: 'link',
+      },
+      {
+        name: '海报',
+        msgType: 'image',
+        type: 'mediaid',
+        headType: 'posters',
+      },
+      {
+        name: '视频',
+        msgType: 'video',
+        type: 'mediaid',
+        materal: 'materialId',
+        headType: 'video',
+      },
+      {
+        name: 'PDF',
+        msgType: 'file',
+        type: 'mediaid',
+        url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png',
+        headType: 'pdf',
+      },
+      {
+        name: 'PPT',
+        msgType: 'file',
+        type: 'mediaid',
+        url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
+        headType: 'ppt',
+      },
+      {
+        name: '表格',
+        msgType: 'file',
+        type: 'mediaid',
+        url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
+        headType: 'excel',
+      },
+      {
+        name: '文档',
+        msgType: 'file',
+        type: 'mediaid',
+        url: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
+        headType: 'word',
+      },
       ],
       // 数据
       dataList: [],
@@ -121,7 +128,6 @@ export default {
     if (navType) {
       store.dispatch('SETNACVTYPE', navType);
     }
-    this.height = document.documentElement.clientHeight - 150;
   },
   methods: {
     onLoad() {
@@ -140,6 +146,8 @@ export default {
       if (that.$store.state.navType === 0) {
         that.snapshot = true;
       }
+      // 清除下拉刷新状态
+      that.refreshing = false;
       Http.post(`/scrm/material/list-marketing-material/${headType}`, {
         materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
@@ -152,8 +160,6 @@ export default {
           if (that.pageIndex === 1) {
             that.sum = res.totalCount;
           }
-          // 清除下拉刷新状态
-          that.refreshing = false;
           that.loading = false;
           if (that.dataList.length === res.totalCount) {
             // 结束上拉加载状态
@@ -161,16 +167,16 @@ export default {
           }
           that.pageIndex += 1;
         } else {
-          that.refreshing = false;
           that.finished = true;
           that.loading = false;
           that.err = res.errCode;
-          Toast(res.errMessage);
+          if (res.errMessage) {
+            Toast(res.errMessage);
+          }
         }
-      })
-        .catch(() => {
-          that.err = 'errCode';
-        });
+      }).catch(() => {
+        that.err = 'errCode';
+      });
     },
     goDetails(obj) {
       if (this.$store.state.navType === 0) {
@@ -310,12 +316,12 @@ export default {
     font-size: 1rem;
     margin: 0.2rem 0.2rem 0 0;
   }
+
   li {
     border-bottom: 0.2rem rgba(0, 0, 0, 0) solid;
     text-align: center;
     font-size: 1.4rem;
     color: #333333;
-    letter-spacing: 0;
     text-align: center;
     -ms-flex-negative: 0;
     flex-shrink: 0;
@@ -333,10 +339,10 @@ export default {
     margin: 0;
     font-size: 1.4rem;
     color: #333333;
-    letter-spacing: 0;
   }
 
   .content-box {
+    min-height: calc(100vh - 15rem);
     margin-bottom: 8rem;
     border-top: 0.1rem solid #F3F3F3;
     padding: 1rem 2rem 0 2rem;
@@ -345,7 +351,6 @@ export default {
   .tip {
     font-size: 1.2rem;
     color: #999999;
-    letter-spacing: 0;
     text-align: justify;
   }
 
@@ -377,18 +382,12 @@ export default {
   .name {
     font-size: 1.6rem;
     color: #333333;
-    letter-spacing: 0;
     overflow: hidden;
     word-break: break-all;
-    /* break-all(允许在单词内换行。) */
     text-overflow: ellipsis;
-    /* 超出部分省略号 */
     display: -webkit-box;
-    /** 对象作为伸缩盒子模型显示 **/
     -webkit-box-orient: vertical;
-    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
     -webkit-line-clamp: 1;
-    /** 显示的行数 **/
   }
 
   .ad {
@@ -405,26 +404,19 @@ export default {
   .sizi {
     font-size: 1.4rem;
     color: #999999;
-    letter-spacing: 0;
     text-align: justify;
     overflow: hidden;
     word-break: break-all;
-    /* break-all(允许在单词内换行。) */
     text-overflow: ellipsis;
-    /* 超出部分省略号 */
     display: -webkit-box;
-    /** 对象作为伸缩盒子模型显示 **/
     -webkit-box-orient: vertical;
-    /** 设置或检索伸缩盒对象的子元素的排列方式 **/
     -webkit-line-clamp: 1;
-    /** 显示的行数 **/
   }
 
   .footer {
     display: flex;
     font-size: 1.4rem;
     color: #1890FF;
-    letter-spacing: 0;
     text-align: justify;
   }
 
@@ -432,5 +424,10 @@ export default {
     margin: 2rem 0 1.5rem 0;
     text-align: center;
     flex: 1;
+  }
+
+  .margin {
+    margin: 0;
+    width: 10px;
   }
 </style>

@@ -108,12 +108,15 @@ router.beforeEach(async (to, form, next) => {
     const options = Util.getUrlOption(url);
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
+    // 用于判断地址带进来的参数
     const generalidArr = ['channel', 'appid', 'batchNo'];
+    // appid是唯一, 如果存储的appid和地址带进来的不同则清除缓存
     if (options.appid && options.appid !== corpId) {
       localStorage.clear();
     }
     let openid = localStorage.getItem('openId');
     if (openid === 'null') {
+      // 接口有可能会返出字符串的null所以做个判断
       localStorage.clear();
       openid = '';
     }
@@ -123,6 +126,7 @@ router.beforeEach(async (to, form, next) => {
       return;
     }
     const dataList = {};
+    // 判断地址带进来的参数如果有值则添加dataList里面用于授权完以后带的参数
     generalidArr.forEach((item) => {
       if (options[item]) {
         dataList[item] = options[item];
@@ -137,6 +141,7 @@ router.beforeEach(async (to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
+    // 同一个企业不用继续授权重新拿一下token
     if (openid && !token) {
       const res = await Http.post('/scrm/wechat/oauth-user-info-openid', {
         channel: localStorage.getItem('channel'),
@@ -149,6 +154,7 @@ router.beforeEach(async (to, form, next) => {
         sessionStorage.setItem('token', data.token);
       }
     }
+    // 第一次进来拿用户数据
     if (!token && options.code) {
       const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
