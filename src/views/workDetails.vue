@@ -211,13 +211,13 @@ export default {
           break;
         default:
       }
-      const textarea = document.createElement('textarea'); // 直接构建textarea
-      textarea.value = content; // 设置内容
-      document.body.appendChild(textarea); // 添加临时实例
-      textarea.select(); // 选择实例内容
+      const input = document.createElement('input'); // 直接构建input
+      input.value = content; // 设置内容
+      document.body.appendChild(input); // 添加临时实例
+      input.select(); // 选择实例内容
       document.execCommand('copy'); // 执行复制
       Toast(document.execCommand('copy') ? '复制成功' : '复制失败');
-      document.body.removeChild(textarea); // 删除临时实例
+      document.body.removeChild(input); // 删除临时实例
     },
     // 取消全选 --- 全选
     cancel() {
