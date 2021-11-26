@@ -177,6 +177,7 @@ export default {
       chartDom: {},
       consumption: [], // 消费
       selectDate: '',
+      totalCount: -1,
     };
   },
   mounted() {
@@ -224,6 +225,7 @@ export default {
       }
       this.tabIndex = index;
       this.pageIndex = 1;
+      this.totalCount = -1;
       this.list = [];
       if (!this.finished) {
         this.onLoad();
@@ -251,21 +253,29 @@ export default {
         } else {
           this.err = res.errCode;
         }
-      })
-        .catch(() => {
-          this.err = 'errCode';
-        });
+      }).catch(() => {
+        this.err = 'errCode';
+      });
     },
     onRefresh() {
       this.pageIndex = 1;
       this.list = [];
       this.finished = false;
       this.loading = true;
+      this.totalCount = -1;
       this.getOverview(); // 客户订单展示-消费概览
       this.onLoad();
     },
     getList() {
       const that = this;
+      // 清除下拉刷新状态
+      that.refreshing = false;
+      if (that.list.length === that.totalCount) {
+        // 结束上拉加载状态
+        that.finished = true;
+        that.loading = false;
+        return;
+      }
       const url = that.tabIndex === 0
         ? '/scrm/customer/listCustomerTrendForSidebar' : '/scrm/comm/rest/consumption-order/list-page-order';
       const variable = that.tabIndex === 0 ? 'externalUserId' : 'platformCode';
@@ -275,17 +285,16 @@ export default {
         pageSize: 20,
         mobile: that.useData.mobile,
       };
-      // 清除下拉刷新状态
-      that.refreshing = false;
       Http.post(url, data, '').then((res) => {
         if (res.success && res.totalCount !== 0) {
           that.list = that.pageIndex === 1 ? res.data : that.list.concat(that.list);
           that.loading = false;
-          if (that.list.length === res.totalCount) {
-            // 结束上拉加载状态
-            that.finished = true;
-            that.loading = false;
-          }
+          that.totalCount = res.totalCount;
+          // if (that.list.length === res.totalCount) {
+          //   // 结束上拉加载状态
+          //   that.finished = true;
+          //   that.loading = false;
+          // }
           that.pageIndex += 1;
         } else {
           // 停止上拉加载

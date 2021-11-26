@@ -11,7 +11,9 @@
     <jurisdiction :err="err" v-if="err"></jurisdiction>
     <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else>
       <div class="content-box">
-        <div class="tip">(共有{{sum}}个文章素材)</div>
+        <div class="tip">
+          (共有{{totalCount === -1 ? 0 : totalCount}}个
+          {{lists[$store.state.navType].name}}素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
         @load="onLoad" finished-text="没有更多了">
           <div class="article" v-for="(item,index) in dataList" :key="index"
@@ -58,7 +60,7 @@ export default {
       loading: false,
       finished: false,
       // 提示数量
-      sum: 0,
+      totalCount: -1,
       shake: false,
       err: '',
       // 头部选项卡
@@ -148,6 +150,12 @@ export default {
       }
       // 清除下拉刷新状态
       that.refreshing = false;
+      if (that.dataList.length === that.totalCount) {
+        // 结束上拉加载状态
+        that.finished = true;
+        that.loading = false;
+        return;
+      }
       Http.post(`/scrm/material/list-marketing-material/${headType}`, {
         materialType: that.$store.state.navType + 1,
         pageIndex: that.pageIndex,
@@ -157,14 +165,12 @@ export default {
         if (res.success && res.totalCount !== 0) {
           that.err = '';
           that.dataList.push(...res.data);
-          if (that.pageIndex === 1) {
-            that.sum = res.totalCount;
-          }
+          that.totalCount = res.totalCount;
           that.loading = false;
-          if (that.dataList.length === res.totalCount) {
-            // 结束上拉加载状态
-            that.finished = true;
-          }
+          // if (that.dataList.length === res.totalCount) {
+          //   // 结束上拉加载状态
+          //   that.finished = true;
+          // }
           that.pageIndex += 1;
         } else {
           that.finished = true;
