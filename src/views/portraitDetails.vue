@@ -204,6 +204,7 @@ export default {
       return totalPrice;
     },
     onLoad() {
+      this.shake = false;
       this.getList();
     },
     time(value) {
@@ -226,7 +227,6 @@ export default {
       if (!this.useData.name || !this.shake) {
         return;
       }
-      this.shake = false;
       this.tabIndex = index;
       this.pageIndex = 1;
       this.totalCount = 0;
@@ -262,13 +262,13 @@ export default {
       this.pageIndex = 1;
       this.list = [];
       this.finished = false;
-      this.shake = false;
       this.loading = true;
       this.getOverview(); // 客户订单展示-消费概览
       this.onLoad();
     },
     getList() {
       const that = this;
+      console.log(that.shake);
       if (that.shake) { // 防抖
         return;
       }
