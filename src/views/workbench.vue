@@ -94,6 +94,7 @@ export default {
     },
     onRefresh() {
       this.pageIndex = 1;
+      this.totalCount = -1;
       this.dataList = [];
       this.finished = false;
       this.loading = true;
@@ -134,6 +135,7 @@ export default {
           that.loading = false;
           that.pageIndex += 1;
         } else {
+          that.totalCount = -1;
           // 清空数组
           that.dataList = [];
           // 停止上拉加载
@@ -144,10 +146,9 @@ export default {
             Toast(res.errMessage);
           }
         }
-      })
-        .catch(() => {
-          that.err = 'errCode';
-        });
+      }).catch(() => {
+        that.err = 'errCode';
+      });
     },
     // tab切换
     change(index) {

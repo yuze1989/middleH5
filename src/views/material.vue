@@ -137,6 +137,7 @@ export default {
     },
     onRefresh() {
       this.pageIndex = 1;
+      this.totalCount = -1;
       this.dataList = [];
       this.finished = false;
       this.loading = true;
@@ -173,6 +174,7 @@ export default {
           // }
           that.pageIndex += 1;
         } else {
+          that.totalCount = -1;
           that.finished = true;
           that.loading = false;
           that.err = res.errCode;
