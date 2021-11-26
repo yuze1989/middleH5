@@ -224,16 +224,18 @@ export default {
     change(index) {
       this.list = [];
       // 还没有数据还在加载不让切换
-      if (!this.useData.name || !this.shake) {
+      if (!this.useData.name) {
         return;
       }
       this.tabIndex = index;
       this.shake = false;
       this.pageIndex = 1;
       this.totalCount = 0;
-      this.finished = false;
       this.loading = true;
-      this.onLoad();
+      if (!this.finished) {
+        this.onLoad();
+      }
+      this.finished = false;
     },
     getTag() {
       Http.post('/scrm/customer/getCustomerTagForSidebar', {
@@ -269,7 +271,6 @@ export default {
     },
     getList() {
       const that = this;
-      console.log(that.shake);
       if (that.shake) { // 防抖
         return;
       }
