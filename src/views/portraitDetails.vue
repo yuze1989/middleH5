@@ -15,7 +15,7 @@
         <div class="info">
           来源：
           <span class="font-color">
-          {{useData.dataFrom === 1 ?'企业微信' :'后台手动添加'}}
+            {{useData.dataFrom === 1 ?'企业微信' :'后台手动添加'}}
           </span>
         </div>
         <div class="info flex">
@@ -70,29 +70,31 @@
         @load="onLoad" finished-text="没有更多了"
           :immediate-check="false">
           <!-- 动态部分 -->
-          <div v-for="(item,index) in list" :key="index" v-show="tabIndex === 0">
-            <div class="date">
-              <div>{{item.dateStr}}</div>
-            </div>
-            <div class="dynamic-magrin">
-              <div class="content" v-for="(obj,subscript) in
+          <div v-if="tabIndex === 0">
+            <div v-for="(item,index) in list" :key="index">
+              <div class="date">
+                <div>{{item.dateStr}}</div>
+              </div>
+              <div class="dynamic-magrin">
+                <div class="content" v-for="(obj,subscript) in
               item.customerTrendDTOList" :key="subscript">
-                <div class="content-left">{{obj.timeStr}}</div>
-                <div>
-                  <div class="content-title">
-                    <i class="iconfont icon-jiedian"></i>
-                    <span>{{obj.eventName}}</span>
-                  </div>
-                  <div class="event" :style=" subscript + 1 ===
+                  <div class="content-left">{{obj.timeStr}}</div>
+                  <div>
+                    <div class="content-title">
+                      <i class="iconfont icon-jiedian"></i>
+                      <span>{{obj.eventName}}</span>
+                    </div>
+                    <div class="event" :style=" subscript + 1 ===
                 item.customerTrendDTOList.length ?'border: none;':''" v-html="obj.content">
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="hr" v-if="index + 1 !== list.length"></div>
             </div>
-            <div class="hr" v-if="index + 1 !== list.length"></div>
           </div>
           <!-- 全量消费部分 -->
-          <div v-show="tabIndex !== 0">
+          <div v-else>
             <div class="generalization">
               <div class="generalization-border">
                 <div>消费总金额</div>
@@ -289,7 +291,7 @@ export default {
         [variable]: that.tabIndex === 0 ? sessionStorage.getItem('userId') : 'ALL',
         pageIndex: that.pageIndex,
         pageSize: 20,
-        mobile: this.useData.mobile,
+        mobile: that.useData.mobile,
       };
       Http.post(url, data, '').then((res) => {
         if (res.success && res.totalCount !== 0) {
@@ -314,9 +316,11 @@ export default {
   .box {
     padding: 1.5rem 1.5rem 0 1.5rem;
   }
-  .useName{
+
+  .useName {
     font-size: 1.6rem;
   }
+
   .dynamic-magrin {
     margin: 0.8rem 0;
   }
@@ -324,17 +328,21 @@ export default {
   .order-margin {
     margin-bottom: 0.95rem;
   }
+
   .icon-xiala {
     font-size: 0.8rem !important;
     color: #999999 !important;
     margin-left: 0.8rem;
   }
-  .font-color{
+
+  .font-color {
     color: rgba(0, 0, 0, 0.65);
   }
+
   .color {
     color: rgba(0, 0, 0, 0.45);
   }
+
   .order-money {
     padding-top: 1.5rem;
     border-top: 0.1rem solid #F3F3F3;
@@ -374,7 +382,7 @@ export default {
     margin-right: 1.2rem;
   }
 
-  .flex .ellipsis{
+  .flex .ellipsis {
     width: 50%;
   }
 
