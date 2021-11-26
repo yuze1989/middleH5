@@ -204,7 +204,9 @@ export default {
       return totalPrice;
     },
     onLoad() {
-      this.getList();
+      if (!this.shake) {
+        this.getList();
+      }
     },
     time(value) {
       return moment(value).format('YYYY-MM-DD');
