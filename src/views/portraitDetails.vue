@@ -230,9 +230,7 @@ export default {
       this.pageIndex = 1;
       this.totalCount = 0;
       this.loading = true;
-      if (!this.finished) {
-        this.onLoad();
-      }
+      this.onLoad();
       this.finished = false;
     },
     getTag() {
@@ -276,9 +274,11 @@ export default {
       // 清除下拉刷新状态
       that.refreshing = false;
       if (that.pageIndex > that.totalPages) {
+        console.log(that.pageIndex);
         // 结束上拉加载状态
         that.finished = true;
         that.loading = false;
+        that.shake = false;
         return;
       }
       const url = that.tabIndex === 0
