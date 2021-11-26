@@ -230,10 +230,8 @@ export default {
       this.tabIndex = index;
       this.pageIndex = 1;
       this.totalCount = 0;
-      if (!this.finished) {
-        this.onLoad();
-      }
       this.finished = false;
+      this.onLoad();
     },
     getTag() {
       Http.post('/scrm/customer/getCustomerTagForSidebar', {
@@ -272,9 +270,6 @@ export default {
       if (that.shake) { // 防抖
         return;
       }
-      if (that.pageIndex === 1) {
-        that.list = [];
-      }
       // 清除下拉刷新状态
       that.refreshing = false;
       if (that.pageIndex > that.totalPages) {
@@ -290,7 +285,7 @@ export default {
         [variable]: that.tabIndex === 0 ? sessionStorage.getItem('userId') : 'ALL',
         pageIndex: that.pageIndex,
         pageSize: 20,
-        mobile: 13910385790,
+        mobile: that.useData.mobile,
       };
       Http.post(url, data, '').then((res) => {
         if (res.success && res.totalCount !== 0) {
