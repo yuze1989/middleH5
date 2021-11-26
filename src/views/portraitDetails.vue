@@ -261,6 +261,7 @@ export default {
       this.pageIndex = 1;
       this.list = [];
       this.finished = false;
+      this.shake = false;
       this.loading = true;
       this.getOverview(); // 客户订单展示-消费概览
       this.onLoad();
