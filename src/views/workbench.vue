@@ -4,7 +4,7 @@
       <div class="top">
         <i class="iconfont icon-huashu2"></i>
         <span class="span">办事事项</span>
-        <span>({{totalCount === -1 ? 0 : totalCount}})</span>
+        <span>({{totalCount}})</span>
       </div>
       <div class="hr"></div>
       <div class="top-nav">
@@ -68,13 +68,14 @@ export default {
       dataList: [],
       err: '',
       pageIndex: 1,
+      totalPages: 1,
       sopType: {
         1: '群SOP',
         2: '客户SOP',
         3: '朋友圈SOP',
       },
       // 提示数量
-      totalCount: -1,
+      totalCount: 0,
       // 头部选项卡
       nav: ['未完成', '已完成'],
     };
@@ -94,7 +95,6 @@ export default {
     },
     onRefresh() {
       this.pageIndex = 1;
-      this.totalCount = -1;
       this.dataList = [];
       this.finished = false;
       this.loading = true;
@@ -112,7 +112,7 @@ export default {
       const that = this;
       // 清除下拉刷新状态
       that.refreshing = false;
-      if (that.dataList.length === that.totalCount) {
+      if (that.pageIndex > that.totalPages) {
         // 结束上拉加载状态
         that.finished = true;
         that.loading = false;
@@ -127,18 +127,12 @@ export default {
         if (res.success && res.totalCount !== 0) {
           that.dataList.push(...res.data);
           that.totalCount = res.totalCount;
-          // if (that.dataList.length === res.totalCount) {
-          //   // 结束上拉加载状态
-          //   that.finished = true;
-          //   that.loading = false;
-          // }
+          that.totalPages = res.totalPages;// 总页码
           that.loading = false;
           that.pageIndex += 1;
         } else {
-          that.totalCount = -1;
-          // 清空数组
-          that.dataList = [];
           // 停止上拉加载
+          that.totalCount = 0;
           that.finished = true;
           that.loading = false;
           that.err = res.errCode;

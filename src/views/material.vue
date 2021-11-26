@@ -12,7 +12,7 @@
     <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else>
       <div class="content-box">
         <div class="tip">
-          (共有{{totalCount === -1 ? 0 : totalCount}}个
+          (共有{{totalCount}}个
           {{lists[$store.state.navType].name}}素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
         @load="onLoad" finished-text="没有更多了">
@@ -60,7 +60,7 @@ export default {
       loading: false,
       finished: false,
       // 提示数量
-      totalCount: -1,
+      totalCount: 0,
       shake: false,
       err: '',
       // 头部选项卡
@@ -122,7 +122,7 @@ export default {
       dataList: [],
       snapshot: false,
       pageIndex: 1,
-      wxMediaId: '',
+      totalPages: 1,
     };
   },
   mounted() {
@@ -137,7 +137,6 @@ export default {
     },
     onRefresh() {
       this.pageIndex = 1;
-      this.totalCount = -1;
       this.dataList = [];
       this.finished = false;
       this.loading = true;
@@ -151,7 +150,7 @@ export default {
       }
       // 清除下拉刷新状态
       that.refreshing = false;
-      if (that.dataList.length === that.totalCount) {
+      if (that.pageIndex > that.totalPages) {
         // 结束上拉加载状态
         that.finished = true;
         that.loading = false;
@@ -166,15 +165,12 @@ export default {
         if (res.success && res.totalCount !== 0) {
           that.err = '';
           that.dataList.push(...res.data);
-          that.totalCount = res.totalCount;
+          that.totalCount = res.totalCount;// 总数
+          that.totalPages = res.totalPages;// 总页码
           that.loading = false;
-          // if (that.dataList.length === res.totalCount) {
-          //   // 结束上拉加载状态
-          //   that.finished = true;
-          // }
           that.pageIndex += 1;
         } else {
-          that.totalCount = -1;
+          that.totalCount = 0;
           that.finished = true;
           that.loading = false;
           that.err = res.errCode;

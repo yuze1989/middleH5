@@ -170,6 +170,7 @@ export default {
       loading: false,
       finished: false,
       pageIndex: 1,
+      totalPages: 1,
       list: [],
       nav: ['客户动态', '全量消费'],
       overview: '',
@@ -177,7 +178,7 @@ export default {
       chartDom: {},
       consumption: [], // 消费
       selectDate: '',
-      totalCount: -1,
+      totalCount: 0,
     };
   },
   mounted() {
@@ -225,7 +226,7 @@ export default {
       }
       this.tabIndex = index;
       this.pageIndex = 1;
-      this.totalCount = -1;
+      this.totalCount = 0;
       this.list = [];
       if (!this.finished) {
         this.onLoad();
@@ -261,7 +262,6 @@ export default {
       this.list = [];
       this.finished = false;
       this.loading = true;
-      this.totalCount = -1;
       this.getOverview(); // 客户订单展示-消费概览
       this.onLoad();
     },
@@ -269,7 +269,7 @@ export default {
       const that = this;
       // 清除下拉刷新状态
       that.refreshing = false;
-      if (that.list.length === that.totalCount) {
+      if (that.pageIndex > that.totalPages) {
         // 结束上拉加载状态
         that.finished = true;
         that.loading = false;
@@ -289,11 +289,7 @@ export default {
           that.list = that.pageIndex === 1 ? res.data : that.list.concat(res.data);
           that.loading = false;
           that.totalCount = res.totalCount;
-          // if (that.list.length === res.totalCount) {
-          //   // 结束上拉加载状态
-          //   that.finished = true;
-          //   that.loading = false;
-          // }
+          that.totalPages = res.totalPages;
           that.pageIndex += 1;
         } else {
           // 停止上拉加载
