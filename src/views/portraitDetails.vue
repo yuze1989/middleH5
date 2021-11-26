@@ -287,7 +287,7 @@ export default {
       };
       Http.post(url, data, '').then((res) => {
         if (res.success && res.totalCount !== 0) {
-          that.list = that.pageIndex === 1 ? res.data : that.list.concat(that.list);
+          that.list = that.pageIndex === 1 ? res.data : that.list.concat(res.data);
           that.loading = false;
           that.totalCount = res.totalCount;
           // if (that.list.length === res.totalCount) {
