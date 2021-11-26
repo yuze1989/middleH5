@@ -179,6 +179,7 @@ export default {
       consumption: [], // 消费
       selectDate: '',
       totalCount: 0,
+      shake: false, // 防抖
     };
   },
   mounted() {
@@ -220,14 +221,15 @@ export default {
     },
     // tab切换
     change(index) {
+      this.list = [];
       // 还没有数据还在加载不让切换
-      if (!this.useData.name) {
+      if (!this.useData.name && this.shake) {
         return;
       }
+      this.shake = false;
       this.tabIndex = index;
       this.pageIndex = 1;
       this.totalCount = 0;
-      this.list = [];
       if (!this.finished) {
         this.onLoad();
       }
@@ -267,6 +269,9 @@ export default {
     },
     getList() {
       const that = this;
+      if (that.shake) { // 防抖
+        return;
+      }
       // 清除下拉刷新状态
       that.refreshing = false;
       if (that.pageIndex > that.totalPages) {
@@ -282,7 +287,7 @@ export default {
         [variable]: that.tabIndex === 0 ? sessionStorage.getItem('userId') : 'ALL',
         pageIndex: that.pageIndex,
         pageSize: 20,
-        mobile: that.useData.mobile,
+        mobile: this.useData.mobile,
       };
       Http.post(url, data, '').then((res) => {
         if (res.success && res.totalCount !== 0) {
@@ -291,8 +296,10 @@ export default {
           that.totalCount = res.totalCount;
           that.totalPages = res.totalPages;
           that.pageIndex += 1;
+          that.shake = true;
         } else {
           // 停止上拉加载
+          that.shake = true;
           that.finished = true;
           that.loading = false;
         }
