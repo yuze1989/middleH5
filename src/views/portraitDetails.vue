@@ -235,7 +235,6 @@ export default {
     getTag() {
       Http.post('/scrm/customer/getCustomerTagForSidebar', {
         externalUserId: sessionStorage.getItem('userId'),
-        // externalUserId: 'wmuUNZDwAAhjQTsJGjwrgXHYQ4XzhwlQ',
       }, '').then((res) => {
         if (res.success) {
           this.TagDTO = res.data.pubTagDTOList;
