@@ -274,7 +274,6 @@ export default {
       // 清除下拉刷新状态
       that.refreshing = false;
       if (that.pageIndex > that.totalPages) {
-        console.log(that.pageIndex);
         // 结束上拉加载状态
         that.finished = true;
         that.loading = false;
