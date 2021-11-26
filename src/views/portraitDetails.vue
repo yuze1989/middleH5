@@ -204,7 +204,6 @@ export default {
       return totalPrice;
     },
     onLoad() {
-      this.shake = false;
       this.getList();
     },
     time(value) {
@@ -228,7 +227,6 @@ export default {
         return;
       }
       this.tabIndex = index;
-      this.shake = false;
       this.pageIndex = 1;
       this.totalCount = 0;
       this.loading = true;
@@ -274,6 +272,7 @@ export default {
       if (that.shake) { // 防抖
         return;
       }
+      that.shake = true;
       // 清除下拉刷新状态
       that.refreshing = false;
       if (that.pageIndex > that.totalPages) {
@@ -298,10 +297,10 @@ export default {
           that.totalCount = res.totalCount;
           that.totalPages = res.totalPages;
           that.pageIndex += 1;
-          that.shake = true;
+          that.shake = false;
         } else {
           // 停止上拉加载
-          that.shake = true;
+          that.shake = false;
           that.finished = true;
           that.loading = false;
         }
