@@ -224,10 +224,11 @@ export default {
     change(index) {
       this.list = [];
       // 还没有数据还在加载不让切换
-      if (!this.useData.name) {
+      if (!this.useData.name || !this.shake) {
         return;
       }
       this.tabIndex = index;
+      this.shake = false;
       this.pageIndex = 1;
       this.totalCount = 0;
       this.finished = false;
