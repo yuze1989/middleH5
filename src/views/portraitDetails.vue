@@ -170,6 +170,7 @@ export default {
       loading: false,
       finished: false,
       pageIndex: 1,
+      totalPages: 1,
       list: [],
       nav: ['客户动态', '全量消费'],
       overview: '',
@@ -177,6 +178,8 @@ export default {
       chartDom: {},
       consumption: [], // 消费
       selectDate: '',
+      totalCount: 0,
+      shake: false, // 防抖
     };
   },
   mounted() {
@@ -218,22 +221,21 @@ export default {
     },
     // tab切换
     change(index) {
+      this.list = [];
       // 还没有数据还在加载不让切换
-      if (!this.useData.name) {
+      if (!this.useData.name || this.shake) {
         return;
       }
       this.tabIndex = index;
       this.pageIndex = 1;
-      this.list = [];
-      if (!this.finished) {
-        this.onLoad();
-      }
+      this.totalCount = 0;
+      this.loading = true;
+      this.onLoad();
       this.finished = false;
     },
     getTag() {
       Http.post('/scrm/customer/getCustomerTagForSidebar', {
         externalUserId: sessionStorage.getItem('userId'),
-        // externalUserId: 'wmuUNZDwAAhjQTsJGjwrgXHYQ4XzhwlQ',
       }, '').then((res) => {
         if (res.success) {
           this.TagDTO = res.data.pubTagDTOList;
@@ -251,10 +253,9 @@ export default {
         } else {
           this.err = res.errCode;
         }
-      })
-        .catch(() => {
-          this.err = 'errCode';
-        });
+      }).catch(() => {
+        this.err = 'errCode';
+      });
     },
     onRefresh() {
       this.pageIndex = 1;
@@ -266,6 +267,19 @@ export default {
     },
     getList() {
       const that = this;
+      if (that.shake) { // 防抖
+        return;
+      }
+      that.shake = true;
+      // 清除下拉刷新状态
+      that.refreshing = false;
+      if (that.pageIndex > that.totalPages) {
+        // 结束上拉加载状态
+        that.finished = true;
+        that.loading = false;
+        that.shake = false;
+        return;
+      }
       const url = that.tabIndex === 0
         ? '/scrm/customer/listCustomerTrendForSidebar' : '/scrm/comm/rest/consumption-order/list-page-order';
       const variable = that.tabIndex === 0 ? 'externalUserId' : 'platformCode';
@@ -275,20 +289,17 @@ export default {
         pageSize: 20,
         mobile: that.useData.mobile,
       };
-      // 清除下拉刷新状态
-      that.refreshing = false;
       Http.post(url, data, '').then((res) => {
         if (res.success && res.totalCount !== 0) {
-          that.list = that.pageIndex === 1 ? res.data : that.list.concat(that.list);
+          that.list = that.pageIndex === 1 ? res.data : that.list.concat(res.data);
           that.loading = false;
-          if (that.list.length === res.totalCount) {
-            // 结束上拉加载状态
-            that.finished = true;
-            that.loading = false;
-          }
+          that.totalCount = res.totalCount;
+          that.totalPages = res.totalPages;
           that.pageIndex += 1;
+          that.shake = false;
         } else {
           // 停止上拉加载
+          that.shake = false;
           that.finished = true;
           that.loading = false;
         }

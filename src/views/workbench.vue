@@ -4,7 +4,7 @@
       <div class="top">
         <i class="iconfont icon-huashu2"></i>
         <span class="span">办事事项</span>
-        <span>({{sum}})</span>
+        <span>({{totalCount}})</span>
       </div>
       <div class="hr"></div>
       <div class="top-nav">
@@ -68,13 +68,14 @@ export default {
       dataList: [],
       err: '',
       pageIndex: 1,
+      totalPages: 1,
       sopType: {
         1: '群SOP',
         2: '客户SOP',
         3: '朋友圈SOP',
       },
       // 提示数量
-      sum: 0,
+      totalCount: 0,
       // 头部选项卡
       nav: ['未完成', '已完成'],
     };
@@ -111,6 +112,12 @@ export default {
       const that = this;
       // 清除下拉刷新状态
       that.refreshing = false;
+      if (that.pageIndex > that.totalPages) {
+        // 结束上拉加载状态
+        that.finished = true;
+        that.loading = false;
+        return;
+      }
       Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
         taskStatus: that.$store.state.type,
         pageIndex: that.pageIndex,
@@ -119,20 +126,13 @@ export default {
         that.err = '';
         if (res.success && res.totalCount !== 0) {
           that.dataList.push(...res.data);
-          if (that.pageIndex === 1) {
-            that.sum = res.totalCount;
-          }
-          if (that.dataList.length === res.totalCount) {
-            // 结束上拉加载状态
-            that.finished = true;
-            that.loading = false;
-          }
+          that.totalCount = res.totalCount;
+          that.totalPages = res.totalPages;// 总页码
           that.loading = false;
           that.pageIndex += 1;
         } else {
-          // 清空数组
-          that.dataList = [];
           // 停止上拉加载
+          that.totalCount = 0;
           that.finished = true;
           that.loading = false;
           that.err = res.errCode;
@@ -140,10 +140,9 @@ export default {
             Toast(res.errMessage);
           }
         }
-      })
-        .catch(() => {
-          that.err = 'errCode';
-        });
+      }).catch(() => {
+        that.err = 'errCode';
+      });
     },
     // tab切换
     change(index) {
