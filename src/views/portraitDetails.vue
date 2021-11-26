@@ -230,7 +230,7 @@ export default {
       this.tabIndex = index;
       this.pageIndex = 1;
       this.totalCount = 0;
-      if (!this.finished || !this.shake) {
+      if (!this.finished && this.pageIndex === 1) {
         this.onLoad();
       }
       this.finished = false;
