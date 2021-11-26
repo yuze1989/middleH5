@@ -231,6 +231,7 @@ export default {
       this.pageIndex = 1;
       this.totalCount = 0;
       this.finished = false;
+      this.loading = true;
       this.onLoad();
     },
     getTag() {
