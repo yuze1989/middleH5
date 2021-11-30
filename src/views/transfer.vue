@@ -48,7 +48,8 @@ export default {
         customerId: this.unionId,
       }, '').then((res) => {
         if (res.success) {
-          window.location.href = url;
+          console.log(url);
+          // window.location.href = url;
         }
       });
     },
