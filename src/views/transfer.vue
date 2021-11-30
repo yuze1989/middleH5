@@ -16,10 +16,12 @@ export default {
     };
   },
   mounted() {
+    console.log(999988888);
     this.id = this.$route.query.radarId;
+    console.log(this.id, 1233321);
     this.unionId = localStorage.getItem('unionId');
     this.userId = localStorage.getItem('userId');
-    console.log(this.id, 1233321);
+
     alert(this.id);
     this.judge();
   },

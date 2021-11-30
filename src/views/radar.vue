@@ -138,9 +138,10 @@ export default {
         enterChat: true,
         news: {
           // H5消息页面url 必填
-          link: `${Config.redirect_uri}/sh5/transfer?radarId=${obj.id}
-          &appid=${localStorage.getItem('corpId')}
-          &channel=${localStorage.getItem('channel')}`,
+          link: `${Config.redirect_uri}/sh5/transfer
+          ?appid=${localStorage.getItem('corpId')}
+          &channel=${localStorage.getItem('channel')}
+          &radarId=${obj.id}`,
           title: obj.title, // H5消息标题
           desc: obj.linkDigest, // H5消息摘要
           imgUrl: obj.linkCoverUrl, // H5消息封面图片URL
