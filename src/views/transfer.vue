@@ -16,7 +16,7 @@ export default {
     };
   },
   mounted() {
-    this.id = this.$route.query.id;
+    this.id = this.$route.query.radarId;
     this.unionId = localStorage.getItem('unionId');
     this.userId = localStorage.getItem('userId');
     this.judge();
