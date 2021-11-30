@@ -19,6 +19,8 @@ export default {
     this.id = this.$route.query.radarId;
     this.unionId = localStorage.getItem('unionId');
     this.userId = localStorage.getItem('userId');
+    console.log(this.id, 1233321);
+    alert(this.id);
     this.judge();
   },
   methods: {
