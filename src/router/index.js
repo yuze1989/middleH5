@@ -27,10 +27,7 @@ const routes = [
       tabbarshow: true,
       type: 1,
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */'../views/material.vue'),
+    component: () => import('../views/material.vue'),
   },
   {
     path: '/details',
@@ -93,6 +90,15 @@ const routes = [
       type: 2,
     },
     component: () => import('../views/portraitDetails.vue'),
+  },
+  {
+    path: '/transfer',
+    name: 'transfer',
+    meta: {
+      tabbarshow: true,
+      type: 2,
+    },
+    component: () => import('../views/transfer.vue'),
   },
   {
     path: '/radar',

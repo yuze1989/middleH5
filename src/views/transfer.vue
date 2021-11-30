@@ -1,11 +1,5 @@
 <template>
   <div>
-    <div>
-      <div>00099999999999999999</div>
-      <p>id:{{id}}</p>
-      <p>unionId:{{unionId}}</p>
-      <p>userId:{{userId}}</p>
-    </div>
   </div>
 </template>
 
@@ -21,12 +15,9 @@ export default {
     };
   },
   mounted() {
-    console.log(999988888);
     this.id = this.$route.query.radarId;
-    console.log(this.id, 1233321);
     this.unionId = localStorage.getItem('unionId');
     this.userId = localStorage.getItem('userId');
-
     alert(this.id);
     this.judge();
   },
