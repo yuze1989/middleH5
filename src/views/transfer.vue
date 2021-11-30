@@ -5,6 +5,7 @@
 
 <script>
 import Http from '../utils/http';
+import Util from '../utils/util';
 
 export default {
   data() {
@@ -15,15 +16,14 @@ export default {
     };
   },
   mounted() {
-    this.id = this.$route.query.radarId;
     this.unionId = localStorage.getItem('unionId');
     this.userId = localStorage.getItem('userId');
-    alert(this.id);
+    const options = Util.getUrlOption(window.location.href);
+    this.id = options.radarId;
     this.judge();
   },
   methods: {
     judge() {
-      console.log(this.id);
       if (!this.id) {
         window.location.href = `https://test-scrm.juzhunshuyu.com/scrm-web/#/home?token=
         ${sessionStorage.getItem('token')}`;
