@@ -251,13 +251,13 @@ export default {
     margin: 0;
     padding: 0 1rem;
     border: none;
-    border-right: 0.1rem solid #DDDDDD;
     width: 75%;
     color: rgba(0, 0, 0, 0.25);
   }
 
   .search-font {
     font-size: 1.3rem;
+    border-left: 0.1rem solid #DDDDDD;
     color: #1890FF;
     padding-left: 1rem;
   }
