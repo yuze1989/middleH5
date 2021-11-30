@@ -138,7 +138,7 @@ export default {
         enterChat: true,
         news: {
           // H5消息页面url 必填
-          link: `${Config.redirect_uri}/ch5/transfer?appId=wx3a54379579fcb3e5&radarId=${obj.id}`,
+          link: `${Config.redirect_uri}/ch5/radar?appId=wx3a54379579fcb3e5&radarId=${obj.id}`,
           title: obj.title, // H5消息标题
           desc: obj.linkDigest, // H5消息摘要
           imgUrl: obj.linkCoverUrl, // H5消息封面图片URL
