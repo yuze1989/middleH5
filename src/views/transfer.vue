@@ -23,6 +23,7 @@ export default {
   },
   methods: {
     judge() {
+      console.log(this.id);
       if (!this.id) {
         window.location.href = `https://test-scrm.juzhunshuyu.com/scrm-web/#/home?token=
         ${sessionStorage.getItem('token')}`;
