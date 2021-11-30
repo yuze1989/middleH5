@@ -92,15 +92,6 @@ const routes = [
     component: () => import('../views/portraitDetails.vue'),
   },
   {
-    path: '/transfer',
-    name: 'transfer',
-    meta: {
-      tabbarshow: true,
-      type: 2,
-    },
-    component: () => import('../views/transfer.vue'),
-  },
-  {
     path: '/radar',
     name: 'radar',
     meta: {
