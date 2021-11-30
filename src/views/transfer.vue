@@ -35,7 +35,7 @@ export default {
       Http.post('/scrm/comm/rest/interactive-radar/browse', {
         radarId: this.id,
         staffId: this.userId,
-        customerId: this.unionId,
+        customerId: this.unionId || '',
       }, '').then((res) => {
         if (res.success) {
           this.finish(res.data.contentLink);
@@ -46,7 +46,7 @@ export default {
       Http.post('/scrm/comm/rest/interactive-radar/finish', {
         radarId: this.id,
         staffId: this.userId,
-        customerId: this.unionId,
+        customerId: this.unionId || '',
       }, '').then((res) => {
         if (res.success) {
           console.log(url);
