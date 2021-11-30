@@ -1,6 +1,10 @@
 <template>
   <div>
-
+    <div>
+      <p>id:{{id}}</p>
+      <p>unionId:{{unionId}}</p>
+      <p>userId:{{userId}}</p>
+    </div>
   </div>
 </template>
 
