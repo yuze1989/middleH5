@@ -5,7 +5,7 @@
       <div class="search-box">
         <i class="iconfont icon-sousuo"></i>
         <input type="text" class="search-input" placeholder="请输入雷达标题"
-        v-model="keyword" @input="inputMoneyClick" />
+        v-model="keyword" />
         <div class="search-font" @click="search">搜索</div>
       </div>
       <div class="tip">(共有{{totalCount}}个雷达素材)</div>
@@ -78,11 +78,6 @@ export default {
       this.finished = false;
       this.loading = true;
       this.onLoad();
-    },
-    inputMoneyClick(e) {
-      if (e.target.value === '') {
-        this.search();
-      }
     },
     search() {
       this.pageIndex = 1;
@@ -162,7 +157,6 @@ export default {
     color: #999999;
     font-size: 1.3rem;
   }
-
   .icon-fasong1 {
     color: #1890FF;
     font-size: 2.2rem;
@@ -206,10 +200,6 @@ export default {
     text-overflow: ellipsis;
     width: 25.1rem;
     white-space: nowrap;
-    /* word-break: break-all;
-   display: -webkit-box;
-   -webkit-box-orient: vertical;
-   -webkit-line-clamp: 1; */
   }
 
   .article {
@@ -219,7 +209,6 @@ export default {
 
   .article-img {
     width: 4.6rem;
-    min-width: 4.6rem;
     height: 4.6rem;
     padding-right: 1rem;
   }

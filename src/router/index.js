@@ -9,7 +9,6 @@ import Config from '../utils/config';
 import speechArt from '../views/speechArt.vue';
 
 Vue.use(VueRouter);
-const radar = () => import('@/views/radar.vue');
 const routes = [
   {
     path: '/',
@@ -98,7 +97,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: radar,
+    component: () => import('../views/radar.vue'),
   },
 ];
 
