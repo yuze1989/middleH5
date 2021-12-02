@@ -138,7 +138,6 @@ export default {
         msgtype: 'news',
         enterChat: true,
         news: {
-          // H5消息页面url 必填
           link: `${Config.redirect_uri}/ch5/radar?userId=${localStorage.getItem('userId')}&appId=${localStorage.getItem('corpId')}&radarId=${obj.id}`,
           title: obj.title, // H5消息标题
           desc: obj.linkDigest, // H5消息摘要
