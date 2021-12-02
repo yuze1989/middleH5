@@ -198,11 +198,8 @@ export default {
   .ellipsis {
     overflow: hidden;
     white-space: nowrap;
-    word-break: break-all;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
+    width: 25.1rem;
   }
 
   .article {
@@ -212,6 +209,7 @@ export default {
 
   .article-img {
     width: 4.6rem;
+    min-width: 4.6rem;
     height: 4.6rem;
     border-radius: 0.5rem;
     padding-right: 1rem;
