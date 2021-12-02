@@ -5,13 +5,13 @@
       <div class="search-box">
         <i class="iconfont icon-sousuo"></i>
         <input type="text" class="search-input" placeholder="请输入雷达标题"
-        v-model="keyword" @input="inputMoneyClick"/>
+        v-model="keyword" @input="inputMoneyClick" />
         <div class="search-font" @click="search">搜索</div>
       </div>
       <div class="tip">(共有{{totalCount}}个雷达素材)</div>
       <PullRefresh v-model="refreshing" @refresh="onRefresh">
         <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
-        finished-text="没有更多了">
+        finished-text="没有更多了" class="bolk">
           <div class="content" v-for="(item,index) in dataList" :key="index">
             <div class="content-top">
               <i class="iconfont icon-fasong1" @click="uploadFileToWx(item)"></i>
@@ -23,7 +23,8 @@
               </div>
               <div class="article-box">
                 <div class="article-title ellipsis">{{item.linkDigest}}</div>
-                <div class="article-sum">总点击人数：{{item.totalClickUserTimes || 0}}</div>
+                <div class="article-sum">总点击人数：{{item.totalClickUserTimes || 0}}
+                </div>
               </div>
             </div>
           </div>
@@ -168,7 +169,6 @@ export default {
   }
 
   .content-box {
-    min-height: calc(100vh - 15rem);
     margin-bottom: 8rem;
     border-top: 0.1rem solid #F3F3F3;
     padding: 1rem 2rem 0 2rem;
@@ -179,6 +179,10 @@ export default {
     font-size: 1.2rem;
     color: #999999;
     text-align: justify;
+  }
+
+  .bolk {
+    min-height: calc(100vh - 15rem);
   }
 
   .content {
@@ -198,11 +202,11 @@ export default {
   }
 
   .ellipsis {
-   overflow: hidden;
-   text-overflow: ellipsis;
-   width: 25.1rem;
-   white-space: nowrap;
-   /* word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 25.1rem;
+    white-space: nowrap;
+    /* word-break: break-all;
    display: -webkit-box;
    -webkit-box-orient: vertical;
    -webkit-line-clamp: 1; */
@@ -219,11 +223,13 @@ export default {
     height: 4.6rem;
     padding-right: 1rem;
   }
-  .article-img img{
+
+  .article-img img {
     width: 100%;
     height: 100%;
     border-radius: 0.5rem;
   }
+
   .article-title {
     margin-bottom: 1rem;
     font-size: 1.4rem;
@@ -261,7 +267,7 @@ export default {
 
   .search-font {
     font-size: 1.3rem;
-    border-left: 0.1rem solid rgba(0,0,0,0.08);
+    border-left: 0.1rem solid rgba(0, 0, 0, 0.08);
     color: #1890FF;
     padding-left: 1rem;
   }
