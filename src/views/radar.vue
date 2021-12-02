@@ -17,7 +17,6 @@
               <i class="iconfont icon-fasong1" @click="uploadFileToWx(item)"></i>
               <div class="title ellipsis">{{item.title}}</div>
             </div>
-            <!-- item.linkCoverUrl -->
             <div class="article">
               <div class="article-img">
                 <img :src="item.linkCoverUrl">
@@ -196,10 +195,14 @@ export default {
   }
 
   .ellipsis {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 25.1rem;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   width: 25.1rem;
+   white-space: nowrap;
+   /* word-break: break-all;
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 1; */
   }
 
   .article {
@@ -211,15 +214,15 @@ export default {
     width: 4.6rem;
     min-width: 4.6rem;
     height: 4.6rem;
-    border-radius: 0.5rem;
     padding-right: 1rem;
   }
   .article-img img{
     width: 100%;
     height: 100%;
+    border-radius: 0.5rem;
   }
   .article-title {
-    padding-bottom: 1rem;
+    margin-bottom: 1rem;
     font-size: 1.4rem;
     color: rgba(0, 0, 0, 0.65);
   }
