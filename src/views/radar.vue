@@ -161,7 +161,6 @@ export default {
   .icon-sousuo {
     color: #999999;
     font-size: 1.3rem;
-    margin-top: 0.1rem;
   }
 
   .icon-fasong1 {
