@@ -8,7 +8,7 @@
         v-model="keyword" @input="inputMoneyClick"/>
         <div class="search-font" @click="search">搜索</div>
       </div>
-      <div class="tip">(共有个{{totalCount}}链接素材)</div>
+      <div class="tip">(共有{{totalCount}}个链接素材)</div>
       <PullRefresh v-model="refreshing" @refresh="onRefresh">
         <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
         finished-text="没有更多了">
@@ -262,7 +262,7 @@ export default {
 
   .search-font {
     font-size: 1.3rem;
-    border-left: 0.1rem solid #DDDDDD;
+    border-left: 0.1rem solid rgba(0,0,0,0.08);
     color: #1890FF;
     padding-left: 1rem;
   }
