@@ -97,7 +97,7 @@ export default {
         that.loading = false;
         return;
       }
-      Http.post('/scrm/comm/rest/interactive-radar/web-app-list', {
+      Http.post('/scrm/comm/rest/interactive-radar/list', {
         title: that.keyword,
         pageIndex: that.pageIndex,
         pageSize: 20,
