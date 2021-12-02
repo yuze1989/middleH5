@@ -20,7 +20,7 @@
             <!-- item.linkCoverUrl -->
             <div class="article">
               <div class="article-img">
-                <img src="../assets/default.png">
+                <img :src="item.linkCoverUrl">
               </div>
               <div class="article-box">
                 <div class="article-title ellipsis">{{item.linkDigest}}</div>
