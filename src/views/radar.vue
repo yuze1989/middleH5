@@ -8,7 +8,7 @@
         v-model="keyword" @input="inputMoneyClick"/>
         <div class="search-font" @click="search">搜索</div>
       </div>
-      <div class="tip">(共有{{totalCount}}个链接素材)</div>
+      <div class="tip">(共有{{totalCount}}个雷达素材)</div>
       <PullRefresh v-model="refreshing" @refresh="onRefresh">
         <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
         finished-text="没有更多了">
