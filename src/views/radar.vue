@@ -161,6 +161,7 @@ export default {
   .icon-sousuo {
     color: #999999;
     font-size: 1.3rem;
+    margin-top: 0.1rem;
   }
 
   .icon-fasong1 {
@@ -238,7 +239,7 @@ export default {
 
   .search-box {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     border: 0.5px solid #DDDDDD;
     border-radius: 1.5rem;
     padding: 0.5rem 0 0.5rem 1.6rem;
