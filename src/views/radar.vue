@@ -5,7 +5,7 @@
       <div class="search-box">
         <i class="iconfont icon-sousuo"></i>
         <input type="text" class="search-input" placeholder="请输入雷达标题"
-        v-model="keyword" @input="inputMoneyClick"/>
+        v-model="keyword"/>
         <div class="search-font" @click="search">搜索</div>
       </div>
       <div class="tip">(共有个{{totalCount}}链接素材)</div>
@@ -17,8 +17,11 @@
               <i class="iconfont icon-fasong1" @click="uploadFileToWx(item)"></i>
               <div class="title ellipsis">{{item.title}}</div>
             </div>
+            <!-- item.linkCoverUrl -->
             <div class="article">
-              <img :src="item.linkCoverUrl" class="article-img">
+              <div class="article-img">
+                <img src="../assets/default.png">
+              </div>
               <div class="article-box">
                 <div class="article-title ellipsis">{{item.linkDigest}}</div>
                 <div class="article-sum">总点击人数：{{item.totalClickUserTimes || 0}}</div>
@@ -84,11 +87,6 @@ export default {
         this.onLoad();
       }
       this.finished = false;
-    },
-    inputMoneyClick(e) {
-      if (e.target.value === '') {
-        this.search();
-      }
     },
     getList() {
       const that = this;
@@ -218,7 +216,10 @@ export default {
     border-radius: 0.5rem;
     padding-right: 1rem;
   }
-
+  .article-img img{
+    width: 100%;
+    height: 100%;
+  }
   .article-title {
     padding-bottom: 1rem;
     font-size: 1.4rem;
