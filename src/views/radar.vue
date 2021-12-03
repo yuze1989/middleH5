@@ -94,7 +94,6 @@ export default {
       if (!that.shake) {
         return;
       }
-      console.log(1123);
       that.shake = false;
       if (that.pageIndex > that.totalPages) {
         // 结束上拉加载状态
