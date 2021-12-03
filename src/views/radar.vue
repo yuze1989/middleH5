@@ -6,7 +6,7 @@
         <i class="iconfont icon-sousuo"></i>
         <input type="text" class="search-input" placeholder="请输入雷达标题"
         v-model="keyword" />
-        <div class="search-font" @click="search">搜索</div>
+        <div class="search-font" @click="onRefresh">搜索</div>
       </div>
       <div class="tip">(共有{{totalCount}}个雷达素材)</div>
       <PullRefresh v-model="refreshing" @refresh="onRefresh">
@@ -56,7 +56,7 @@ export default {
       finished: false,
       keyword: '',
       err: '',
-      // 头部选项卡
+      shake: true,
 
       // 数据
       dataList: [],
@@ -79,18 +79,14 @@ export default {
       this.loading = true;
       this.onLoad();
     },
-    search() {
-      this.pageIndex = 1;
-      this.dataList = [];
-      if (!this.finished) {
-        this.onLoad();
-      }
-      this.finished = false;
-    },
     getList() {
       const that = this;
       // 清除下拉刷新状态
       that.refreshing = false;
+      if (!that.shake) {
+        return;
+      }
+      that.shake = false;
       if (that.pageIndex > that.totalPages) {
         // 结束上拉加载状态
         that.finished = true;
@@ -102,9 +98,11 @@ export default {
         pageIndex: that.pageIndex,
         pageSize: 20,
       }, '').then((res) => {
+        that.shake = true;
         if (res.success && res.totalCount !== 0) {
           that.err = '';
-          that.dataList.push(...res.data);
+          that.dataList = that.pageIndex === 1 ? res.data
+            : that.dataList.concat(res.data);
           that.totalCount = res.totalCount;
           that.totalPages = res.totalPages;
           that.loading = false;
