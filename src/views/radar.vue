@@ -56,7 +56,7 @@ export default {
       finished: false,
       keyword: '',
       err: '',
-      // 头部选项卡
+      shake: true,
 
       // 数据
       dataList: [],
@@ -91,6 +91,11 @@ export default {
       const that = this;
       // 清除下拉刷新状态
       that.refreshing = false;
+      if (!that.shake) {
+        return;
+      }
+      console.log(1123);
+      that.shake = false;
       if (that.pageIndex > that.totalPages) {
         // 结束上拉加载状态
         that.finished = true;
@@ -102,6 +107,7 @@ export default {
         pageIndex: that.pageIndex,
         pageSize: 20,
       }, '').then((res) => {
+        that.shake = true;
         if (res.success && res.totalCount !== 0) {
           that.err = '';
           that.dataList.push(...res.data);
