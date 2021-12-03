@@ -110,7 +110,8 @@ export default {
         that.shake = true;
         if (res.success && res.totalCount !== 0) {
           that.err = '';
-          that.dataList.push(...res.data);
+          that.dataList = that.pageIndex === 1 ? res.data
+            : that.dataList.concat(res.data);
           that.totalCount = res.totalCount;
           that.totalPages = res.totalPages;
           that.loading = false;
