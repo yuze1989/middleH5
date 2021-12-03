@@ -6,7 +6,7 @@
         <i class="iconfont icon-sousuo"></i>
         <input type="text" class="search-input" placeholder="请输入雷达标题"
         v-model="keyword" />
-        <div class="search-font" @click="search">搜索</div>
+        <div class="search-font" @click="onRefresh">搜索</div>
       </div>
       <div class="tip">(共有{{totalCount}}个雷达素材)</div>
       <PullRefresh v-model="refreshing" @refresh="onRefresh">
@@ -78,14 +78,6 @@ export default {
       this.finished = false;
       this.loading = true;
       this.onLoad();
-    },
-    search() {
-      this.pageIndex = 1;
-      this.dataList = [];
-      if (!this.finished) {
-        this.onLoad();
-      }
-      this.finished = false;
     },
     getList() {
       const that = this;
