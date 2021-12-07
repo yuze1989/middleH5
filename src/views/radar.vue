@@ -8,6 +8,7 @@
         v-model="keyword" />
         <div class="search-font" @click="onRefresh">搜索</div>
       </div>
+
       <div class="tip">(共有{{totalCount}}个雷达素材)</div>
       <PullRefresh v-model="refreshing" @refresh="onRefresh">
         <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
@@ -122,26 +123,34 @@ export default {
       });
     },
     uploadFileToWx(obj) {
-      Toast.loading({
-        type: 'loading',
-        duration: 0,
-        forbidClick: true, // 禁用背景点击
-        message: '加载中...',
+      Http.post('/scrm/comm/rest/wechat-account-info/get-app-id-by-corp-id', {
+        corpId: localStorage.getItem('corpId'),
+      }, '').then((res) => {
+        if (res.success) {
+          Toast.loading({
+            type: 'loading',
+            duration: 0,
+            forbidClick: true, // 禁用背景点击
+            message: '加载中...',
+          });
+          const data = {
+            msgtype: 'news',
+            enterChat: true,
+            news: {
+              link: `${Config.redirect_uri}/ch5/radar?userId=${localStorage.getItem('userId')}&appId=${res.data.appId}&radarId=${obj.id}`,
+              title: obj.title, // H5消息标题
+              desc: obj.linkDigest, // H5消息摘要
+              imgUrl: obj.linkCoverUrl, // H5消息封面图片URL
+            },
+          };
+          Toast.loading({
+            duration: 1,
+          });
+          Wechat.setAgentConfig(data, 'sendChatMessage');
+        } else {
+          Toast(res.errMessage || '企业没有绑定微信公众号');
+        }
       });
-      const data = {
-        msgtype: 'news',
-        enterChat: true,
-        news: {
-          link: `${Config.redirect_uri}/ch5/radar?userId=${localStorage.getItem('userId')}&appId=${localStorage.getItem('corpId')}&radarId=${obj.id}`,
-          title: obj.title, // H5消息标题
-          desc: obj.linkDigest, // H5消息摘要
-          imgUrl: obj.linkCoverUrl, // H5消息封面图片URL
-        },
-      };
-      Toast.loading({
-        duration: 1,
-      });
-      Wechat.setAgentConfig(data, 'sendChatMessage');
     },
   },
 };

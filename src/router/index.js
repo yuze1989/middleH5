@@ -37,7 +37,7 @@ const routes = [
     meta: {
       tabbarshow: false,
     },
-    component: () => import('../views/details.vue'),
+    component: () => import(/* webpackChunkName: "about" */'../views/details.vue'),
   },
   {
     path: '/workbench',
@@ -46,7 +46,7 @@ const routes = [
       tabbarshow: false,
       type: 2,
     },
-    component: () => import('../views/workbench.vue'),
+    component: () => import(/* webpackChunkName: "about" */'../views/workbench.vue'),
   },
   {
     path: '/customer',
@@ -55,7 +55,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: () => import('../views/customer.vue'),
+    component: () => import(/* webpackChunkName: "about" */'../views/customer.vue'),
   },
   {
     path: '/marketing',
@@ -64,7 +64,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: () => import('../views/marketing.vue'),
+    component: () => import(/* webpackChunkName: "about" */'../views/marketing.vue'),
   },
   {
     path: '/surplus',
@@ -73,7 +73,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: () => import('../views/surplus.vue'),
+    component: () => import(/* webpackChunkName: "about" */'../views/surplus.vue'),
   },
   {
     path: '/workDetails',
@@ -82,7 +82,7 @@ const routes = [
       tabbarshow: false,
       type: 2,
     },
-    component: () => import('../views/workDetails.vue'),
+    component: () => import(/* webpackChunkName: "about" */'../views/workDetails.vue'),
   },
   {
     path: '/portraitDetails',
@@ -91,7 +91,7 @@ const routes = [
       tabbarshow: false,
       type: 2,
     },
-    component: () => import('../views/portraitDetails.vue'),
+    component: () => import(/* webpackChunkName: "about" */'../views/portraitDetails.vue'),
   },
   {
     path: '/radar',
@@ -100,7 +100,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: () => import('../views/radar.vue'),
+    component: () => import(/* webpackChunkName: "about" */'../views/radar.vue'),
   },
 ];
 
