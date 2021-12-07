@@ -126,7 +126,7 @@ export default {
       Http.post('/scrm/comm/rest/wechat-account-info/get-app-id-by-corp-id', {
         corpId: localStorage.getItem('corpId'),
       }, '').then((res) => {
-        if (res.success && res.totalCount !== 0) {
+        if (res.success) {
           Toast.loading({
             type: 'loading',
             duration: 0,
