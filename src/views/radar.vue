@@ -124,7 +124,7 @@ export default {
     },
     uploadFileToWx(obj) {
       Http.post('/scrm/comm/rest/wechat-account-info/get-app-id-by-corp-id', {
-        corpId: 'wwd071140b9d9caef1', // localStorage.getItem('corpId'),
+        corpId: localStorage.getItem('corpId'),
       }, '').then((res) => {
         if (res.success) {
           Toast.loading({
