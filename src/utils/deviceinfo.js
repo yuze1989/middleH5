@@ -23,7 +23,11 @@ const browser = {
     const obj = {
       OSType: '',
       platformType: 'H5',
+      isMobile: false,
     };
+    if (navigator.userAgent.match(/(phone|pad|pod|iphone|ipod|ios|ipad|android|mobile|blackberry|iemobile|mqqbrowser|juc|fennec|wosbrowser|browserng|webos|symbian|windows phone)/i)) {
+      obj.isMobile = true;
+    }
     if (/android/.test(ua)) {
       obj.OSType = 'A';
     } else if (/ios|iphone|ipad|ipod/.test(ua)) {

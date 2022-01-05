@@ -117,7 +117,7 @@ router.beforeEach(async (to, form, next) => {
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
     // 用于判断地址带进来的参数
-    const generalidArr = ['channel', 'appid', 'batchNo'];
+    const generalidArr = ['channel', 'appid', 'batchNo', 'checkpc'];
     // appid是唯一, 如果存储的appid和地址带进来的不同则清除缓存
     if (options.appid && options.appid !== corpId) {
       localStorage.clear();
@@ -187,7 +187,13 @@ router.beforeEach(async (to, form, next) => {
         }
       }
     }
-    if (token) next();
+    if (token) {
+      if (options.checkpc && !Env.getType().isMobile) {
+        window.location.href = `${Config.pcUrl}?token=${token}`;
+        return;
+      }
+      next();
+    }
     return;
   }
   next();
