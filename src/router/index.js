@@ -122,12 +122,12 @@ router.beforeEach(async (to, form, next) => {
     if (options.appid && options.appid !== corpId) {
       localStorage.clear();
     }
-    localStorage.setItem('openId', 'oNmRcv1pONjYYQ8VVy2OPc-X5_l0');
-    sessionStorage.setItem(
-      'token',
-      // eslint-disable-next-line max-len
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTcwIn0.oooPX8zq3c3jr2ic5wwqyexf7LOCP9loIzJnsOPn8R0',
-    );
+    // localStorage.setItem('openId', 'oNmRcv1pONjYYQ8VVy2OPc-X5_l0');
+    // sessionStorage.setItem(
+    //   'token',
+    // eslint-disable-next-line max-len
+    //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTcwIn0.oooPX8zq3c3jr2ic5wwqyexf7LOCP9loIzJnsOPn8R0',
+    // );
     let openid = localStorage.getItem('openId');
     if (openid === 'null') {
       // 接口有可能会返出字符串的null所以做个判断
