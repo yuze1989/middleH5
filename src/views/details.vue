@@ -1,6 +1,14 @@
 <template>
   <div class="page">
     <skeleton title avatar :row="10" :loading="loading">
+      <div class="head">
+        <div class="head-left" @click="goBack">
+          <i class="iconfont icon-shangyibu1"></i>
+          <span class="left-text">返回</span>
+        </div>
+        <div class="head-title">{{data.title}}</div>
+        <!-- <div class="head-right">发送</div> -->
+      </div>
       <div class="box">
         <div class="top">{{data.title}}</div>
         <div class="text">
@@ -55,6 +63,9 @@ export default {
     time(value) {
       return moment(value).format('YYYY-MM-DD HH:mm');
     },
+    goBack() {
+      this.$router.go(-1);
+    },
     // 获取数据
     getList() {
       const that = this;
@@ -74,10 +85,56 @@ export default {
 </script>
 <style scoped>
   .page {
-    padding: 1.5rem;
+    padding: 1.5rem 0;
+  }
+
+  .head {
+    padding: 0 1.5rem;
+    margin-bottom: 2rem;
+    background: #FFFFFF;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(2,19,34,0.12);
+  }
+
+  .head-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .head-left i {
+    font-size: 1.2rem;
+  }
+
+  .head-left .left-text {
+    display: inline-block;
+    margin-left: 1rem;
+    font-size: 1.8rem;
+    line-height: 4rem;
+    color: rgba(0,0,0,0.65);
+  }
+
+  .head-title {
+    width: 17rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: absolute;
+    top: 0.5rem;
+    left: calc(50vw - 8.5rem);
+    font-size: 2rem;
+    color: rgba(0,0,0,0.65);
+  }
+
+  .head-right {
+    font-size: 1.8rem;
+    color: #1890FF;
   }
 
   .box {
+    padding: 0 1.5rem;
     min-height: calc(100vh - 15.1rem);
   }
 
@@ -117,6 +174,7 @@ export default {
   }
 
   .footer {
+    padding: 0 1.5rem;
     margin-top: 2rem;
     font-size: 1.2rem;
     color: rgba(0, 0, 0, 0.25);
