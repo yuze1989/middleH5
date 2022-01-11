@@ -184,6 +184,9 @@ export default {
   .icon-xiala,
   .icon-shangla {
     font-size: 0.5rem;
+    display: inline-block;
+    font-size: 1.2rem;
+    -webkit-transform: scale(0.5);
     color: #999999;
     margin: 0.5rem;
   }

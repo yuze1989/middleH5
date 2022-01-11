@@ -29,7 +29,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */'../views/material.vue'),
+    component: () => import(/* webpackChunkName: "material" */'../views/material.vue'),
   },
   {
     path: '/details',
@@ -37,7 +37,7 @@ const routes = [
     meta: {
       tabbarshow: false,
     },
-    component: () => import(/* webpackChunkName: "about" */'../views/details.vue'),
+    component: () => import(/* webpackChunkName: "material" */'../views/details.vue'),
   },
   {
     path: '/workbench',
@@ -46,7 +46,7 @@ const routes = [
       tabbarshow: false,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "about" */'../views/workbench.vue'),
+    component: () => import(/* webpackChunkName: "workbench" */'../views/workbench.vue'),
   },
   {
     path: '/customer',
@@ -55,7 +55,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "about" */'../views/customer.vue'),
+    component: () => import(/* webpackChunkName: "customer" */'../views/customer.vue'),
   },
   {
     path: '/marketing',
@@ -64,7 +64,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "about" */'../views/marketing.vue'),
+    component: () => import(/* webpackChunkName: "marketing" */'../views/marketing.vue'),
   },
   {
     path: '/surplus',
@@ -73,7 +73,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "about" */'../views/surplus.vue'),
+    component: () => import(/* webpackChunkName: "surplus" */'../views/surplus.vue'),
   },
   {
     path: '/workDetails',
@@ -82,7 +82,7 @@ const routes = [
       tabbarshow: false,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "about" */'../views/workDetails.vue'),
+    component: () => import(/* webpackChunkName: "workDetails" */'../views/workDetails.vue'),
   },
   {
     path: '/portraitDetails',
@@ -91,7 +91,7 @@ const routes = [
       tabbarshow: false,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "about" */'../views/portraitDetails.vue'),
+    component: () => import(/* webpackChunkName: "portraitDetails" */'../views/portraitDetails.vue'),
   },
   {
     path: '/radar',
@@ -100,7 +100,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "about" */'../views/radar.vue'),
+    component: () => import(/* webpackChunkName: "radar" */'../views/radar.vue'),
   },
 ];
 
@@ -118,16 +118,20 @@ router.beforeEach(async (to, form, next) => {
     const src = window.location.pathname;
     // 用于判断地址带进来的参数
     const generalidArr = ['channel', 'appid', 'batchNo'];
+    if (options.skip) {
+      next();
+      return;
+    }
     // appid是唯一, 如果存储的appid和地址带进来的不同则清除缓存
     if (options.appid && options.appid !== corpId) {
       localStorage.clear();
     }
-    // localStorage.setItem('openId', 'oNmRcv1pONjYYQ8VVy2OPc-X5_l0');
-    // sessionStorage.setItem(
-    //   'token',
-    // eslint-disable-next-line max-len
-    //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTcwIn0.oooPX8zq3c3jr2ic5wwqyexf7LOCP9loIzJnsOPn8R0',
-    // );
+    localStorage.setItem('openId', 'oNmRcv1pONjYYQ8VVy2OPc-X5_l0');
+    sessionStorage.setItem(
+      'token',
+      // eslint-disable-next-line max-len
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTcwIn0.oooPX8zq3c3jr2ic5wwqyexf7LOCP9loIzJnsOPn8R0',
+    );
     let openid = localStorage.getItem('openId');
     if (openid === 'null') {
       // 接口有可能会返出字符串的null所以做个判断
