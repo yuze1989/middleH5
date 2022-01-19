@@ -143,7 +143,7 @@ export default {
   },
   created() {
     console.log(window.location.href, 'location');
-    this.parmasDate = util.getUrlOption(window.location.href).date;
+    this.parmasDate = util.getUrlOption(window.location.href).batchNo;
     if (this.parmasDate) {
       this.getDetail();
       this.getCustomerRank();
