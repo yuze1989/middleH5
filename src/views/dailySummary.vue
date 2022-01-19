@@ -36,7 +36,7 @@
           </div>
           <div class="sum-item">
             <div class="sum-number">{{userdetail.newGroupCustomerCount}}</div>
-            <div class="sum-item-text">新增群客户数</div>
+            <div class="sum-item-text">新入群客户数</div>
           </div>
         </div>
         <div class="sum sum-botttom">
@@ -116,7 +116,7 @@
           <div class="amount">{{item.sum}}</div>
         </div>
       </div>
-      <div class="no-more">- 没有更多了 -</div>
+      <div v-if="isShow" class="no-more">- 没有更多了 -</div>
   </div>
   </div>
 </template>
@@ -138,17 +138,21 @@ export default {
       myGroupRank: {},
       myGroupRankList: [],
       parmasDate: '',
+      isShow: false,
     };
   },
-  mounted() {
+  created() {
+    console.log(window.location.href, 'location');
     this.parmasDate = util.getUrlOption(window.location.href).date;
-    console.log(this.parmasDate);
-    this.getDetail();
-    this.getCustomerRank();
+    if (this.parmasDate) {
+      this.getDetail();
+      this.getCustomerRank();
+    }
   },
   methods: {
     change(index) {
       this.status = index;
+      this.isShow = false;
       if (index === 0) {
         this.getCustomerRank();
       } else {
@@ -172,6 +176,7 @@ export default {
         if (res.success && res.data) {
           this.mycustomerRank = res.data.myRank;
           this.mycustomerRankList = res.data.rankList;
+          this.isShow = true;
         }
       });
     },
@@ -180,6 +185,7 @@ export default {
         date: this.parmasDate,
       }).then((res) => {
         if (res.success && res.data) {
+          this.isShow = true;
           this.myGroupRank = res.data.myRank;
           this.myGroupRankList = res.data.rankList;
         }
@@ -192,12 +198,12 @@ export default {
   .main{
     background-color: #EBECF0;
     margin:0 auto;
-    max-width: 37.6rem;
+    max-width: 40rem;
     padding: 1.4rem 1.5rem;
   }
   .top{
     width:100%;
-    background: #4851FF;
+    background: #434cfb;
     border-radius: 1rem;
   }
   .flex{
