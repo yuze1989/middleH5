@@ -4,17 +4,21 @@
       <div class="flex">
         <div class="left">
           <div class="img-avatar img-box"><img :src="userdetail.avatar" alt=""></div>
-          <div>
+        </div>
+        <div class="right">
+          <div class="text-box">
             <div class="font-17">{{userdetail.name}}</div>
-              <div class="font-11">
-                <span v-for="(item) in userdetail.departNameList" :key="item">
-                  {{item}}
-                  {{userdetail.position}}
-                </span>
-              </div>
-            </div>
+            <div class="date">
+            {{userdetailDate.length>0?`${userdetailDate[1]}月${userdetailDate[2]}日`:''}}
           </div>
-        <div class="right">{{`${userdetailDate[1]}月${userdetailDate[2]}日`}}</div>
+          </div>
+          <div class="font-11">
+              <span v-for="(item) in userdetail.departNameList" :key="item">
+                {{item}}
+                {{userdetail.position}}
+              </span>
+            </div>
+        </div>
       </div>
       <div class="customer">
         <div class="sum">
@@ -71,11 +75,13 @@
         </div>
       </div>
       <div v-if="status===0">
-        <div class="self">
-          <div class="record">{{mycustomerRank.rank}}</div>
-          <div class="avatar img-box"><img :src="mycustomerRank.avatar" alt=""></div>
-          <div class="name">{{mycustomerRank.name}}</div>
-          <div class="amount">{{mycustomerRank.sum}}</div>
+        <div class="my-rank">
+          <div class="self">
+            <div class="record">{{mycustomerRank.rank}}</div>
+            <div class="avatar img-box"><img :src="mycustomerRank.avatar" alt=""></div>
+            <div class="name">{{mycustomerRank.name}}</div>
+            <div class="amount">{{mycustomerRank.sum}}</div>
+          </div>
         </div>
         <div
           :class="`self-item${[item.rank]}`"
@@ -90,11 +96,13 @@
         </div>
       </div>
       <div v-if="status===1">
-        <div class="self">
-          <div class="record">{{myGroupRank.rank}}</div>
-          <div class="avatar img-box"><img :src="myGroupRank.avatar" alt=""></div>
-          <div class="name">{{myGroupRank.name}}</div>
-          <div class="amount">{{myGroupRank.sum}}</div>
+        <div class="my-rank">
+          <div class="self">
+            <div class="record">{{myGroupRank.rank}}</div>
+            <div class="avatar img-box"><img :src="myGroupRank.avatar" alt=""></div>
+            <div class="name">{{myGroupRank.name}}</div>
+            <div class="amount">{{myGroupRank.sum}}</div>
+          </div>
         </div>
         <div
           class="self self-item"
@@ -186,7 +194,6 @@ export default {
     margin:0 auto;
     max-width: 37.6rem;
     padding: 1.4rem 1.5rem;
-    height: 100%;
   }
   .top{
     width:100%;
@@ -197,9 +204,6 @@ export default {
     display: flex;
     padding: 2.1rem 1.8rem 3.1rem 1.8rem;
     justify-content: space-between;
-  }
-  .left{
-    display: flex;
   }
   .img-box{
     border-radius: 50%;
@@ -225,6 +229,13 @@ export default {
     color: rgba(255,255,255,0.85);
   }
   .right{
+    width: 82%;
+  }
+  .text-box{
+    display: flex;
+    justify-content: space-between;
+  }
+  .date{
     width: 6.808rem;
     height: 2rem;
     opacity: 0.88;
@@ -262,7 +273,7 @@ export default {
       display: flex;
   }
   .sum-item{
-      width:33%;
+      flex:1;
       text-align: center;
   }
   .sum-number{
@@ -308,21 +319,22 @@ export default {
     height: 3.4rem;
     line-height: 3.4rem;
     text-align: center;
+    border-radius:5px;
+    overflow: hidden;
   }
   .button-item{
-    width: 50%;
+    flex: 1;
     color: #4851FF;
     background: #fff;
-  }
-  .button-item:first-child{
-    border-radius: 0.5rem 0 0 0.5rem;
-  }
-  .button-item:last-child{
-    border-radius: 0 0.5rem 0.5rem 0;
   }
   .active{
     background: #4851FF;
     color: #fff;
+  }
+  .my-rank{
+    height: 5.5rem;
+    background-color: rgba(72, 81, 255, 0.53);
+    border-radius: 0.5rem;
   }
   .self{
     margin-top:1.3rem;
@@ -344,6 +356,7 @@ export default {
   }
   .self-item{
     background: #FFFFFF;
+    border-radius: 0.5rem;
   }
   .self-item1::before,
   .self-item2::before,
