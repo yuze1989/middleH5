@@ -14,8 +14,13 @@ const util = {
     return option;
   },
   setRem: () => {
-    const scale = document.documentElement.clientWidth / 750;
-    document.documentElement.style.fontSize = `${20 * Math.min(scale, 2)}px`;
+    const { clientWidth } = document.documentElement;
+    if (clientWidth > 414) {
+      document.documentElement.style.fontSize = '11px';
+    } else {
+      const scale = document.documentElement.clientWidth / 750;
+      document.documentElement.style.fontSize = `${20 * Math.min(scale, 2)}px`;
+    }
   },
   onresizeRem: () => {
     util.setRem();
