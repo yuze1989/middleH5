@@ -296,7 +296,7 @@ export default {
     background:
       url('https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/king.png') no-repeat right 1rem,linear-gradient(179deg, #D2DEFF 2%, #FFFFFF 100%);
     border-radius: 1rem;
-    background-size: 8.9rem ;
+    /* background-size: 8.9rem ; */
     padding: 2.1rem 1.8rem 2.1rem 1.8rem;
   }
   .button-box{
