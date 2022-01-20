@@ -2,9 +2,7 @@
   <div class="main">
     <div class="top">
       <div class="flex">
-        <div class="left">
-          <div class="img-avatar img-box"><img :src="userdetail.avatar" alt=""></div>
-        </div>
+        <div class="img-avatar img-box"><img :src="userdetail.avatar" alt=""></div>
         <div class="right">
           <div class="text-box">
             <div class="font-17">{{userdetail.name}}</div>
@@ -21,7 +19,7 @@
       </div>
       <div class="customer">
         <div class="sum">
-          <img src="../assets/touxiang.png" alt="">
+          <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/touxiang.png" alt="">
           <div class="sum-text">我的客户数量</div>
         </div>
         <div class="sum-box">
@@ -39,7 +37,7 @@
           </div>
         </div>
         <div class="sum sum-botttom">
-          <img src="../assets/weixin.png" alt="">
+          <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/weixin.png" alt="">
           <div class="sum-text">我的群聊数量</div>
         </div>
         <div class="sum-box">
@@ -59,13 +57,7 @@
       </div>
     </div>
     <div class="under">
-      <div class="img-flex">
-        <img style="width:17.8rem;height:2.9rem" src="../assets/monthly.svg" alt="">
-        <div class="top-record">
-          <img style="width:5.2rem;height:0.9rem" src="../assets/TOP5.svg" alt="">
-        </div>
-          <img class="img-king" src="../assets/king.png" alt="">
-      </div>
+      <img style="width:23rem;height:3.5rem" src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/record.svg" alt="">
       <div class="button-box">
         <div v-for="(item,index) of navList"
           :key="index"
@@ -168,15 +160,11 @@ export default {
           this.departNameList = res.data.departNameList;
           const depLength = this.departNameList.length - 1;
           this.departNameList.forEach((item, index) => {
-            console.log(res.data.position);
             this.departNameList[index] = `${item} ${res.data.position} /`;
-            // this.departNameList[index] = `${item} ${'前段'} /`;
             if (index === depLength) {
               this.departNameList[index] = `${item} ${res.data.position}`;
-              // this.departNameList[index] = `${item} ${'前段'}`;
             }
           });
-          console.log(this.departNameList, 'this.departNameList');
           this.userdetail = res.data;
           this.userdetailDate = res.data.date.split('-');
         }
@@ -305,33 +293,14 @@ export default {
   }
   .under{
     margin-top:1rem;
-    background-image: linear-gradient(179deg, #D2DEFF 2%, #FFFFFF 100%);
+    background:
+      url('https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/king.png') no-repeat right 1rem,linear-gradient(179deg, #D2DEFF 2%, #FFFFFF 100%);
     border-radius: 1rem;
+    background-size: 8.9rem ;
     padding: 2.1rem 1.8rem 2.1rem 1.8rem;
   }
-  .img-flex{
-    position:relative;
-  }
-  .top-record{
-    margin-left: 0.5rem;
-    position: absolute;
-    z-index: 1000;
-    bottom: 0;
-    display: inline-block;
-    text-align: center;
-    width: 7.85rem;
-    padding: 0.4rem 0;
-    background: #4851FF;
-    border-radius: 1.15rem;
-  }
-  .img-king{
-    position: absolute;
-    right: -1.8rem;
-    top:-1rem;
-  }
   .button-box{
-    position: relative;
-    margin-top: 2rem;
+    margin-top: 1.3rem;
     font-size:1.4rem;
     display: flex;
     text-align: center;
@@ -383,15 +352,15 @@ export default {
     margin-right: 5%;
   }
   .self-item1::before{
-    background: url('../assets/frist.png');
+    background: url('https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/frist.png');
     background-size: cover;
   }
   .self-item2::before{
-    background: url('../assets/second.png');
+    background: url('https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/second.png');
     background-size: cover;
   }
   .self-item3::before{
-    background: url('../assets/third.png');
+    background: url('https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/third.png');
     background-size:cover;
   }
   .avatar{
