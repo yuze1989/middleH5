@@ -13,10 +13,10 @@
           </div>
           </div>
           <div class="font-11">
-              <span v-for="(item) in userdetail.departNameList" :key="item">
+              <span v-for="(item) in departNameList" :key="item">
                 {{item}}
-                {{userdetail.position}}
               </span>
+              {{userdetail.position}}
             </div>
         </div>
       </div>
@@ -61,8 +61,10 @@
     </div>
     <div class="under">
       <div class="img-flex">
-        <img src="../assets/monthly.png" alt="">
-        <div class="top-record"><img src="../assets/TOP5.png" alt=""></div>
+        <img style="width:17.8rem;height:2.9rem" src="../assets/monthly.svg" alt="">
+        <div class="top-record">
+          <img style="width:5.2rem;height:0.9rem" src="../assets/TOP5.svg" alt="">
+        </div>
           <img class="img-king" src="../assets/king.png" alt="">
       </div>
       <div class="button-box">
@@ -139,10 +141,10 @@ export default {
       myGroupRankList: [],
       parmasDate: '',
       isShow: false,
+      departNameList: [],
     };
   },
   created() {
-    console.log(window.location.href, 'location');
     this.parmasDate = util.getUrlOption(window.location.href).batchNo;
     if (this.parmasDate) {
       this.getDetail();
@@ -164,6 +166,17 @@ export default {
         date: this.parmasDate,
       }).then((res) => {
         if (res.success && res.data.date) {
+          this.departNameList = res.data.departNameList;
+          const depLength = this.departNameList.length - 1;
+          this.departNameList.forEach((item, index) => {
+            if (!res.data.position) {
+              if (index !== depLength) {
+                this.departNameList[index] = `${item} /`;
+              }
+            } else {
+              this.departNameList[index] = `${item} /`;
+            }
+          });
           this.userdetail = res.data;
           this.userdetailDate = res.data.date.split('-');
         }
@@ -307,8 +320,7 @@ export default {
     display: inline-block;
     text-align: center;
     width: 7.85rem;
-    height: 2rem;
-    line-height: 2rem;
+    padding: 0.4rem 0;
     background: #4851FF;
     border-radius: 1.15rem;
   }
@@ -322,8 +334,6 @@ export default {
     margin-top: 2rem;
     font-size:1.4rem;
     display: flex;
-    height: 3.4rem;
-    line-height: 3.4rem;
     text-align: center;
     border-radius:5px;
     overflow: hidden;
@@ -332,32 +342,31 @@ export default {
     flex: 1;
     color: #4851FF;
     background: #fff;
+    padding: 0.7rem 0;
   }
   .active{
     background: #4851FF;
     color: #fff;
   }
   .my-rank{
-    height: 5.5rem;
     background-color: rgba(72, 81, 255, 0.53);
     border-radius: 0.5rem;
+    padding-bottom: 0.1rem;
   }
   .self{
     margin-top:1.3rem;
-    padding:0 1.5rem;
+    padding:0.5rem 1.5rem;
     display: flex;
-    height: 5rem;
-    line-height: 5rem;
     background: #C0C8FF;
     border-radius: 0.5rem;
-    margin-bottom:0.8rem;
+    margin-bottom:0.3rem;
+    align-items: center;
+    text-align: center;
   }
   .record{
     color: rgba(0,0,0,0.65);
-    width: 1.5rem;
-    margin-left:0.5rem;
+    width: 2.1rem;
     margin-right: 5%;
-    height: 2.6rem;
     font-size:1.4rem;
   }
   .self-item{
@@ -369,36 +378,36 @@ export default {
   .self-item3::before{
     content: "";
     display: inline-block;
-    width:2rem;
+    width:2.1rem;
     height:2.6rem;
     margin-right: 5%;
-    margin-top:1rem;
   }
   .self-item1::before{
     background: url('../assets/frist.png');
-    background-size: contain;
+    background-size: cover;
   }
   .self-item2::before{
     background: url('../assets/second.png');
-    background-size: contain;
+    background-size: cover;
   }
   .self-item3::before{
     background: url('../assets/third.png');
-    background-size: contain;
+    background-size:cover;
   }
   .avatar{
     width:2.9rem;
     height: 2.9rem;
-    margin-top: 1rem;
   }
   .name{
     font-size: 1.5rem;
     width:62%;
+    text-align: left;
     color: rgba(0,0,0,0.85);
   }
   .amount{
     font-size: 1.8rem;
     color: #4851FF;
+    width: 2rem;
   }
   .no-more{
     font-size: 1.2rem;
