@@ -382,5 +382,6 @@ export default {
     font-size: 1.2rem;
     color: rgba(0,0,0,0.45);
     text-align: center;
+    margin-top: 1rem;
   }
 </style>
