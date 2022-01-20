@@ -35,6 +35,9 @@ export default {
 </script>
 <style>
   @import './assets/iconfont/iconfont.css';
+  html,body,#app{
+    height: 100%;;
+  }
   body{
     margin: 0;
   }

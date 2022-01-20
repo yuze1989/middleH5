@@ -97,10 +97,19 @@ const routes = [
     path: '/radar',
     name: 'radar',
     meta: {
+      tabbarshow: false,
+      type: 1,
+    },
+    component: () => import(/* webpackChunkName: "about" */'../views/radar.vue'),
+  },
+  {
+    path: '/daily-summary',
+    name: 'dailySummary',
+    meta: {
       tabbarshow: true,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "radar" */'../views/radar.vue'),
+    component: () => import(/* webpackChunkName: "dailySummary" */'../views/dailySummary.vue'),
   },
 ];
 
