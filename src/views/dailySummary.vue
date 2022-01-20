@@ -16,7 +16,6 @@
               <span v-for="(item) in departNameList" :key="item">
                 {{item}}
               </span>
-              {{userdetail.position}}
             </div>
         </div>
       </div>
@@ -169,14 +168,15 @@ export default {
           this.departNameList = res.data.departNameList;
           const depLength = this.departNameList.length - 1;
           this.departNameList.forEach((item, index) => {
-            if (!res.data.position) {
-              if (index !== depLength) {
-                this.departNameList[index] = `${item} /`;
-              }
-            } else {
-              this.departNameList[index] = `${item} /`;
+            console.log(res.data.position);
+            this.departNameList[index] = `${item} ${res.data.position} /`;
+            // this.departNameList[index] = `${item} ${'前段'} /`;
+            if (index === depLength) {
+              this.departNameList[index] = `${item} ${res.data.position}`;
+              // this.departNameList[index] = `${item} ${'前段'}`;
             }
           });
+          console.log(this.departNameList, 'this.departNameList');
           this.userdetail = res.data;
           this.userdetailDate = res.data.date.split('-');
         }
