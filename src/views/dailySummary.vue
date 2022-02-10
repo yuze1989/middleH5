@@ -76,17 +76,6 @@
             <div class="amount">{{mycustomerRank.sum}}</div>
           </div>
         </div>
-        <div
-          :class="`self-item${[item.rank]}`"
-          class="self self-item"
-          v-for="(item) in mycustomerRankList" :key="item.rank">
-          <div class="record" v-show="item.rank===4 || item.rank===5">
-            {{item.rank}}
-          </div>
-          <div class="avatar img-box"><img :src="item.avatar" alt=""></div>
-          <div class="name">{{item.name}}</div>
-          <div class="amount">{{item.sum}}</div>
-        </div>
       </div>
       <div v-if="status===1">
         <div class="my-rank">
@@ -97,29 +86,43 @@
             <div class="amount">{{myGroupRank.sum}}</div>
           </div>
         </div>
-        <div
-          class="self self-item"
-          :class="`self-item${[item.rank]}`"
-          v-for="(item,index) in myGroupRankList" :key="index">
-          <div class="record" v-show="item.rank===4 || item.rank===5">
-            {{item.rank}}
-          </div>
-          <div class="avatar img-box"><img :src="item.avatar" alt=""></div>
-          <div class="name">{{item.name}}</div>
-          <div class="amount">{{item.sum}}</div>
-        </div>
       </div>
-      <div v-if="isShow" class="no-more">- 没有更多了 -</div>
+        <PullRefresh v-model="refreshing" @refresh="onRefresh">
+          <List v-model="loading"
+            :finished="finished" offset="100"
+            @load="onLoad" finished-text="没有更多了"
+            :immediate-check="false">
+              <div
+                :class="`self-item${[item.rank]}`"
+                class="self self-item"
+                v-for="(item) in list" :key="item.rank">
+                <div class="record" v-show="item.rank!==1 && item.rank!==2 && item.rank!==3">
+                  {{item.rank}}
+                </div>
+                <div class="avatar img-box"><img :src="item.avatar" alt=""></div>
+                <div class="name">{{item.name}}</div>
+                <div class="amount">{{item.sum}}</div>
+              </div>
+            </List>
+          </PullRefresh>
   </div>
   </div>
 </template>
 
 <script>
+import {
+  List,
+  PullRefresh,
+} from 'vant';
 import Http from '../utils/http';
 import util from '../utils/util';
 
 export default {
   name: 'customer',
+  components: {
+    List,
+    PullRefresh,
+  },
   data() {
     return {
       status: 0,
@@ -133,24 +136,77 @@ export default {
       parmasDate: '',
       isShow: false,
       departNameList: [],
+      refreshing: false,
+      loading: false,
+      finished: false,
+      pageIndex: 1,
+      totalPages: 1,
     };
   },
   created() {
     this.parmasDate = util.getUrlOption(window.location.href).batchNo;
     if (this.parmasDate) {
       this.getDetail();
-      this.getCustomerRank();
+      this.getList();
+      this.getMyCustomerRank();
     }
   },
   methods: {
     change(index) {
+      this.list = [];
       this.status = index;
-      this.isShow = false;
       if (index === 0) {
-        this.getCustomerRank();
+        this.getMyCustomerRank();
       } else {
-        this.getGroupRank();
+        this.getMyGroupRank();
       }
+      this.loading = true;
+      this.pageIndex = 1;
+      this.finished = false;
+      this.onLoad();
+    },
+    onLoad() {
+      this.getList();
+    },
+    onRefresh() {
+      this.pageIndex = 1;
+      this.list = [];
+      this.loading = true;
+      this.finished = false;
+      if (this.status === 0) {
+        this.getMyCustomerRank();
+      } else {
+        this.getMyGroupRank();
+      }
+      this.onLoad();
+    },
+    getList() {
+      const that = this;
+      that.refreshing = false;
+      if (that.pageIndex > that.totalPages) {
+        that.finished = true;
+        that.loading = false;
+        return;
+      }
+      const url = that.status === 0 ? 'scrm/comm/rest/daily-summary/page-add-customer-rank-month' : 'scrm/comm/rest/daily-summary/page-add-group-rank-month';
+      const parmas = {
+        date: that.parmasDate,
+        pageIndex: that.pageIndex,
+        pageSize: 20,
+      };
+      Http.post(url, parmas).then((res) => {
+        if (res.success && res.totalCount !== 0) {
+          console.log(res.data);
+          that.list = that.pageIndex === 1 ? res.data : that.list.concat(res.data);
+          that.loading = false;
+          that.totalCount = res.totalCount;
+          that.totalPages = res.totalPages;
+          that.pageIndex += 1;
+        } else {
+          that.loading = false;
+          that.finished = true;
+        }
+      });
     },
     getDetail() {
       Http.post('scrm/comm/rest/daily-summary/detail', {
@@ -170,25 +226,44 @@ export default {
         }
       });
     },
-    getCustomerRank() {
-      Http.post('scrm/comm/rest/daily-summary/add-customer-rank', {
+    getMyCustomerRank() {
+      Http.post('scrm/comm/rest/daily-summary/my-add-customer-rank-month', {
         date: this.parmasDate,
       }).then((res) => {
         if (res.success && res.data) {
-          this.mycustomerRank = res.data.myRank;
-          this.mycustomerRankList = res.data.rankList;
+          this.mycustomerRank = res.data;
           this.isShow = true;
         }
       });
     },
-    getGroupRank() {
-      Http.post('scrm/comm/rest/daily-summary/add-group-rank', {
+    getCustomerRank() {
+      Http.post('scrm/comm/rest/daily-summary/page-add-customer-rank-month', {
+        date: this.parmasDate,
+      }).then((res) => {
+        if (res.success && res.data) {
+          this.mycustomerRankList = res.data;
+          this.isShow = true;
+        }
+      });
+    },
+    getMyGroupRank() {
+      Http.post('scrm/comm/rest/daily-summary/my-add-group-rank-month', {
         date: this.parmasDate,
       }).then((res) => {
         if (res.success && res.data) {
           this.isShow = true;
-          this.myGroupRank = res.data.myRank;
-          this.myGroupRankList = res.data.rankList;
+          this.myGroupRank = res.data;
+        }
+      });
+    },
+
+    getGroupRank() {
+      Http.post('scrm/comm/rest/daily-summary/page-add-group-rank-month', {
+        date: this.parmasDate,
+      }).then((res) => {
+        if (res.success && res.data) {
+          this.isShow = true;
+          this.myGroupRankList = res.data;
         }
       });
     },
