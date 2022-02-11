@@ -113,7 +113,6 @@
 import {
   List,
   PullRefresh,
-  Toast,
 } from 'vant';
 import Http from '../utils/http';
 import util from '../utils/util';
@@ -137,6 +136,7 @@ export default {
       refreshing: false,
       loading: false,
       finished: false,
+      shake: false,
       pageIndex: 1,
       totalPages: 1,
     };
@@ -152,6 +152,9 @@ export default {
   methods: {
     change(index) {
       this.list = [];
+      if (!this.userdetail || this.shake) {
+        return;
+      }
       this.status = index;
       if (index === 0) {
         this.getMyCustomerRank();
@@ -180,10 +183,15 @@ export default {
     },
     getList() {
       const that = this;
+      if (that.shake) { // 防抖
+        return;
+      }
+      that.shake = true;
       that.refreshing = false;
       if (that.pageIndex > that.totalPages) {
         that.finished = true;
         that.loading = false;
+        that.shake = false;
         return;
       }
       const url = that.status === 0 ? 'scrm/comm/rest/daily-summary/page-add-customer-rank-month' : 'scrm/comm/rest/daily-summary/page-add-group-rank-month';
@@ -199,13 +207,11 @@ export default {
           that.totalCount = res.totalCount;
           that.totalPages = res.totalPages;
           that.pageIndex += 1;
-        } else if (res.errCode === '0100000014') {
-          that.loading = true;
-          that.finished = false;
-          Toast(res.errMessage);
+          that.shake = false;
         } else {
           that.loading = false;
           that.finished = true;
+          that.shake = false;
         }
       });
     },
