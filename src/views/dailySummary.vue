@@ -113,6 +113,7 @@
 import {
   List,
   PullRefresh,
+  Toast,
 } from 'vant';
 import Http from '../utils/http';
 import util from '../utils/util';
@@ -198,6 +199,10 @@ export default {
           that.totalCount = res.totalCount;
           that.totalPages = res.totalPages;
           that.pageIndex += 1;
+        } else if (res.errCode === '0100000014') {
+          that.loading = true;
+          that.finished = false;
+          Toast(res.errMessage);
         } else {
           that.loading = false;
           that.finished = true;
