@@ -57,7 +57,7 @@
       </div>
     </div>
     <div class="under">
-      <img style="width:23rem;height:3.5rem" src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/record.svg" alt="">
+      <img style="width:16rem" src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/monthly.svg" alt="">
       <div class="button-box">
         <div v-for="(item,index) of navList"
           :key="index"
@@ -130,11 +130,8 @@ export default {
       userdetail: {},
       userdetailDate: [],
       mycustomerRank: {},
-      mycustomerRankList: [],
       myGroupRank: {},
-      myGroupRankList: [],
       parmasDate: '',
-      isShow: false,
       departNameList: [],
       refreshing: false,
       loading: false,
@@ -232,17 +229,6 @@ export default {
       }).then((res) => {
         if (res.success && res.data) {
           this.mycustomerRank = res.data;
-          this.isShow = true;
-        }
-      });
-    },
-    getCustomerRank() {
-      Http.post('scrm/comm/rest/daily-summary/page-add-customer-rank-month', {
-        date: this.parmasDate,
-      }).then((res) => {
-        if (res.success && res.data) {
-          this.mycustomerRankList = res.data;
-          this.isShow = true;
         }
       });
     },
@@ -251,19 +237,7 @@ export default {
         date: this.parmasDate,
       }).then((res) => {
         if (res.success && res.data) {
-          this.isShow = true;
           this.myGroupRank = res.data;
-        }
-      });
-    },
-
-    getGroupRank() {
-      Http.post('scrm/comm/rest/daily-summary/page-add-group-rank-month', {
-        date: this.parmasDate,
-      }).then((res) => {
-        if (res.success && res.data) {
-          this.isShow = true;
-          this.myGroupRankList = res.data;
         }
       });
     },
