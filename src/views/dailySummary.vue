@@ -8,13 +8,13 @@
             <div class="font-17">{{userdetail.name}}</div>
             <div class="date">
             {{userdetailDate.length>0?`${userdetailDate[1]}月${userdetailDate[2]}日`:''}}
-          </div>
+            </div>
           </div>
           <div class="font-11">
-              <span v-for="(item) in departNameList" :key="item">
-                {{item}}
-              </span>
-            </div>
+            <span v-for="(item) in departNameList" :key="item">
+              {{item}}
+            </span>
+          </div>
         </div>
       </div>
       <div class="customer">
@@ -96,7 +96,7 @@
                 :class="`self-item${[item.rank]}`"
                 class="self self-item"
                 v-for="(item) in list" :key="item.rank">
-                <div class="record" v-show="item.rank!==1 && item.rank!==2 && item.rank!==3">
+                <div class="record" v-show="item.rank>3">
                   {{item.rank}}
                 </div>
                 <div class="avatar img-box"><img :src="item.avatar" alt=""></div>
@@ -193,7 +193,6 @@ export default {
       };
       Http.post(url, parmas).then((res) => {
         if (res.success && res.totalCount !== 0) {
-          console.log(res.data);
           that.list = that.pageIndex === 1 ? res.data : that.list.concat(res.data);
           that.loading = false;
           that.totalCount = res.totalCount;
