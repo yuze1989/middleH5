@@ -218,6 +218,10 @@ export default {
       this.finished = false;
     },
     uploadFileToWx(obj, msgType, url) {
+      if (!obj.appId && msgType === 'news') {
+        Toast('当前素材尚未关联公众号，请在系统内配置后使用');
+        return;
+      }
       Toast.loading({
         type: 'loading',
         duration: 0,
@@ -240,7 +244,7 @@ export default {
           if (res.success) {
             data.news = {
               // H5消息页面url 必填
-              link: url || `${Config.redirect_uri}/sh5/details?id=${res.data}&skip=1`,
+              link: url || `${Config.redirect_uri}/ch5/?id=${res.data}&appId=${obj.appId}`,
               title: obj.title, // H5消息标题
               desc: obj.description, // H5消息摘要
               imgUrl: obj.coverPicUrl, // H5消息封面图片URL

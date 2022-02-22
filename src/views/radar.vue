@@ -23,7 +23,7 @@
                 <img :src="item.linkCoverUrl">
               </div>
               <div class="article-box">
-                <div class="article-title ellipsis">{{item.linkDigest}}</div>
+                <div class="article-title ellipsis">{{item.linkTitle}}</div>
                 <div class="article-sum">总点击人数：{{item.totalClickUserTimes || 0}}
                 </div>
               </div>
@@ -138,7 +138,7 @@ export default {
             enterChat: true,
             news: {
               link: `${Config.redirect_uri}/ch5/radar?userId=${localStorage.getItem('userId')}&appId=${res.data.appId}&radarId=${obj.id}&corpId=${localStorage.getItem('corpId')}`,
-              title: obj.title, // H5消息标题
+              title: obj.linkTitle, // H5消息标题
               desc: obj.linkDigest, // H5消息摘要
               imgUrl: obj.linkCoverUrl, // H5消息封面图片URL
             },
