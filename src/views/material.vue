@@ -218,6 +218,10 @@ export default {
       this.finished = false;
     },
     uploadFileToWx(obj, msgType, url) {
+      if (!obj.appId && msgType === 'news') {
+        Toast('当前素材尚未关联公众号，请在系统内配置后使用');
+        return;
+      }
       Toast.loading({
         type: 'loading',
         duration: 0,
@@ -281,10 +285,6 @@ export default {
     },
     // 分享
     share(obj) {
-      if (!obj.appId) {
-        Toast('当前素材尚未关联公众号，请在系统内配置后使用');
-        return;
-      }
       const maxsize = 10 * 1024 * 1024;
       let { msgType } = this.lists[this.$store.state.navType];
       this.shake = false;
