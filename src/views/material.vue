@@ -240,7 +240,7 @@ export default {
           if (res.success) {
             data.news = {
               // H5消息页面url 必填
-              link: url || `${Config.redirect_uri}/sh5/details?id=${res.data}&skip=1`,
+              link: url || `${Config.redirect_uri}/ch5/details?id=${res.data}&appId=${obj.appId}`,
               title: obj.title, // H5消息标题
               desc: obj.description, // H5消息摘要
               imgUrl: obj.coverPicUrl, // H5消息封面图片URL
@@ -281,6 +281,10 @@ export default {
     },
     // 分享
     share(obj) {
+      if (!obj.appId) {
+        Toast('当前素材尚未关联公众号，请在系统内配置后使用');
+        return;
+      }
       const maxsize = 10 * 1024 * 1024;
       let { msgType } = this.lists[this.$store.state.navType];
       this.shake = false;
