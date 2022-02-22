@@ -23,7 +23,7 @@
                 <img :src="item.linkCoverUrl">
               </div>
               <div class="article-box">
-                <div class="article-title ellipsis">{{item.linkDigest}}</div>
+                <div class="article-title ellipsis">{{item.linkTitle}}</div>
                 <div class="article-sum">总点击人数：{{item.totalClickUserTimes || 0}}
                 </div>
               </div>
