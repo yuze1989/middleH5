@@ -218,10 +218,6 @@ export default {
       this.finished = false;
     },
     uploadFileToWx(obj, msgType, url) {
-      if (!obj.appId && msgType === 'news') {
-        Toast('当前素材尚未关联公众号，请在系统内配置后使用');
-        return;
-      }
       Toast.loading({
         type: 'loading',
         duration: 0,
@@ -287,6 +283,10 @@ export default {
     share(obj) {
       const maxsize = 10 * 1024 * 1024;
       let { msgType } = this.lists[this.$store.state.navType];
+      if (!obj.appId && msgType === 'news') {
+        Toast('当前素材尚未关联公众号，请在系统内配置后使用');
+        return;
+      }
       this.shake = false;
       // 判断视频是否超过10m
       if (obj.fileSize >= maxsize && msgType === 'video') {
