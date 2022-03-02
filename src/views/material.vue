@@ -203,7 +203,7 @@ export default {
           }
         });
       } else {
-        window.location.href = encodeURIComponent(obj.materialEnclosureUrl) || obj.content;
+        window.location.href = encodeURI(obj.materialEnclosureUrl) || obj.content;
       }
     },
     // tab切换
@@ -291,7 +291,7 @@ export default {
       // 判断视频是否超过10m
       if (obj.fileSize >= maxsize && msgType === 'video') {
         msgType = 'news';
-        this.uploadFileToWx(obj, msgType, encodeURIComponent(obj.materialEnclosureUrl));
+        this.uploadFileToWx(obj, msgType, encodeURI(obj.materialEnclosureUrl));
       } else {
         this.uploadFileToWx(obj, msgType, '');
       }
