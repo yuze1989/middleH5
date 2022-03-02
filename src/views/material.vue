@@ -291,7 +291,7 @@ export default {
       // 判断视频是否超过10m
       if (obj.fileSize >= maxsize && msgType === 'video') {
         msgType = 'news';
-        this.uploadFileToWx(obj, msgType, obj.materialEnclosureUrl);
+        this.uploadFileToWx(obj, msgType, encodeURIComponent(obj.materialEnclosureUrl));
       } else {
         this.uploadFileToWx(obj, msgType, '');
       }
