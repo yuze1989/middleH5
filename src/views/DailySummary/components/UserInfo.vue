@@ -35,7 +35,7 @@ export default {
   filters: {
     formatterTime(value) {
       if (!value) return '';
-      return `${value.slice(0, 4)}/${value.slice(5, 7)}/${value.slice(-2)}`;
+      return value.replace(/^(\d{4})(\d{2})(\d{2})$/, (_, ...args) => args.slice(0, 3).join('/'));
     },
   },
 };
