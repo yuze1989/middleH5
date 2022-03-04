@@ -203,7 +203,8 @@ export default {
           }
         });
       } else {
-        window.location.href = encodeURI(obj.materialEnclosureUrl) || obj.content;
+        // window.location.href = encodeURI(obj.materialEnclosureUrl) || obj.content;
+        window.location.href = obj.materialEnclosureUrl || obj.content;
       }
     },
     // tab切换
