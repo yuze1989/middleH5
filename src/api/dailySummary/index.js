@@ -64,4 +64,11 @@ export function getWechatStatistics(params) {
   return http.post('/scrm/comm/rest/daily-summary/my-wechat-moments-statistics', params);
 }
 
+/**
+ * 获取员工列表
+ */
+export function getDepartments() {
+  return http.post('/scrm/comm/rest/tenant-staff/get-all-departments-tree');
+}
+
 export default {};
