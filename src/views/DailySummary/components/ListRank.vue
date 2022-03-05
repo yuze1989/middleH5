@@ -154,6 +154,7 @@ export default {
     };
   },
   created() {
+    Wechat.initWeChat();
     if (this.paramsDate) {
       this.getList();
       this.getMyRank();
@@ -178,7 +179,6 @@ export default {
     },
     // 滚动到底部触发
     onLoad() {
-      Wechat.initWeChat();
       this.getList();
     },
     getList() {
