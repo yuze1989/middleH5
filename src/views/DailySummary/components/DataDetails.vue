@@ -54,7 +54,22 @@
             <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/weixin.png">
             <div class="text">我的群聊统计</div>
           </div>
-          <div class="time_toggle"></div>
+          <div class="time_toggle">
+            <div
+              class="time_item"
+              :class="{active: !groupActive}"
+              @click="groupActive && toggleTime('group')"
+            >
+              近7日
+            </div>
+            <div
+              class="time_item"
+              :class="{active: groupActive}"
+              @click="!groupActive && toggleTime('group')"
+            >
+              近30日
+            </div>
+          </div>
         </div>
         <div class="data_main">
           <div class="data-item">
@@ -79,10 +94,25 @@
       <div class="cell_item">
         <div class="cell_head">
           <div class="cell_title">
-            <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/weixin.png">
+            <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/chat.svg">
             <div class="text">我的聊天统计</div>
           </div>
-          <div class="time_toggle"></div>
+          <div class="time_toggle">
+            <div
+              class="time_item"
+              :class="{active: !chatActive}"
+              @click="chatActive && toggleTime('chat')"
+            >
+              近7日
+            </div>
+            <div
+              class="time_item"
+              :class="{active: chatActive}"
+              @click="!chatActive && toggleTime('chat')"
+            >
+              近30日
+            </div>
+          </div>
         </div>
         <div class="data_main bisection">
           <div class="data-item">
@@ -98,10 +128,25 @@
       <div class="cell_item">
         <div class="cell_head">
           <div class="cell_title">
-            <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/weixin.png">
+            <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/circle_friends.svg">
             <div class="text">我的聊天统计</div>
           </div>
-          <div class="time_toggle"></div>
+          <div class="time_toggle">
+            <div
+              class="time_item"
+              :class="{active: !wechatActive}"
+              @click="wechatActive && toggleTime('wechat')"
+            >
+              近7日
+            </div>
+            <div
+              class="time_item"
+              :class="{active: wechatActive}"
+              @click="!wechatActive && toggleTime('wechat')"
+            >
+              近30日
+            </div>
+          </div>
         </div>
         <div class="data_main bisection">
           <div class="data-item">
@@ -177,8 +222,8 @@ export default {
     this.init();
   },
   methods: {
-    formatTimes(type = 1) {
-      return type === 1 ? {
+    formatTimes(type) {
+      return !type ? {
         startDate: moment(this.nowTime).add(-6, 'days').format('YYYY-MM-DD'),
         endDate: moment(this.nowTime).format('YYYY-MM-DD'),
       } : {
@@ -255,6 +300,7 @@ export default {
           textStyle: {
             color: '#fff',
             fontWeight: 'Medium',
+            fontSize: 12,
           },
         },
         grid: {
@@ -355,6 +401,19 @@ export default {
       switch (type) {
         case 'customer':
           this.customerActive = !this.customerActive;
+          this.getCustomerData();
+          break;
+        case 'group':
+          this.groupActive = !this.groupActive;
+          this.getGroupData();
+          break;
+        case 'chat':
+          this.chatActive = !this.chatActive;
+          this.getChatData();
+          break;
+        case 'wechat':
+          this.wechatActive = !this.wechatActive;
+          this.getCWechatData();
           break;
         default:
           break;
@@ -365,11 +424,6 @@ export default {
 </script>
 
 <style scoped>
-.dataDetails {
-  background: #4951FF;
-  padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
-  padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
-}
 
 .cell{
   margin: 0 1.5rem;

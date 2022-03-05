@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   name: 'UserInfo',
   props: {
@@ -35,7 +37,7 @@ export default {
   filters: {
     formatterTime(value) {
       if (!value) return '';
-      return value.replace(/^(\d{4})(\d{2})(\d{2})$/, (_, ...args) => args.slice(0, 3).join('/'));
+      return value.replace(/^(\d{4})(\d{2})(\d{2})$/, (_, ...args) => moment(args.slice(0, 3).join('-')).format('M月D日'));
     },
   },
 };
@@ -44,7 +46,7 @@ export default {
 <style scoped>
 .userInfo {
   display: flex;
-  padding: 2.1rem 2.95rem 1.7rem 3.3rem;
+  padding: 2.1rem 1.95rem 1.7rem 3.3rem;
 }
 
 .img-box{
@@ -85,9 +87,9 @@ export default {
 }
 
 .date{
-  width: 8.6rem;
   height: 2rem;
   line-height: 2rem;
+  padding: 0 1.3rem;
   background: #FFFFFF;
   border-radius: 1.25rem;
   text-align: center;

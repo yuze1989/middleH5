@@ -47,7 +47,7 @@
       </div>
       <div class="chatting">
         <div class="sum">
-          <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/weixin.png" alt="">
+          <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/chat.svg" alt="">
           <div class="sum-text">我的聊天统计</div>
         </div>
         <div class="sum-box">
@@ -60,12 +60,12 @@
             <div class="sum-item-text">昨日发送消息数</div>
           </div>
           <div class="sum-item">
-            <div class="sum-number">{{yesterdayData.avgReplyTime || 0}}</div>
-            <div class="sum-item-text">平均首次回复时长</div>
+            <div class="sum-number">{{yesterdayData.replyPercentage || 0}}%</div>
+            <div class="sum-item-text">已回复聊天占比</div>
           </div>
           <div class="sum-item">
-            <div class="sum-number">{{yesterdayData.replyPercentage || 0}}</div>
-            <div class="sum-item-text">已回复聊天占比</div>
+            <div class="sum-number">{{yesterdayData.avgReplyTime | formatTime}}</div>
+            <div class="sum-item-text">平均首次回复时长</div>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@
     <div class="under">
       <img
         style="width:16rem; margin-left: 0.5rem;"
-        src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/monthly.svg"
+        src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/yesterday_rank.svg"
       >
       <div class="button-box">
         <div
@@ -168,6 +168,14 @@ export default {
       totalPages: 1, // 总页数
       shake: false,
     };
+  },
+  filters: {
+    formatTime(value) {
+      if (!value) return '00:00:00';
+      const hour = Math.floor(value / 60);
+      const minute = Math.floor(value - hour * 60);
+      return `${hour > 9 ? hour : `0${hour}`}:${minute > 9 ? minute : `0${minute}`}:00`;
+    },
   },
   created() {
     if (this.paramsDate) {
@@ -266,9 +274,6 @@ export default {
 </script>
 
 <style scoped>
-.yesterdayMain {
-  background: #4951FF;
-}
 
 .img-box{
   border-radius: 50%;

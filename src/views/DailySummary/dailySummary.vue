@@ -21,7 +21,9 @@
           :params-date="paramsDate"
         />
       </tab>
-      <tab title="榜单排行" title-class="tag_title"></tab>
+      <tab title="榜单排行" title-class="tag_title">
+        <ListRank :params-date="paramsDate" />
+      </tab>
     </tabs>
   </div>
 </template>
@@ -30,6 +32,7 @@
 import { Tabs, Tab } from 'vant';
 import YesterdayOverview from './components/YesterdayOverview.vue';
 import DataDetails from './components/DataDetails.vue';
+import ListRank from './components/ListRank.vue';
 import util from '@/utils/util';
 import { getStaffInfo } from '@/api/dailySummary';
 
@@ -40,6 +43,7 @@ export default {
     Tab,
     YesterdayOverview,
     DataDetails,
+    ListRank,
   },
   data() {
     return {
@@ -78,5 +82,9 @@ export default {
   .main{
     margin:0 auto;
     max-width: 40rem;
+    min-height: 100vh;
+    padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+    padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+    background: #4951FF;
   }
 </style>
