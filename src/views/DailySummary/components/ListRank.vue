@@ -117,7 +117,6 @@ import {
   Popup,
   Icon,
 } from 'vant';
-// import SelectDepartments from '@/components/SelectDepartments/index.vue';
 import { getMyRank, getRankList } from '@/api/dailySummary';
 import Wechat from '@/utils/wechat';
 
@@ -133,7 +132,6 @@ export default {
     [Dialog.Component.name]: Dialog.Component,
     Popup,
     Icon,
-    // SelectDepartments,
   },
   name: 'ListRank',
   data() {
