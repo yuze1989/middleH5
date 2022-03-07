@@ -245,9 +245,13 @@ export default {
               return dep.id;
             });
             this.checkName = checkName.join('、');
-            this.getList();
+            this.resetList();
           }
         });
+    },
+    resetList() {
+      this.pageIndex = 1;
+      this.getList();
     },
   },
 };
