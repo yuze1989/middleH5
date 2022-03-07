@@ -85,16 +85,19 @@ const Wechat = {
     wx.updateAppMessageShareData(shareInfo);
     wx.updateTimelineShareData(shareInfo);
   },
-  selectEnterpriseContact: (options = defaultOptions) => {
-    console.log(options);
+  selectEnterpriseContact: (options = defaultOptions) => new Promise((resolve) => {
     wx.invoke('selectEnterpriseContact', {
       ...options,
     }, (res) => {
       if (res.err_msg === 'selectEnterpriseContact:ok') {
-        console.log(res);
+        if (typeof res.result === 'string') {
+          resolve(JSON.parse(res.result)); // 由于目前各个终端尚未完全兼容，需要开发者额外判断result类型以保证在各个终端的兼容性
+        } else {
+          resolve(res.result);
+        }
       }
     });
-  },
+  }),
   initWeChat: async () => {
     await Wechat.setWxConfig();
     Wechat.registerConfig();
@@ -102,7 +105,7 @@ const Wechat = {
   registerConfig: () => {
     wx.agentConfig({
       corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
-      agentid: localStorage.getItem('agentId') || 1000023, // 必填，企业微信的应用id （e.g. 1000247）
+      agentid: localStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
       timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法

@@ -123,6 +123,7 @@ router.beforeEach(async (to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
+    console.log(options);
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
     // 用于判断地址带进来的参数

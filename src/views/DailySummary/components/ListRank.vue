@@ -75,10 +75,15 @@
         <div class="amount">{{myRank.sum}}</div>
       </div>
     </div>
-    <div class="selectDep" @click="selectContact" />
-<!--    <SelectDepartments
-      :show.sync="depShow"
-    />-->
+    <div class="selectDep" @click="selectContact">
+      <div class="search">
+        <i class="iconfont icon-shaixuan1" style="color: #4851FF; font-size: 1.1rem" />
+        <div class="search_text">
+          {{ checkName || '全部员工' }}
+        </div>
+      </div>
+      <icon name="arrow-down" color="#9C9EA5" size="1.1rem" />
+    </div>
     <List
       v-model="loading"
       :finished="finished"
@@ -150,7 +155,8 @@ export default {
 
       selectShow: false,
 
-      depShow: false,
+      checkName: '',
+      checkIdList: [],
     };
   },
   created() {
@@ -224,7 +230,18 @@ export default {
       });
     },
     selectContact() {
-      Wechat.selectEnterpriseContact();
+      Wechat.selectEnterpriseContact()
+        .then((res) => {
+          if (res) {
+            const depList = res.departmentList;
+            const checkName = [];
+            this.checkIdList = depList.map((dep) => {
+              checkName.push(dep.name);
+              return dep.id;
+            });
+            this.checkName = checkName.join('、');
+          }
+        });
     },
   },
 };
@@ -354,6 +371,7 @@ export default {
   background-color: rgba(72, 81, 255, 0.53);
   border-radius: 0.5rem;
   padding-bottom: 0.1rem;
+  margin-top: 1.35rem;
 }
 .self{
   padding:0.5rem 1.5rem;
@@ -415,10 +433,32 @@ export default {
   width: 2rem;
 }
 .selectDep {
-  height: 3.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1.3rem 0.6rem 1.6rem;
   margin-top: 1.2rem;
   opacity: 0.68;
   background: #FFFFFF;
   border-radius: 0.5rem;
+}
+
+.selectDep .search {
+  width: 0;
+  padding-right: 1.9rem;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.search_text {
+  width: 0;
+  flex: 1;
+  margin-left: 1.05rem;
+  line-height: 1.85rem;
+  font-size: 1.3rem;
+  color: rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
