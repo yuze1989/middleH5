@@ -86,7 +86,7 @@
         :name="checkName ? 'cross' : 'arrow-down'"
         color="#9C9EA5"
         size="1.5rem"
-        @click="checkName && clearCheck()"
+        @click.stop="checkName && clearCheck()"
       />
     </div>
     <List
@@ -334,7 +334,7 @@ export default {
   right: -1.5rem;
 }
 .dialog_main {
-  padding: 2.1rem 2.15rem 1.3rem;
+  padding: 2.1rem 2rem 1.3rem;
 }
 .dialog_title {
   line-height: 2.1rem;
