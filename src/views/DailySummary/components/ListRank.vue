@@ -82,7 +82,12 @@
           {{ checkName || '全部员工' }}
         </div>
       </div>
-      <icon name="arrow-down" color="#9C9EA5" size="1.1rem" />
+      <icon
+        :name="checkName ? 'cross' : 'arrow-down'"
+        color="#9C9EA5"
+        size="1.5rem"
+        @click="checkName && clearCheck()"
+      />
     </div>
     <List
       v-model="loading"
@@ -252,6 +257,11 @@ export default {
     resetList() {
       this.pageIndex = 1;
       this.getList();
+    },
+    clearCheck() {
+      this.checkName = '';
+      this.checkIdList = [];
+      this.resetList();
     },
   },
 };
