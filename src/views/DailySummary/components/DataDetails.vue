@@ -129,7 +129,7 @@
         <div class="cell_head">
           <div class="cell_title">
             <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/circle_friends.svg">
-            <div class="text">我的聊天统计</div>
+            <div class="text">我的朋友圈统计</div>
           </div>
           <div class="time_toggle">
             <div
