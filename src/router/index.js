@@ -123,7 +123,6 @@ router.beforeEach(async (to, form, next) => {
   if (Env.getType().platformType === 'WX_GZ') {
     const url = window.location.href;
     const options = Util.getUrlOption(url);
-    console.log(options);
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
     // 用于判断地址带进来的参数
@@ -165,6 +164,7 @@ router.beforeEach(async (to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
+    console.log(openid, !token);
     // 同一个企业不用继续授权重新拿一下token
     if (openid && !token) {
       const res = await Http.post('/scrm/wechat/oauth-user-info-openid', {
