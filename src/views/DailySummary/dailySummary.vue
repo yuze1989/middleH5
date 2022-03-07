@@ -1,7 +1,7 @@
 <template>
-  <div class="main">
+  <div class="main" :class="{noBack: active === 2}">
     <tabs
-      v-model="activeName"
+      v-model="active"
       color="#4851FF"
       sticky
       title-active-color="#4851FF"
@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-      activeName: '',
+      active: 0,
       userInfo: {},
       paramsDate: '', // 时间数据
     };
@@ -85,6 +85,14 @@ export default {
     min-height: 100vh;
     padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
     padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
-    background: #4951FF;
+    background-color: #4951FF;
+    background-image: url("https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/dailySummary/summary_back.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: top center;
+  }
+
+  .noBack {
+    background-image: none;
   }
 </style>

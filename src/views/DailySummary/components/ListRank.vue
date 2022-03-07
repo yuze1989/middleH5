@@ -118,7 +118,7 @@ import {
   Icon,
 } from 'vant';
 import { getMyRank, getRankList } from '@/api/dailySummary';
-import Wechat from '@/utils/wechat';
+import Wechat, { defaultOptions } from '@/utils/wechat';
 
 export default {
   props: {
@@ -201,6 +201,9 @@ export default {
         pageSize: 20,
         rankType: that.status === 2 ? 7 : that.rankTypeData[that.status][that.rankTimeActive],
       };
+      if (this.checkIdList.length) {
+        params.wxDeptIdList = this.checkIdList;
+      }
       getRankList(params)
         .then((res) => {
           if (res.success && res.totalCount !== 0) {
@@ -228,7 +231,11 @@ export default {
       });
     },
     selectContact() {
-      Wechat.selectEnterpriseContact()
+      const options = {
+        ...defaultOptions,
+        selectedDepartmentIds: this.checkIdList,
+      };
+      Wechat.selectEnterpriseContact(options)
         .then((res) => {
           if (res) {
             const depList = res.departmentList;
@@ -238,6 +245,7 @@ export default {
               return dep.id;
             });
             this.checkName = checkName.join('、');
+            this.getList();
           }
         });
     },
