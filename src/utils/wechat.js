@@ -113,15 +113,6 @@ const Wechat = {
       success: (res) => {
         // 回调
         console.log(res, 'success');
-        wx.checkJsApi({
-          jsApiList: ['selectEnterpriseContact'], // 需要检测的JS接口列表
-          success: (check) => {
-            console.log(check, 'suc');
-          },
-          fail: (err) => {
-            console.log(err, 'err');
-          },
-        });
       },
       fail: (err) => {
         console.log(err, 'error');

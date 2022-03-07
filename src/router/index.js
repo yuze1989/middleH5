@@ -164,7 +164,6 @@ router.beforeEach(async (to, form, next) => {
       }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
       return;
     }
-    console.log(openid, !token);
     // 同一个企业不用继续授权重新拿一下token
     if (openid && !token) {
       const res = await Http.post('/scrm/wechat/oauth-user-info-openid', {
