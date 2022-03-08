@@ -305,10 +305,9 @@ export default {
         },
         grid: {
           top: '18%',
-          left: '3%',
+          left: '7.5%',
           right: '5%',
-          bottom: '0',
-          containLabel: true,
+          bottom: '8%',
         },
         legend: {
           top: '10',
@@ -345,6 +344,7 @@ export default {
             fontSize: '10',
             color: '#9AA1A9',
           },
+          show: true,
         },
         series,
       };
