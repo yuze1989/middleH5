@@ -310,8 +310,8 @@ export default {
   margin-right: 0.7rem;
 }
 .sum-text{
-  line-height: 3.35rem;
-  font-size:1.4rem;
+  line-height: 2.25rem;
+  font-size: 1.6rem;
   color: rgba(0,0,0,0.85);
   font-weight: 500;
 }
@@ -335,7 +335,7 @@ export default {
 .sum-number{
   line-height: 3.35rem;
   font-size: 2.4rem;
-  font-width: 500;
+  font-weight: 500;
   color: rgba(0,0,0,0.85);
 }
 .sum-item-text{

@@ -45,11 +45,13 @@
         <div class="dialog_main">
           <div class="dialog_title">排行规则</div>
           <div class="dialog_content">
-            <p>【本周排行榜】统计企业内员工一个自然周内的累计数据（周一至昨日24:00）并按照数值从大到小排行；</p>
+            <p><span class="content_title">【本周排行榜】</span>
+              统计企业内员工一个自然周内的累计数据（周一至昨日24:00）并按照数值从大到小排行；</p>
             <p>注：每周一统计上一个自然周的累计数据；每周二开始统计当周累计数据</p>
-            <p>【本月排行榜】统计企业内员工一个自然月内的累计数据（本月1号至昨日24:00）并按照数值从大到小排行；</p>
+            <p><span class="content_title">【本月排行榜】</span>
+              统计企业内员工一个自然月内的累计数据（本月1号至昨日24:00）并按照数值从大到小排行；</p>
             <p>注：每月一号统计上一个自然月的累计数据；每月二号开始统计当月累计数据</p>
-            <p>【客户总数】截至昨日24:00的客户总数</p>
+            <p><span class="content_title">【客户总数】</span>截至昨日24:00的客户总数</p>
           </div>
           <button class="dialog_confirm" @click="rulesShow = false">
             我知道了
@@ -339,12 +341,16 @@ export default {
 .dialog_title {
   line-height: 2.1rem;
   font-size: 1.5rem;
+  font-weight: 500;
   text-align: center;
   color: #333333;
 }
 .dialog_content {
   line-height: 2.4rem;
   font-size: 1.4rem;
+  color: rgba(0, 0, 0, 0.65);
+}
+.dialog_content .content_title {
   color: #333333;
 }
 .dialog_confirm {

@@ -69,7 +69,6 @@ export default {
 .font-17{
   font-size: 1.7rem;
   color: #FFFFFF;
-  margin-bottom:0.5rem;
 }
 
 .font-11{
@@ -83,16 +82,19 @@ export default {
 
 .text-box{
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  margin-bottom: 0.3rem;
 }
 
 .date{
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 2rem;
-  line-height: 2rem;
   padding: 0 1.3rem;
   background: #FFFFFF;
   border-radius: 1.25rem;
-  text-align: center;
   color: #4951FF;
   font-size: 1.2rem;
 }
