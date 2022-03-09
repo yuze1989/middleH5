@@ -178,7 +178,6 @@ export default {
       this.change(this.status);
     },
     change(index) {
-      this.list = [];
       if (this.shake) return;
       this.status = index;
       const rankType = this.status === 2 ? 7 : this.rankTypeData[this.status][this.rankTimeActive];

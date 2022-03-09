@@ -196,7 +196,6 @@ export default {
         });
     },
     change(index) {
-      this.list = [];
       if (!this.userInfo || this.shake) {
         return;
       }
