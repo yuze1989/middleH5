@@ -4,7 +4,7 @@ import Http from './http';
 let wxSignature;
 
 export const defaultOptions = {
-  fromDepartmentId: -1, // 必填，表示打开的通讯录从指定的部门开始展示，-1表示自己所在部门开始, 0表示从最上层开始
+  fromDepartmentId: 0, // 必填，表示打开的通讯录从指定的部门开始展示，-1表示自己所在部门开始, 0表示从最上层开始
   mode: 'multi', // 必填，选择模式，single表示单选，multi表示多选
   type: ['department'], // 必填，选择限制类型，指定department、user中的一个或者多个
   selectedDepartmentIds: [], // 非必填，已选部门ID列表。用于多次选人时可重入，single模式下请勿填入多个id
