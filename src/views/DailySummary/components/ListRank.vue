@@ -162,6 +162,7 @@ export default {
 
       checkName: '',
       checkIdList: [],
+      forbid: false,
     };
   },
   created() {
@@ -182,6 +183,7 @@ export default {
       this.status = index;
       const rankType = this.status === 2 ? 7 : this.rankTypeData[this.status][this.rankTimeActive];
       this.getMyRank(rankType);
+      this.forbid = false;
       this.loading = true;
       this.pageIndex = 1;
       this.finished = false;
@@ -189,7 +191,7 @@ export default {
     },
     // 滚动到底部触发
     onLoad() {
-      if (this.finished) {
+      if ((this.finished && !this.loading) || this.forbid) {
         this.loading = false;
         this.shake = false;
         return;
@@ -219,6 +221,11 @@ export default {
             if (that.pageIndex > that.totalPages) {
               that.finished = true;
             }
+          }
+        })
+        .catch((err) => {
+          if (err.errCode === '0100000014') {
+            this.forbid = true;
           }
         })
         .finally(() => {

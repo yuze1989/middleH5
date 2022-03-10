@@ -1,6 +1,9 @@
 import axios from 'axios';
 // import Util from './util';
 // import Config from './config';
+import {
+  Toast,
+} from 'vant';
 
 const baseURL = process.env.VUE_APP_ENV !== 'development' ? 'https://scrm.juzhunshuyu.com' : 'https://test-scrm.juzhunshuyu.com';
 const instance = axios.create({
@@ -28,6 +31,10 @@ instance.interceptors.response.use(
     const { data } = response;
     if (data.errCode === '0100000004') {
       sessionStorage.removeItem('token');
+    }
+    if (data.errCode === '0100000014') {
+      Toast.fail(data.errMessage);
+      return Promise.reject(data);
     }
     return data;
   },
