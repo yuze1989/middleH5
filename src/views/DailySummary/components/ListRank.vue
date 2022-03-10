@@ -189,7 +189,7 @@ export default {
     },
     // 滚动到底部触发
     onLoad() {
-      if (this.finished) {
+      if (this.finished || this.loading) {
         this.loading = false;
         this.shake = false;
         return;
@@ -219,6 +219,11 @@ export default {
             if (that.pageIndex > that.totalPages) {
               that.finished = true;
             }
+          }
+        })
+        .catch((err) => {
+          if (err.errCode === '0100000014') {
+            this.finished = true;
           }
         })
         .finally(() => {
