@@ -85,10 +85,17 @@
         </div>
       </div>
       <icon
-        :name="checkName ? 'cross' : 'arrow-down'"
+        v-if="checkName"
+        name="cross"
         color="#9C9EA5"
         size="1.5rem"
-        @click.stop="checkName && clearCheck()"
+        @click.stop="clearCheck()"
+      />
+      <icon
+        v-else
+        name="arrow-down"
+        color="#9C9EA5"
+        size="1.5rem"
       />
     </div>
     <List
@@ -191,11 +198,11 @@ export default {
     onLoad() {
       this.getList();
     },
-    getList() {
+    getList(isRefresh = false) {
       const that = this;
       if (that.shake) return;
       that.shake = true;
-      if (that.finished) {
+      if (that.finished && !isRefresh) {
         that.finished = true;
         that.loading = false;
         that.shake = false;
@@ -258,7 +265,7 @@ export default {
     },
     resetList() {
       this.pageIndex = 1;
-      this.getList();
+      this.getList(true);
     },
     clearCheck() {
       this.checkName = '';
