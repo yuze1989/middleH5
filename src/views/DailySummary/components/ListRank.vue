@@ -189,7 +189,7 @@ export default {
     },
     // 滚动到底部触发
     onLoad() {
-      this.getList();
+      if (this.loading === false) this.getList();
     },
     getList(isRefresh = false) {
       const that = this;
