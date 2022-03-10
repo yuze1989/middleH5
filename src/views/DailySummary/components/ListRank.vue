@@ -189,18 +189,17 @@ export default {
     },
     // 滚动到底部触发
     onLoad() {
-      if (this.loading === false) this.getList();
+      if (this.finished) {
+        this.loading = false;
+        this.shake = false;
+        return;
+      }
+      this.getList();
     },
     getList(isRefresh = false) {
       const that = this;
       if (that.shake) return;
       that.shake = true;
-      if (that.finished && !isRefresh) {
-        that.finished = true;
-        that.loading = false;
-        that.shake = false;
-        return;
-      }
       const params = {
         date: that.paramsDate,
         pageIndex: that.pageIndex,
@@ -213,7 +212,7 @@ export default {
       getRankList(params)
         .then((res) => {
           if (res.success) {
-            that.list = that.pageIndex === 1 ? res.data : that.list.concat(res.data);
+            that.list = isRefresh ? res.data : that.list.concat(res.data);
             that.totalCount = res.totalCount;
             that.totalPages = res.totalPages;
             that.pageIndex += 1;
