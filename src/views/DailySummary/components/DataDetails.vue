@@ -334,7 +334,7 @@ export default {
         },
         yAxis: {
           type: 'value',
-          name: '人数',
+          name: '数量',
           nameTextStyle: {
             color: '#9AA1A9',
             fontSize: '10',

@@ -316,6 +316,7 @@ export default {
 }
 .sum-box{
   display: flex;
+  padding: 0 1.5rem;
   margin-top: 1.3rem;
 }
 .chatting .sum-box{
