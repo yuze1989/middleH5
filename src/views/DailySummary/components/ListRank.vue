@@ -85,17 +85,10 @@
         </div>
       </div>
       <icon
-        v-if="checkName"
-        name="cross"
+        :name="checkName ? 'cross' : 'arrow-down'"
         color="#9C9EA5"
         size="1.5rem"
         @click.stop="clearCheck()"
-      />
-      <icon
-        v-else
-        name="arrow-down"
-        color="#9C9EA5"
-        size="1.5rem"
       />
     </div>
     <List
@@ -268,9 +261,13 @@ export default {
       this.getList(true);
     },
     clearCheck() {
-      this.checkName = '';
-      this.checkIdList = [];
-      this.resetList();
+      if (this.checkName) {
+        this.checkName = '';
+        this.checkIdList = [];
+        this.resetList();
+      } else {
+        this.selectContact();
+      }
     },
   },
 };
