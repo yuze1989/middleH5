@@ -72,7 +72,7 @@
     <div class="my-rank">
       <div class="self">
         <div class="record">{{myRank.rank}}</div>
-        <div class="avatar img-box"><img :src="myRank.avatar" alt=""></div>
+        <div class="avatar img-box"><img v-if="myRank.avatar" :src="myRank.avatar" alt=""></div>
         <div class="name">{{myRank.name}}</div>
         <div class="amount">{{myRank.sum}}</div>
       </div>
@@ -195,7 +195,7 @@ export default {
       const that = this;
       if (that.shake) return;
       that.shake = true;
-      if (that.pageIndex > that.totalPages) {
+      if (that.finished) {
         that.finished = true;
         that.loading = false;
         that.shake = false;
@@ -212,13 +212,14 @@ export default {
       }
       getRankList(params)
         .then((res) => {
-          if (res.success && res.totalCount !== 0) {
+          if (res.success) {
             that.list = that.pageIndex === 1 ? res.data : that.list.concat(res.data);
             that.totalCount = res.totalCount;
             that.totalPages = res.totalPages;
             that.pageIndex += 1;
-          } else {
-            that.finished = true;
+            if (that.pageIndex > that.totalPages) {
+              that.finished = true;
+            }
           }
         })
         .finally(() => {
@@ -231,8 +232,8 @@ export default {
         date: this.paramsDate,
         rankType: type,
       }).then((res) => {
-        if (res.success && res.data) {
-          this.myRank = res.data;
+        if (res.success) {
+          this.myRank = res.data || {};
         }
       });
     },
