@@ -251,6 +251,11 @@ export default {
             that.finished = true;
             that.shake = false;
           }
+        })
+        .catch((err) => {
+          if (err.errCode === '0100000014') {
+            this.finished = true;
+          }
         });
     },
     getMyCustomerRank() {
