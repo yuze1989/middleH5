@@ -221,10 +221,8 @@ export default {
             }
           }
         })
-        .catch((err) => {
-          if (err.errCode === '0100000014') {
-            this.finished = true;
-          }
+        .catch(() => {
+          this.finished = true;
         })
         .finally(() => {
           that.loading = false;
