@@ -89,7 +89,9 @@
         <div class="my-rank">
           <div class="self">
             <div class="record">{{mycustomerRank.rank}}</div>
-            <div class="avatar img-box"><img :src="mycustomerRank.avatar" alt=""></div>
+            <div class="avatar img-box">
+              <img v-if="mycustomerRank.avatar" :src="mycustomerRank.avatar" alt="">
+            </div>
             <div class="name">{{mycustomerRank.name}}</div>
             <div class="amount">{{mycustomerRank.sum}}</div>
           </div>
@@ -99,7 +101,9 @@
         <div class="my-rank">
           <div class="self">
             <div class="record">{{myGroupRank.rank}}</div>
-            <div class="avatar img-box"><img :src="myGroupRank.avatar" alt=""></div>
+            <div class="avatar img-box">
+              <img v-if="myGroupRank.avatar" :src="myGroupRank.avatar" alt="">
+            </div>
             <div class="name">{{myGroupRank.name}}</div>
             <div class="amount">{{myGroupRank.sum}}</div>
           </div>
