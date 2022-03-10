@@ -224,7 +224,7 @@ export default {
         return;
       }
       that.shake = true;
-      if (that.pageIndex > that.totalPages) {
+      if (that.totalPages !== 0 && that.pageIndex > that.totalPages) {
         that.finished = true;
         that.loading = false;
         that.shake = false;
@@ -238,11 +238,12 @@ export default {
       };
       getRankList(params)
         .then((res) => {
-          if (res.success && res.totalCount !== 0) {
+          if (res.success) {
             that.list = that.pageIndex === 1 ? res.data : that.list.concat(res.data);
             that.loading = false;
             that.totalCount = res.totalCount;
             that.totalPages = res.totalPages;
+            that.finished = res.totalCount === 0;
             that.pageIndex += 1;
             that.shake = false;
           } else {

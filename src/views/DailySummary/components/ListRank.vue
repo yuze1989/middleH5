@@ -189,7 +189,7 @@ export default {
     },
     // 滚动到底部触发
     onLoad() {
-      if (this.finished || this.loading) {
+      if (this.finished) {
         this.loading = false;
         this.shake = false;
         return;
@@ -216,7 +216,7 @@ export default {
             that.totalCount = res.totalCount;
             that.totalPages = res.totalPages;
             that.pageIndex += 1;
-            if (that.pageIndex > that.totalPages) {
+            if (that.pageIndex > that.totalPages || that.totalCount === 0) {
               that.finished = true;
             }
           }
