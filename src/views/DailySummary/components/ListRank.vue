@@ -185,7 +185,7 @@ export default {
       this.loading = true;
       this.pageIndex = 1;
       this.finished = false;
-      this.onLoad();
+      this.getList(true);
     },
     // 滚动到底部触发
     onLoad() {
