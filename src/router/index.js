@@ -109,7 +109,7 @@ const routes = [
       tabbarshow: true,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "dailySummary" */'../views/dailySummary.vue'),
+    component: () => import(/* webpackChunkName: "dailySummary" */'../views/DailySummary/dailySummary.vue'),
   },
 ];
 

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta base="/sh5/">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=0;">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=0,viewport-fit=cover">
   <link rel="icon" href="<%= BASE_URL %>.ico">
   <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
   <title></title>
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <%= NODE_ENV==='development' ? `<script type="text/javascript">
+    <%= VUE_APP_ENV==='development' ? `<script type="text/javascript">
       var headEle = document.getElementsByTagName('head')[0];
       var scriptEle = document.createElement('script');
       scriptEle.type = 'text/javascript';
@@ -42,5 +42,6 @@
       </script>` : ''
     %>
       <!-- built files will be auto injected -->
+  </div>
 </body>
 </html>

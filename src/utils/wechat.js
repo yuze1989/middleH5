@@ -3,6 +3,14 @@ import Http from './http';
 
 let wxSignature;
 
+export const defaultOptions = {
+  fromDepartmentId: 0, // 必填，表示打开的通讯录从指定的部门开始展示，-1表示自己所在部门开始, 0表示从最上层开始
+  mode: 'multi', // 必填，选择模式，single表示单选，multi表示多选
+  type: ['department'], // 必填，选择限制类型，指定department、user中的一个或者多个
+  selectedDepartmentIds: [], // 非必填，已选部门ID列表。用于多次选人时可重入，single模式下请勿填入多个id
+  selectedUserIds: [], // 非必填，已选用户ID列表。用于多次选人时可重入，single模式下请勿填入多个id
+};
+
 const Wechat = {
   setWxConfig: async () => {
     const res = await Http.post('/scrm/wechat/js-api-signature', {
@@ -76,6 +84,40 @@ const Wechat = {
     });
     wx.updateAppMessageShareData(shareInfo);
     wx.updateTimelineShareData(shareInfo);
+  },
+  selectEnterpriseContact: (options = defaultOptions) => new Promise((resolve) => {
+    wx.invoke('selectEnterpriseContact', {
+      ...options,
+    }, (res) => {
+      if (res.err_msg === 'selectEnterpriseContact:ok') {
+        if (typeof res.result === 'string') {
+          resolve(JSON.parse(res.result)); // 由于目前各个终端尚未完全兼容，需要开发者额外判断result类型以保证在各个终端的兼容性
+        } else {
+          resolve(res.result);
+        }
+      }
+    });
+  }),
+  initWeChat: async () => {
+    await Wechat.setWxConfig();
+    Wechat.registerConfig();
+  },
+  registerConfig: () => {
+    wx.agentConfig({
+      corpid: wxSignature.corpId, // 必填，企业微信的corpid，必须与当前登录的企业一致
+      agentid: localStorage.getItem('agentId'), // 必填，企业微信的应用id （e.g. 1000247）
+      timestamp: wxSignature.timestamp, // 必填，生成签名的时间戳
+      nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
+      signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
+      jsApiList: ['checkJsApi', 'selectEnterpriseContact'], // 必填，传入需要使用的接口名称
+      success: (res) => {
+        // 回调
+        console.log(res, 'success');
+      },
+      fail: (err) => {
+        console.log(err, 'error');
+      },
+    });
   },
 };
 
