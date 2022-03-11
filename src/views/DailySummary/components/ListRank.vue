@@ -77,7 +77,7 @@
         <div class="amount">{{myRank.sum}}</div>
       </div>
     </div>
-    <div class="selectDep" @click="selectContact">
+    <div v-show="agentId" class="selectDep" @click="selectContact">
       <div class="search">
         <i class="iconfont icon-shaixuan1" style="color: #4851FF; font-size: 1.1rem" />
         <div class="search_text">
@@ -143,6 +143,7 @@ export default {
   name: 'ListRank',
   data() {
     return {
+      agentId: localStorage.getItem('agentId'),
       rankTimeActive: 1,
       rankTimeList: ['昨日', '本周', '本月'],
       status: 0,
