@@ -31,10 +31,6 @@
           <div class="ellipsis">邮箱：
             <span class="font-color">{{useData.email|| '--'}}</span>
           </div>
-          <div>企业标签：</div>
-          <div class="label-box" v-for="(item,index) in TagDTO" :key="index">
-            {{item.name}}
-          </div>
         </div>
         <!-- 客户评分 -->
         <div class="board">
@@ -61,16 +57,34 @@
           </div>
         </div>
       </div>
-      <!-- 客户动态 -->
-      <div class="distance">
-        <div>{{tabIndex === 0 ? '动态' : '消费概览'}}</div>
+      <!-- 客户标签 -->
+      <div
+        class="tag-con"
+        v-for="(item) in TagDTO"
+        :key="`tagType-${item.tagType}`"
+        v-show="tabIndex === 1"
+      >
+        <span class="tag-head">{{item.tagName}}</span>
+        <div class="tag-list">
+          <template v-for="(groupItem) in item.tagGroupNewDTOList">
+            <div
+              class="tag-item"
+              v-for="(tagItem) in groupItem.tagNewDTOList"
+              :key="`tag-${groupItem.groupId}-${tagItem.tagId}`"
+            >
+              {{tagItem.tagName}}
+            </div>
+          </template>
+        </div>
       </div>
+      <!-- 客户动态 -->
       <PullRefresh v-model="refreshing" @refresh="onRefresh">
         <List v-model="loading" :finished="finished" offset="100"
         @load="onLoad" finished-text="没有更多了"
           :immediate-check="false">
           <!-- 动态部分 -->
           <div v-for="(item,index) in list" :key="index" v-show="tabIndex === 0">
+            <div class="distance">动态</div>
             <div class="date">
               <div>{{item.dateStr}}</div>
             </div>
@@ -92,7 +106,8 @@
             <div class="hr" v-if="index + 1 !== list.length"></div>
           </div>
           <!-- 全量消费部分 -->
-          <div v-show="tabIndex !== 0">
+          <div v-show="tabIndex === 2">
+            <div class="distance">消费概览</div>
             <div class="generalization">
               <div class="generalization-border">
                 <div>消费总金额</div>
@@ -172,7 +187,7 @@ export default {
       pageIndex: 1,
       totalPages: 1,
       list: [],
-      nav: ['客户动态', '全量消费'],
+      nav: ['客户动态', '客户标签', '全量消费'],
       overview: '',
       dateDype: 1, // 1 开始时间 2结束时间
       chartDom: {},
@@ -191,7 +206,6 @@ export default {
     });
   },
   methods: {
-
     add(item) {
       let totalPrice = 0;
       item.platformSubOrderDTOList.forEach((subOrder) => {
@@ -234,11 +248,11 @@ export default {
       this.finished = false;
     },
     getTag() {
-      Http.post('/scrm/customer/getCustomerTagForSidebar', {
+      Http.post('/scrm/customer/customerTagForSide', {
         externalUserId: sessionStorage.getItem('userId'),
       }, '').then((res) => {
         if (res.success) {
-          this.TagDTO = res.data.pubTagDTOList;
+          this.TagDTO = res.data;
         }
       });
     },
@@ -462,23 +476,6 @@ export default {
     align-items: center;
   }
 
-  .label {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .label-box {
-    padding: 0 1rem;
-    background: rgba(24, 144, 255, 0.05);
-    border: 0.05rem solid rgba(24, 144, 255, 0.25);
-    border-radius: 0.1rem;
-    font-size: 1.1rem;
-    color: rgba(0, 0, 0, 0.65);
-    text-align: center;
-    margin: 0.3rem;
-  }
-
   .board {
     margin: 1.2rem 0;
     height: 7.4rem;
@@ -574,5 +571,43 @@ export default {
     margin: 0.4rem 0.7rem;
     border-left: 0.1rem solid #1890FF;
     color: rgba(0, 0, 0, 0.65);
+  }
+
+  .tag-con {
+    padding: 1.5rem;
+  }
+  .tag-head {
+    font-size: 1.5rem;
+    font-family: "PingFang SC";
+    color: #333;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 0.8rem;
+    font-weight: bold;
+  }
+  .tag-head::before {
+    content: '';
+    position: absolute;
+    width: 0.15rem;
+    height: 1.5rem;
+    border-radius: 0.3rem;
+    left: 0;
+    background-color: #1890FF;
+  }
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+  }
+  .tag-item {
+    padding: 0 1rem;
+    background: rgba(24, 144, 255, 0.05);
+    border: 0.05rem solid rgba(24, 144, 255, 0.25);
+    border-radius: 0.1rem;
+    font-size: 1.1rem;
+    color: rgba(0, 0, 0, 0.65);
+    text-align: center;
+    margin: 0.3rem;
   }
 </style>
