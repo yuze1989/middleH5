@@ -129,7 +129,7 @@ router.beforeEach(async (to, form, next) => {
     // 用于判断地址带进来的参数
     const generalidArr = ['channel', 'appid', 'batchNo', 'checkpc'];
     // appid是唯一, 如果存储的appid和地址带进来的不同则清除缓存
-    if ((options.appid && options.appid !== corpId)) {
+    if (options.appid && options.appid !== corpId) {
       localStorage.clear();
     }
     // localStorage.setItem('openId', 'oNmRcv1pONjYYQ8VVy2OPc-X5_l0');
@@ -144,7 +144,7 @@ router.beforeEach(async (to, form, next) => {
       localStorage.clear();
       openid = '';
     }
-    if (!agentId || agentId === 'null') {
+    if (!agentId) {
       sessionStorage.removeItem('token');
     }
     let token = sessionStorage.getItem('token');
@@ -179,7 +179,9 @@ router.beforeEach(async (to, form, next) => {
       if (success && data.token) {
         token = data.token;
         sessionStorage.setItem('token', data.token);
-        if (data.agentId) localStorage.setItem('agentId', data.agentId);
+        if (data.agentId) {
+          localStorage.setItem('agentId', data.agentId);
+        }
       }
     }
     // 第一次进来拿用户数据
