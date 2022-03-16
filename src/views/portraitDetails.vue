@@ -442,7 +442,7 @@ export default {
     align-items: center;
     font-size: 1.3rem;
     color: #333333;
-    margin-bottom: 0.6rem;
+    margin-bottom: 1.2rem;
   }
 
   .top img {
@@ -454,6 +454,7 @@ export default {
   .info {
     font-size: 1.4rem;
     color: #999999;
+    margin-top: 0.6rem;
   }
 
   .flex {
@@ -574,5 +575,43 @@ export default {
     margin: 0.4rem 0.7rem;
     border-left: 0.1rem solid #1890FF;
     color: rgba(0, 0, 0, 0.65);
+  }
+
+  .tag-con {
+    padding: 1.5rem;
+  }
+  .tag-head {
+    font-size: 1.5rem;
+    font-family: "PingFang SC";
+    color: #333;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 0.8rem;
+    font-weight: bold;
+  }
+  .tag-head::before {
+    content: '';
+    position: absolute;
+    width: 0.15rem;
+    height: 1.5rem;
+    border-radius: 0.3rem;
+    left: 0;
+    background-color: #1890FF;
+  }
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+  }
+  .tag-item {
+    padding: 0.3rem 0.6rem;
+    background-color: #F5F5F5;
+    border: 1px solid rgba(160, 160, 160, 0.25);
+    border-radius: 0.2rem;
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.65);
+    margin: 0.3rem;
+    font-weight: 400;
   }
 </style>
