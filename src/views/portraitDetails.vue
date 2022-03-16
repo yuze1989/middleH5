@@ -456,7 +456,7 @@ export default {
     align-items: center;
     font-size: 1.3rem;
     color: #333333;
-    margin-bottom: 0.6rem;
+    margin-bottom: 1.2rem;
   }
 
   .top img {
@@ -468,6 +468,7 @@ export default {
   .info {
     font-size: 1.4rem;
     color: #999999;
+    margin-top: 0.6rem;
   }
 
   .flex {
@@ -601,13 +602,13 @@ export default {
     margin-top: 0.8rem;
   }
   .tag-item {
-    padding: 0 1rem;
-    background: rgba(24, 144, 255, 0.05);
-    border: 0.05rem solid rgba(24, 144, 255, 0.25);
-    border-radius: 0.1rem;
-    font-size: 1.1rem;
+    padding: 0.3rem 0.6rem;
+    background-color: #F5F5F5;
+    border: 1px solid rgba(160, 160, 160, 0.25);
+    border-radius: 0.2rem;
+    font-size: 1.2rem;
     color: rgba(0, 0, 0, 0.65);
-    text-align: center;
     margin: 0.3rem;
+    font-weight: 400;
   }
 </style>
