@@ -14,7 +14,9 @@
         <div class="file-name">{{content.file.title}}</div>
         <div class="file-size">12.3kb</div>
       </div>
-      <div class="file-icon"></div>
+      <div class="file-icon">
+        <img :src="iconUrl[content.file.title.split('.')] || 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/unknown.png'" alt="">
+      </div>
     </div>
   </div>
 </template>
@@ -26,6 +28,20 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      iconUrl: {
+        csv: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
+        xlsx: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
+        xls: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/excel.png',
+        ppt: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
+        pptx: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/ppt.png',
+        pdf: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/pdf.png ',
+        doc: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
+        docx: 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/word.png',
+      },
+    };
   },
 };
 </script>
@@ -64,5 +80,7 @@ export default {
   }
   .file-icon img {
     width: 2.4rem;
+    height: 2.4rem;
+    object-fit: cover;
   }
 </style>

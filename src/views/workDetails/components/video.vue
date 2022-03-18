@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
   .video-con img {
-    width: 1.85rem;
+    width: 15.2rem;
     position: relative;
   }
   .video-con img::before {

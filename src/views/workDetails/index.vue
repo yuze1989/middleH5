@@ -34,8 +34,8 @@
                 @send="singleSend"
                 v-if="item.msgType === 'miniProgram'"
               />
-              <div @click="WechatSOP">发布</div>
             </div>
+            <div @click="WechatSOP">发布</div>
           </div>
         </div>
         <!-- 推送群聊 -->

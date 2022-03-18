@@ -56,8 +56,14 @@ export default {
   .link-desc {
     font-size: 1.2rem;
     color: rgba(0,0,0,0.65);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-clamp: 2;
   }
-  .link-icon {
+  .link-icon img{
     width: 3.9rem;
+    height: 3.9rem;
+    object-fit: cover;
   }
 </style>
