@@ -3,11 +3,16 @@
     <div class="sop-title">
       <span><i class="iconfont icon-shipin sop-icon-color"></i> 视频</span>
      <i class="iconfont icon-fasong1" @click="send({
+       text: {
+         content: 'test',
+       },
+       attachments: [{
         msgtype: content.msgType,
         video: {
           mediaid: content.video.attachmentId,
         }
-      })"></i>
+      }]
+     })"></i>
     </div>
     <div class="video-con">
       <img :src="content.video.attachmentPath" alt="">

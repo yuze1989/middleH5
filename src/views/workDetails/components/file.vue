@@ -3,10 +3,15 @@
     <div class="sop-title">
       <span><i class="iconfont icon-wenjian sop-icon-color"></i> 文件</span>
       <i class="iconfont icon-fasong1" @click="send({
-        msgtype: content.msgType,
-        file: {
-          mediaid: content.file.attachmentId,
-        }
+        text: {
+          content: 'test'
+        },
+        attachments: [{
+          msgtype: content.msgType,
+          file: {
+            mediaid: content.file.attachmentId,
+          }
+        }]
       })"></i>
     </div>
     <div class="file-con">
