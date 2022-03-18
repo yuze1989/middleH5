@@ -2,13 +2,23 @@
   <div class="sop-box">
     <div class="sop-title">
       <span><i class="iconfont icon-bianzu sop-icon-color"></i> 链接</span>
-      <i class="iconfont icon-fasong1"></i>
+      <i class="iconfont icon-fasong1" @click="send({
+        msgtype: content.msgType,
+        link: {
+          title: content.link.title,
+          imgUrl: content.link.picPath,
+          desc: content.link.description,
+          url: content.link.url,
+        }
+      })"></i>
     </div>
     <div class="link-con">
-      <div class="link-title">企业微信链接</div>
+      <div class="link-title">{{content.link.title}}</div>
       <div class="link-sub">
-        <div class="link-desc">企业微信链接</div>
-        <div class="link-icon"></div>
+        <div class="link-desc">{{content.link.description}}</div>
+        <div class="link-icon">
+          <img :src="content.link.picPath" alt="">
+        </div>
       </div>
     </div>
   </div>

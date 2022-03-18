@@ -1,10 +1,10 @@
 <template>
-  <div class="sop-box">
+  <div class="sop-box" v-if="content">
     <div class="sop-title">
       <span><i class="iconfont icon-wenzi sop-icon-color"></i> 文本</span>
-      <i class="iconfont icon-fasong1"></i>
+      <i class="iconfont icon-fasong1" @click="send(content)"></i>
     </div>
-    <div class="text-desc">9月开学季大促--第一部预热：鞋、包、配饰 全场4折起，前100名有大礼包，送完为止...</div>
+    <div class="text-desc">{{content.text.content}}</div>
   </div>
 </template>
 
@@ -13,7 +13,12 @@ export default {
   props: {
     content: {
       type: Object,
-      default: () => {},
+      default: null,
+    },
+  },
+  methods: {
+    send(content) {
+      this.$emit('send', content);
     },
   },
 };

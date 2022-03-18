@@ -7,7 +7,7 @@
           <div class="task-name">{{dataList.sopRuleName}}</div>
           <div class="state" v-if="dataList.overdueFlag">逾期</div>
         </div>
-        <div class="task">{{sopType[dataList.sopType]}}任务</div>
+        <div class="task">{{sopType[`s${dataList.sopType}`].name}}任务</div>
         <div class="push-date">
           <div>推送时间：{{taskTime}}</div>
           <div v-if="dataList.taskStatus !== 3">
@@ -23,13 +23,18 @@
         <div class="block-box">
           <div class="content">
             <div class="content-tip">推送内容</div>
-            <div class="flex" v-for="(item,index) in dataList.sopRuleContentList" :key="index">
-              <WorkText :content="item" v-if="item.msgType === 'text'" />
-              <WorkImage :content="item" v-if="item.msgType === 'image'" />
-              <WorkLink :content="item" v-if="item.msgType === 'link'" />
-              <WorkVideo :content="item" v-if="item.msgType === 'video'" />
-              <WorkFile :content="item" v-if="item.msgType === 'file'" />
-              <WorkWechat :content="item" v-if="item.msgType === 'miniProgram'" />
+            <div class="flex" v-for="(item,index) in dataList.sopTaskContentList" :key="index">
+              <WorkText :content="item" @send="singleSend" v-if="item.msgType === 'text'" />
+              <WorkImage :content="item" @send="singleSend" v-if="item.msgType === 'image'" />
+              <WorkLink :content="item" @send="singleSend" v-if="item.msgType === 'link'" />
+              <WorkVideo :content="item" @send="singleSend" v-if="item.msgType === 'video'" />
+              <WorkFile :content="item" @send="singleSend" v-if="item.msgType === 'file'" />
+              <WorkWechat
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'miniProgram'"
+              />
+              <div @click="WechatSOP">发布</div>
             </div>
           </div>
         </div>
@@ -37,7 +42,7 @@
         <div class="block-box" v-if="dataList.sopType !== 3">
           <div class="content content-margin">
             <div class="content-tip">
-              推送{{sopType[dataList.sopType]}}
+              推送{{sopType[`s${dataList.sopType}`].name}}
               <span class="content-all" @click="cancel">全部完成</span>
             </div>
             <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
@@ -117,13 +122,21 @@ export default {
       taskTime: '',
       finishTime: '',
       selectAll: false,
-      title: { content: '' },
       showDialog: false,
       isWarnAgain: false,
       sopType: {
-        1: '群SOP',
-        2: '客户SOP',
-        3: '朋友圈SOP',
+        s1: {
+          name: '群SOP',
+          invokeName: 'shareToExternalChat',
+        },
+        s2: {
+          name: '客户SOP',
+          invokeName: 'shareToExternalContact',
+        },
+        s3: {
+          name: '朋友圈SOP',
+          invokeName: 'shareToExternalMoments',
+        },
       },
     };
   },
@@ -133,39 +146,56 @@ export default {
     this.getList();
   },
   methods: {
+    singleSend(data) {
+      Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
+        if (res.success) {
+          Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
+          return;
+        }
+        Toast(res.errMessage);
+      });
+    },
     WechatSOP() {
       if (this.dataList.overdueFlag) {
         Toast('任务已逾期');
         return;
       }
       const addressArr = [];
+      const text = {
+        content: '',
+      };
       this.dataList.sopRuleContentList.forEach((item) => {
-        switch (item.contentType) {
-          case 1:
-            // 文字
-            this.title = { content: item.text };
-            break;
-          case 2:
-            // 图片
-            addressArr.push({ msgtype: 'image', image: { imgUrl: item.imgUrl } });
-            break;
-          case 3:
-            // 链接
-            addressArr.push({ msgtype: 'link', link: { url: item.linkUrl } });
-            break;
-          default:
+        if (item.contentType === 1) {
+          text.content = item.text;
+        } else {
+          const obj = {
+            msgtype: item.msgType,
+            [item.msgType]: item[item.msgType],
+          };
+          addressArr.push(obj);
         }
+        // switch (item.contentType) {
+        //   case 2:
+        //     // 图片
+        //     addressArr.push({ msgtype: 'image', image: { imgUrl: item.imgUrl } });
+        //     break;
+        //   case 3:
+        //     // 链接
+        //     addressArr.push({ msgtype: 'link', link: { url: item.linkUrl } });
+        //     break;
+        //   default:
+        // }
       });
       const data = {
-        text: this.title,
+        text,
         attachments: addressArr,
       };
       Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
         if (res.success) {
-          Wechat.setAgentConfig(data, 'shareToExternalMoments');
-        } else {
-          Toast(res.errMessage);
+          Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
+          return;
         }
+        Toast(res.errMessage);
       });
     },
     // 分享

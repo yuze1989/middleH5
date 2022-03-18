@@ -2,11 +2,16 @@
   <div class="sop-box">
     <div class="sop-title">
       <span><i class="iconfont icon-wenjian sop-icon-color"></i> 文件</span>
-      <i class="iconfont icon-fasong1"></i>
+      <i class="iconfont icon-fasong1" @click="send({
+        msgtype: content.msgType,
+        file: {
+          mediaid: content.file.attachmentId,
+        }
+      })"></i>
     </div>
     <div class="file-con">
       <div class="file-left">
-        <div class="file-name">这是文件名称.ppt这是文件名称.ppt这是文件名称.ppt这是文件名称.ppt</div>
+        <div class="file-name">{{content.file.title}}</div>
         <div class="file-size">12.3kb</div>
       </div>
       <div class="file-icon"></div>

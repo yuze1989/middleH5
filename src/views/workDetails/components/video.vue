@@ -2,10 +2,15 @@
   <div class="sop-box">
     <div class="sop-title">
       <span><i class="iconfont icon-shipin sop-icon-color"></i> 视频</span>
-      <i class="iconfont icon-fasong1"></i>
+     <i class="iconfont icon-fasong1" @click="send({
+        msgtype: content.msgType,
+        video: {
+          mediaid: content.file.attachmentId,
+        }
+      })"></i>
     </div>
     <div class="video-con">
-      <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/play.png" alt="">
+      <img :src="content.file.attachmentPath" alt="">
     </div>
   </div>
 </template>

@@ -2,9 +2,16 @@
   <div class="sop-box">
     <div class="sop-title">
       <span><i class="iconfont icon-wenjian sop-icon-color"></i> 图片</span>
-      <i class="iconfont icon-fasong1"></i>
+      <i class="iconfont icon-fasong1" @click="send({
+        msgtype: content.msgType,
+        image: {
+          mediaid: content.image.attachmentId,
+        }
+      })"></i>
     </div>
-    <div class="image-con"></div>
+    <div class="image-con">
+      <img :src="content.image.attachmentPath" alt="">
+    </div>
   </div>
 </template>
 
