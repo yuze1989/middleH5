@@ -1,10 +1,13 @@
 import Vue from 'vue';
+import { Dialog } from 'vant';
 import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
 import store from './store';
 import './assets/iconfont/iconfont.css';
 import util from './utils/util';
+
+Vue.use(Dialog);
 
 Vue.config.productionTip = false;
 util.onresizeRem();

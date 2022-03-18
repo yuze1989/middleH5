@@ -18,44 +18,28 @@
         </div>
         <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{finishTime}}</div>
       </div>
-      <div class="box-margin">
+      <div class="box-margin" :style="{flexDirection: refer ? 'column' : 'column-reverse'}">
         <!-- 推送内容 -->
         <div class="block-box">
           <div class="content">
             <div class="content-tip">推送内容</div>
-            <div class="flex"
-            v-for="(item,index) in dataList.sopRuleContentList" :key="index">
-              <div class="left">
-                <i class="iconfont icon-wenzi" v-if="item.contentType === 1"></i>
-                <i class="iconfont icon-tupian" v-if="item.contentType === 2"></i>
-                <i class="iconfont icon-bianzu" v-if="item.contentType === 3"></i>
-              </div>
-              <div class="right">
-                <div class="right-top">
-                  <div class="right-title">
-                    <span v-if="item.contentType === 1">文本</span>
-                    <span v-if="item.contentType === 2">图片</span>
-                    <span v-if="item.contentType === 3">链接</span>
-                  </div>
-                  <div class="copy" @click="copy(item)">
-                    <i class="iconfont icon-fuzhi"></i>
-                    <span>复制</span>
-                  </div>
-                </div>
-                <div class="right-content" v-if="item.contentType !== 2">
-                  {{item.text || item.linkUrl}}
-                </div>
-                <div class="right-content" v-else>
-                  <img :src="item.imgUrl">
-                </div>
-              </div>
+            <div class="flex" v-for="(item,index) in dataList.sopRuleContentList" :key="index">
+              <WorkText :content="item" v-if="item.msgType === 'text'" />
+              <WorkImage :content="item" v-if="item.msgType === 'image'" />
+              <WorkLink :content="item" v-if="item.msgType === 'link'" />
+              <WorkVideo :content="item" v-if="item.msgType === 'video'" />
+              <WorkFile :content="item" v-if="item.msgType === 'file'" />
+              <WorkWechat :content="item" v-if="item.msgType === 'miniProgram'" />
             </div>
           </div>
         </div>
         <!-- 推送群聊 -->
         <div class="block-box" v-if="dataList.sopType !== 3">
           <div class="content content-margin">
-            <div class="content-tip">推送{{sopType[dataList.sopType]}}</div>
+            <div class="content-tip">
+              推送{{sopType[dataList.sopType]}}
+              <span class="content-all" @click="cancel">全部完成</span>
+            </div>
             <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
             @click.stop="change(item)">
               <div class="list-flex">
@@ -91,36 +75,51 @@
           </div>
         </div>
       </div>
-      <div class="footer" v-if="dataList.taskStatus !== 3">
-        <div class="footer" v-if="dataList.sopType !== 3">
-          <div class="footer-left" @click="cancel">全选</div>
-          <div class="footer-right" @click="determine">完成</div>
-        </div>
-        <div class="footer-right" @click="WechatSOP" v-else>立即发布</div>
+      <div v-if="dataList.taskStatus === 3 && refer === 'bench'">
+        <div class="footer-right" @click="WechatSOP">立即发布</div>
       </div>
     </div>
+    <van-dialog v-model="showDialog" title="是否已完成该客户推送？" show-cancel-button @confirm="determine">
+      <div class="dialog-con" @click="isWarnAgain = !isWarnAgain">
+        <i
+          :class="isWarnAgain ? 'icon-xuanze' : 'icon-weixuanze'" class="iconfont"
+        />
+        本次任务不再提醒
+      </div>
+    </van-dialog>
   </div>
 </template>
 
 <script>
 import { Toast } from 'vant';
 import moment from 'moment';
-import Http from '../utils/http';
-import Wechat from '../utils/wechat';
-import jurisdiction from '../common/jurisdiction.vue';
+import Http from '../../utils/http';
+import Wechat from '../../utils/wechat';
+import jurisdiction from '../../common/jurisdiction.vue';
+import WorkFile from './components/file.vue';
+import WorkText from './components/text.vue';
+import WorkImage from './components/image.vue';
+import WorkVideo from './components/video.vue';
+import WorkLink from './components/link.vue';
+import WorkWechat from './components/wechat.vue';
 
 export default {
-  components: { jurisdiction },
+  components: {
+    jurisdiction, WorkFile, WorkText, WorkImage, WorkVideo, WorkLink, WorkWechat,
+  },
   data() {
     return {
       err: '',
       dataList: [],
       batchNo: '',
+      refer: '',
       idList: [],
       taskTime: '',
       finishTime: '',
       selectAll: false,
       title: { content: '' },
+      showDialog: false,
+      isWarnAgain: false,
       sopType: {
         1: '群SOP',
         2: '客户SOP',
@@ -130,6 +129,7 @@ export default {
   },
   mounted() {
     this.batchNo = this.$route.query.batchNo;
+    this.refer = this.$route.query.refer;
     this.getList();
   },
   methods: {
@@ -189,6 +189,11 @@ export default {
     change(obj) {
       const data = obj;
       data.isSelect = !data.isSelect;
+      if (!this.isWarnAgain) {
+        this.showDialog = true;
+        return;
+      }
+      this.determine();
     },
     time(value) {
       return moment(value).format('YYYY-MM-DD HH:mm');
@@ -307,6 +312,7 @@ export default {
 
   .box-margin {
     margin-bottom: 6.4rem;
+    display: flex;
   }
 
   .icon {
@@ -357,6 +363,12 @@ export default {
     font-size: 1.4rem;
     color: #333333;
     padding-bottom: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .content-all {
+    color: #1890FF;
+    padding-right: 2rem;
   }
 
   .content {
@@ -539,5 +551,31 @@ export default {
   .footer-right {
     color: #FFFFFF;
     background: #1890FF;
+  }
+  .dialog-con {
+    text-align: center;
+    padding: 1.5rem 0;
+    color: #999999;
+  }
+</style>
+<style>
+  .sop-box {
+    width: 100%;
+  }
+  .sop-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: #333333;
+  }
+  .sop-title .icon-fasong1 {
+    color: #1890FF;
+    font-size: 2.4rem;
+  }
+  .sop-icon-color {
+    color: #999;
   }
 </style>

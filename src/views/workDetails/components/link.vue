@@ -1,0 +1,53 @@
+<template>
+  <div class="sop-box">
+    <div class="sop-title">
+      <span><i class="iconfont icon-bianzu sop-icon-color"></i> 链接</span>
+      <i class="iconfont icon-fasong1"></i>
+    </div>
+    <div class="link-con">
+      <div class="link-title">企业微信链接</div>
+      <div class="link-sub">
+        <div class="link-desc">企业微信链接</div>
+        <div class="link-icon"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    content: {
+      type: Object,
+      default: () => {},
+    },
+  },
+};
+</script>
+
+<style scoped>
+  .link-con {
+    width: 21rem;
+    padding: 1.2rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 0.2rem;
+  }
+  .link-title {
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: rgba(0,0,0,0.85);
+  }
+  .link-sub {
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .link-desc {
+    font-size: 1.2rem;
+    color: rgba(0,0,0,0.65);
+  }
+  .link-icon {
+    width: 3.9rem;
+  }
+</style>

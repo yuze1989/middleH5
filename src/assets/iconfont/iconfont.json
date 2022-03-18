@@ -6,6 +6,83 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "28061964",
+      "name": "筛选",
+      "font_class": "shaixuan1",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "28061942",
+      "name": "朋友圈",
+      "font_class": "pengyouquan",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "28061910",
+      "name": "聊天",
+      "font_class": "liaotian",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "28024623",
+      "name": "提示",
+      "font_class": "tishi",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "27657269",
+      "name": "文件",
+      "font_class": "wenjian",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "27657270",
+      "name": "小程序",
+      "font_class": "xiaochengxu",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "27657271",
+      "name": "视频",
+      "font_class": "shipin",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "27558898",
+      "name": "关闭",
+      "font_class": "a-bianzu4beifen",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "27369199",
+      "name": "关闭按钮",
+      "font_class": "guanbianniu",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "27369080",
+      "name": "我的",
+      "font_class": "wode",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "27369072",
+      "name": "奖励",
+      "font_class": "jiangli",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
       "icon_id": "25750747",
       "name": "收",
       "font_class": "shou",
