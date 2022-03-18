@@ -28,9 +28,11 @@ const Wechat = {
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
-        'openEnterpriseChat', 'shareToExternalMoments'], // 必填，传入需要使用的接口名称
+        'openEnterpriseChat', 'shareToExternalMoments', 'shareToExternalContact', 'shareToExternalChat'], // 必填，传入需要使用的接口名称
       success: () => {
+        alert(JSON.stringify(wxSignature));
         wx.invoke(type, info, (res) => {
+          alert(JSON.stringify(res));
           if (res.userId) {
             sessionStorage.setItem('userId', res.userId);
           }

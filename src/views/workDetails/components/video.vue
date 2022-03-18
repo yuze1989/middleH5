@@ -5,12 +5,12 @@
      <i class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
         video: {
-          mediaid: content.file.attachmentId,
+          mediaid: content.video.attachmentId,
         }
       })"></i>
     </div>
     <div class="video-con">
-      <img :src="content.file.attachmentPath" alt="">
+      <img :src="content.video.attachmentPath" alt="">
     </div>
   </div>
 </template>
