@@ -147,13 +147,8 @@ export default {
   },
   methods: {
     singleSend(data) {
-      Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
-        if (res.success) {
-          Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
-          return;
-        }
-        Toast(res.errMessage);
-      });
+      alert(2);
+      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
     },
     WechatSOP() {
       if (this.dataList.overdueFlag) {

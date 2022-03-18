@@ -45,6 +45,7 @@ export default {
   },
   methods: {
     send(content) {
+      alert(1);
       this.$emit('send', content);
     },
   },
