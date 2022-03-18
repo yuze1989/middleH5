@@ -28,6 +28,11 @@ export default {
       default: () => {},
     },
   },
+  methods: {
+    send(content) {
+      this.$emit('send', content);
+    },
+  },
 };
 </script>
 
