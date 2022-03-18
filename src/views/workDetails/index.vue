@@ -148,7 +148,7 @@ export default {
   methods: {
     singleSend(data) {
       alert(2);
-      Wechat.setAgentConfig(data, 'shareToExternalChat');
+      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
     },
     WechatSOP() {
       if (this.dataList.overdueFlag) {
