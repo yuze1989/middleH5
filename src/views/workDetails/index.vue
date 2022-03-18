@@ -128,14 +128,17 @@ export default {
         s1: {
           name: '群SOP',
           invokeName: 'shareToExternalChat',
+          benchinvokeName: 'sendChatMessage',
         },
         s2: {
           name: '客户SOP',
           invokeName: 'shareToExternalContact',
+          benchinvokeName: 'sendChatMessage',
         },
         s3: {
           name: '朋友圈SOP',
           invokeName: 'shareToExternalMoments',
+          benchinvokeName: 'sendChatMessage',
         },
       },
     };
@@ -147,8 +150,7 @@ export default {
   },
   methods: {
     singleSend(data) {
-      alert(2);
-      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
+      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`][`${this.refer}invokeName`]);
     },
     WechatSOP() {
       if (this.dataList.overdueFlag) {
@@ -169,17 +171,6 @@ export default {
           };
           addressArr.push(obj);
         }
-        // switch (item.contentType) {
-        //   case 2:
-        //     // 图片
-        //     addressArr.push({ msgtype: 'image', image: { imgUrl: item.imgUrl } });
-        //     break;
-        //   case 3:
-        //     // 链接
-        //     addressArr.push({ msgtype: 'link', link: { url: item.linkUrl } });
-        //     break;
-        //   default:
-        // }
       });
       const data = {
         text,

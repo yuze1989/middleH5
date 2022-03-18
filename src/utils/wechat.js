@@ -32,7 +32,6 @@ const Wechat = {
       success: () => {
         alert(JSON.stringify(info));
         wx.invoke(type, info, (res) => {
-          alert(JSON.stringify(res));
           if (res.userId) {
             sessionStorage.setItem('userId', res.userId);
           }
