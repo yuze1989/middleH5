@@ -9,7 +9,7 @@
           title: content.link.title,
           imgUrl: content.link.imgUrl,
           desc: content.link.desc,
-          url: content.link.url,
+          link: content.link.url,
         }
       })"></i>
     </div>

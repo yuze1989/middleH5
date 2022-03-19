@@ -7,9 +7,9 @@
         enterChat: true,
         miniprogram: {
           appid: content.miniProgram.appid,
-          title: content.miniProgram.title,
+          title: content.miniProgram.description,
           imgUrl: content.miniProgram.imgUrl,
-          page: `${content.miniProgram.page}.html`,
+          page: content.miniProgram.page,
         }
       })"></i>
     </div>
