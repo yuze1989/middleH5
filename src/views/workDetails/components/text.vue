@@ -2,7 +2,13 @@
   <div class="sop-box" v-if="content">
     <div class="sop-title">
       <span><i class="iconfont icon-wenzi sop-icon-color"></i> 文本</span>
-      <i v-if="refer" class="iconfont icon-fasong1" @click="send(content)"></i>
+      <i v-if="refer" class="iconfont icon-fasong1" @click="send({
+        msgtype: 'text',
+        enterChat: true,
+        text: {
+          content: content.text.content,
+        }
+      })"></i>
     </div>
     <div class="text-desc">{{content.text.content}}</div>
   </div>

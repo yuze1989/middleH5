@@ -6,7 +6,7 @@
         msgtype: content.msgType,
         enterChat: true,
         file: {
-          mediaid: content.file.attachmentId,
+          mediaid: content.file.mediaid,
         }
       })"></i>
     </div>

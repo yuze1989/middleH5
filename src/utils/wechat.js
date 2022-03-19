@@ -30,9 +30,9 @@ const Wechat = {
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
         'openEnterpriseChat', 'shareToExternalMoments', 'shareToExternalContact', 'shareToExternalChat'], // 必填，传入需要使用的接口名称
       success: () => {
-        alert(type);
         alert(JSON.stringify(info));
         wx.invoke(type, info, (res) => {
+          alert(JSON.stringify(res));
           if (res.userId) {
             sessionStorage.setItem('userId', res.userId);
           }

@@ -15,7 +15,9 @@
     </div>
     <div class="wechat-con">
       <div class="wechat-name">{{content.miniProgram.title}}</div>
-      <div class="wechat-img">{{content.miniProgram.imgUrl}}</div>
+      <div class="wechat-img">
+        <img :src="content.miniProgram.imgUrl" alt="">
+      </div>
       <div class="wechat-type">
         <i class="iconfont icon-xiaochengxu"></i>
         小程序

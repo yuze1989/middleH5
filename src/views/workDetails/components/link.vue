@@ -62,6 +62,7 @@ export default {
     margin-top: 0.8rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   .link-desc {
     font-size: 1.2rem;
