@@ -73,7 +73,7 @@
             <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
             @click.stop="change(item)">
               <div class="list-flex">
-                <div v-if="dataList.taskStatus !== 3">
+                <div v-if="dataList.taskStatus !== 3 && refer === 'bench'">
                   <div v-if="item.taskStatus === 2">
                     <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
                     class="iconfont"></i>
@@ -99,7 +99,7 @@
                 </div>
               </div>
               <div class="icon" @click.stop="share(item)">
-                <i class="iconfont icon-fasong"></i>
+                <i class="iconfont icon-xiayibu"></i>
               </div>
             </div>
           </div>
@@ -594,6 +594,10 @@ export default {
     text-align: center;
     padding: 1.5rem 0;
     color: #999999;
+  }
+  .icon-xiayibu {
+    font-size: 1.3rem;
+    color: #333;
   }
 </style>
 <style>
