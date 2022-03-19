@@ -1,21 +1,21 @@
 <template>
-  <div class="sop-box">
+  <div class="sop-box" v-if="content.miniProgram">
     <div class="sop-title">
       <span><i class="iconfont icon-bianzu sop-icon-color"></i> 小程序</span>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
         enterChat: true,
         miniprogram: {
-          appid: content.miniprogram.appId,
-          title: content.miniprogram.title,
-          imgUrl: content.miniprogram.picPath,
-          page: content.miniprogram.page,
+          appid: content.miniProgram.appId,
+          title: content.miniProgram.title,
+          imgUrl: content.miniProgram.picPath,
+          page: content.miniProgram.page,
         }
       })"></i>
     </div>
     <div class="wechat-con">
-      <div class="wechat-name">{{content.miniprogram.title}}</div>
-      <div class="wechat-img">{{content.miniprogram.picPath}}</div>
+      <div class="wechat-name">{{content.miniProgram.title}}</div>
+      <div class="wechat-img">{{content.miniProgram.picPath}}</div>
       <div class="wechat-type">
         <i class="iconfont icon-xiaochengxu">&nbsp;小程序</i>
       </div>

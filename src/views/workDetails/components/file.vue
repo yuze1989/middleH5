@@ -1,5 +1,5 @@
 <template>
-  <div class="sop-box">
+  <div class="sop-box" v-if="content.file">
     <div class="sop-title">
       <span><i class="iconfont icon-wenjian sop-icon-color"></i> 文件</span>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({

@@ -55,12 +55,12 @@
                 v-if="item.msgType === 'file'"
               />
               <WorkWechat
+                :refer="refer"
                 :content="item"
                 @send="singleSend"
                 v-if="item.msgType === 'miniProgram'"
               />
             </div>
-            <div @click="WechatSOP">发布</div>
           </div>
         </div>
         <!-- 推送群聊 -->

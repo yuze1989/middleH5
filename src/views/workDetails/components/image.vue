@@ -1,12 +1,12 @@
 <template>
-  <div class="sop-box">
+  <div class="sop-box" v-if="content.image">
     <div class="sop-title">
       <span><i class="iconfont icon-wenjian sop-icon-color"></i> 图片</span>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
         enterChat: true,
         file: {
-          mediaid: content.file.attachmentId,
+          mediaid: content.image.attachmentId,
         }
       })"></i>
     </div>
