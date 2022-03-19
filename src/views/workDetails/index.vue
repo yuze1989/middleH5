@@ -245,6 +245,7 @@ export default {
         const data = item;
         data.isSelect = this.selectAll;
       });
+      this.determine();
     },
     // 完成
     determine() {
