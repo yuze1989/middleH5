@@ -6,7 +6,7 @@
         msgtype: 'miniprogram',
         enterChat: true,
         miniprogram: {
-          appid: content.miniProgram.appId,
+          appid: content.miniProgram.appid,
           title: content.miniProgram.title,
           imgUrl: content.miniProgram.imgUrl,
           page: content.miniProgram.page,
