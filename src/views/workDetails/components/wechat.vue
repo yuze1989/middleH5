@@ -8,16 +8,17 @@
         miniprogram: {
           appid: content.miniProgram.appId,
           title: content.miniProgram.title,
-          imgUrl: content.miniProgram.picPath,
+          imgUrl: content.miniProgram.imgUrl,
           page: content.miniProgram.page,
         }
       })"></i>
     </div>
     <div class="wechat-con">
       <div class="wechat-name">{{content.miniProgram.title}}</div>
-      <div class="wechat-img">{{content.miniProgram.picPath}}</div>
+      <div class="wechat-img">{{content.miniProgram.imgUrl}}</div>
       <div class="wechat-type">
-        <i class="iconfont icon-xiaochengxu">&nbsp;小程序</i>
+        <i class="iconfont icon-xiaochengxu"></i>
+        小程序
       </div>
     </div>
   </div>
@@ -48,12 +49,13 @@ export default {
     background: #FFFFFF;
     border: 1px solid rgba(0,0,0,0.08);
     padding: 1.1rem;
-    width: 1.74rem;
+    width: 17.4rem;
+    border-radius: 0.2rem;
   }
   .wechat-name {
     font-family: PingFangSC-Medium;
     font-weight: 500;
-    font-size: 28px;
+    font-size: 1.4rem;
     color: rgba(0,0,0,0.85);
   }
   .wechat-img {
@@ -70,5 +72,7 @@ export default {
   .wechat-type .icon-xiaochengxu {
     font-size: 1.5rem;
     background-color: #1890FF;
+    border-radius: 50%;
+    color: #FFF;
   }
 </style>
