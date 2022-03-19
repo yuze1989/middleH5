@@ -5,7 +5,7 @@
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
         enterChat: true,
-        file: {
+        image: {
           mediaid: content.image.mediaid,
         }
       })"></i>

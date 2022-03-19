@@ -3,7 +3,7 @@
     <div class="sop-title">
       <span><i class="iconfont icon-bianzu sop-icon-color"></i> 链接</span>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
-        msgtype: content.msgType,
+        msgtype: 'news',
         enterChat: true,
         news: {
           title: content.link.title,

@@ -3,7 +3,7 @@
     <div class="sop-title">
       <span><i class="iconfont icon-bianzu sop-icon-color"></i> 小程序</span>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
-        msgtype: content.msgType,
+        msgtype: 'miniprogram',
         enterChat: true,
         miniprogram: {
           appid: content.miniProgram.appId,
