@@ -2,7 +2,7 @@
   <div class="sop-box">
     <div class="sop-title">
       <span><i class="iconfont icon-bianzu sop-icon-color"></i> 链接</span>
-      <i class="iconfont icon-fasong1" @click="send({
+      <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
         enterChat: true,
         news: {
@@ -31,6 +31,10 @@ export default {
     content: {
       type: Object,
       default: () => {},
+    },
+    refer: {
+      type: String,
+      default: '',
     },
   },
   methods: {
@@ -62,14 +66,16 @@ export default {
   .link-desc {
     font-size: 1.2rem;
     color: rgba(0,0,0,0.65);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    line-clamp: 2;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
   }
   .link-icon img{
     width: 3.9rem;
     height: 3.9rem;
     object-fit: cover;
+    margin-left: 0.6rem;
   }
 </style>

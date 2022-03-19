@@ -2,7 +2,7 @@
   <div class="sop-box" v-if="content">
     <div class="sop-title">
       <span><i class="iconfont icon-wenzi sop-icon-color"></i> 文本</span>
-      <i class="iconfont icon-fasong1" @click="send(content)"></i>
+      <i v-if="refer" class="iconfont icon-fasong1" @click="send(content)"></i>
     </div>
     <div class="text-desc">{{content.text.content}}</div>
   </div>
@@ -14,6 +14,10 @@ export default {
     content: {
       type: Object,
       default: null,
+    },
+    refer: {
+      type: String,
+      default: '',
     },
   },
   methods: {

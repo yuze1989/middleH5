@@ -2,7 +2,7 @@
   <div class="sop-box">
     <div class="sop-title">
       <span><i class="iconfont icon-bianzu sop-icon-color"></i> 小程序</span>
-      <i class="iconfont icon-fasong1" @click="send({
+      <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
         enterChat: true,
         miniprogram: {
@@ -16,7 +16,9 @@
     <div class="wechat-con">
       <div class="wechat-name">{{content.miniprogram.title}}</div>
       <div class="wechat-img">{{content.miniprogram.picPath}}</div>
-      <div class="wechat-type">小程序</div>
+      <div class="wechat-type">
+        <i class="iconfont icon-xiaochengxu">&nbsp;小程序</i>
+      </div>
     </div>
   </div>
 </template>
@@ -27,6 +29,10 @@ export default {
     content: {
       type: Object,
       default: () => {},
+    },
+    refer: {
+      type: String,
+      default: '',
     },
   },
   methods: {
@@ -55,5 +61,14 @@ export default {
   }
   .wechat-img img {
     height: 8.8rem;
+  }
+  .wechat-type {
+    color: rgba(0,0,0,0.45);
+    font-size: 1.1rem;
+    margin-top: 0.8rem;
+  }
+  .wechat-type .icon-xiaochengxu {
+    font-size: 1.5rem;
+    background-color: #1890FF;
   }
 </style>

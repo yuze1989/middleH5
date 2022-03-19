@@ -2,7 +2,7 @@
   <div class="sop-box">
     <div class="sop-title">
       <span><i class="iconfont icon-wenjian sop-icon-color"></i> 图片</span>
-      <i class="iconfont icon-fasong1" @click="send({
+      <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
         enterChat: true,
         file: {
@@ -22,6 +22,10 @@ export default {
     content: {
       type: Object,
       default: () => {},
+    },
+    refer: {
+      type: String,
+      default: '',
     },
   },
   methods: {

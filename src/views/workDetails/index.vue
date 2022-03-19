@@ -24,11 +24,36 @@
           <div class="content">
             <div class="content-tip">推送内容</div>
             <div class="flex" v-for="(item,index) in dataList.sopTaskContentList" :key="index">
-              <WorkText :content="item" @send="singleSend" v-if="item.msgType === 'text'" />
-              <WorkImage :content="item" @send="singleSend" v-if="item.msgType === 'image'" />
-              <WorkLink :content="item" @send="singleSend" v-if="item.msgType === 'link'" />
-              <WorkVideo :content="item" @send="singleSend" v-if="item.msgType === 'video'" />
-              <WorkFile :content="item" @send="singleSend" v-if="item.msgType === 'file'" />
+              <WorkText
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'text'"
+              />
+              <WorkImage
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'image'"
+              />
+              <WorkLink
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'link'"
+              />
+              <WorkVideo
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'video'"
+              />
+              <WorkFile
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'file'"
+              />
               <WorkWechat
                 :content="item"
                 @send="singleSend"
