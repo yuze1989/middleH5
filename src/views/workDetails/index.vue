@@ -98,7 +98,7 @@
                   </div>
                 </div>
               </div>
-              <div class="icon" @click.stop="share(item)">
+              <div @click.stop="share(item)">
                 <i class="iconfont icon-xiayibu"></i>
               </div>
             </div>
@@ -109,7 +109,12 @@
         <div class="footer-right" @click="WechatSOP">立即发布</div>
       </div>
     </div>
-    <van-dialog v-model="showDialog" title="是否已完成该客户推送？" show-cancel-button @confirm="determine">
+    <van-dialog
+      v-model="showDialog"
+      title="是否已完成该客户推送？"
+      show-cancel-button
+      @confirm="getFinishTask"
+    >
       <div class="dialog-con" @click="isWarnAgain = !isWarnAgain">
         <i
           :class="isWarnAgain ? 'icon-xuanze' : 'icon-weixuanze'" class="iconfont"
@@ -227,40 +232,10 @@ export default {
     change(obj) {
       const data = obj;
       data.isSelect = !data.isSelect;
-      if (!this.isWarnAgain) {
-        this.showDialog = true;
-        return;
-      }
       this.determine();
     },
     time(value) {
       return moment(value).format('YYYY-MM-DD HH:mm');
-    },
-    // 复制
-    copy(obj) {
-      let content;
-      switch (obj.contentType) {
-        case 1:
-          // 文字
-          content = obj.text;
-          break;
-        case 2:
-          // 图片
-          content = obj.imgUrl;
-          break;
-        case 3:
-          // 链接
-          content = obj.linkUrl;
-          break;
-        default:
-      }
-      const input = document.createElement('input'); // 直接构建input
-      input.value = content; // 设置内容
-      document.body.appendChild(input); // 添加临时实例
-      input.select(); // 选择实例内容
-      document.execCommand('copy'); // 执行复制
-      Toast(document.execCommand('copy') ? '复制成功' : '复制失败');
-      document.body.removeChild(input); // 删除临时实例
     },
     // 取消全选 --- 全选
     cancel() {
@@ -274,14 +249,15 @@ export default {
     // 完成
     determine() {
       const that = this;
-      that.idList = [];
+      const idList = [];
       that.dataList.sopTaskList.forEach((item) => {
         const data = item;
         if (data.taskStatus === 2 && data.isSelect) {
-          that.idList.push(data.id);
+          idList.push(data.id);
         }
       });
-      if (that.idList.length === 0) {
+      that.idList = idList;
+      if (idList.length === 0) {
         Toast.loading({
           message: that.dataList.sopType === 1 ? '请选择完成的群聊' : '请选择完成的客户',
           duration: 1000,
@@ -289,13 +265,21 @@ export default {
         });
         return;
       }
+      if (!this.isWarnAgain) {
+        this.showDialog = true;
+        return;
+      }
+      this.getFinishTask();
+    },
+    getFinishTask() {
+      const that = this;
       Http.post('/scrm/comm/rest/sop/finish-sop-task', { idList: that.idList }, '').then((res) => {
         if (res.success) {
           Toast('已完成');
           that.getList();
-        } else {
-          Toast(res.errMessage);
+          return;
         }
+        Toast(res.errMessage);
       });
     },
     getList() {
@@ -351,14 +335,6 @@ export default {
   .box-margin {
     margin-bottom: 6.4rem;
     display: flex;
-  }
-
-  .icon {
-    padding: 0.4rem;
-    background: #DCEEFF;
-    box-shadow: 0 0.4rem 3rem 0 rgba(24, 107, 255, 0.16);
-    border-radius: 50%;
-    text-align: center;
   }
 
   .content-margin {
@@ -499,11 +475,6 @@ export default {
     color: #333333;
   }
 
-  .copy {
-    font-size: 1.4rem;
-    color: #1890FF;
-  }
-
   .right {
     width: 100%;
   }
@@ -597,7 +568,6 @@ export default {
   }
   .icon-xiayibu {
     font-size: 1.3rem;
-    color: #333;
   }
 </style>
 <style>
