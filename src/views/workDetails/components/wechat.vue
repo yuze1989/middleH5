@@ -9,7 +9,7 @@
           appid: content.miniProgram.appid,
           title: content.miniProgram.title,
           imgUrl: content.miniProgram.imgUrl,
-          page: content.miniProgram.page,
+          page: `${content.miniProgram.page}.html`,
         }
       })"></i>
     </div>
