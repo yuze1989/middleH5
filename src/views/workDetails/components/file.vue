@@ -3,15 +3,11 @@
     <div class="sop-title">
       <span><i class="iconfont icon-wenjian sop-icon-color"></i> 文件</span>
       <i class="iconfont icon-fasong1" @click="send({
-        text: {
-          content: 'test'
-        },
-        attachments: [{
-          msgtype: content.msgType,
-          file: {
-            mediaid: content.file.attachmentId,
-          }
-        }]
+        msgtype: content.msgType,
+        enterChat: true,
+        file: {
+          mediaid: content.file.attachmentId,
+        }
       })"></i>
     </div>
     <div class="file-con">
@@ -50,7 +46,6 @@ export default {
   },
   methods: {
     send(content) {
-      alert(1);
       this.$emit('send', content);
     },
   },

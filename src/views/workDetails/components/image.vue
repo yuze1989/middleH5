@@ -3,15 +3,11 @@
     <div class="sop-title">
       <span><i class="iconfont icon-wenjian sop-icon-color"></i> 图片</span>
       <i class="iconfont icon-fasong1" @click="send({
-        text: {
-          content: 'test',
-        },
-        attachments: [{
-          msgtype: content.msgType,
-          image: {
-            mediaid: content.image.attachmentId,
-          }
-        }]
+        msgtype: content.msgType,
+        enterChat: true,
+        file: {
+          mediaid: content.file.attachmentId,
+        }
       })"></i>
     </div>
     <div class="image-con">

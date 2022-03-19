@@ -3,18 +3,14 @@
     <div class="sop-title">
       <span><i class="iconfont icon-bianzu sop-icon-color"></i> 链接</span>
       <i class="iconfont icon-fasong1" @click="send({
-        text: {
-          content: 'test',
-        },
-        attachments: [{
         msgtype: content.msgType,
-        link: {
+        enterChat: true,
+        news: {
           title: content.link.title,
           imgUrl: content.link.picPath,
           desc: content.link.description,
           url: content.link.url,
         }
-      }]
       })"></i>
     </div>
     <div class="link-con">

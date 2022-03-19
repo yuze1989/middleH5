@@ -3,19 +3,17 @@
     <div class="sop-title">
       <span><i class="iconfont icon-shipin sop-icon-color"></i> 视频</span>
      <i class="iconfont icon-fasong1" @click="send({
-       text: {
-         content: 'test',
-       },
-       attachments: [{
         msgtype: content.msgType,
+        enterChat: true,
         video: {
           mediaid: content.video.attachmentId,
         }
-      }]
-     })"></i>
+      })"></i>
     </div>
     <div class="video-con">
-      <img :src="content.video.attachmentPath" alt="">
+      <a :href="content.video.attachmentPath">
+        <img :src="content.video.picPath" alt="">
+      </a>
     </div>
   </div>
 </template>
@@ -43,12 +41,14 @@ export default {
   }
   .video-con img::before {
     content: '';
-    background: url('https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/play.png') no-repeat 3.3rem;
+    background: url('https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/play.png') no-repeat center;
+    background-size: 100%;
     width: 3.3rem;
     height: 3.3rem;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 1;
   }
 </style>

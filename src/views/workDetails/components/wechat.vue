@@ -4,18 +4,19 @@
       <span><i class="iconfont icon-bianzu sop-icon-color"></i> 小程序</span>
       <i class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
+        enterChat: true,
         miniprogram: {
-          appid: content.miniprogram.title,
-          title: content.miniprogram.picPath,
-          imgUrl: content.miniprogram.description,
-          page: content.miniprogram.url,
+          appid: content.miniprogram.appId,
+          title: content.miniprogram.title,
+          imgUrl: content.miniprogram.picPath,
+          page: content.miniprogram.page,
         }
       })"></i>
     </div>
     <div class="wechat-con">
       <div class="wechat-name">{{content.miniprogram.title}}</div>
-      <div class="wechat-img"></div>
-      <div class="wechat-size"></div>
+      <div class="wechat-img">{{content.miniprogram.picPath}}</div>
+      <div class="wechat-type">小程序</div>
     </div>
   </div>
 </template>
