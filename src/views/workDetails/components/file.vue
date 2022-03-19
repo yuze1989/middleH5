@@ -13,10 +13,10 @@
     <div class="file-con">
       <div class="file-left">
         <div class="file-name">{{content.file.title}}</div>
-        <div class="file-size">12.3kb</div>
+        <div class="file-size">{{content.file.fileSize}}</div>
       </div>
       <div class="file-icon">
-        <img :src="iconUrl[content.file.title.split('.')] || 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/unknown.png'" alt="">
+        <img :src="iconUrl[content.file.title.split('.')[1]] || 'https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/icon/unknown.png'" alt="">
       </div>
     </div>
   </div>
@@ -86,7 +86,6 @@ export default {
   }
   .file-icon img {
     width: 2.4rem;
-    height: 2.4rem;
     object-fit: cover;
   }
 </style>

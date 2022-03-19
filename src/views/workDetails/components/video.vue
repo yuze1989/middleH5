@@ -37,9 +37,12 @@ export default {
 <style scoped>
   .video-con img {
     width: 15.2rem;
-    position: relative;
   }
-  .video-con img::before {
+  .video-con a {
+    position: relative;
+    display: inline-block;
+  }
+  .video-con a::before {
     content: '';
     background: url('https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/ch5/play.png') no-repeat center;
     background-size: 100%;

@@ -7,8 +7,8 @@
         enterChat: true,
         news: {
           title: content.link.title,
-          imgUrl: content.link.picPath,
-          desc: content.link.description,
+          imgUrl: content.link.imgUrl,
+          desc: content.link.desc,
           url: content.link.url,
         }
       })"></i>
@@ -16,9 +16,9 @@
     <div class="link-con">
       <div class="link-title">{{content.link.title}}</div>
       <div class="link-sub">
-        <div class="link-desc">{{content.link.description}}</div>
+        <div class="link-desc">{{content.link.desc}}</div>
         <div class="link-icon">
-          <img :src="content.link.picPath" alt="">
+          <img :src="content.link.imgUrl" alt="">
         </div>
       </div>
     </div>

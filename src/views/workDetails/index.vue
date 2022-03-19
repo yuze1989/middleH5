@@ -128,17 +128,14 @@ export default {
         s1: {
           name: '群SOP',
           invokeName: 'shareToExternalChat',
-          benchinvokeName: 'sendChatMessage',
         },
         s2: {
           name: '客户SOP',
           invokeName: 'shareToExternalContact',
-          benchinvokeName: 'sendChatMessage',
         },
         s3: {
           name: '朋友圈SOP',
           invokeName: 'shareToExternalMoments',
-          benchinvokeName: 'sendChatMessage',
         },
       },
     };
@@ -150,7 +147,7 @@ export default {
   },
   methods: {
     singleSend(data) {
-      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`][`${this.refer}invokeName`]);
+      Wechat.setAgentConfig(data, 'sendChatMessage');
     },
     WechatSOP() {
       if (this.dataList.overdueFlag) {
