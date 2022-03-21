@@ -1,7 +1,10 @@
 <template>
   <div class="sop-box" v-if="content.video">
     <div class="sop-title">
-      <span><i class="iconfont icon-shipin sop-icon-color"></i> 视频</span>
+      <div>
+        <i class="iconfont icon-shipin sop-icon-color"></i>
+        <span class="sop-name">&nbsp;&nbsp;视频</span>
+      </div>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
         enterChat: true,
@@ -39,6 +42,9 @@ export default {
 </script>
 
 <style scoped>
+  .video-con {
+    margin-left: 2.2rem;
+  }
   .video-con img {
     width: 15.2rem;
   }

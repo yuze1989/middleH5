@@ -1,7 +1,10 @@
 <template>
   <div class="sop-box" v-if="content.miniProgram">
     <div class="sop-title">
-      <span><i class="iconfont icon-bianzu sop-icon-color"></i> 小程序</span>
+      <div>
+        <i class="iconfont icon-xiaochengxu sop-icon-color"></i>
+        <span class="sop-name">&nbsp;&nbsp;小程序</span>
+      </div>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: 'miniprogram',
         enterChat: true,
@@ -53,6 +56,7 @@ export default {
     padding: 1.1rem;
     width: 17.4rem;
     border-radius: 0.2rem;
+    margin-left: 2.2rem;
   }
   .wechat-name {
     font-family: PingFangSC-Medium;
@@ -65,6 +69,9 @@ export default {
   }
   .wechat-img img {
     height: 8.8rem;
+    width: 15.2rem;
+    object-fit: cover;
+    object-position: left top;
   }
   .wechat-type {
     color: rgba(0,0,0,0.45);

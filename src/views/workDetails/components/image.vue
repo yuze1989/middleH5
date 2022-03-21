@@ -1,7 +1,10 @@
 <template>
   <div class="sop-box" v-if="content.image">
     <div class="sop-title">
-      <span><i class="iconfont icon-wenjian sop-icon-color"></i> 图片</span>
+      <div>
+        <i class="iconfont icon-tupian sop-icon-color"></i>
+        <span class="sop-name">&nbsp;&nbsp;图片</span>
+      </div>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: content.msgType,
         enterChat: true,
@@ -37,7 +40,12 @@ export default {
 </script>
 
 <style scoped>
+.image-con {
+  margin-left: 2.2rem;
+}
 .image-con img {
-  width: 20rem;
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
 }
 </style>

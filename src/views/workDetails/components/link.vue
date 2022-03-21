@@ -1,7 +1,10 @@
 <template>
   <div class="sop-box" v-if="content.link">
     <div class="sop-title">
-      <span><i class="iconfont icon-bianzu sop-icon-color"></i> 链接</span>
+      <div>
+        <i class="iconfont icon-bianzu sop-icon-color"></i>
+        <span class="sop-name">&nbsp;&nbsp;链接</span>
+      </div>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: 'news',
         enterChat: true,
@@ -51,6 +54,7 @@ export default {
     padding: 1.2rem;
     border: 1px solid rgba(0,0,0,0.08);
     border-radius: 0.2rem;
+    margin-left: 2.2rem;
   }
   .link-title {
     font-family: PingFangSC-Medium;

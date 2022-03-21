@@ -70,13 +70,16 @@
               推送{{sopType[`s${dataList.sopType}`].name}}
               <span class="content-all" @click="cancel">全部完成</span>
             </div>
-            <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index">
+            <div
+              class="list" v-for="(item,index) in dataList.sopTaskList"
+              :key="index"
+              :style="{display: refer || showMore || index < 3 ? 'flex' : 'none'}"
+            >
               <div class="list-flex">
                 <div
                   v-if="dataList.taskStatus !== 3 && refer === 'bench'"
-                  @click.stop="change(item)"
                 >
-                  <div v-if="item.taskStatus === 2">
+                  <div v-if="item.taskStatus === 2" @click.stop="change(item)">
                     <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
                     class="iconfont"></i>
                   </div>
@@ -104,6 +107,15 @@
                 <i class="iconfont icon-xiayibu"></i>
               </div>
             </div>
+            <div
+              class="more"
+              v-show="!showMore"
+              v-if="dataList.sopTaskList.length > 3 && !refer"
+              @click="showMore = true"
+            >
+              展开更多
+              <i class="iconfont icon-xiala" />
+            </div>
           </div>
         </div>
       </div>
@@ -113,15 +125,19 @@
     </div>
     <van-dialog
       v-model="showDialog"
-      title="是否已完成该客户推送？"
+      :title="'是否已完成' + (selectAll ? '所有' : '该') + '客户推送？'"
       show-cancel-button
       @confirm="getFinishTask"
+      confirmButtonText="已完成"
+      confirmButtonColor="#2F9BFF"
     >
-      <div class="dialog-con" @click="isWarnAgain = !isWarnAgain">
+      <div v-if="!selectAll" class="dialog-con" @click="isWarnAgain = !isWarnAgain">
         <i
-          :class="isWarnAgain ? 'icon-xuanze' : 'icon-weixuanze'" class="iconfont"
-        />
-        本次任务不再提醒
+          class="iconfont icon-font-cus"
+          :class="isWarnAgain ? 'icon-xuanze' : 'icon-weixuanze'"
+        >
+          <span class="dialog-text">本次任务不再提醒</span>
+        </i>
       </div>
     </van-dialog>
   </div>
@@ -156,6 +172,7 @@ export default {
       selectAll: false,
       showDialog: false,
       isWarnAgain: false,
+      showMore: false,
       sopType: {
         s1: {
           name: '群SOP',
@@ -234,7 +251,10 @@ export default {
     change(obj) {
       const data = obj;
       data.isSelect = !data.isSelect;
-      this.determine();
+      this.selectAll = false;
+      if (data.isSelect) {
+        this.determine();
+      }
     },
     time(value) {
       return moment(value).format('YYYY-MM-DD HH:mm');
@@ -470,7 +490,6 @@ export default {
   .iconfont {
     font-size: 1.4rem;
     color: #999999;
-    margin-right: 1rem;
   }
 
   .right-title {
@@ -507,6 +526,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 0.9rem;
   }
 
   .list-flex {
@@ -569,8 +589,31 @@ export default {
     padding: 1.5rem 0;
     color: #999999;
   }
+  .dialog-text {
+    color: #888;
+  }
   .icon-xiayibu {
     font-size: 1.3rem;
+  }
+  .icon-font-cus {
+    position: relative;
+    padding-left: 0.6rem;
+  }
+  .icon-font-cus.icon-xuanze::before, .icon-font-cus.icon-weixuanze::before {
+    position: absolute;
+    left: -1em;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .more {
+    color: #999;
+    text-align: center;
+    font-size: 1.2rem;
+    border-top: 1px solid #E5E5E5;
+    line-height: 4rem;
+  }
+  .more .icon-xiala {
+    font-size: 1rem;
   }
 </style>
 <style>
@@ -582,9 +625,11 @@ export default {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 0.8rem;
-    font-weight: 400;
-    font-size: 1.6rem;
     color: #333333;
+  }
+  .sop-name {
+    font-size: 1.6rem;
+    font-weight: 400;
   }
   .sop-title .icon-fasong1 {
     color: #1890FF;

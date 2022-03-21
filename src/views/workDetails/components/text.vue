@@ -1,7 +1,10 @@
 <template>
   <div class="sop-box" v-if="content">
     <div class="sop-title">
-      <span><i class="iconfont icon-wenzi sop-icon-color"></i> 文本</span>
+      <div>
+        <i class="iconfont icon-wenzi sop-icon-color"></i>
+        <span class="sop-name">&nbsp;&nbsp;文本</span>
+      </div>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
         msgtype: 'text',
         enterChat: true,
