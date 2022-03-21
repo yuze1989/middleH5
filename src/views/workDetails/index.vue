@@ -70,10 +70,12 @@
               推送{{sopType[`s${dataList.sopType}`].name}}
               <span class="content-all" @click="cancel">全部完成</span>
             </div>
-            <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
-            @click.stop="change(item)">
+            <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index">
               <div class="list-flex">
-                <div v-if="dataList.taskStatus !== 3 && refer === 'bench'">
+                <div
+                  v-if="dataList.taskStatus !== 3 && refer === 'bench'"
+                  @click.stop="change(item)"
+                >
                   <div v-if="item.taskStatus === 2">
                     <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
                     class="iconfont"></i>

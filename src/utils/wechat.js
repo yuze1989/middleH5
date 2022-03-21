@@ -31,7 +31,6 @@ const Wechat = {
         'openEnterpriseChat', 'shareToExternalMoments', 'shareToExternalContact', 'shareToExternalChat'], // 必填，传入需要使用的接口名称
       success: () => {
         wx.invoke(type, info, (res) => {
-          alert(JSON.stringify(res));
           if (res.userId) {
             sessionStorage.setItem('userId', res.userId);
           }
@@ -42,8 +41,6 @@ const Wechat = {
         // 回调
       },
       fail: (res) => {
-        alert(JSON.stringify(res));
-        console.log('agentConfig', res);
         if (res.errMsg.indexOf('function not exist') > -1) {
           // alert('版本过低请升级');
         }
