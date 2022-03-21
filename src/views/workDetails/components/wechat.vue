@@ -2,7 +2,7 @@
   <div class="sop-box" v-if="content.miniProgram">
     <div class="sop-title">
       <div>
-        <i class="iconfont icon-xiaochengxu sop-icon-color"></i>
+        <i class="iconfont icon-xiaochengxubangding sop-icon-color"></i>
         <span class="sop-name">&nbsp;&nbsp;小程序</span>
       </div>
       <i v-if="refer" class="iconfont icon-fasong1" @click="send({
@@ -22,7 +22,7 @@
         <img :src="content.miniProgram.imgUrl" alt="">
       </div>
       <div class="wechat-type">
-        <i class="iconfont icon-xiaochengxu"></i>
+        <i class="iconfont icon-xiaochengxubangding"></i>
         小程序
       </div>
     </div>
@@ -78,7 +78,7 @@ export default {
     font-size: 1.1rem;
     margin-top: 0.8rem;
   }
-  .wechat-type .icon-xiaochengxu {
+  .wechat-type .icon-xiaochengxubangding {
     font-size: 1.5rem;
     background-color: #1890FF;
     border-radius: 50%;
