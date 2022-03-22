@@ -2,9 +2,7 @@
   <div class="box">
     <div v-if="err !== '0100000006'">
       <div class="top">
-        <i class="iconfont icon-huashu2"></i>
-        <span class="span">办事事项</span>
-        <span>({{totalCount}})</span>
+        <span class="span">办事事项 ({{totalCount}})</span>
       </div>
       <div class="hr"></div>
       <div class="top-nav">
@@ -17,9 +15,8 @@
       </div>
     </div>
     <jurisdiction :err="err" v-if="err"></jurisdiction>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else>
+    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else class="pull">
       <div class="content">
-        <div class="content-tip">日常任务提醒</div>
         <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
         finished-text="没有更多了">
           <div class="content-block" v-for="(item,index) in dataList" :key="index"
@@ -49,9 +46,9 @@
 <script>
 import { List, PullRefresh, Toast } from 'vant';
 import moment from 'moment';
-import Http from '../utils/http';
 import store from '@/store';
-import jurisdiction from '../common/jurisdiction.vue';
+import jurisdiction from '../../../common/jurisdiction.vue';
+import Http from '../../../utils/http';
 
 export default {
   name: 'workbench',
@@ -159,10 +156,16 @@ export default {
 };
 </script>
 <style scoped="scoped">
+  .box {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
   .top {
-    padding: 1.1rem 1.5rem;
+    padding: 1.4rem 1.5rem;
     font-size: 1.4rem;
-    color: #1890FF;
     text-align: center;
     display: flex;
     align-items: center;
@@ -170,22 +173,23 @@ export default {
   }
 
   .span {
-    margin: 0 1rem;
     font-size: 1.6rem;
-    color: #333333;
+    color: #343845;
+    font-weight: 500;
   }
 
   .hr {
     width: 100%;
-    height: 0.5rem;
-    background-color: #E5E5E5;
+    height: 1rem;
+    background-color: #F2F3F7;
   }
 
   .top-nav {
-    height: 4.4rem;
+    height: 5rem;
     display: flex;
     align-items: center;
     font-size: 1.4rem;
+    font-weight: 500;
     color: #333333;
     text-align: center;
     justify-content: space-evenly;
@@ -193,26 +197,32 @@ export default {
   }
 
   .nav-box {
-    height: 4rem;
-    line-height: 4rem;
+    height: 5rem;
+    line-height: 5rem;
   }
 
   .active {
-    color: #1890FF;
-    border-bottom: 0.2rem #1890FF solid;
+    color: #4066D4;
+    position: relative;
+  }
+
+  .active:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    border-bottom: 0.2rem #4066D4 solid;
+    left: 0;
+    bottom: 0;
+    border-radius: 1.25px;
+  }
+
+  .pull {
+    flex: 1;
   }
 
   .content {
-    margin: 1rem 0 1rem 1.5rem;
     margin-bottom: 5rem;
-    min-height: calc(100vh - 14rem);
-  }
-
-  .content-tip {
-    font-size: 1.4rem;
-    color: #333333;
-    padding-bottom: 1.2rem;
-    border-bottom: 0.1rem solid #F3F3F3;
+    /* min-height: calc(100vh - 14rem); */
   }
 
   .content-block {

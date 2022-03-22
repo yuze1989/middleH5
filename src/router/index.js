@@ -40,22 +40,29 @@ const routes = [
     component: () => import(/* webpackChunkName: "material" */'../views/details.vue'),
   },
   {
-    path: '/workbench',
-    name: 'workbench',
-    meta: {
-      tabbarshow: false,
-      type: 2,
-    },
-    component: () => import(/* webpackChunkName: "workbench" */'../views/workbench.vue'),
-  },
-  {
-    path: '/customer',
-    name: 'customer',
-    meta: {
-      tabbarshow: true,
-      type: 2,
-    },
-    component: () => import(/* webpackChunkName: "customer" */'../views/customer.vue'),
+    path: '/home',
+    name: 'home',
+    component: () => import(/* webpackChunkName: "workbench" */'../views/home/index.vue'),
+    children: [
+      {
+        path: '/home/workbench',
+        name: 'workbench',
+        meta: {
+          tabbarshow: false,
+          type: 2,
+        },
+        component: () => import(/* webpackChunkName: "workbench" */'../views/home/components/workbench.vue'),
+      },
+      {
+        path: '/home/customer',
+        name: 'customer',
+        meta: {
+          tabbarshow: false,
+          type: 2,
+        },
+        component: () => import(/* webpackChunkName: "workbench" */'../views/home/components/customer.vue'),
+      },
+    ],
   },
   {
     path: '/marketing',
