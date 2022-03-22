@@ -80,8 +80,9 @@
               class="list" v-for="(item,index) in dataList.sopTaskList"
               :key="index"
               :style="{display: refer || showMore || index < 3 ? 'flex' : 'none'}"
+              @click.stop="share(item)"
             >
-              <div class="list-flex" @click.stop="share(item)">
+              <div class="list-flex">
                 <div class="list-choose"
                   v-if="dataList.taskStatus !== 3 && refer === 'bench'"
                   @click.stop="change(item)"
