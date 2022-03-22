@@ -1,17 +1,17 @@
 <template>
   <div class="wrap">
     <router-view />
-    <WorkTabBar />
+    <HomeTabBar />
   </div>
 </template>
 
 <script>
-import WorkTabBar from '../../common/WorkTabBar.vue';
+import HomeTabBar from '../../common/homeTabBar.vue';
 
 export default {
   name: 'home',
   components: {
-    WorkTabBar,
+    HomeTabBar,
   },
 };
 </script>

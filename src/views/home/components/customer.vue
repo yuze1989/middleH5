@@ -6,13 +6,13 @@
       </div>
       <div class="hr"></div>
     </div>
-    <jurisdiction :err="err" v-if="err"></jurisdiction>
+    <div class="errWrap" v-if="err"><jurisdiction :err="err" v-if="err"></jurisdiction></div>
     <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else class="pull">
       <div class="content">
         <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
         finished-text="没有更多了">
-          <div class="item" v-for="(item,index) in [0, 1, 2]" :key="index">
-            <CustomerItem />
+          <div class="item" v-for="(item) in dataList" :key="item.viewId">
+            <CustomerItem :item="item" />
           </div>
         </List>
       </div>
@@ -22,14 +22,13 @@
 
 <script>
 import { List, PullRefresh, Toast } from 'vant';
-import moment from 'moment';
 import store from '@/store';
-import Http from '../../../utils/http';
+import { getCustomerList } from '@/api/dailySummary';
 import jurisdiction from '../../../common/jurisdiction.vue';
 import CustomerItem from '../../components/customerItem.vue';
 
 export default {
-  name: 'customer',
+  name: 'workbench',
   components: {
     List,
     PullRefresh,
@@ -41,6 +40,7 @@ export default {
       refreshing: false,
       loading: false,
       finished: false,
+      isRest: false,
       dataList: [],
       err: '',
       pageIndex: 1,
@@ -63,26 +63,13 @@ export default {
     }
   },
   methods: {
-    time(value) {
-      return moment(value).format('YYYY-MM-DD HH:mm');
-    },
     onLoad() {
       this.getList();
     },
     onRefresh() {
       this.pageIndex = 1;
-      this.dataList = [];
-      // this.finished = false;
-      // this.loading = true;
+      this.isRest = true;
       this.onLoad();
-    },
-    go(id) {
-      this.$router.push({
-        name: 'workDetails',
-        query: {
-          batchNo: id,
-        },
-      });
     },
     getList() {
       const that = this;
@@ -92,29 +79,31 @@ export default {
         that.loading = false;
         return;
       }
-      Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
-        taskStatus: that.$store.state.type,
+      getCustomerList({
         pageIndex: that.pageIndex,
         pageSize: 20,
-      }, '').then((res) => {
+      }).then((res) => {
         that.err = '';
-        // 清除下拉刷新状态
-        that.refreshing = false;
-        that.loading = false;
-        if (res.success && res.totalCount !== 0) {
-          that.dataList.push(...res.data);
+        if (res.success) {
+          if (that.isRest) {
+            that.dataList = res.data;
+          } else {
+            that.dataList.push(...res.data);
+          }
           that.totalCount = res.totalCount;
           that.totalPages = res.totalPages;// 总页码
           that.pageIndex += 1;
-        } else {
-          // 停止上拉加载
-          that.totalCount = 0;
-          that.finished = true;
-          that.err = res.errCode;
-          if (res.errMessage) {
-            Toast(res.errMessage);
-          }
         }
+        that.err = res.errCode;
+        if (res.errMessage) {
+          Toast(res.errMessage);
+        }
+        that.isRest = false;
+        // 是否还有更多
+        that.finished = res.data.length === 0;
+        // 清除下拉刷新状态
+        that.refreshing = false;
+        that.loading = false;
       }).catch(() => {
         that.err = 'errCode';
       });
@@ -153,6 +142,11 @@ export default {
 
   .pull {
     flex: 1;
+    overflow: auto;
+  }
+
+  .errWrap {
+    margin-top: 20px;
   }
 
   .content {

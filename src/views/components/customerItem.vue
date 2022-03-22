@@ -1,16 +1,29 @@
 <template>
   <div class="customer-item">
-    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.redocn.com%2Fsheying%2F20140927%2Fxiongmaoguazaishushangshuijue_3157987.jpg&refer=http%3A%2F%2Fimg.redocn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1650526693&t=819ef3c0e3d392fed3fdf125714c84a8" alt="" class="use-head-img" />
+    <img :src="item.avatar" alt="" class="use-head-img" />
     <div class="user-info">
-      <div class="user-name">Alan白杨 <span class="user-type">@微信</span></div>
-      <div class="follow-up-user">跟进人：Ya六一</div>
-      <div>添加时间：2021/06/24</div>
+      <div class="user-name">{{item.name}} <span class="user-type">@微信</span></div>
+      <div class="follow-up-user">跟进人：{{item.tenantStaffName}}</div>
+      <div>添加时间：{{getTime(item.addTime)}}</div>
     </div>
   </div>
 </template>
 <script>
+import moment from 'moment';
+
 export default {
   name: 'customerItem',
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  methods: {
+    getTime(value) {
+      return moment(value).format('YYYY-MM-DD HH:mm');
+    },
+  },
 };
 </script>
 <style scoped="scoped">

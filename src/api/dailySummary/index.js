@@ -71,4 +71,11 @@ export function getDepartments() {
   return http.post('/scrm/comm/rest/tenant-staff/get-all-departments-tree');
 }
 
+/**
+ * 获取客户列表
+ */
+export function getCustomerList(params) {
+  return http.post('/customer/listCustomer/all', params);
+}
+
 export default {};

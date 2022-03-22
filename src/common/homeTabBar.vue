@@ -33,7 +33,7 @@ export default {
         },
         {
           name: 'my',
-          url: '',
+          url: '/home/my/',
           icon: 'icon-wode1',
           selectIcon: 'icon-wode-1',
           title: '我的',
@@ -56,6 +56,7 @@ export default {
     align-items: center;
     padding: 0.8rem 2rem 0.35rem;
     border-top: 1px solid #DEDEDE;
+    padding-bottom: calc(3.5px + env(safe-area-inset-bottom));
   }
 
   .item {

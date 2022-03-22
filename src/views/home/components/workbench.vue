@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="workbench">
     <div v-if="err !== '0100000006'">
       <div class="top">
         <span class="span">办事事项 ({{totalCount}})</span>
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <jurisdiction :err="err" v-if="err"></jurisdiction>
+    <div class="errWrap" v-if="err"><jurisdiction :err="err"></jurisdiction></div>
     <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else class="pull">
       <div class="content">
         <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
@@ -156,7 +156,7 @@ export default {
 };
 </script>
 <style scoped="scoped">
-  .box {
+  .workbench {
     flex: 1;
     overflow-y: auto;
     display: flex;
@@ -216,8 +216,13 @@ export default {
     border-radius: 1.25px;
   }
 
+  .errWrap {
+    margin-top: 20px;
+  }
+
   .pull {
     flex: 1;
+    overflow: auto;
   }
 
   .content {

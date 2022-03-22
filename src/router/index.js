@@ -62,6 +62,15 @@ const routes = [
         },
         component: () => import(/* webpackChunkName: "workbench" */'../views/home/components/customer.vue'),
       },
+      {
+        path: '/home/my',
+        name: 'my',
+        meta: {
+          tabbarshow: false,
+          type: 2,
+        },
+        component: () => import(/* webpackChunkName: "workbench" */'../views/home/components/my.vue'),
+      },
     ],
   },
   {
