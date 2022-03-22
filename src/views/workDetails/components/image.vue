@@ -14,7 +14,9 @@
       })"></i>
     </div>
     <div class="image-con">
-      <img :src="content.image.attachmentPath" alt="">
+      <a :href="content.image.attachmentPath">
+        <img :src="content.image.attachmentPath" alt="">
+      </a>
     </div>
   </div>
 </template>

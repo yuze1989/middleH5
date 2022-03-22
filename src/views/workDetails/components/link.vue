@@ -61,6 +61,9 @@ export default {
     font-weight: 500;
     font-size: 1.4rem;
     color: rgba(0,0,0,0.85);
+    word-wrap: break-word;
+    white-space: normal;
+    word-break: break-all;
   }
   .link-sub {
     margin-top: 0.8rem;
@@ -76,6 +79,9 @@ export default {
     display:-webkit-box;
     -webkit-box-orient:vertical;
     -webkit-line-clamp:2;
+    word-wrap: break-word;
+    white-space: normal;
+    word-break: break-all;
   }
   .link-icon img{
     width: 3.9rem;

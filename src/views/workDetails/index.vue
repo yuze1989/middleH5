@@ -7,7 +7,9 @@
           <div class="task-name">{{dataList.sopRuleName}}</div>
           <div class="state" v-if="dataList.overdueFlag">逾期</div>
         </div>
-        <div class="task">{{sopType[`s${dataList.sopType}`].name}}任务</div>
+        <div class="task" v-if="sopType[`s${dataList.sopType}`]">
+          {{sopType[`s${dataList.sopType}`].name}}任务
+        </div>
         <div class="push-date">
           <div>推送时间：{{taskTime}}</div>
           <div v-if="dataList.taskStatus !== 3">
@@ -18,7 +20,11 @@
         </div>
         <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{finishTime}}</div>
       </div>
-      <div class="box-margin" :style="{flexDirection: refer ? 'column' : 'column-reverse'}">
+      <div
+        class="box-margin"
+        :style="{flexDirection: refer ? 'column' : 'column-reverse'}"
+        v-if="dataList"
+      >
         <!-- 推送内容 -->
         <div class="block-box">
           <div class="content">
@@ -66,27 +72,27 @@
         <!-- 推送群聊 -->
         <div class="block-box" v-if="dataList.sopType !== 3">
           <div class="content content-margin">
-            <div class="content-tip">
+            <div class="content-tip" v-if="sopType[`s${dataList.sopType}`]">
               推送{{sopType[`s${dataList.sopType}`].name}}
-              <span class="content-all" @click="cancel">全部完成</span>
+              <span class="content-all" @click="cancel" v-if="refer === 'bench'">全部完成</span>
             </div>
             <div
               class="list" v-for="(item,index) in dataList.sopTaskList"
               :key="index"
               :style="{display: refer || showMore || index < 3 ? 'flex' : 'none'}"
             >
-              <div class="list-flex">
-                <div
+              <div class="list-flex" @click.stop="share(item)">
+                <div class="list-choose"
                   v-if="dataList.taskStatus !== 3 && refer === 'bench'"
+                  @click.stop="change(item)"
                 >
-                  <div v-if="item.taskStatus === 2" @click.stop="change(item)">
-                    <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
-                    class="iconfont"></i>
-                  </div>
-                  <div v-else>
-                    <i class="iconfont icon-xuanze"
-                    style="color: #E5E5E5 !important;"></i>
-                  </div>
+                  <i
+                    class="iconfont"
+                    :class="[
+                      !item.isSelect && item.taskStatus === 2 ? 'icon-weixuanze' : 'icon-xuanze',
+                      item.taskStatus !== 2 ? 'choose-disable' : ''
+                    ]"
+                  />
                 </div>
                 <div class="group">
                   <i class="iconfont icon-touxiang"></i>
@@ -103,14 +109,14 @@
                   </div>
                 </div>
               </div>
-              <div @click.stop="share(item)">
+              <div>
                 <i class="iconfont icon-xiayibu"></i>
               </div>
             </div>
             <div
               class="more"
               v-show="!showMore"
-              v-if="dataList.sopTaskList.length > 3 && !refer"
+              v-if="dataList.sopTaskList && dataList.sopTaskList.length > 3 && !refer"
               @click="showMore = true"
             >
               展开更多
@@ -186,6 +192,10 @@ export default {
           name: '朋友圈SOP',
           invokeName: 'shareToExternalMoments',
         },
+        s4: {
+          name: '客户群发',
+          invokeName: 'shareToExternalMoments',
+        },
       },
     };
   },
@@ -249,6 +259,7 @@ export default {
       }
     },
     change(obj) {
+      if (obj.taskStatus !== 2) return;
       const data = obj;
       data.isSelect = !data.isSelect;
       this.selectAll = false;
@@ -526,7 +537,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 0.9rem;
   }
 
   .list-flex {
@@ -614,6 +624,12 @@ export default {
   }
   .more .icon-xiala {
     font-size: 1rem;
+  }
+  .list-choose {
+    padding: 1rem 0.9rem 1rem 0;
+  }
+  .choose-disable {
+    color: #E5E5E5 !important;
   }
 </style>
 <style>
