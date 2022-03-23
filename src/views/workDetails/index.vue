@@ -77,7 +77,7 @@
               <span
                 class="content-all"
                 @click="cancel"
-                v-if="item.taskStatus === 2 && refer === 'bench'"
+                v-if="dataList.taskStatus === 2 && refer === 'bench'"
               >全部完成</span>
             </div>
             <div
