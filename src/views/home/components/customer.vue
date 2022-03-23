@@ -10,7 +10,7 @@
     <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else class="pull">
       <div class="content">
         <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
-        finished-text="没有更多了">
+          finished-text="没有更多了">
           <div class="item" v-for="(item) in dataList" :key="item.viewId">
             <CustomerItem :item="item" />
           </div>
@@ -27,7 +27,7 @@ import jurisdiction from '../../../common/jurisdiction.vue';
 import CustomerItem from '../../components/customerItem.vue';
 
 export default {
-  name: 'workbench',
+  name: 'customer',
   components: {
     List,
     PullRefresh,
@@ -99,21 +99,21 @@ export default {
   },
 };
 </script>
-<style scoped="scoped">
+<style lang="less" scoped="scoped">
   .customer {
     flex: 1;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-  }
 
-  .top {
-    padding: 1.4rem 1.5rem;
-    font-size: 1.4rem;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    font-weight: 500;
+    .top {
+      padding: 1.4rem 1.5rem;
+      font-size: 1.4rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+    }
   }
 
   .span {
