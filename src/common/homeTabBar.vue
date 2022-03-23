@@ -4,8 +4,8 @@
       v-for="item in tabBars"
       :key="item.name"
       class="item" @click="clickItem(item.url)"
-      :class="{active: $route.path === item.url}">
-      <i :class="`${$route.path === item.url ? item.selectIcon : item.icon}`"
+      :class="{active: item.url.indexOf($route.path) > -1}">
+      <i :class="`${item.url.indexOf($route.path) > -1 ? item.selectIcon : item.icon}`"
         class="iconfont tabbar-icon"></i>
       <div class="title">{{item.title}}</div>
     </div>
@@ -43,8 +43,8 @@ export default {
   },
   methods: {
     clickItem(path) {
-      if (path === this.$route.path) return;
-      this.$router.push(path);
+      if (path.indexOf(this.$route.path) > -1) return;
+      this.$router.replace(path);
     },
   },
 
