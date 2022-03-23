@@ -74,7 +74,11 @@
           <div class="content content-margin">
             <div class="content-tip" v-if="sopType[`s${dataList.sopType}`]">
               推送{{sopType[`s${dataList.sopType}`].name}}
-              <span class="content-all" @click="cancel" v-if="refer === 'bench'">全部完成</span>
+              <span
+                class="content-all"
+                @click="cancel"
+                v-if="item.taskStatus === 2 && refer === 'bench'"
+              >全部完成</span>
             </div>
             <div
               class="list" v-for="(item,index) in dataList.sopTaskList"
@@ -126,7 +130,7 @@
           </div>
         </div>
       </div>
-      <div v-if="dataList.taskStatus === 3 && refer === 'bench'">
+      <div v-if="dataList.taskStatus !== 3 && dataList.soptType === 3 && refer === 'bench'">
         <div class="footer-right" @click="WechatSOP">立即发布</div>
       </div>
     </div>
