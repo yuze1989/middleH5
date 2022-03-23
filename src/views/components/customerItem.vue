@@ -2,7 +2,14 @@
   <div class="customer-item">
     <img :src="item.avatar" alt="" class="use-head-img" />
     <div class="user-info">
-      <div class="user-name">{{item.name}} <span class="user-type">@微信</span></div>
+      <div class="user-name">
+        {{item.name}}&nbsp;&nbsp;
+        <span
+          class="user-type"
+          :class="item.channelName === '微信' ? 'green' : 'orange'">
+          @{{item.channelName}}
+        </span>
+      </div>
       <div class="follow-up-user">跟进人：{{item.tenantStaffName}}</div>
       <div>添加时间：{{getTime(item.addTime)}}</div>
     </div>
@@ -62,8 +69,15 @@ export default {
   .user-type {
     font-size: 13px;
     font-weight: 400;
-    color: #52C41A;
     margin-left: 6px;
+  }
+
+  .green {
+    color: #52C41A;
+  }
+
+  .orange {
+    color: #FF9211;
   }
 
   .follow-up-user {

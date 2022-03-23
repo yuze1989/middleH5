@@ -22,7 +22,6 @@
 
 <script>
 import { List, PullRefresh, Toast } from 'vant';
-import store from '@/store';
 import { getCustomerList } from '@/api/dailySummary';
 import jurisdiction from '../../../common/jurisdiction.vue';
 import CustomerItem from '../../components/customerItem.vue';
@@ -40,27 +39,15 @@ export default {
       refreshing: false,
       loading: false,
       finished: false,
+      // 是否下拉刷新重置
       isRest: false,
       dataList: [],
       err: '',
       pageIndex: 1,
       totalPages: 1,
-      sopType: {
-        1: '群SOP',
-        2: '客户SOP',
-        3: '朋友圈SOP',
-      },
       // 提示数量
       totalCount: 0,
-      // 头部选项卡
-      nav: ['未完成', '已完成'],
     };
-  },
-  mounted() {
-    const type = parseInt(sessionStorage.getItem('type'), 0);
-    if (type) {
-      store.dispatch('SETTYPE', type);
-    }
   },
   methods: {
     onLoad() {
@@ -82,6 +69,7 @@ export default {
       getCustomerList({
         pageIndex: that.pageIndex,
         pageSize: 20,
+        allFlag: true,
       }).then((res) => {
         that.err = '';
         if (res.success) {
@@ -161,5 +149,11 @@ export default {
 
   .item:last-child {
     margin-bottom: 0;
+  }
+
+  ::v-deep .van-pull-refresh__head {
+    padding-top: 17px;
+    box-sizing: border-box;
+    line-height: 33px;
   }
 </style>

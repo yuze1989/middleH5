@@ -22,7 +22,9 @@
           <div class="content-block" v-for="(item,index) in dataList" :key="index"
            @click="go(item.batchNo)">
             <div class="tite">
-              <div class="state" v-if="item.overdueFlag">逾期</div>
+              <div class="state" v-if="item.overdueFlag">
+                <div class="stateBg"></div>逾期
+              </div>
               <div class="task-name">{{item.sopRuleName}}</div>
             </div>
             <div class="task">{{sopType[item.sopType]}}任务</div>
@@ -227,22 +229,24 @@ export default {
 
   .content {
     margin-bottom: 5rem;
+    padding-left: 15px;
     /* min-height: calc(100vh - 14rem); */
   }
 
   .content-block {
-    padding: 1.2rem 1.5rem 1.2rem 0;
-    font-size: 1.2rem;
-    color: #999999;
+    padding: 1.5rem 1.5rem 1.5rem 0;
+    font-size: 1.4rem;
+    color: #7D8394;
     border-bottom: 0.1rem solid #F3F3F3;
   }
 
   .task-name {
     font-size: 1.4rem;
-    color: rgba(0, 0, 0, 0.65);
+    color: #343845;
     overflow: hidden;
-   white-space: nowrap;
+    white-space: nowrap;
     text-overflow: ellipsis;
+    font-weight: 500;
   }
 
   .tite {
@@ -251,33 +255,44 @@ export default {
   }
 
   .task {
-    margin-top: 0.6rem;
+    margin-top: 0.8rem;
   }
 
   .push-date {
     margin-top: 0.6rem;
+    font-size: 12px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
   }
 
   .state {
-    background: rgba(231, 120, 120, 0.1);
-    border-radius: 0.2rem;
+    position: relative;
     text-align: center;
     padding: 0.2rem 0.5rem;
     font-size: 1.2rem;
-    color: rgba(250, 82, 82, 1);
-    margin-right: 1rem;
-    min-width: 3.4rem;
+    color: #F3301E;
+    margin-right: 0.9rem;
+  }
+
+  .stateBg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #E77878;
+    opacity: 0.1;
+    border-radius: 0.2rem;
   }
 
   .overdue {
     font-size: 1.2rem;
     color: #FA5252;
+    margin-left: 1.5rem;
   }
 
   .surplus {
     color: #1890FF;
+    margin-left: 1.5rem;
   }
 </style>

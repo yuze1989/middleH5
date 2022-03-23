@@ -55,8 +55,18 @@ export default {
     display: flex;
     align-items: center;
     padding: 0.8rem 2rem 0.35rem;
-    border-top: 1px solid #DEDEDE;
     padding-bottom: calc(3.5px + env(safe-area-inset-bottom));
+    position: relative;
+  }
+
+  .tabbarWrap::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #DEDEDE;
+    transform: scaleY(0.3);
   }
 
   .item {
