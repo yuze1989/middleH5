@@ -77,7 +77,7 @@
               <span
                 class="content-all"
                 @click="cancel"
-                v-if="dataList.taskStatus === 2 && refer === 'bench'"
+                v-if="!dataList.overdueFlag && dataList.taskStatus === 2 && refer === 'bench'"
               >全部完成</span>
             </div>
             <div
@@ -88,7 +88,7 @@
             >
               <div class="list-flex">
                 <div class="list-choose"
-                  v-if="dataList.taskStatus !== 3 && refer === 'bench'"
+                  v-if="!dataList.overdueFlag && dataList.taskStatus !== 3 && refer === 'bench'"
                   @click.stop="change(item)"
                 >
                   <i
