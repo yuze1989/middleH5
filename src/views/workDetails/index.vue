@@ -219,12 +219,12 @@ export default {
         return;
       }
       const addressArr = [];
-      const text = {
+      let text = {
         content: '',
       };
-      this.dataList.sopRuleContentList.forEach((item) => {
+      this.dataList.sopTaskContentList.forEach((item) => {
         if (item.contentType === 1) {
-          text.content = item.text;
+          text = item.text;
         } else {
           const obj = {
             msgtype: item.msgType,
@@ -237,6 +237,7 @@ export default {
         text,
         attachments: addressArr,
       };
+      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
       Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
         if (res.success) {
           Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
