@@ -130,7 +130,7 @@
           </div>
         </div>
       </div>
-      <div v-if="dataList.taskStatus !== 3 && dataList.soptType === 3 && refer === 'bench'">
+      <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3 && refer === 'bench'">
         <div class="footer-right" @click="WechatSOP">立即发布</div>
       </div>
     </div>
@@ -199,7 +199,7 @@ export default {
         },
         s4: {
           name: '客户群发',
-          invokeName: 'shareToExternalMoments',
+          invokeName: 'shareToExternalChat',
         },
       },
     };
