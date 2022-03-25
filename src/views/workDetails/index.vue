@@ -228,9 +228,7 @@ export default {
         } else {
           const obj = {
             msgtype: item.msgType,
-            [item.msgType]: {
-              mediaid: item[item.msgType].mediaid,
-            },
+            [item.msgType]: item[item.msgType],
           };
           addressArr.push(obj);
         }
