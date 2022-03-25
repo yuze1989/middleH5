@@ -223,23 +223,13 @@ export default {
         content: '',
       };
       this.dataList.sopTaskContentList.forEach((item) => {
-        if (item.contentType === 1) {
+        if (item.msgType === 'text') {
           text = item.text;
         } else {
           const obj = {
             msgtype: item.msgType,
+            [item.msgType]: item[item.msgType],
           };
-          if (item.msgType === 'video') {
-            obj.video = {
-              mediaid: item.video.mediaid,
-            };
-          } else if (item.msgtype === 'link') {
-            obj.link = {
-              title: item.link.title,
-              imgUrl: item.link.imgUrl,
-              url: item.link.url,
-            };
-          }
           addressArr.push(obj);
         }
       });
@@ -247,7 +237,7 @@ export default {
         text,
         attachments: addressArr,
       };
-      alert(JSON.stringify(data));
+      console.log('data', data);
       Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
       Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
         if (res.success) {
