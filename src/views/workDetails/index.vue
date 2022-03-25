@@ -228,7 +228,9 @@ export default {
         } else {
           const obj = {
             msgtype: item.msgType,
-            [item.msgType]: item[item.msgType],
+            [item.msgType]: {
+              mediaid: item[item.msgType].mediaid,
+            },
           };
           addressArr.push(obj);
         }
@@ -237,7 +239,7 @@ export default {
         text,
         attachments: addressArr,
       };
-      console.log('data', data);
+      alert(JSON.stringify(data));
       Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
       Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
         if (res.success) {
