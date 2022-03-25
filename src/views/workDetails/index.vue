@@ -247,7 +247,7 @@ export default {
         text,
         attachments: addressArr,
       };
-      console.log('data', data);
+      alert(JSON.stringify(data));
       Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
       Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
         if (res.success) {
