@@ -35,6 +35,7 @@ const Wechat = {
           if (res.userId) {
             sessionStorage.setItem('userId', res.userId);
           }
+          alert(JSON.stringify(func));
           if (func) {
             func(res);
           }

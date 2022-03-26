@@ -239,6 +239,7 @@ export default {
         attachments: addressArr,
       };
       Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName, () => {
+        alert(1);
         that.idList = [that.dataList.friendCycleSopTaskId];
         that.getFinishTask();
       });
@@ -313,6 +314,7 @@ export default {
       this.getFinishTask();
     },
     getFinishTask() {
+      alert('getFinishTask');
       const that = this;
       Http.post('/scrm/comm/rest/sop/finish-sop-task', { idList: that.idList }, '').then((res) => {
         if (res.success) {
