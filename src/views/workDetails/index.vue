@@ -240,6 +240,7 @@ export default {
       };
 
       Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName, () => {
+        alert(JSON.stringify(that));
         that.getIdList();
         that.getFinishTask();
       });
