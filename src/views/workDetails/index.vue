@@ -238,12 +238,9 @@ export default {
         text,
         attachments: addressArr,
       };
-
-      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName, () => {
-        alert(JSON.stringify(that));
-        that.getIdList();
-        that.getFinishTask();
-      });
+      that.getIdList();
+      that.getFinishTask();
+      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
     },
     // 分享
     share(obj) {
