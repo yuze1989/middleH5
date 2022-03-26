@@ -32,10 +32,10 @@ const Wechat = {
       success: () => {
         wx.invoke(type, info, (res) => {
           alert(JSON.stringify(res));
+          alert(JSON.stringify(func));
           if (res.userId) {
             sessionStorage.setItem('userId', res.userId);
           }
-          alert(JSON.stringify(func));
           if (func) {
             func(res);
           }
