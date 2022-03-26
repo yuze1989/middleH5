@@ -214,6 +214,7 @@ export default {
       Wechat.setAgentConfig(data, 'sendChatMessage');
     },
     WechatSOP() {
+      const that = this;
       if (this.dataList.overdueFlag) {
         Toast('任务已逾期');
         return;
@@ -239,8 +240,8 @@ export default {
       };
 
       Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName, () => {
-        this.getIdList();
-        this.getFinishTask();
+        that.getIdList();
+        that.getFinishTask();
       });
     },
     // 分享
