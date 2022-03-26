@@ -237,13 +237,10 @@ export default {
         text,
         attachments: addressArr,
       };
-      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
-      Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
-        if (res.success) {
-          Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName);
-          return;
-        }
-        Toast(res.errMessage);
+
+      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName, () => {
+        this.getIdList();
+        this.getFinishTask();
       });
     },
     // 分享
@@ -286,17 +283,21 @@ export default {
       });
       this.determine();
     },
-    // 完成
-    determine() {
-      const that = this;
+    getIdList() {
       const idList = [];
-      that.dataList.sopTaskList.forEach((item) => {
+      this.dataList.sopTaskList.forEach((item) => {
         const data = item;
         if (data.taskStatus === 2 && data.isSelect) {
           idList.push(data.id);
         }
       });
-      that.idList = idList;
+      this.idList = idList;
+      return idList;
+    },
+    // 完成
+    determine() {
+      const that = this;
+      const idList = this.getIdList();
       if (idList.length === 0) {
         Toast.loading({
           message: that.dataList.sopType === 1 ? '请选择完成的群聊' : '请选择完成的客户',
