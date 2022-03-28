@@ -130,7 +130,7 @@
           </div>
         </div>
       </div>
-      <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3 && refer === 'bench'">
+      <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3">
         <div class="footer-right" @click="WechatSOP">立即发布</div>
       </div>
     </div>
