@@ -238,9 +238,11 @@ export default {
         text,
         attachments: addressArr,
       };
-      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName, () => {
-        that.idList = [that.dataList.friendCycleSopTaskId];
-        that.getFinishTask();
+      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName, (res) => {
+        if (res.err_msg === 'shareToExternalMoments:ok') {
+          that.idList = [that.dataList.friendCycleSopTaskId];
+          that.getFinishTask();
+        }
       });
     },
     // 分享
@@ -313,7 +315,6 @@ export default {
       this.getFinishTask();
     },
     getFinishTask() {
-      alert('getFinishTask');
       const that = this;
       Http.post('/scrm/comm/rest/sop/finish-sop-task', { idList: that.idList }, '').then((res) => {
         if (res.success) {
