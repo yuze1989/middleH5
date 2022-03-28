@@ -82,7 +82,7 @@ const routes = [
       tabbarshow: false,
       type: 2,
     },
-    component: () => import(/* webpackChunkName: "workDetails" */'../views/workDetails.vue'),
+    component: () => import(/* webpackChunkName: "workDetails" */'../views/workDetails/index.vue'),
   },
   {
     path: '/portraitDetails',
