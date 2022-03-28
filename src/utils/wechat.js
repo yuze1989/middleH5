@@ -31,8 +31,6 @@ const Wechat = {
         'openEnterpriseChat', 'shareToExternalMoments', 'shareToExternalContact', 'shareToExternalChat'], // 必填，传入需要使用的接口名称
       success: () => {
         wx.invoke(type, info, (res) => {
-          alert(JSON.stringify(func));
-          alert(JSON.stringify(res));
           if (res.userId) {
             sessionStorage.setItem('userId', res.userId);
           }

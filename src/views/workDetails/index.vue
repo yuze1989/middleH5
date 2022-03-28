@@ -239,7 +239,6 @@ export default {
         attachments: addressArr,
       };
       Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName, () => {
-        alert(1);
         that.idList = [that.dataList.friendCycleSopTaskId];
         that.getFinishTask();
       });
