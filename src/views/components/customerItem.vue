@@ -3,11 +3,12 @@
     <img :src="item.avatar" alt="" class="use-head-img" />
     <div class="user-info">
       <div class="user-name">
-        {{item.name}}&nbsp;&nbsp;
+        <span>{{item.name}}</span>
         <span
+          v-if="item.wxType"
           class="user-type"
-          :class="item.channelName === '微信' ? 'green' : 'orange'">
-          @{{item.channelName}}
+          :class="item.wxType === 1 ? 'green' : 'orange'">
+          @{{getUserTypeText(item.wxType)}}
         </span>
       </div>
       <div class="follow-up-user">跟进人：{{item.tenantStaffName}}</div>
@@ -27,8 +28,20 @@ export default {
     },
   },
   methods: {
+    // 时间转换
     getTime(value) {
       return moment(value).format('YYYY-MM-DD HH:mm');
+    },
+    // 用户类型
+    getUserTypeText(type) {
+      switch (type) {
+        case 1:
+          return '微信';
+        case 2:
+          return '企微';
+        default:
+          return '';
+      }
     },
   },
 };
@@ -54,6 +67,7 @@ export default {
     line-height: 17px;
     font-weight: 400;
     text-align: left;
+    font-family: PingFangSC-Regular;
   }
 
   .user-name {
@@ -64,12 +78,15 @@ export default {
     line-height: 22px;
     display: flex;
     align-items: flex-end;
+    font-family: PingFangSC-Medium;
   }
 
   .user-type {
     font-size: 13px;
     font-weight: 400;
     margin-left: 6px;
+    line-height: 20px;
+    font-family: PingFangSC-Regular;
   }
 
   .green {

@@ -105,6 +105,7 @@ export default {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    font-family: PingFangSC-Medium;
 
     .top {
       padding: 1.4rem 1.5rem;
@@ -144,7 +145,7 @@ export default {
   }
 
   .item {
-    margin-bottom: 18px;
+    margin-bottom: 17px;
   }
 
   .item:last-child {

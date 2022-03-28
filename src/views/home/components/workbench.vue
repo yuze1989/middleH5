@@ -2,7 +2,7 @@
   <div class="workbench">
     <div v-if="err !== '0100000006'">
       <div class="top">
-        <span class="span">办事事项 ({{totalCount}})</span>
+        <span class="span">待办事项 ({{totalCount}})</span>
       </div>
       <div class="hr"></div>
       <div class="top-nav">

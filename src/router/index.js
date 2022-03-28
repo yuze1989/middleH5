@@ -141,7 +141,6 @@ router.beforeEach(async (to, form, next) => {
     const options = Util.getUrlOption(url);
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
-    const agentId = localStorage.getItem('agentId');
     // 用于判断地址带进来的参数
     const generalidArr = ['channel', 'appid', 'batchNo', 'checkpc'];
     // appid是唯一, 如果存储的appid和地址带进来的不同则清除缓存
@@ -160,6 +159,7 @@ router.beforeEach(async (to, form, next) => {
       localStorage.clear();
       openid = '';
     }
+    const agentId = localStorage.getItem('agentId');
     if (!agentId) {
       sessionStorage.removeItem('token');
     }
