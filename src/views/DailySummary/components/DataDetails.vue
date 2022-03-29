@@ -176,8 +176,8 @@ import {
   getChatStatistics,
   getWechatStatistics,
 } from '@/api/dailySummary';
-import UserInfo from './UserInfo.vue';
 import Charts from '@/components/Charts.vue';
+import UserInfo from './UserInfo.vue';
 
 export default {
   props: {

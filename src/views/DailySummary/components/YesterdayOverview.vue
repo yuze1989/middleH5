@@ -139,8 +139,8 @@
 import {
   List,
 } from 'vant';
-import UserInfo from './UserInfo.vue';
 import { getDetail, getMyRank, getRankList } from '@/api/dailySummary';
+import UserInfo from './UserInfo.vue';
 
 export default {
   props: {
