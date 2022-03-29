@@ -177,11 +177,12 @@ router.beforeEach(async (to, form, next) => {
     });
     if (!openid && options.appid && !options.code) {
       const sourceId = options.channel || '';
+      const scopeType = options.channel.toString() === '0' ? 'snsapi_privateinfo' : 'snsapi_userinfo';
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         options.appid
       }&redirect_uri=${
         encodeURIComponent(`${Config.redirect_uri}${src}?${qs.stringify(dataList)}`)
-      }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
+      }&response_type=code&scope=${scopeType}&state=${sourceId}#wechat_redirect`;
       return;
     }
     // 同一个企业不用继续授权重新拿一下token

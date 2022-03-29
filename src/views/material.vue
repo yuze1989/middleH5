@@ -1,7 +1,7 @@
 <template>
   <div class="box-bos">
     <ul v-if="err !== '0100000006'">
-      <li :class="{'active': $store.state.navType === index}"
+      <li :class="{'active': navType === index}"
       v-for="(item,index) in lists" :key="index"
         @click="change(index)">
         {{item.name}}
@@ -13,15 +13,15 @@
       <div class="content-box">
         <div class="tip">
           (共有{{totalCount}}个
-          {{lists[$store.state.navType].name}}素材)</div>
+          {{lists[navType].name}}素材)</div>
         <List v-model="loading" :finished="finished" offset="100"
         @load="onLoad" finished-text="没有更多了">
           <div class="article" v-for="(item,index) in dataList" :key="index"
           @click="goDetails(item)">
             <div class="left">
               <i class="iconfont icon-fasong1" @click.stop="share(item)"></i>
-              <img :src="item.materialEnclosureUrl" v-if="$store.state.navType === 2">
-              <img :src="item.coverPicUrl || lists[$store.state.navType].url" v-else>
+              <img :src="item.materialEnclosureUrl" v-if="navType === 2">
+              <img :src="item.coverPicUrl || lists[navType].url" v-else>
             </div>
             <div class="right">
               <div class="name">{{item.title}}</div>
@@ -41,10 +41,10 @@
 
 <script>
 import { List, PullRefresh, Toast } from 'vant';
+import { mapState } from 'vuex';
 import Http from '../utils/http';
 import Wechat from '../utils/wechat';
 import Config from '../utils/config';
-import store from '@/store';
 import jurisdiction from '../common/jurisdiction.vue';
 
 export default {
@@ -125,10 +125,13 @@ export default {
       totalPages: 1,
     };
   },
+  computed: mapState({
+    navType: (state) => state.statusType.navType,
+  }),
   mounted() {
-    const navType = parseInt(sessionStorage.getItem('navType'), 0);
-    if (navType) {
-      store.dispatch('SETNACVTYPE', navType);
+    const sessionType = parseInt(sessionStorage.getItem('navType'), 0);
+    if (sessionType) {
+      this.$store.dispatch('statusType/SETNACVTYPE', sessionType);
     }
   },
   methods: {
@@ -144,8 +147,8 @@ export default {
     },
     getList() {
       const that = this;
-      const { headType } = that.lists[that.$store.state.navType];
-      if (that.$store.state.navType === 0) {
+      const { headType } = that.lists[that.navType];
+      if (that.navType === 0) {
         that.snapshot = true;
       }
       // 清除下拉刷新状态
@@ -157,7 +160,7 @@ export default {
         return;
       }
       Http.post(`/scrm/material/list-marketing-material/${headType}`, {
-        materialType: that.$store.state.navType + 1,
+        materialType: that.navType + 1,
         pageIndex: that.pageIndex,
         pageSize: 20,
         snapshotFlag: that.snapshot,
@@ -183,7 +186,7 @@ export default {
       });
     },
     goDetails(obj) {
-      if (this.$store.state.navType === 0) {
+      if (this.navType === 0) {
         Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
           snapshotid: obj.id,
         }, '').then((res) => {
@@ -209,7 +212,7 @@ export default {
     },
     // tab切换
     change(index) {
-      store.dispatch('SETNACVTYPE', index);
+      this.$store.dispatch('statusType/SETNACVTYPE', index);
       sessionStorage.setItem('navType', index);
       this.pageIndex = 1;
       this.dataList = [];
@@ -233,7 +236,7 @@ export default {
       if (this.shake) {
         return;
       }
-      const { type, materal } = this.lists[this.$store.state.navType];
+      const { type, materal } = this.lists[this.navType];
       if (msgType === 'news') {
         Http.post('/scrm/comm/rest/marketing-material/share-marketing-material', {
           [materal]: obj.id,
@@ -263,7 +266,7 @@ export default {
       }
 
       Http.post('/scrm/comm/rest/marketing-material/upload-file-to-wx', {
-        materialType: this.$store.state.navType + 1,
+        materialType: this.navType + 1,
         materialEnclosureId: obj.materialEnclosureId,
       }, '').then((res) => {
         data = {
@@ -283,7 +286,7 @@ export default {
     // 分享
     share(obj) {
       const maxsize = 10 * 1024 * 1024;
-      let { msgType } = this.lists[this.$store.state.navType];
+      let { msgType } = this.lists[this.navType];
       if (!obj.appId && msgType === 'news') {
         Toast('当前素材尚未关联公众号，请在系统内配置后使用');
         return;

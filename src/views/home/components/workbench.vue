@@ -7,7 +7,7 @@
       <div class="hr"></div>
       <div class="top-nav">
         <div v-for="(item,index) in nav" :key="index" class="nav-box">
-          <div :class="{active: ($store.state.type - 2) === index}"
+          <div :class="{active: (type - 2) === index}"
             @click="change(index)">
             {{item}}
           </div>
@@ -48,7 +48,7 @@
 <script>
 import { List, PullRefresh, Toast } from 'vant';
 import moment from 'moment';
-import store from '@/store';
+import { mapState } from 'vuex';
 import jurisdiction from '../../../common/jurisdiction.vue';
 import Http from '../../../utils/http';
 import '../workbench.less';
@@ -80,10 +80,13 @@ export default {
       nav: ['未完成', '已完成'],
     };
   },
+  computed: mapState({
+    type: (state) => state.statusType.type,
+  }),
   mounted() {
-    const type = parseInt(sessionStorage.getItem('type'), 0);
-    if (type) {
-      store.dispatch('SETTYPE', type);
+    const sessionType = parseInt(sessionStorage.getItem('type'), 0);
+    if (sessionType) {
+      this.$store.dispatch('statusType/SETTYPE', sessionType);
     }
   },
   methods: {
@@ -119,7 +122,7 @@ export default {
         return;
       }
       Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
-        taskStatus: that.$store.state.type,
+        taskStatus: that.type,
         pageIndex: that.pageIndex,
         pageSize: 20,
       }, '').then((res) => {
@@ -146,7 +149,7 @@ export default {
     },
     // tab切换
     change(index) {
-      store.dispatch('SETTYPE', index + 2);
+      this.$store.dispatch('statusType/SETTYPE', index + 2);
       sessionStorage.setItem('type', index + 2);
       this.pageIndex = 1;
       this.dataList = [];
