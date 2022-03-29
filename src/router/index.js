@@ -40,38 +40,28 @@ const routes = [
     component: () => import(/* webpackChunkName: "material" */'../views/details.vue'),
   },
   {
-    path: '/home',
-    name: 'home',
-    component: () => import(/* webpackChunkName: "workbench" */'../views/home/index.vue'),
-    children: [
-      {
-        path: '/home/workbench',
-        name: 'workbench',
-        meta: {
-          tabbarshow: false,
-          type: 2,
-        },
-        component: () => import(/* webpackChunkName: "workbench" */'../views/home/components/workbench.vue'),
-      },
-      {
-        path: '/home/customer',
-        name: 'customer',
-        meta: {
-          tabbarshow: false,
-          type: 2,
-        },
-        component: () => import(/* webpackChunkName: "workbench" */'../views/home/components/customer.vue'),
-      },
-      {
-        path: '/home/my',
-        name: 'my',
-        meta: {
-          tabbarshow: false,
-          type: 2,
-        },
-        component: () => import(/* webpackChunkName: "workbench" */'../views/home/components/my.vue'),
-      },
-    ],
+    path: '/workbench',
+    name: 'workbench',
+    meta: {
+      showTabbar: true,
+    },
+    component: () => import('../views/workbench/index.vue'),
+  },
+  {
+    path: '/customer',
+    name: 'customer',
+    meta: {
+      showTabbar: true,
+    },
+    component: () => import(/* webpackChunkName: "workbench" */'../views/customer.vue'),
+  },
+  {
+    path: '/my',
+    name: 'my',
+    meta: {
+      showTabbar: true,
+    },
+    component: () => import(/* webpackChunkName: "workbench" */'../views/my.vue'),
   },
   {
     path: '/marketing',

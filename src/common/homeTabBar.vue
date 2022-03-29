@@ -19,21 +19,21 @@ export default {
       tabBars: [
         {
           name: 'work',
-          url: '/home/workbench/',
+          url: '/workbench/',
           icon: 'icon-gongzuotai2',
           selectIcon: 'icon-gongzuotai-11',
           title: '工作台',
         },
         {
           name: 'customer',
-          url: '/home/customer/',
+          url: '/customer/',
           icon: 'icon-kehu1',
           selectIcon: 'icon-kehu3',
           title: '客户',
         },
         {
           name: 'my',
-          url: '/home/my/',
+          url: '/my/',
           icon: 'icon-wode1',
           selectIcon: 'icon-wode-1',
           title: '我的',

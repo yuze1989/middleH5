@@ -49,9 +49,9 @@
 import { List, PullRefresh, Toast } from 'vant';
 import moment from 'moment';
 import { mapState } from 'vuex';
-import jurisdiction from '../../../common/jurisdiction.vue';
-import Http from '../../../utils/http';
-import '../workbench.less';
+import jurisdiction from '../../common/jurisdiction.vue';
+import Http from '../../utils/http';
+import './workbench.less';
 
 export default {
   name: 'workbench',

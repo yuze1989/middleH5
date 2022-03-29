@@ -23,8 +23,8 @@
 <script>
 import { List, PullRefresh, Toast } from 'vant';
 import { getCustomerList } from '@/api/dailySummary';
-import jurisdiction from '../../../common/jurisdiction.vue';
-import CustomerItem from '../../components/customerItem.vue';
+import jurisdiction from '../common/jurisdiction.vue';
+import CustomerItem from './components/customerItem.vue';
 
 export default {
   name: 'customer',
