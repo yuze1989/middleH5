@@ -168,8 +168,22 @@ router.beforeEach(async (to, form, next) => {
     if (!openid && options.appid && !options.code) {
       const sourceId = options.channel || '';
       const scopeType = options.channel.toString() === '0' ? 'snsapi_privateinfo' : 'snsapi_userinfo';
+      let wxAppId = '';
+      if (options.channel.toString() === '0') {
+        if (process.env.VUE_APP_ENV !== 'development') {
+          wxAppId = Config.globalOpt.appId;
+        } else {
+          wxAppId = Config.globalOpt.testAppId;
+        }
+      } else {
+        wxAppId = options.appid;
+      }
+      // const wxAppId = options.channel.toString() === '0'
+      //   ? (process.env.VUE_APP_ENV !== 'development'
+      //     ? Config.globalOpt.appId : Config.globalOpt.testAppId)
+      //   : options.appid;
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
-        options.appid
+        wxAppId
       }&redirect_uri=${
         encodeURIComponent(`${Config.redirect_uri}${src}?${qs.stringify(dataList)}`)
       }&response_type=code&scope=${scopeType}&state=${sourceId}#wechat_redirect`;
