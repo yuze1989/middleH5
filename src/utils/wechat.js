@@ -28,20 +28,19 @@ const Wechat = {
       nonceStr: wxSignature.nonceStr, // 必填，生成签名的随机串
       signature: wxSignature.signature, // 必填，签名，见附录-JS-SDK使用权限签名算法
       jsApiList: ['sendChatMessage', 'openExistedChatWithMsg', 'getCurExternalContact',
-        'openEnterpriseChat', 'shareToExternalMoments'], // 必填，传入需要使用的接口名称
+        'openEnterpriseChat', 'shareToExternalMoments', 'shareToExternalContact', 'shareToExternalChat'], // 必填，传入需要使用的接口名称
       success: () => {
         wx.invoke(type, info, (res) => {
           if (res.userId) {
             sessionStorage.setItem('userId', res.userId);
           }
           if (func) {
-            func();
+            func(res);
           }
         });
         // 回调
       },
       fail: (res) => {
-        console.log(res);
         if (res.errMsg.indexOf('function not exist') > -1) {
           // alert('版本过低请升级');
         }

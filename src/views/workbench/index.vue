@@ -108,6 +108,7 @@ export default {
         name: 'workDetails',
         query: {
           batchNo: id,
+          refer: 'bench',
         },
       });
     },

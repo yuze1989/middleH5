@@ -7,7 +7,9 @@
           <div class="task-name">{{dataList.sopRuleName}}</div>
           <div class="state" v-if="dataList.overdueFlag">逾期</div>
         </div>
-        <div class="task">{{sopType[dataList.sopType]}}任务</div>
+        <div class="task" v-if="sopType[`s${dataList.sopType}`]">
+          {{sopType[`s${dataList.sopType}`].name}}任务
+        </div>
         <div class="push-date">
           <div>推送时间：{{taskTime}}</div>
           <div v-if="dataList.taskStatus !== 3">
@@ -18,56 +20,84 @@
         </div>
         <div class="task" v-if="dataList.taskStatus === 3">完成时间：{{finishTime}}</div>
       </div>
-      <div class="box-margin">
+      <div
+        class="box-margin"
+        :style="{flexDirection: refer ? 'column' : 'column-reverse'}"
+        v-if="dataList"
+      >
         <!-- 推送内容 -->
         <div class="block-box">
           <div class="content">
             <div class="content-tip">推送内容</div>
-            <div class="flex"
-            v-for="(item,index) in dataList.sopRuleContentList" :key="index">
-              <div class="left">
-                <i class="iconfont icon-wenzi" v-if="item.contentType === 1"></i>
-                <i class="iconfont icon-tupian" v-if="item.contentType === 2"></i>
-                <i class="iconfont icon-bianzu" v-if="item.contentType === 3"></i>
-              </div>
-              <div class="right">
-                <div class="right-top">
-                  <div class="right-title">
-                    <span v-if="item.contentType === 1">文本</span>
-                    <span v-if="item.contentType === 2">图片</span>
-                    <span v-if="item.contentType === 3">链接</span>
-                  </div>
-                  <div class="copy" @click="copy(item)">
-                    <i class="iconfont icon-fuzhi"></i>
-                    <span>复制</span>
-                  </div>
-                </div>
-                <div class="right-content" v-if="item.contentType !== 2">
-                  {{item.text || item.linkUrl}}
-                </div>
-                <div class="right-content" v-else>
-                  <img :src="item.imgUrl">
-                </div>
-              </div>
+            <div class="flex" v-for="(item,index) in dataList.sopTaskContentList" :key="index">
+              <WorkText
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'text'"
+              />
+              <WorkImage
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'image'"
+              />
+              <WorkLink
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'link'"
+              />
+              <WorkVideo
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'video'"
+              />
+              <WorkFile
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'file'"
+              />
+              <WorkWechat
+                :refer="refer"
+                :content="item"
+                @send="singleSend"
+                v-if="item.msgType === 'miniProgram'"
+              />
             </div>
           </div>
         </div>
         <!-- 推送群聊 -->
         <div class="block-box" v-if="dataList.sopType !== 3">
           <div class="content content-margin">
-            <div class="content-tip">推送{{sopType[dataList.sopType]}}</div>
-            <div class="list" v-for="(item,index) in dataList.sopTaskList" :key="index"
-            @click.stop="change(item)">
+            <div class="content-tip" v-if="sopType[`s${dataList.sopType}`]">
+              推送{{sopType[`s${dataList.sopType}`].name}}
+              <span
+                class="content-all"
+                @click="cancel"
+                v-if="!dataList.overdueFlag && dataList.taskStatus === 2 && refer === 'bench'"
+              >全部完成</span>
+            </div>
+            <div
+              class="list" v-for="(item,index) in dataList.sopTaskList"
+              :key="index"
+              :style="{display: refer || showMore || index < 3 ? 'flex' : 'none'}"
+              @click.stop="share(item)"
+            >
               <div class="list-flex">
-                <div v-if="dataList.taskStatus !== 3">
-                  <div v-if="item.taskStatus === 2">
-                    <i :class="!item.isSelect ? 'icon-weixuanze' : 'icon-xuanze'"
-                    class="iconfont"></i>
-                  </div>
-                  <div v-else>
-                    <i class="iconfont icon-xuanze"
-                    style="color: #E5E5E5 !important;"></i>
-                  </div>
+                <div class="list-choose"
+                  v-if="!dataList.overdueFlag && dataList.taskStatus !== 3 && refer === 'bench'"
+                  @click.stop="change(item)"
+                >
+                  <i
+                    class="iconfont"
+                    :class="[
+                      !item.isSelect && item.taskStatus === 2 ? 'icon-weixuanze' : 'icon-xuanze',
+                      item.taskStatus !== 2 ? 'choose-disable' : ''
+                    ]"
+                  />
                 </div>
                 <div class="group">
                   <i class="iconfont icon-touxiang"></i>
@@ -84,87 +114,134 @@
                   </div>
                 </div>
               </div>
-              <div class="icon" @click.stop="share(item)">
-                <i class="iconfont icon-fasong"></i>
+              <div>
+                <i class="iconfont icon-xiayibu"></i>
               </div>
+            </div>
+            <div
+              class="more"
+              v-show="!showMore"
+              v-if="dataList.sopTaskList && dataList.sopTaskList.length > 3 && !refer"
+              @click="showMore = true"
+            >
+              展开更多
+              <i class="iconfont icon-xiala" />
             </div>
           </div>
         </div>
       </div>
-      <div class="footer" v-if="dataList.taskStatus !== 3">
-        <div class="footer" v-if="dataList.sopType !== 3">
-          <div class="footer-left" @click="cancel">全选</div>
-          <div class="footer-right" @click="determine">完成</div>
-        </div>
-        <div class="footer-right" @click="WechatSOP" v-else>立即发布</div>
+      <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3">
+        <div class="footer-right" @click="WechatSOP">立即发布</div>
       </div>
     </div>
+    <van-dialog
+      v-model="showDialog"
+      :title="'是否已完成' + (selectAll ? '所有' : '该') + '客户推送？'"
+      show-cancel-button
+      @confirm="getFinishTask"
+      confirmButtonText="已完成"
+      confirmButtonColor="#2F9BFF"
+    >
+      <div v-if="!selectAll" class="dialog-con" @click="isWarnAgain = !isWarnAgain">
+        <i
+          class="iconfont icon-font-cus"
+          :class="isWarnAgain ? 'icon-xuanze' : 'icon-weixuanze'"
+        >
+          <span class="dialog-text">本次任务不再提醒</span>
+        </i>
+      </div>
+    </van-dialog>
   </div>
 </template>
 
 <script>
 import { Toast } from 'vant';
 import moment from 'moment';
-import Http from '../utils/http';
-import Wechat from '../utils/wechat';
-import jurisdiction from '../common/jurisdiction.vue';
+import Http from '../../utils/http';
+import Wechat from '../../utils/wechat';
+import jurisdiction from '../../common/jurisdiction.vue';
+import WorkFile from './components/file.vue';
+import WorkText from './components/text.vue';
+import WorkImage from './components/image.vue';
+import WorkVideo from './components/video.vue';
+import WorkLink from './components/link.vue';
+import WorkWechat from './components/wechat.vue';
 
 export default {
-  components: { jurisdiction },
+  components: {
+    jurisdiction, WorkFile, WorkText, WorkImage, WorkVideo, WorkLink, WorkWechat,
+  },
   data() {
     return {
       err: '',
       dataList: [],
       batchNo: '',
+      refer: '',
       idList: [],
       taskTime: '',
       finishTime: '',
       selectAll: false,
-      title: { content: '' },
+      showDialog: false,
+      isWarnAgain: false,
+      showMore: false,
       sopType: {
-        1: '群SOP',
-        2: '客户SOP',
-        3: '朋友圈SOP',
+        s1: {
+          name: '群SOP',
+          invokeName: 'shareToExternalChat',
+        },
+        s2: {
+          name: '客户SOP',
+          invokeName: 'shareToExternalContact',
+        },
+        s3: {
+          name: '朋友圈SOP',
+          invokeName: 'shareToExternalMoments',
+        },
+        s4: {
+          name: '客户群发',
+          invokeName: 'shareToExternalChat',
+        },
       },
     };
   },
   mounted() {
     this.batchNo = this.$route.query.batchNo;
+    this.refer = this.$route.query.refer;
     this.getList();
   },
   methods: {
+    singleSend(data) {
+      Wechat.setAgentConfig(data, 'sendChatMessage');
+    },
     WechatSOP() {
+      const that = this;
       if (this.dataList.overdueFlag) {
         Toast('任务已逾期');
         return;
       }
       const addressArr = [];
-      this.dataList.sopRuleContentList.forEach((item) => {
-        switch (item.contentType) {
-          case 1:
-            // 文字
-            this.title = { content: item.text };
-            break;
-          case 2:
-            // 图片
-            addressArr.push({ msgtype: 'image', image: { imgUrl: item.imgUrl } });
-            break;
-          case 3:
-            // 链接
-            addressArr.push({ msgtype: 'link', link: { url: item.linkUrl } });
-            break;
-          default:
+      let text = {
+        content: '',
+      };
+      this.dataList.sopTaskContentList.forEach((item) => {
+        if (item.msgType === 'text') {
+          text = item.text;
+        } else {
+          const obj = {
+            msgtype: item.msgType,
+            [item.msgType]: item[item.msgType],
+          };
+          addressArr.push(obj);
         }
       });
       const data = {
-        text: this.title,
+        text,
         attachments: addressArr,
       };
-      Http.post('/scrm/comm/rest/sop/finish-friend-sop-task', { batchNo: this.batchNo }, '').then((res) => {
-        if (res.success) {
-          Wechat.setAgentConfig(data, 'shareToExternalMoments');
-        } else {
-          Toast(res.errMessage);
+      Wechat.setAgentConfig(data, this.sopType[`s${this.dataList.sopType}`].invokeName, (res) => {
+        if (res.err_msg === 'shareToExternalMoments:ok') {
+          that.idList = [that.dataList.friendCycleSopTaskId];
+          that.getFinishTask();
         }
       });
     },
@@ -187,37 +264,16 @@ export default {
       }
     },
     change(obj) {
+      if (obj.taskStatus !== 2) return;
       const data = obj;
       data.isSelect = !data.isSelect;
+      this.selectAll = false;
+      if (data.isSelect) {
+        this.determine();
+      }
     },
     time(value) {
       return moment(value).format('YYYY-MM-DD HH:mm');
-    },
-    // 复制
-    copy(obj) {
-      let content;
-      switch (obj.contentType) {
-        case 1:
-          // 文字
-          content = obj.text;
-          break;
-        case 2:
-          // 图片
-          content = obj.imgUrl;
-          break;
-        case 3:
-          // 链接
-          content = obj.linkUrl;
-          break;
-        default:
-      }
-      const input = document.createElement('input'); // 直接构建input
-      input.value = content; // 设置内容
-      document.body.appendChild(input); // 添加临时实例
-      input.select(); // 选择实例内容
-      document.execCommand('copy'); // 执行复制
-      Toast(document.execCommand('copy') ? '复制成功' : '复制失败');
-      document.body.removeChild(input); // 删除临时实例
     },
     // 取消全选 --- 全选
     cancel() {
@@ -227,18 +283,24 @@ export default {
         const data = item;
         data.isSelect = this.selectAll;
       });
+      this.determine();
+    },
+    getIdList() {
+      const idList = [];
+      this.dataList.sopTaskList.forEach((item) => {
+        const data = item;
+        if (data.taskStatus === 2 && data.isSelect) {
+          idList.push(data.id);
+        }
+      });
+      this.idList = idList;
+      return idList;
     },
     // 完成
     determine() {
       const that = this;
-      that.idList = [];
-      that.dataList.sopTaskList.forEach((item) => {
-        const data = item;
-        if (data.taskStatus === 2 && data.isSelect) {
-          that.idList.push(data.id);
-        }
-      });
-      if (that.idList.length === 0) {
+      const idList = this.getIdList();
+      if (idList.length === 0) {
         Toast.loading({
           message: that.dataList.sopType === 1 ? '请选择完成的群聊' : '请选择完成的客户',
           duration: 1000,
@@ -246,13 +308,21 @@ export default {
         });
         return;
       }
+      if (!this.isWarnAgain) {
+        this.showDialog = true;
+        return;
+      }
+      this.getFinishTask();
+    },
+    getFinishTask() {
+      const that = this;
       Http.post('/scrm/comm/rest/sop/finish-sop-task', { idList: that.idList }, '').then((res) => {
         if (res.success) {
           Toast('已完成');
           that.getList();
-        } else {
-          Toast(res.errMessage);
+          return;
         }
+        Toast(res.errMessage);
       });
     },
     getList() {
@@ -307,14 +377,7 @@ export default {
 
   .box-margin {
     margin-bottom: 6.4rem;
-  }
-
-  .icon {
-    padding: 0.4rem;
-    background: #DCEEFF;
-    box-shadow: 0 0.4rem 3rem 0 rgba(24, 107, 255, 0.16);
-    border-radius: 50%;
-    text-align: center;
+    display: flex;
   }
 
   .content-margin {
@@ -357,6 +420,12 @@ export default {
     font-size: 1.4rem;
     color: #333333;
     padding-bottom: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .content-all {
+    color: #1890FF;
+    padding-right: 2rem;
   }
 
   .content {
@@ -441,17 +510,11 @@ export default {
   .iconfont {
     font-size: 1.4rem;
     color: #999999;
-    margin-right: 1rem;
   }
 
   .right-title {
     font-size: 1.6rem;
     color: #333333;
-  }
-
-  .copy {
-    font-size: 1.4rem;
-    color: #1890FF;
   }
 
   .right {
@@ -539,5 +602,65 @@ export default {
   .footer-right {
     color: #FFFFFF;
     background: #1890FF;
+  }
+  .dialog-con {
+    text-align: center;
+    padding: 1.5rem 0;
+    color: #999999;
+  }
+  .dialog-text {
+    color: #888;
+  }
+  .icon-xiayibu {
+    font-size: 1.3rem;
+  }
+  .icon-font-cus {
+    position: relative;
+    padding-left: 0.6rem;
+  }
+  .icon-font-cus.icon-xuanze::before, .icon-font-cus.icon-weixuanze::before {
+    position: absolute;
+    left: -1em;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .more {
+    color: #999;
+    text-align: center;
+    font-size: 1.2rem;
+    border-top: 1px solid #E5E5E5;
+    line-height: 4rem;
+  }
+  .more .icon-xiala {
+    font-size: 1rem;
+  }
+  .list-choose {
+    padding: 1rem 0.9rem 1rem 0;
+  }
+  .choose-disable {
+    color: #E5E5E5 !important;
+  }
+</style>
+<style>
+  .sop-box {
+    width: 100%;
+  }
+  .sop-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    color: #333333;
+  }
+  .sop-name {
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+  .sop-title .icon-fasong1 {
+    color: #1890FF;
+    font-size: 2.4rem;
+  }
+  .sop-icon-color {
+    color: #999;
   }
 </style>
