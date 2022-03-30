@@ -7,11 +7,12 @@
       <p class="userName">{{name}}</p>
       <p class="companyName">{{companyName}}</p>
       <div class="qrCodeWrap">
-        <vueQr
+        <!-- <vueQr
           :text="qrUrl"
           :size="225"
           :margin="10"
-        />
+        /> -->
+        <img :src="qrUrl" class="qrImg" alt="" />
         <div class="text">我的二维码</div>
       </div>
     </div>
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import vueQr from 'vue-qr';
+// import vueQr from 'vue-qr';
 import { Toast, Loading } from 'vant';
 import { getUserInfo } from '@/api/dailySummary';
 
@@ -27,7 +28,6 @@ export default {
   name: 'my',
   components: {
     Loading,
-    vueQr,
   },
   data() {
     return {
@@ -117,6 +117,11 @@ export default {
         padding: 15px 15px 14px;
         margin: 31px auto 0;
         text-align: center;
+
+        .qrImg {
+          width: 225px;
+          height: 225px;
+        }
 
         .text {
           color: #333333;
