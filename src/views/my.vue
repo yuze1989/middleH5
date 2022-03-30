@@ -43,7 +43,7 @@ export default {
     getUserInfo({ token }).then((res) => {
       const { success, errMessage, data } = res;
       if (success) {
-        this.qrUrl = data.qrUrl || '';
+        this.qrUrl = data.qrCode || '';
         this.name = data.name || '/';
         this.companyName = data.companyName || '/';
         this.avatar = data.avatar || '';

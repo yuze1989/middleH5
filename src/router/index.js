@@ -167,21 +167,8 @@ router.beforeEach(async (to, form, next) => {
     });
     if (!openid && options.appid && !options.code) {
       const sourceId = options.channel || '';
-      const scopeType = options.channel.toString() === '0' ? 'snsapi_privateinfo' : 'snsapi_userinfo';
-      let wxAppId = '';
-      if (options.channel.toString() === '0') {
-        if (process.env.VUE_APP_ENV !== 'development') {
-          wxAppId = Config.globalOpt.appId;
-        } else {
-          wxAppId = Config.globalOpt.testAppId;
-        }
-      } else {
-        wxAppId = options.appid;
-      }
-      // const wxAppId = options.channel.toString() === '0'
-      //   ? (process.env.VUE_APP_ENV !== 'development'
-      //     ? Config.globalOpt.appId : Config.globalOpt.testAppId)
-      //   : options.appid;
+      const scopeType = options.channel === '0' ? 'snsapi_privateinfo' : 'snsapi_userinfo';
+      const wxAppId = options.channel === '0' ? Config.globalOpt.appId : options.appid;
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         wxAppId
       }&redirect_uri=${
