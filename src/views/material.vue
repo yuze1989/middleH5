@@ -42,10 +42,10 @@
 <script>
 import { List, PullRefresh, Toast } from 'vant';
 import { mapState } from 'vuex';
-import Http from '../utils/http';
-import Wechat from '../utils/wechat';
-import Config from '../utils/config';
-import jurisdiction from '../common/jurisdiction.vue';
+import Http from '@/utils/http';
+import Wechat from '@/utils/wechat';
+import Config from '@/utils/config';
+import jurisdiction from '@/common/jurisdiction.vue';
 
 export default {
   name: 'about',

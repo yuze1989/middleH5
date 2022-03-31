@@ -72,7 +72,6 @@ export default {
   .item {
     flex: 1;
     text-align: center;
-    font-family: PingFangSC-Regular;
     color: #9D9ABC;
   }
 

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import HomeTabBar from '../../common/homeTabBar.vue';
+import HomeTabBar from '@/common/homeTabBar.vue';
 
 export default {
   name: 'home',

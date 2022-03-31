@@ -58,7 +58,6 @@ export default {
     flex: 1;
     text-align: center;
     color: #999999;
-    font-family: PingFangSC-Regular;
     font-size: 11px;
     color: #999999;
     letter-spacing: 0;

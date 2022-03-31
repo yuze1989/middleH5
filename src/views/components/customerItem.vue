@@ -53,39 +53,38 @@ export default {
   }
 
   .use-head-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 4px;
+    width: 6rem;
+    height: 6rem;
+    border-radius: .4rem;
     object-fit: cover;
-    margin-right: 6px;
+    margin-right: .6rem;
   }
 
   .user-info {
     flex: 1;
     color: #7D8394;
-    font-size: 12px;
-    line-height: 17px;
+    font-size: 1.2rem;
+    line-height: 1.7rem;
     font-weight: 400;
     text-align: left;
-    font-family: PingFangSC-Regular;
   }
 
   .user-name {
     font-weight: 500;
-    font-size: 16px;
+    font-size: 1.6rem;
     color: #343845;
     letter-spacing: 0;
-    line-height: 22px;
+    line-height: 2.2rem;
     display: flex;
     align-items: flex-end;
     font-family: PingFangSC-Medium;
   }
 
   .user-type {
-    font-size: 13px;
+    font-size: 1.3rem;
     font-weight: 400;
-    margin-left: 6px;
-    line-height: 20px;
+    margin-left: .6rem;
+    line-height: 2rem;
     font-family: PingFangSC-Regular;
   }
 
@@ -98,7 +97,7 @@ export default {
   }
 
   .follow-up-user {
-    margin: 4px 0;
+    margin: .4rem 0;
   }
 
 </style>

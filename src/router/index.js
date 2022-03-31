@@ -2,11 +2,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { Toast } from 'vant';
 import qs from 'qs';
-import Http from '../utils/http';
-import Env from '../utils/deviceinfo';
-import Util from '../utils/util';
-import Config from '../utils/config';
-import speechArt from '../views/speechArt.vue';
+import Http from '@/utils/http';
+import Env from '@/utils/deviceinfo';
+import Util from '@/utils/util';
+import Config from '@/utils/config';
+import speechArt from '@/views/speechArt.vue';
 
 Vue.use(VueRouter);
 const routes = [

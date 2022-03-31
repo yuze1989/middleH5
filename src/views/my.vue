@@ -69,7 +69,7 @@ export default {
     .bg {
       position: absolute;
       width: 100%;
-      top: -55px;
+      top: -5.5rem;
     }
 
     .loadingWrap {
@@ -86,48 +86,48 @@ export default {
       z-index: 2;
 
       .userHeadImg {
-        margin: 32px auto 0;
-        width: 94px;
-        height: 94px;
+        margin: 3.2rem auto 0;
+        width: 9.4rem;
+        height: 9.4rem;
         border-radius: 50%;
         object-fit: cover;
       }
 
       .userName {
-        margin: 15px 0 0;
+        margin: 1.5rem 0 0;
         text-align: center;
-        font-size: 24px;
-        line-height: 33px;
+        font-size: 2.4rem;
+        line-height: 3.3rem;
         font-weight: 500;
         color: #fff;
       }
 
       .companyName {
-        margin: 7px 0 0;
+        margin: .7rem 0 0;
         text-align: center;
-        font-size: 13px;
-        line-height: 17px;
+        font-size: 1.3rem;
+        line-height: 1.7rem;
         font-weight: 400;
         color: #fff;
       }
 
       .qrCodeWrap {
         background-color: #fff;
-        border-radius: 10px;
-        padding: 15px 15px 14px;
-        margin: 31px auto 0;
+        border-radius: 1rem;
+        padding: 1.5rem 1.5rem 1.4rem;
+        margin: 3.1rem auto 0;
         text-align: center;
 
         .qrImg {
-          width: 225px;
-          height: 225px;
+          width: 22.5rem;
+          height: 22.5rem;
         }
 
         .text {
           color: #333333;
-          font-size: 15px;
-          line-height: 21px;
-          margin-top: 7px;
+          font-size: 1.5rem;
+          line-height: 2.1rem;
+          margin-top: .7rem;
         }
       }
     }

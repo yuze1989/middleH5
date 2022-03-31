@@ -2,19 +2,10 @@
   <div id="app" :class="`${$route.meta.showTabbar ? 'homeWrap' : ''}`">
     <div class="homeContent"><router-view /></div>
     <div v-if="$route.meta.showTabbar"><HomeTabBar /></div>
-   <!-- <div v-if="$route.meta.type === 1">
-      <bottom :url="$route.path" v-if="$route.meta.tabbarshow"></bottom>
-    </div>
-    <div v-else>
-      <workBottom  :url="$route.path" v-if="$route.meta.tabbarshow"></workBottom>
-    </div> -->
   </div>
 </template>
 <script>
-import HomeTabBar from './common/homeTabBar.vue';
-// import bottom from './common/bottom.vue';
-
-// import workBottom from './common/workBottom.vue';
+import HomeTabBar from '@/common/homeTabBar.vue';
 
 export default {
   components: {
@@ -58,7 +49,6 @@ export default {
     flex: 1;
     text-align: center;
     color: #999999;
-    font-family: PingFangSC-Regular;
     font-size: 11px;
     color: #999999;
     letter-spacing: 0;

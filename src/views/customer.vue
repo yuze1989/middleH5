@@ -23,7 +23,7 @@
 <script>
 import { List, PullRefresh, Toast } from 'vant';
 import { getCustomerList } from '@/api/dailySummary';
-import jurisdiction from '../common/jurisdiction.vue';
+import jurisdiction from '@/common/jurisdiction.vue';
 import CustomerItem from './components/customerItem.vue';
 
 export default {
@@ -105,7 +105,7 @@ export default {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    font-family: PingFangSC-Medium;
+    font-family: "PingFang SC";
 
     .top {
       padding: 1.4rem 1.5rem;
@@ -135,17 +135,17 @@ export default {
   }
 
   .errWrap {
-    margin-top: 20px;
+    margin-top: 2rem;
   }
 
   .content {
     margin-bottom: 5rem;
-    padding: 17px 15px;
+    padding: 1.7rem 1.5rem;
     /* min-height: calc(100vh - 14rem); */
   }
 
   .item {
-    margin-bottom: 17px;
+    margin-bottom: 1.7rem;
   }
 
   .item:last-child {
@@ -153,8 +153,8 @@ export default {
   }
 
   ::v-deep .van-pull-refresh__head {
-    padding-top: 17px;
+    padding-top: 1.7rem;
     box-sizing: border-box;
-    line-height: 33px;
+    line-height: 3.3rem;
   }
 </style>
