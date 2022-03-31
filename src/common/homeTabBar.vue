@@ -55,7 +55,7 @@ export default {
     display: flex;
     align-items: center;
     padding: 0.8rem 2rem 0.35rem;
-    padding-bottom: calc(3.5px + env(safe-area-inset-bottom));
+    padding-bottom: calc(.35rem + env(safe-area-inset-bottom));
     position: relative;
   }
 
@@ -65,7 +65,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    border-top: 1px solid #DEDEDE;
+    border-top: 0.1rem solid #DEDEDE;
     transform: scaleY(0.3);
   }
 
@@ -76,15 +76,15 @@ export default {
   }
 
   .tabbar-icon {
-    font-size: 20px;
+    font-size: 2rem;
   }
 
   .item .title {
-    margin-top: 2px;
+    margin-top: .2rem;
     letter-spacing: 0;
-    line-height: 15px;
+    line-height: 1.5rem;
     font-weight: 400;
-    font-size: 11px;
+    font-size: 1.1rem;
   }
 
   .active {
