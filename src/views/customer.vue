@@ -88,7 +88,7 @@ export default {
         }
         that.isRest = false;
         // 是否还有更多
-        that.finished = res.data.length === 0;
+        that.finished = res.data?.length === 0;
         // 清除下拉刷新状态
         that.refreshing = false;
         that.loading = false;
