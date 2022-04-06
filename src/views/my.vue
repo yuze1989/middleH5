@@ -3,16 +3,16 @@
     <img src="https://jz-scrm.oss-cn-hangzhou.aliyuncs.com/web/sh5/my-bg.png" class="bg" alt="">
     <div v-if="isLoad" class="loadingWrap"><Loading type="spinner" /></div>
     <div v-else class="myContent">
-      <img :src="avatar" class="userHeadImg" alt="">
-      <p class="userName">{{name}}</p>
-      <p class="companyName">{{companyName}}</p>
+      <img :src="userInfo.avatar" class="userHeadImg" alt="">
+      <div class="userName">{{userInfo.name || ''}}</div>
+      <div class="companyName">{{userInfo.companyName || ''}}</div>
       <div class="qrCodeWrap">
         <!-- <vueQr
-          :text="qrUrl"
+          :text="userInfo.qrCode"
           :size="225"
           :margin="10"
         /> -->
-        <img :src="qrUrl" class="qrImg" alt="" />
+        <img :src="userInfo.qrCode" class="qrImg" alt="" />
         <div class="text">我的二维码</div>
       </div>
     </div>
@@ -22,7 +22,7 @@
 <script>
 // import vueQr from 'vue-qr';
 import { Toast, Loading } from 'vant';
-import { getUserInfo } from '@/api/dailySummary';
+import { getUserInfo } from '@/api';
 
 export default {
   name: 'my',
@@ -32,10 +32,12 @@ export default {
   data() {
     return {
       isLoad: true,
-      avatar: '',
-      name: '',
-      companyName: '',
-      qrUrl: '',
+      userInfo: {
+        avatar: '',
+        name: '',
+        companyName: '',
+        qrCode: '',
+      },
     };
   },
   mounted() {
@@ -43,10 +45,7 @@ export default {
     getUserInfo({ token }).then((res) => {
       const { success, errMessage, data } = res;
       if (success) {
-        this.qrUrl = data.qrCode || '';
-        this.name = data.name || '/';
-        this.companyName = data.companyName || '/';
-        this.avatar = data.avatar || '';
+        this.userInfo = data;
       }
       if (!success && errMessage) {
         Toast(errMessage);

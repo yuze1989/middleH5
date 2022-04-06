@@ -22,7 +22,7 @@
 
 <script>
 import { List, PullRefresh, Toast } from 'vant';
-import { getCustomerList } from '@/api/dailySummary';
+import { getCustomerList } from '@/api';
 import jurisdiction from '@/common/jurisdiction.vue';
 import CustomerItem from './components/customerItem.vue';
 
@@ -103,9 +103,6 @@ export default {
   .customer {
     flex: 1;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    font-family: "PingFang SC";
 
     .top {
       padding: 1.4rem 1.5rem;
