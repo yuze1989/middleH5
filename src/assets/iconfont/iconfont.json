@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "28401744",
+      "name": "客户",
+      "font_class": "kehu3",
+      "unicode": "e6d0",
+      "unicode_decimal": 59088
+    },
+    {
+      "icon_id": "28400480",
+      "name": "客户",
+      "font_class": "kehu1",
+      "unicode": "e6cf",
+      "unicode_decimal": 59087
+    },
+    {
+      "icon_id": "28400323",
+      "name": "工作台",
+      "font_class": "gongzuotai2",
+      "unicode": "e6cb",
+      "unicode_decimal": 59083
+    },
+    {
+      "icon_id": "28400451",
+      "name": "我的-1",
+      "font_class": "wode-1",
+      "unicode": "e6cc",
+      "unicode_decimal": 59084
+    },
+    {
+      "icon_id": "28400452",
+      "name": "工作台-1",
+      "font_class": "gongzuotai-11",
+      "unicode": "e6cd",
+      "unicode_decimal": 59085
+    },
+    {
+      "icon_id": "28400453",
+      "name": "我的",
+      "font_class": "wode1",
+      "unicode": "e6ce",
+      "unicode_decimal": 59086
+    },
+    {
       "icon_id": "28061964",
       "name": "筛选",
       "font_class": "shaixuan1",
@@ -39,13 +81,6 @@
       "font_class": "wenjian",
       "unicode": "e63d",
       "unicode_decimal": 58941
-    },
-    {
-      "icon_id": "27657270",
-      "name": "小程序",
-      "font_class": "xiaochengxu",
-      "unicode": "e63e",
-      "unicode_decimal": 58942
     },
     {
       "icon_id": "27657271",
@@ -319,13 +354,6 @@
       "font_class": "kai",
       "unicode": "e64c",
       "unicode_decimal": 58956
-    },
-    {
-      "icon_id": "24286335",
-      "name": "工作台2",
-      "font_class": "gongzuotai2",
-      "unicode": "e64d",
-      "unicode_decimal": 58957
     },
     {
       "icon_id": "24286337",

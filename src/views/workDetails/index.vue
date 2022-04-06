@@ -157,9 +157,9 @@
 <script>
 import { Toast } from 'vant';
 import moment from 'moment';
-import Http from '../../utils/http';
-import Wechat from '../../utils/wechat';
-import jurisdiction from '../../common/jurisdiction.vue';
+import Http from '@/utils/http';
+import Wechat from '@/utils/wechat';
+import jurisdiction from '@/common/jurisdiction.vue';
 import WorkFile from './components/file.vue';
 import WorkText from './components/text.vue';
 import WorkImage from './components/image.vue';

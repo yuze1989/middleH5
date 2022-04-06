@@ -1,29 +1,22 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import state from './state';
+import mutations from './mutations';
+import getters from './getters';
+import actions from './actions';
 
 Vue.use(Vuex);
 
+const files = require.context('./modules', false, /.js$/);
+const modules = {};
+files.keys().forEach((key) => {
+  modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default;
+});
+
 export default new Vuex.Store({
-  state: {
-    type: 2,
-    navType: 0,
-  },
-  mutations: {
-    SETNACVTYPE(state, data) {
-      state.navType = data;
-    },
-    SETTYPE(state, data) {
-      state.type = data;
-    },
-  },
-  actions: {
-    SETNACVTYPE({ commit }, data) {
-      commit('SETNACVTYPE', data);
-    },
-    SETTYPE({ commit }, data) {
-      commit('SETTYPE', data);
-    },
-  },
-  modules: {
-  },
+  state,
+  mutations,
+  modules,
+  getters,
+  actions,
 });

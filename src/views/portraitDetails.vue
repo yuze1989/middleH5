@@ -164,9 +164,9 @@ import {
   PullRefresh,
 } from 'vant';
 import moment from 'moment';
-import Http from '../utils/http';
-import Wechat from '../utils/wechat';
-import jurisdiction from '../common/jurisdiction.vue';
+import Http from '@/utils/http';
+import Wechat from '@/utils/wechat';
+import jurisdiction from '@/common/jurisdiction.vue';
 
 export default {
   components: {

@@ -30,11 +30,11 @@
 
 <script>
 import { Tabs, Tab } from 'vant';
+import util from '@/utils/util';
+import { getStaffInfo } from '@/api/dailySummary';
 import YesterdayOverview from './components/YesterdayOverview.vue';
 import DataDetails from './components/DataDetails.vue';
 import ListRank from './components/ListRank.vue';
-import util from '@/utils/util';
-import { getStaffInfo } from '@/api/dailySummary';
 
 export default {
   name: 'customer',
