@@ -176,7 +176,9 @@ router.beforeEach(async (to, form, next) => {
         ? encodeURIComponent(`${Config.state_url}${src}?${qs.stringify(dataList)}`)
         : sourceId;
 
-      alert(`wxAppId: ${wxAppId}---redirectuUrl: ${redirectuUrl}`);
+      if (options.channel === '0') {
+        alert(`wxAppId: ${wxAppId}---redirectuUrl: ${redirectuUrl}`);
+      }
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         wxAppId
       }&redirect_uri=${encodeURIComponent(redirectuUrl)}&response_type=code&scope=${scopeType}&state=${stateUrl}#wechat_redirect`;
