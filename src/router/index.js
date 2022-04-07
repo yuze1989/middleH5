@@ -169,11 +169,16 @@ router.beforeEach(async (to, form, next) => {
       const sourceId = options.channel || '';
       const scopeType = options.channel === '0' ? 'snsapi_privateinfo' : 'snsapi_userinfo';
       const wxAppId = options.channel === '0' ? Config.globalOpt.appId : options.appid;
+      const redirectuUrl = options.channel === '0'
+        ? encodeURIComponent(`${Config.redirect_uri}`)
+        : encodeURIComponent(`${Config.state_url}${src}?${qs.stringify(dataList)}`);
+      const stateUrl = options.channel === '0'
+        ? encodeURIComponent(`${Config.state_url}${src}?${qs.stringify(dataList)}`)
+        : sourceId;
+
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         wxAppId
-      }&redirect_uri=${
-        encodeURIComponent(`${Config.redirect_uri}${src}?${qs.stringify(dataList)}`)
-      }&response_type=code&scope=${scopeType}&state=${sourceId}#wechat_redirect`;
+      }&redirect_uri=${redirectuUrl}&response_type=code&scope=${scopeType}&state=${stateUrl}#wechat_redirect`;
       return;
     }
     // 同一个企业不用继续授权重新拿一下token
