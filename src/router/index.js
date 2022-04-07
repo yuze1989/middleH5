@@ -171,7 +171,7 @@ router.beforeEach(async (to, form, next) => {
       const wxAppId = options.channel === '0' ? Config.globalOpt.appId : options.appid;
       const redirectuUrl = options.channel === '0'
         ? encodeURIComponent(`${Config.redirect_uri}`)
-        : encodeURIComponent(`${Config.stateUrl}${src}?${qs.stringify(dataList)}`);
+        : encodeURIComponent(`${Config.state_url}${src}?${qs.stringify(dataList)}`);
       const stateUrl = options.channel === '0'
         ? encodeURIComponent(`${Config.state_url}${src}?${qs.stringify(dataList)}`)
         : sourceId;
