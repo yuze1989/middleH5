@@ -177,8 +177,7 @@ router.beforeEach(async (to, form, next) => {
         : sourceId;
 
       if (options.channel === '0') {
-        alert('wxAppId:', wxAppId);
-        alert('---redirectuUrl:', redirectuUrl);
+        alert(`wxAppId: ${wxAppId}---redirectuUrl: ${redirectuUrl}`);
       }
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         wxAppId
