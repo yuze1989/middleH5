@@ -171,12 +171,12 @@ router.beforeEach(async (to, form, next) => {
       const wxAppId = options.channel === '0' ? Config.globalOpt.appId : options.appid;
       const redirectuUrl = options.channel === '0'
         ? Config.redirect_uri
-        : (Config.state_url + src + qs.stringify(dataList));
+        : `${Config.state_url}${src}?${qs.stringify(dataList)}`;
       const stateUrl = options.channel === '0'
         ? encodeURIComponent(`${Config.state_url}${src}?${qs.stringify(dataList)}`)
         : sourceId;
 
-      alert(`wxAppId: ${wxAppId}---redirectuUrl: ${redirectuUrl}`);
+      // alert(`wxAppId: ${wxAppId}---redirectuUrl: ${redirectuUrl}`);
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
         wxAppId
       }&redirect_uri=${encodeURIComponent(redirectuUrl)}&response_type=code&scope=${scopeType}&state=${stateUrl}#wechat_redirect`;
@@ -200,6 +200,7 @@ router.beforeEach(async (to, form, next) => {
     }
     // 第一次进来拿用户数据
     if (!token && options.code) {
+      alert(options.appid);
       const res = await Http.post('/scrm/wechat/get-oauth-user-info', {
         corpId: options.appid,
         code: options.code,
