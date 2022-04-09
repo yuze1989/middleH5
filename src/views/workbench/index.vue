@@ -94,11 +94,9 @@ export default {
       return moment(value).format('YYYY-MM-DD HH:mm');
     },
     onLoad() {
-      console.log('b');
       this.getList();
     },
     onRefresh() {
-      console.log('a');
       this.pageIndex = 1;
       this.dataList = [];
       this.finished = false;
