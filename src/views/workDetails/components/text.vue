@@ -42,6 +42,7 @@ export default {
     font-size: 1.4rem;
     color: rgba(0,0,0,0.65);
     margin-left: 2.2rem;
-    white-space: pre-line;
+    white-space: pre-wrap;
+    word-break: break-all;
   }
 </style>
