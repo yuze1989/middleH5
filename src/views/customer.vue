@@ -103,6 +103,8 @@ export default {
   .customer {
     flex: 1;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 
     .top {
       padding: 1.4rem 1.5rem;
