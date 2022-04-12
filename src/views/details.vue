@@ -40,7 +40,7 @@
 <script>
 import { skeleton } from 'vant';
 import moment from 'moment';
-import Http from '../utils/http';
+import Http from '@/utils/http';
 
 export default {
   components: {

@@ -2,11 +2,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { Toast } from 'vant';
 import qs from 'qs';
-import Http from '../utils/http';
-import Env from '../utils/deviceinfo';
-import Util from '../utils/util';
-import Config from '../utils/config';
-import speechArt from '../views/speechArt.vue';
+import Http from '@/utils/http';
+import Env from '@/utils/deviceinfo';
+import Util from '@/utils/util';
+import Config from '@/utils/config';
+import speechArt from '@/views/speechArt.vue';
 
 Vue.use(VueRouter);
 const routes = [
@@ -43,19 +43,25 @@ const routes = [
     path: '/workbench',
     name: 'workbench',
     meta: {
-      tabbarshow: false,
-      type: 2,
+      showTabbar: true,
     },
-    component: () => import(/* webpackChunkName: "workbench" */'../views/workbench.vue'),
+    component: () => import('../views/workbench/index.vue'),
   },
   {
     path: '/customer',
     name: 'customer',
     meta: {
-      tabbarshow: true,
-      type: 2,
+      showTabbar: true,
     },
-    component: () => import(/* webpackChunkName: "customer" */'../views/customer.vue'),
+    component: () => import(/* webpackChunkName: "workbench" */'../views/customer.vue'),
+  },
+  {
+    path: '/my',
+    name: 'my',
+    meta: {
+      showTabbar: true,
+    },
+    component: () => import(/* webpackChunkName: "workbench" */'../views/my.vue'),
   },
   {
     path: '/marketing',
@@ -143,7 +149,6 @@ router.beforeEach(async (to, form, next) => {
     const options = Util.getUrlOption(url);
     const corpId = localStorage.getItem('corpId');
     const src = window.location.pathname;
-    const agentId = localStorage.getItem('agentId');
     // 用于判断地址带进来的参数
     const generalidArr = ['channel', 'appid', 'batchNo', 'checkpc'];
     // appid是唯一, 如果存储的appid和地址带进来的不同则清除缓存
@@ -162,6 +167,7 @@ router.beforeEach(async (to, form, next) => {
       localStorage.clear();
       openid = '';
     }
+    const agentId = localStorage.getItem('agentId');
     if (!agentId) {
       sessionStorage.removeItem('token');
     }
@@ -179,11 +185,18 @@ router.beforeEach(async (to, form, next) => {
     });
     if (!openid && options.appid && !options.code) {
       const sourceId = options.channel || '';
+      const scopeType = options.channel === '0' ? 'snsapi_privateinfo' : 'snsapi_userinfo';
+      const wxAppId = options.channel === '0' ? Config.globalOpt.appId : options.appid;
+      const redirectuUrl = options.channel === '0'
+        ? Config.redirect_uri
+        : `${Config.state_url}${src}?${qs.stringify(dataList)}`;
+      const stateUrl = options.channel === '0'
+        ? encodeURIComponent(`${Config.state_url}${src}?${qs.stringify(dataList)}`)
+        : sourceId;
+
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
-        options.appid
-      }&redirect_uri=${
-        encodeURIComponent(`${Config.redirect_uri}${src}?${qs.stringify(dataList)}`)
-      }&response_type=code&scope=snsapi_userinfo&state=${sourceId}#wechat_redirect`;
+        wxAppId
+      }&redirect_uri=${encodeURIComponent(redirectuUrl)}&response_type=code&scope=${scopeType}&state=${stateUrl}#wechat_redirect`;
       return;
     }
     // 同一个企业不用继续授权重新拿一下token

@@ -1,24 +1,16 @@
 <template>
-  <div id="app">
-    <router-view />
-   <!-- <div v-if="$route.meta.type === 1">
-      <bottom :url="$route.path" v-if="$route.meta.tabbarshow"></bottom>
-    </div>
-    <div v-else>
-      <workBottom  :url="$route.path" v-if="$route.meta.tabbarshow"></workBottom>
-    </div> -->
+  <div id="app" :class="`${$route.meta.showTabbar ? 'homeWrap' : ''}`">
+    <div class="homeContent"><router-view /></div>
+    <div v-if="$route.meta.showTabbar"><HomeTabBar /></div>
   </div>
 </template>
 <script>
-// import bottom from './common/bottom.vue';
-
-// import workBottom from './common/workBottom.vue';
+import HomeTabBar from '@/common/homeTabBar.vue';
 
 export default {
-  // components: {
-  //   bottom,
-  //   workBottom,
-  // },
+  components: {
+    HomeTabBar,
+  },
   name: 'app',
   data() {
     return {
@@ -33,7 +25,7 @@ export default {
 
 };
 </script>
-<style>
+<style lang="less">
   @import './assets/iconfont/iconfont.css';
   html,body,#app{
     height: 100%;;
@@ -57,12 +49,24 @@ export default {
     flex: 1;
     text-align: center;
     color: #999999;
-    font-family: PingFangSC-Regular;
     font-size: 11px;
     color: #999999;
     letter-spacing: 0;
   }
   .active {
     color: #1890FF;
+  }
+
+  .homeWrap {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+
+    .homeContent {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+    }
   }
 </style>

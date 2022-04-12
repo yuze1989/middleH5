@@ -1,31 +1,30 @@
 <template>
-  <div class="box">
+  <div class="workbench">
     <div v-if="err !== '0100000006'">
       <div class="top">
-        <i class="iconfont icon-huashu2"></i>
-        <span class="span">办事事项</span>
-        <span>({{totalCount}})</span>
+        <span class="span">待办事项 ({{totalCount}})</span>
       </div>
       <div class="hr"></div>
       <div class="top-nav">
         <div v-for="(item,index) in nav" :key="index" class="nav-box">
-          <div :class="{active: ($store.state.type - 2) === index}"
-          @click="change(index)">
+          <div :class="{active: (type - 2) === index}"
+            @click="change(index)">
             {{item}}
           </div>
         </div>
       </div>
     </div>
-    <jurisdiction :err="err" v-if="err"></jurisdiction>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else>
+    <div class="errWrap" v-if="err"><jurisdiction :err="err"></jurisdiction></div>
+    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else class="pull">
       <div class="content">
-        <div class="content-tip">日常任务提醒</div>
         <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
-        finished-text="没有更多了">
+          finished-text="没有更多了">
           <div class="content-block" v-for="(item,index) in dataList" :key="index"
            @click="go(item.batchNo)">
             <div class="tite">
-              <div class="state" v-if="item.overdueFlag">逾期</div>
+              <div class="state" v-if="item.overdueFlag">
+                <div class="stateBg"></div>逾期
+              </div>
               <div class="task-name">{{item.sopRuleName}}</div>
             </div>
             <div class="task">{{sopType[item.sopType]}}任务</div>
@@ -49,9 +48,10 @@
 <script>
 import { List, PullRefresh, Toast } from 'vant';
 import moment from 'moment';
-import Http from '../utils/http';
-import store from '@/store';
-import jurisdiction from '../common/jurisdiction.vue';
+import { mapState } from 'vuex';
+import jurisdiction from '@/common/jurisdiction.vue';
+import Http from '@/utils/http';
+import './workbench.less';
 
 export default {
   name: 'workbench',
@@ -80,10 +80,13 @@ export default {
       nav: ['未完成', '已完成'],
     };
   },
+  computed: mapState({
+    type: (state) => state.statusType.type,
+  }),
   mounted() {
-    const type = parseInt(sessionStorage.getItem('type'), 0);
-    if (type) {
-      store.dispatch('SETTYPE', type);
+    const sessionType = parseInt(sessionStorage.getItem('type'), 0);
+    if (sessionType) {
+      this.$store.dispatch('statusType/SETTYPE', sessionType);
     }
   },
   methods: {
@@ -120,7 +123,7 @@ export default {
         return;
       }
       Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
-        taskStatus: that.$store.state.type,
+        taskStatus: that.type,
         pageIndex: that.pageIndex,
         pageSize: 20,
       }, '').then((res) => {
@@ -147,7 +150,7 @@ export default {
     },
     // tab切换
     change(index) {
-      store.dispatch('SETTYPE', index + 2);
+      this.$store.dispatch('statusType/SETTYPE', index + 2);
       sessionStorage.setItem('type', index + 2);
       this.pageIndex = 1;
       this.dataList = [];
@@ -159,111 +162,3 @@ export default {
   },
 };
 </script>
-<style scoped="scoped">
-  .top {
-    padding: 1.1rem 1.5rem;
-    font-size: 1.4rem;
-    color: #1890FF;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-  }
-
-  .span {
-    margin: 0 1rem;
-    font-size: 1.6rem;
-    color: #333333;
-  }
-
-  .hr {
-    width: 100%;
-    height: 0.5rem;
-    background-color: #E5E5E5;
-  }
-
-  .top-nav {
-    height: 4.4rem;
-    display: flex;
-    align-items: center;
-    font-size: 1.4rem;
-    color: #333333;
-    text-align: center;
-    justify-content: space-evenly;
-    border-bottom: 0.1rem solid #F3F3F3;
-  }
-
-  .nav-box {
-    height: 4rem;
-    line-height: 4rem;
-  }
-
-  .active {
-    color: #1890FF;
-    border-bottom: 0.2rem #1890FF solid;
-  }
-
-  .content {
-    margin: 1rem 0 1rem 1.5rem;
-    margin-bottom: 5rem;
-    min-height: calc(100vh - 14rem);
-  }
-
-  .content-tip {
-    font-size: 1.4rem;
-    color: #333333;
-    padding-bottom: 1.2rem;
-    border-bottom: 0.1rem solid #F3F3F3;
-  }
-
-  .content-block {
-    padding: 1.2rem 1.5rem 1.2rem 0;
-    font-size: 1.2rem;
-    color: #999999;
-    border-bottom: 0.1rem solid #F3F3F3;
-  }
-
-  .task-name {
-    font-size: 1.4rem;
-    color: rgba(0, 0, 0, 0.65);
-    overflow: hidden;
-   white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .tite {
-    display: flex;
-    align-items: center;
-  }
-
-  .task {
-    margin-top: 0.6rem;
-  }
-
-  .push-date {
-    margin-top: 0.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .state {
-    background: rgba(231, 120, 120, 0.1);
-    border-radius: 0.2rem;
-    text-align: center;
-    padding: 0.2rem 0.5rem;
-    font-size: 1.2rem;
-    color: rgba(250, 82, 82, 1);
-    margin-right: 1rem;
-    min-width: 3.4rem;
-  }
-
-  .overdue {
-    font-size: 1.2rem;
-    color: #FA5252;
-  }
-
-  .surplus {
-    color: #1890FF;
-  }
-</style>

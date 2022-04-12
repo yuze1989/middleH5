@@ -34,10 +34,10 @@
 
 <script>
 import { Toast } from 'vant';
-import textOver from '../components/textOver.vue';
-import Http from '../utils/http';
-import Wechat from '../utils/wechat';
-import jurisdiction from '../common/jurisdiction.vue';
+import textOver from '@/components/textOver.vue';
+import Http from '@/utils/http';
+import Wechat from '@/utils/wechat';
+import jurisdiction from '@/common/jurisdiction.vue';
 
 export default {
   components: {

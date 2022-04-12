@@ -10,6 +10,7 @@ module.exports = {
       alias: {
         static: '@/static',
         components: '@/components',
+        common: '@/common',
         views: '@/views',
         utils: '@/utils',
       },

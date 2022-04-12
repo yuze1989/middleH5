@@ -38,10 +38,10 @@
 
 <script>
 import { PullRefresh, List, Toast } from 'vant';
-import Http from '../utils/http';
-import Wechat from '../utils/wechat';
-import Config from '../utils/config';
-import jurisdiction from '../common/jurisdiction.vue';
+import Http from '@/utils/http';
+import Wechat from '@/utils/wechat';
+import Config from '@/utils/config';
+import jurisdiction from '@/common/jurisdiction.vue';
 
 export default {
   name: 'about',
