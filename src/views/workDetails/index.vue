@@ -135,9 +135,14 @@
         </div>
       </div>
       <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3">
-       <div class="footer">
-         <div class="footer-left">我已发布</div>
+       <div v-if="!isMiniprogram" class="footer content-flex">
+         <div class="footer-left" @click="updateTaskStatus">我已发布</div>
          <div class="footer-right" @click="WechatSOP">立即发布</div>
+       </div>
+       <div v-if="isMiniprogram" class="footer">
+         <div class="pc-warning pc-flex">电脑客户端不支持发布客户朋友圈，请通过手机完成任务。</div>
+         <div class="pc-flex pc-operation">已完成任务？请点击&nbsp;&nbsp;
+           <span style="color:#1890FF">我已发布</span></div>
        </div>
       </div>
     </div>
@@ -158,6 +163,23 @@
         </i>
       </div>
     </van-dialog>
+    <van-dialog
+      v-model="showFinish"
+      title="是否已完成该任务"
+      show-cancel-button
+      @confirm="setFinishTask"
+      confirmButtonText="已完成"
+      confirmButtonColor="#2F9BFF"
+    >
+      <!-- <div v-if="!selectAll" class="dialog-con" @click="isWarnAgain = !isWarnAgain">
+        <i
+          class="iconfont icon-font-cus"
+          :class="isWarnAgain ? 'icon-xuanze' : 'icon-weixuanze'"
+        >
+          <span class="dialog-text">本次任务不再提醒</span>
+        </i>
+      </div> -->
+    </van-dialog>
   </div>
 </template>
 
@@ -165,6 +187,7 @@
 import { Toast } from 'vant';
 import moment from 'moment';
 import Http from '@/utils/http';
+import deviceInfo from '@/utils/deviceinfo';
 import Wechat from '@/utils/wechat';
 import jurisdiction from '@/common/jurisdiction.vue';
 import WorkFile from './components/file.vue';
@@ -190,8 +213,10 @@ export default {
       finishTime: '',
       selectAll: false,
       showDialog: false,
+      showFinish: false,
       isWarnAgain: false,
       showMore: false,
+      isMiniprogram: false,
       sopType: {
         s1: {
           name: '群SOP',
@@ -213,11 +238,21 @@ export default {
     };
   },
   mounted() {
+    this.isMiniprogram = deviceInfo.getType().platformType === 'APP' && deviceInfo.getType().isMobile;
     this.batchNo = this.$route.query.batchNo;
     this.refer = this.$route.query.refer;
     this.getList();
   },
   methods: {
+    updateTaskStatus() {
+      this.showFinish = true;
+      this.idList = [];
+    },
+    setFinishTask() {
+      const that = this;
+      that.idList = [that.dataList.friendCycleSopTaskId];
+      that.getFinishTask();
+    },
     singleSend(data) {
       Wechat.setAgentConfig(data, 'sendChatMessage');
     },
@@ -582,25 +617,38 @@ export default {
     color: #999999;
     margin-top: 0.6rem;
   }
+  .pc-warning{
+    background: rgba(252,91,0,0.06);
+    color: rgba(252,91,0,0.7);
+    padding: 1rem 0;
+    font-size: 1.4rem;
+  }
+  .pc-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .pc-operation{
+   color: rgba(0,0,0,0.65);
+    margin-top: 2rem;
+    font-size: 1.4rem;
 
+  }
   .footer {
     position: fixed;
     bottom: 0;
+    width: 100%;
+    padding: 1rem 0;
+    background: #fff;
+    z-index: 1000;
+  }
+  .content-flex{
     display: flex;
     align-items: center;
     background-color: #FFFFFF;
     z-index: 1;
     justify-content: space-evenly;
     border-top: 0.05rem solid #E5E5E5;
-    width: 100%;
-    padding: 1rem 0;
-  }
-
-  .footer-left {
-    width: 25%;
-    border: 0.05rem solid rgba(24,144,255,0.5) ;
-    color: #1890FF;
-    margin-right: 0;
   }
   .footer-left,
   .footer-right {
@@ -610,11 +658,17 @@ export default {
     padding: 1rem 0;
     font-size: 1.6rem;
   }
-
+  .footer-left {
+      width: 25%;
+      border: 0.05rem solid rgba(24,144,255,0.5) ;
+      color: #1890FF;
+      margin-right: 0;
+    }
   .footer-right {
     width:70%;
     color: #FFFFFF;
     background: #1890FF;
+    margin-left: 1rem;
   }
   .dialog-con {
     text-align: center;

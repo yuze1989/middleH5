@@ -1,34 +1,38 @@
 <template>
-    <div>
-        <div  v-for="(item,index) in content" :key="index">
-            <div class="text-image-box" v-if="item.contentType==='text/image'">
-                <div class="content-text" v-if="item.msgType === 'text'">{{item.text.content}}</div>
-                <div v-if="item.msgType === 'image'">
-                    <img class="img-box" :src="item.image.attachmentPath" alt="">
-                </div>
-            </div>
-            <div class="text-image-box" v-if="item.contentType==='link'">
-            <div class="content-text" v-if="item.msgType === 'text'">{{item.text.content}}</div>
-            <div v-if="item.msgType === 'link'">
-                <div class="link-box">
-                    <img style="width:8.6rem; height:9.1rem" :src="item.link.imgUrl" alt="">
-                    <div class="link-title">{{item.link.title}}</div>
-                </div>
-            </div>
-            </div>
-            <div class="text-image-box" v-if="item.contentType==='video'">
-            <div class="content-text" v-if="item.msgType === 'text'">{{item.text.content}}</div>
-            <div v-if="item.msgType === 'video'">
-                <a
-                  class="video-path"
-                  :href="item.video.attachmentPath"
-                >
-                    <img style="width:100%;height:100%" :src="item.video.picPath" alt="">
-                </a>
-            </div>
-            </div>
+  <div class="col">
+      <div class="content-col" v-for="(item,index) in content" :key="index">
+        <span class="text-image-box image-col" v-if="item.contentType==='text/image'">
+          <span
+            class="content-text image-text"
+            v-if="item.msgType === 'text'">
+              {{item.text.content}}
+          </span>
+          <span v-if="item.msgType === 'image'">
+            <img class="img-box" :src="item.image.attachmentPath" alt="">
+          </span>
+        </span>
+      <div class="text-image-box" v-if="item.contentType==='link'">
+        <div class="content-text" v-if="item.msgType === 'text'">{{item.text.content}}</div>
+        <div v-if="item.msgType === 'link'">
+          <div class="link-box">
+            <img style="width:8.6rem; height:9.1rem" :src="item.link.imgUrl" alt="">
+            <div class="link-title">{{item.link.title}}</div>
+          </div>
         </div>
-    </div>
+      </div>
+      <div class="text-image-box" v-if="item.contentType==='video'">
+        <div class="content-text" v-if="item.msgType === 'text'">{{item.text.content}}</div>
+        <div v-if="item.msgType === 'video'">
+          <a
+            class="video-path"
+            :href="item.video.attachmentPath"
+          >
+            <img style="width:100%;height:100%" :src="item.video.picPath" alt="">
+          </a>
+        </div>
+      </div>
+      </div>
+  </div>
 </template>
 <script>
 export default {
@@ -42,21 +46,30 @@ export default {
       default: '',
     },
   },
-  data() {
-    return {
-      aa: 1,
-    };
-  },
 };
 </script>
 <style scoped>
+  .col {
+    padding:1rem 0.5rem;
+  }
+  .content-col{
+    display:inline
+  }
   .text-image-box {
     padding:0 1.5rem;
     font-size: 1.4rem;
     color: rgba(0,0,0,0.65);
   }
+  .image-col{
+    padding:0.5rem;
+  }
   .content-text {
-    padding: 1.5rem 0;
+    padding: 0.5rem 0 1.5rem 0;
+  }
+  .image-text {
+    display: block;
+    margin-top: -2rem;
+    margin-left: 1rem;
   }
   .img-box {
     width: 10rem;
