@@ -7,7 +7,6 @@
       <div
         v-for="(item, index) in detail.phoneLogs"
         :key="index"
-        :class="['message', item.speaker === 'ME' ? 'message-customer' : '']"
       >
         <div v-if="item.speaker === 'AI'" class="message">
           <span class="icon-service">
@@ -88,10 +87,10 @@ export default {
   border-right: .6rem solid #fff;
 }
 .dialog-service::before {
-  left: -1.8rem;
+  left: -1.6rem;
 }
 .dialog-user::before  {
-  right: -1.8rem;
+  right: -1.6rem;
   border-right: 1.2rem solid transparent;
   border-left: .6rem solid #fff;
 }
@@ -101,15 +100,15 @@ export default {
 }
 .icon-service {
   display: inline-block;
-  width: 4rem;
-  height: 4rem;
+  width: 3.6rem;
+  height: 3.6rem;
   background: #fff;
   border-radius: 50%;
   text-align: center;
-  line-height: 4rem;
+  line-height: 3.6rem;
 }
 .icon-service .iconfont {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   color: #88C6FF;
 }
 .message-customer {
