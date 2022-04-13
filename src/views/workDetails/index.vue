@@ -135,11 +135,11 @@
         </div>
       </div>
       <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3">
-       <div v-if="!isMiniprogram" class="footer content-flex">
+       <div v-if="isMiniprogram" class="footer content-flex">
          <div class="footer-left" @click="updateTaskStatus">我已发布</div>
          <div class="footer-right" @click="WechatSOP">立即发布</div>
        </div>
-       <div v-if="isMiniprogram" class="footer">
+       <div v-if="!isMiniprogram" class="footer">
          <div class="pc-warning pc-flex">电脑客户端不支持发布客户朋友圈，请通过手机完成任务。</div>
          <div class="pc-flex pc-operation">已完成任务？请点击&nbsp;&nbsp;
            <span style="color:#1890FF">我已发布</span></div>
