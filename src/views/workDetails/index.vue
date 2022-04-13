@@ -26,7 +26,7 @@
         v-if="dataList"
       >
         <!-- 推送内容 -->
-        <div class="block-box">
+        <div v-if="dataList.sopType!==3" class="block-box">
           <div class="content">
             <div class="content-tip">推送内容</div>
             <div class="flex" v-for="(item,index) in dataList.sopTaskContentList" :key="index">
@@ -68,6 +68,10 @@
               />
             </div>
           </div>
+        </div>
+        <div v-if="dataList.sopType===3" class="block-box">
+            <div class="content-tip pyq-sop">发布内容</div>
+              <PyqContent :content="dataList.sopTaskContentList" />
         </div>
         <!-- 推送群聊 -->
         <div class="block-box" v-if="dataList.sopType !== 3">
@@ -131,7 +135,10 @@
         </div>
       </div>
       <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3">
-        <div class="footer-right" @click="WechatSOP">立即发布</div>
+       <div class="footer">
+         <div class="footer-left">我已发布</div>
+         <div class="footer-right" @click="WechatSOP">立即发布</div>
+       </div>
       </div>
     </div>
     <van-dialog
@@ -166,10 +173,11 @@ import WorkImage from './components/image.vue';
 import WorkVideo from './components/video.vue';
 import WorkLink from './components/link.vue';
 import WorkWechat from './components/wechat.vue';
+import PyqContent from './components/pyqContent.vue';
 
 export default {
   components: {
-    jurisdiction, WorkFile, WorkText, WorkImage, WorkVideo, WorkLink, WorkWechat,
+    jurisdiction, WorkFile, WorkText, WorkImage, WorkVideo, WorkLink, WorkWechat, PyqContent,
   },
   data() {
     return {
@@ -423,6 +431,10 @@ export default {
     display: flex;
     justify-content: space-between;
   }
+  .pyq-sop{
+    padding: 1.5rem;
+    border-bottom:0.1rem solid #E5E5E5 ;
+  }
   .content-all {
     color: #1890FF;
     padding-right: 2rem;
@@ -585,13 +597,13 @@ export default {
   }
 
   .footer-left {
-    border: 0.05rem solid #E5E5E5;
-    color: #333333;
+    width: 25%;
+    border: 0.05rem solid rgba(24,144,255,0.5) ;
+    color: #1890FF;
+    margin-right: 0;
   }
-
   .footer-left,
   .footer-right {
-    flex: 1;
     margin: 0 2rem;
     border-radius: 0.25rem;
     text-align: center;
@@ -600,6 +612,7 @@ export default {
   }
 
   .footer-right {
+    width:70%;
     color: #FFFFFF;
     background: #1890FF;
   }
