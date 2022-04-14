@@ -10,12 +10,18 @@
       @load="onLoad"
       finished-text="没有更多了"
     >
-      <div v-for="(item, index) in list" :key="index" class="list-item">
+      <div
+        v-for="(item, index) in list"
+        :key="index"
+        class="list-item"
+        @click="$router.push(`/thread-record/${item.taskResultId}`)"
+      >
         <div class="item-title">
           <span class="iconfont icon-dianhua icon-tel" />
           <div>
             <div class="phone">{{item.mobile}}
               <span
+                @click.stop=""
                 class="copy-btn"
                 v-clipboard:copy="item.mobile"
                 v-clipboard:success="onCopy"
@@ -25,7 +31,7 @@
             <div v-if="item.level" class="intention">抖店订单 {{item.level}}意向</div>
           </div>
         </div>
-        <div class="item-right" @click="$router.push(`/thread-record/${item.taskResultId}`)">
+        <div class="item-right">
           <div class="status-success" v-if="item.isFriend">已成功</div>
           <div class="status" v-else>未添加</div>
           <div class="detail-text">通话详情<span class="iconfont icon-xiayibu icon-arrows" /></div>
@@ -70,6 +76,7 @@ export default {
   },
   methods: {
     onCopy() {
+      // event.preventDefault();
       Toast('复制成功');
     },
     onError() {

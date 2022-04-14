@@ -1,6 +1,11 @@
 <template>
   <div class="main">
-    <audio :src="detail.voiceUrl" controls="controls" class="audio">
+    <div class="audio">
+      <audio :src="detail.voiceUrl" controls="controls">
+        暂不支持
+      </audio>
+    </div>
+    <audio :src="detail.voiceUrl" controls="controls">
       暂不支持
     </audio>
     <div class="chat-detail">
@@ -57,6 +62,11 @@ export default {
 
 <style scoped>
 .audio {
+  width: 100%;
+  position: fixed;
+  z-index: 9;
+}
+.audio audio {
   width: 100%;
   border-radius: 0;
 }
