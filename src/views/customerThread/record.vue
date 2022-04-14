@@ -74,7 +74,7 @@ export default {
 }
 .chat-detail {
   padding: 1.5rem;
-  margin-top: 1rem;
+  margin-top: 2.5rem;
 }
 .dialog-box {
   background: #fff;
