@@ -76,7 +76,6 @@ export default {
   },
   methods: {
     onCopy() {
-      // event.preventDefault();
       Toast('复制成功');
     },
     onError() {
