@@ -5,9 +5,6 @@
         暂不支持
       </audio>
     </div>
-    <audio :src="detail.voiceUrl" controls="controls">
-      暂不支持
-    </audio>
     <div class="chat-detail">
       <div
         v-for="(item, index) in detail.phoneLogs"
@@ -65,6 +62,7 @@ export default {
   width: 100%;
   position: fixed;
   z-index: 9;
+  top: 0;
 }
 .audio audio {
   width: 100%;
@@ -76,6 +74,7 @@ export default {
 }
 .chat-detail {
   padding: 1.5rem;
+  margin-top: 1rem;
 }
 .dialog-box {
   background: #fff;
