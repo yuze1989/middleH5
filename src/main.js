@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import less from 'less';
 import { Dialog } from 'vant';
+import VueClipboard from 'vue-clipboard2';
 import util from '@/utils/util';
 import App from './App.vue';
 import './registerServiceWorker';
@@ -10,6 +11,7 @@ import './assets/iconfont/iconfont.css';
 
 Vue.use(less);
 Vue.use(Dialog);
+Vue.use(VueClipboard);
 
 Vue.config.productionTip = false;
 util.onresizeRem();

@@ -117,6 +117,24 @@ const routes = [
     },
     component: () => import(/* webpackChunkName: "dailySummary" */'../views/DailySummary/dailySummary.vue'),
   },
+  {
+    path: '/customer-thread',
+    name: 'customerThread',
+    meta: {
+      tabbarshow: true,
+      type: 2,
+    },
+    component: () => import(/* webpackChunkName: "customerThread" */'../views/customerThread/index.vue'),
+  },
+  {
+    path: '/thread-record/:taskResultId',
+    name: 'threadRecord',
+    meta: {
+      tabbarshow: true,
+      type: 2,
+    },
+    component: () => import(/* webpackChunkName: "threadRecord" */'../views/customerThread/record.vue'),
+  },
 ];
 
 const router = new VueRouter({

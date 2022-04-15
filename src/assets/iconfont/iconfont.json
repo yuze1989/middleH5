@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "28756777",
+      "name": "电话",
+      "font_class": "dianhua",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
+      "icon_id": "28756778",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e6d2",
+      "unicode_decimal": 59090
+    },
+    {
+      "icon_id": "28756779",
+      "name": "客户",
+      "font_class": "kehu4",
+      "unicode": "e6d3",
+      "unicode_decimal": 59091
+    },
+    {
       "icon_id": "28401744",
       "name": "客户",
       "font_class": "kehu3",
