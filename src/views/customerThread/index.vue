@@ -24,8 +24,8 @@
                 @click.stop=""
                 class="copy-btn"
                 v-clipboard:copy="item.mobile"
-                v-clipboard:success="onCopy"
-                v-clipboard:error="onError"
+                v-clipboard:success="() => onCopy('复制成功')"
+                v-clipboard:error="() => onCopy('复制失败，请手动复制')"
               >复制</span>
             </div>
             <div v-if="item.level" class="intention">抖店订单 {{item.level}}意向</div>
@@ -75,11 +75,8 @@ export default {
     };
   },
   methods: {
-    onCopy() {
-      Toast('复制成功');
-    },
-    onError() {
-      Toast('复制失败，请手动复制');
+    onCopy(msg) {
+      Toast(msg);
     },
     changeTab(status) {
       if (status) {
@@ -90,9 +87,8 @@ export default {
       this.finished = false;
       this.loading = false;
       this.searchParam.pageIndex = 1;
-      http.post('/scrm/comm/rest/ai-call-manual-allot/search', this.searchParam).then((res) => {
-        this.list = res.data;
-      });
+      this.list = [];
+      this.getList();
     },
     getList() {
       this.loading = true;
