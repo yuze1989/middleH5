@@ -97,11 +97,11 @@ export default {
     getList() {
       this.loading = true;
       http.post('/scrm/comm/rest/ai-call-manual-allot/search', this.searchParam).then((res) => {
-        // if (res.success) {
-        this.loading = false;
-        this.list = this.list.concat(res.data);
-        if (res.totalCount <= this.list.length) this.finished = true;
-        // }}
+        if (res.success) {
+          this.loading = false;
+          this.list = this.list.concat(res.data);
+          if (res.totalCount <= this.list.length) this.finished = true;
+        }
       });
     },
     getCalculateNum() {
