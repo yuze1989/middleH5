@@ -69,7 +69,7 @@ export default {
       finished: false,
       loading: false,
       searchParam: {
-        pageSize: 10,
+        pageSize: 20,
         pageIndex: 1,
       },
     };
