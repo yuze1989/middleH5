@@ -137,7 +137,7 @@ export default {
             msgtype: 'news',
             enterChat: true,
             news: {
-              link: `${Config.redirect_uri}/ch5/radar?userId=${localStorage.getItem('userId')}&appId=${res.data.appId}&radarId=${obj.id}&corpId=${localStorage.getItem('corpId')}`,
+              link: `${Config.state_url}/ch5/radar?userId=${localStorage.getItem('userId')}&appId=${res.data.appId}&radarId=${obj.id}&corpId=${localStorage.getItem('corpId')}`,
               title: obj.linkTitle, // H5消息标题
               desc: obj.linkDigest, // H5消息摘要
               imgUrl: obj.linkCoverUrl, // H5消息封面图片URL
