@@ -134,7 +134,7 @@
           </div>
         </div>
       </div>
-      <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3">
+      <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3 && !dataList.overdueFlag">
        <div v-if="isMiniprogram" class="footer content-flex">
          <div class="footer-left" @click="updateTaskStatus">我已发布</div>
          <div class="footer-right" @click="WechatSOP">立即发布</div>
@@ -440,8 +440,8 @@ export default {
   }
 
   .top-box {
-    margin: 1rem 0 1rem 1.5rem;
-    font-size: 1.2rem;
+    margin: 1rem 1rem 2rem 1.5rem;
+    font-size: 1.3rem;
     color: #999999;
   }
 
@@ -460,7 +460,7 @@ export default {
   }
   .pyq-sop{
     padding: 1.5rem;
-    border-bottom:0.1rem solid #E5E5E5 ;
+    border-bottom:0.1rem solid rgba(255,255,255,1) ;
   }
   .content-all {
     color: #1890FF;
@@ -472,11 +472,11 @@ export default {
   }
 
   .task {
-    margin-top: 0.6rem;
+    margin-top: 1.3rem;
   }
 
   .push-date {
-    margin-top: 0.6rem;
+    margin-top: 1.3rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -509,7 +509,8 @@ export default {
   }
 
   .task-name {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    font-weight: 700;
     color: rgba(0, 0, 0, 0.65);
     overflow: hidden;
     white-space: nowrap;

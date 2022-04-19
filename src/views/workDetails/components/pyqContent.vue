@@ -8,7 +8,10 @@
               {{item.text.content}}
           </span>
           <span v-if="item.msgType === 'image'">
-            <img class="img-box" :src="item.image.attachmentPath" alt="">
+            <img
+              :class="{imgbox1:index == 1}"
+              class="img-box"
+              :src="item.image.attachmentPath" alt="">
           </span>
         </span>
       <div class="text-image-box" v-if="item.contentType==='link'">
@@ -80,6 +83,10 @@ export default {
   .img-box {
     width: 10rem;
     height: 10rem;
+    padding-bottom: 0.5rem;
+  }
+  .imgbox1{
+    margin-left: -0.5rem;
   }
   .link-box{
     display: flex;
