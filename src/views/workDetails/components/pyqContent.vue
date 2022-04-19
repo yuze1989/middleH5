@@ -84,7 +84,7 @@ export default {
   .link-box{
     display: flex;
     align-items: center;
-    border-radius: 3.49332594871521px;
+    border-radius: 0.35rem;
     background: rgba(247,247,247,1);
     padding: 1rem;
   }
