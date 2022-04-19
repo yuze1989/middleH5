@@ -16,7 +16,7 @@
         <div v-if="item.msgType === 'link'">
           <div class="link-box">
             <img style="width:8.6rem; height:9.1rem" :src="item.link.imgUrl" alt="">
-            <div class="link-title">{{item.link.title}}</div>
+            <div class="link-title content-text">{{item.link.title}}</div>
           </div>
         </div>
       </div>
@@ -64,7 +64,13 @@ export default {
     padding:0.5rem;
   }
   .content-text {
-    padding: 0.5rem 0 1.5rem 0;
+    margin: 0.5rem 0 1.5rem 0;
+    overflow: hidden;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
   .image-text {
     display: block;
