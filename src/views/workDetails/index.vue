@@ -26,7 +26,7 @@
         v-if="dataList"
       >
         <!-- 推送内容 -->
-        <div class="block-box">
+        <div v-if="dataList.sopType!==3" class="block-box">
           <div class="content">
             <div class="content-tip">推送内容</div>
             <div class="flex" v-for="(item,index) in dataList.sopTaskContentList" :key="index">
@@ -68,6 +68,10 @@
               />
             </div>
           </div>
+        </div>
+        <div v-if="dataList.sopType===3" class="block-box">
+            <div class="content-tip pyq-sop">发布内容</div>
+              <PyqContent :content="dataList.sopTaskContentList" />
         </div>
         <!-- 推送群聊 -->
         <div class="block-box" v-if="dataList.sopType !== 3">
@@ -130,8 +134,16 @@
           </div>
         </div>
       </div>
-      <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3">
-        <div class="footer-right" @click="WechatSOP">立即发布</div>
+      <div v-if="dataList.taskStatus !== 3 && dataList.sopType === 3 && !dataList.overdueFlag">
+       <div v-if="isMiniprogram" class="footer content-flex">
+         <div class="footer-left" @click="updateTaskStatus">我已发布</div>
+         <div class="footer-right" @click="WechatSOP">立即发布</div>
+       </div>
+       <div v-if="!isMiniprogram" class="footer">
+         <div class="pc-warning pc-flex">电脑客户端不支持发布客户朋友圈，请通过手机完成任务。</div>
+         <div class="pc-flex pc-operation">已完成任务？请点击&nbsp;&nbsp;
+           <span style="color:#1890FF" @click="updateTaskStatus">我已发布</span></div>
+       </div>
       </div>
     </div>
     <van-dialog
@@ -151,6 +163,15 @@
         </i>
       </div>
     </van-dialog>
+    <van-dialog
+      v-model="showFinish"
+      title="是否已完成该任务"
+      show-cancel-button
+      @confirm="setFinishTask"
+      confirmButtonText="已完成"
+      confirmButtonColor="#2F9BFF"
+    >
+    </van-dialog>
   </div>
 </template>
 
@@ -158,6 +179,7 @@
 import { Toast } from 'vant';
 import moment from 'moment';
 import Http from '@/utils/http';
+import deviceInfo from '@/utils/deviceinfo';
 import Wechat from '@/utils/wechat';
 import jurisdiction from '@/common/jurisdiction.vue';
 import WorkFile from './components/file.vue';
@@ -166,10 +188,11 @@ import WorkImage from './components/image.vue';
 import WorkVideo from './components/video.vue';
 import WorkLink from './components/link.vue';
 import WorkWechat from './components/wechat.vue';
+import PyqContent from './components/pyqContent.vue';
 
 export default {
   components: {
-    jurisdiction, WorkFile, WorkText, WorkImage, WorkVideo, WorkLink, WorkWechat,
+    jurisdiction, WorkFile, WorkText, WorkImage, WorkVideo, WorkLink, WorkWechat, PyqContent,
   },
   data() {
     return {
@@ -182,8 +205,10 @@ export default {
       finishTime: '',
       selectAll: false,
       showDialog: false,
+      showFinish: false,
       isWarnAgain: false,
       showMore: false,
+      isMiniprogram: false,
       sopType: {
         s1: {
           name: '群SOP',
@@ -205,11 +230,21 @@ export default {
     };
   },
   mounted() {
+    this.isMiniprogram = deviceInfo.getType().isMobile;
     this.batchNo = this.$route.query.batchNo;
     this.refer = this.$route.query.refer;
     this.getList();
   },
   methods: {
+    updateTaskStatus() {
+      this.showFinish = true;
+      this.idList = [];
+    },
+    setFinishTask() {
+      const that = this;
+      that.idList = [that.dataList.friendCycleSopTaskId];
+      that.getFinishTask();
+    },
     singleSend(data) {
       Wechat.setAgentConfig(data, 'sendChatMessage');
     },
@@ -405,8 +440,8 @@ export default {
   }
 
   .top-box {
-    margin: 1rem 0 1rem 1.5rem;
-    font-size: 1.2rem;
+    margin: 1.8rem 1rem 2rem 1.5rem;
+    font-size: 1.3rem;
     color: #999999;
   }
 
@@ -421,7 +456,12 @@ export default {
     color: #333333;
     padding-bottom: 1.2rem;
     display: flex;
+    font-weight: 500;
     justify-content: space-between;
+  }
+  .pyq-sop{
+    padding: 1.5rem;
+    border-bottom:0.1rem solid #eee ;
   }
   .content-all {
     color: #1890FF;
@@ -433,11 +473,11 @@ export default {
   }
 
   .task {
-    margin-top: 0.6rem;
+    margin-top: 1rem;
   }
 
   .push-date {
-    margin-top: 0.6rem;
+    margin-top: 1.3rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -470,7 +510,8 @@ export default {
   }
 
   .task-name {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    font-weight: 700;
     color: rgba(0, 0, 0, 0.65);
     overflow: hidden;
     white-space: nowrap;
@@ -570,38 +611,58 @@ export default {
     color: #999999;
     margin-top: 0.6rem;
   }
+  .pc-warning{
+    background: rgba(252,91,0,0.06);
+    color: rgba(252,91,0,0.7);
+    padding: 1rem 0;
+    font-size: 1.4rem;
+  }
+  .pc-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .pc-operation{
+   color: rgba(0,0,0,0.65);
+    margin-top: 2rem;
+    font-size: 1.4rem;
 
+  }
   .footer {
     position: fixed;
     bottom: 0;
+    width: 100%;
+    padding: 1rem 0;
+    background: #fff;
+    z-index: 1000;
+  }
+  .content-flex{
     display: flex;
     align-items: center;
     background-color: #FFFFFF;
     z-index: 1;
     justify-content: space-evenly;
     border-top: 0.05rem solid #E5E5E5;
-    width: 100%;
-    padding: 1rem 0;
   }
-
-  .footer-left {
-    border: 0.05rem solid #E5E5E5;
-    color: #333333;
-  }
-
   .footer-left,
   .footer-right {
-    flex: 1;
     margin: 0 2rem;
     border-radius: 0.25rem;
     text-align: center;
     padding: 1rem 0;
     font-size: 1.6rem;
   }
-
+  .footer-left {
+      width: 25%;
+      border: 0.05rem solid rgba(24,144,255,0.5) ;
+      color: #1890FF;
+      margin-right: 0;
+    }
   .footer-right {
+    width:70%;
     color: #FFFFFF;
     background: #1890FF;
+    margin-left: 1rem;
   }
   .dialog-con {
     text-align: center;
