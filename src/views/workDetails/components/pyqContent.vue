@@ -53,7 +53,7 @@ export default {
 </script>
 <style scoped>
   .col {
-    padding:1rem 0.5rem;
+    padding:1.5rem 0.5rem 1rem 0.5rem;
   }
   .content-col{
     display:inline
@@ -67,13 +67,9 @@ export default {
     padding:0.5rem;
   }
   .content-text {
-    margin: 0.5rem 0 1.5rem 0;
-    overflow: hidden;
+    margin: 0.5rem 0 2rem 0;
+    white-space: pre-wrap;
     word-break: break-all;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
   }
   .image-text {
     display: block;
@@ -97,6 +93,12 @@ export default {
   }
   .link-title{
     padding-left:1rem;
+    overflow: hidden;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2
   }
   .video-path{
      display: block;
