@@ -456,11 +456,12 @@ export default {
     color: #333333;
     padding-bottom: 1.2rem;
     display: flex;
+    font-weight: 500;
     justify-content: space-between;
   }
   .pyq-sop{
     padding: 1.5rem;
-    border-bottom:0.1rem solid rgba(255,255,255,1) ;
+    border-bottom:0.1rem solid #eee ;
   }
   .content-all {
     color: #1890FF;
@@ -472,7 +473,7 @@ export default {
   }
 
   .task {
-    margin-top: 1.3rem;
+    margin-top: 1rem;
   }
 
   .push-date {
