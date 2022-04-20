@@ -440,7 +440,7 @@ export default {
   }
 
   .top-box {
-    margin: 1rem 1rem 2rem 1.5rem;
+    margin: 1.4rem 1rem 2rem 1.5rem;
     font-size: 1.3rem;
     color: #999999;
   }
