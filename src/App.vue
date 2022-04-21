@@ -1,6 +1,10 @@
 <template>
   <div id="app" :class="`${$route.meta.showTabbar ? 'homeWrap' : ''}`">
-    <div class="homeContent"><router-view /></div>
+    <div class="homeContent">
+      <keep-alive :include="includeArr" :exclude="[]">
+        <router-view />
+      </keep-alive>
+    </div>
     <div v-if="$route.meta.showTabbar"><HomeTabBar /></div>
   </div>
 </template>
@@ -14,7 +18,7 @@ export default {
   name: 'app',
   data() {
     return {
-
+      includeArr: ['workbench', 'customer'],
     };
   },
   methods: {

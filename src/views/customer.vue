@@ -7,16 +7,18 @@
       <div class="hr"></div>
     </div>
     <div class="errWrap" v-if="err"><jurisdiction :err="err" v-if="err"></jurisdiction></div>
-    <PullRefresh v-model="refreshing" @refresh="onRefresh" v-else class="pull">
-      <div class="content">
-        <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
-          finished-text="没有更多了">
-          <div class="item" v-for="(item) in dataList" :key="item.viewId">
-            <CustomerItem :item="item" />
-          </div>
-        </List>
-      </div>
-    </PullRefresh>
+    <div v-else ref="customerWrapRef" class="wrap">
+      <PullRefresh v-model="refreshing" @refresh="onRefresh" class="pull">
+        <div class="content">
+          <List v-model="loading" :finished="finished" offset="100" @load="onLoad"
+            finished-text="没有更多了">
+            <div class="item" v-for="(item) in dataList" :key="item.viewId">
+              <CustomerItem :item="item" />
+            </div>
+          </List>
+        </div>
+      </PullRefresh>
+    </div>
   </div>
 </template>
 
@@ -47,7 +49,22 @@ export default {
       totalPages: 1,
       // 提示数量
       totalCount: 0,
+      customerScrollTop: 0,
     };
+  },
+  activated() {
+    if (this.$refs.customerWrapRef) {
+      this.$nextTick(() => {
+        this.$refs.customerWrapRef.scrollTop = this.customerScrollTop || 0;
+      });
+    }
+  },
+  mounted() {
+    if (this.$refs.customerWrapRef) {
+      this.$refs.customerWrapRef.addEventListener('scroll', () => {
+        this.customerScrollTop = this.$refs.customerWrapRef.scrollTop;
+      });
+    }
   },
   methods: {
     onLoad() {
@@ -128,9 +145,12 @@ export default {
     background-color: #F2F3F7;
   }
 
-  .pull {
+  .wrap {
     flex: 1;
     overflow: auto;
+    .pull {
+      min-height: 100%;
+    }
   }
 
   .errWrap {
