@@ -57,8 +57,8 @@ export default {
   },
   data() {
     return {
-      noDoneData: initData,
-      doneData: initData,
+      data2: initData,
+      data3: initData,
       // 头部选项卡
       nav: ['未完成', '已完成'],
     };
@@ -68,7 +68,7 @@ export default {
       type: (state) => state.statusType.type,
     }),
     taskData() {
-      return this.type === 2 ? this.noDoneData : this.doneData;
+      return this[`data${this.type}`];
     },
   },
   activated() {
@@ -81,11 +81,7 @@ export default {
   mounted() {
     if (this.$refs.taskWrapRef) {
       this.$refs.taskWrapRef.addEventListener('scroll', () => {
-        if (this.type === 2) {
-          this.noDoneData.scrollTop = this.$refs.taskWrapRef.scrollTop;
-        } else {
-          this.doneData.scrollTop = this.$refs.taskWrapRef.scrollTop;
-        }
+        this[`data${this.type}`].scrollTop = this.$refs.taskWrapRef.scrollTop;
       });
     }
     const sessionType = parseInt(sessionStorage.getItem('type'), 0);
@@ -95,11 +91,7 @@ export default {
   },
   methods: {
     onRefresh() {
-      if (this.type === 2) {
-        this.noDoneData = initData;
-      } else {
-        this.doneData = initData;
-      }
+      this[`data${this.type}`] = initData;
       this.getList();
     },
     doneOnRefresh() {
@@ -110,13 +102,8 @@ export default {
       const that = this;
       if (that.taskData.pageIndex > that.taskData.totalPages) {
         // 结束上拉加载状态
-        if (this.type === 2) {
-          that.noDoneData.finished = true;
-          that.noDoneData.loading = false;
-        } else {
-          that.doneData.finished = true;
-          that.doneData.loading = false;
-        }
+        that[`data${this.type}`].finished = true;
+        that[`data${this.type}`].loading = false;
         return;
       }
       Http.post('/scrm/comm/rest/sop/page-group-chat-sop-task-batch', {
@@ -136,11 +123,7 @@ export default {
             scrollTop: 0,
             totalCount: res.totalCount,
           };
-          if (that.type === 2) {
-            this.noDoneData = data;
-          } else {
-            this.doneData = data;
-          }
+          that[`data${this.type}`] = data;
         } else {
           const data = {
             refreshing: false,
@@ -153,11 +136,7 @@ export default {
             scrollTop: that.taskData.scrollTop,
             totalCount: that.taskData.totalCount,
           };
-          if (that.type === 2) {
-            this.noDoneData = data;
-          } else {
-            this.doneData = data;
-          }
+          that[`data${this.type}`] = data;
           if (res.errMessage) {
             Toast(res.errMessage);
           }
@@ -171,7 +150,6 @@ export default {
       this.$store.dispatch('statusType/SETTYPE', index + 2);
       sessionStorage.setItem('type', index + 2);
       if (this.$refs.taskWrapRef) {
-        console.log(this.taskData.scrollTop);
         this.$nextTick(() => {
           this.$refs.taskWrapRef.scrollTop = this.taskData.scrollTop || 0;
         });
@@ -179,12 +157,6 @@ export default {
       if (!this.taskData.dataList.length) {
         this.getList();
       }
-      // this.pageIndex = 1;
-      // this.dataList = [];
-      // if (!this.finished) {
-      //   this.onLoad();
-      // }
-      // this.finished = false;
     },
   },
 };
