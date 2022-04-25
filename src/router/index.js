@@ -245,9 +245,15 @@ router.beforeEach(async (to, form, next) => {
         window.location.href = `${Config.pcUrl}?token=${token}`;
         return;
       }
+      if (to.name && window.dc) {
+        window.dc('page', to.name);
+      }
       next();
     }
     return;
+  }
+  if (to.name && window.dc) {
+    window.dc('page', to.name);
   }
   next();
 });

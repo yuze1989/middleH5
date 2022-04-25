@@ -44,4 +44,15 @@
       <!-- built files will be auto injected -->
   </div>
 </body>
+<script type="text/javascript">
+  var headEle = document.getElementsByTagName('head')[0];
+  var scriptEle = document.createElement('script');
+  scriptEle.type = 'text/javascript';
+  scriptEle.async = true;
+  scriptEle.src = "<%=process.env.VUE_APP_ENV==='development' ? 'https://dc.test.juzhunshuyu.com/dc-sdk-dev.js' : 'https://dc.juzhunshuyu.com/dc-sdk-latest.js' %>";
+  headEle.appendChild(scriptEle);
+  scriptEle.onload = function () {
+    window.dc('init', 'SCRM-SH5');
+  }
+</script>
 </html>
