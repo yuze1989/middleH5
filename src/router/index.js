@@ -213,6 +213,11 @@ router.beforeEach(async (to, form, next) => {
         if (data.agentId) {
           localStorage.setItem('agentId', data.agentId);
         }
+        console.log(1);
+        if (window.dc) {
+          console.log(2);
+          window.dc('login', data.agentId, data.userId);
+        }
       }
     }
     // 第一次进来拿用户数据
@@ -237,6 +242,9 @@ router.beforeEach(async (to, form, next) => {
         localStorage.setItem('wxInfo', JSON.stringify(res.data));
         if (options.channel) {
           localStorage.setItem('channel', options.channel);
+        }
+        if (window.dc) {
+          window.dc('login', data.agentId, data.userId);
         }
       }
     }
