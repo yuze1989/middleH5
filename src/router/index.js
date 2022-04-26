@@ -213,8 +213,10 @@ router.beforeEach(async (to, form, next) => {
         if (data.agentId) {
           localStorage.setItem('agentId', data.agentId);
         }
-        if (window.dc) {
+        try {
           window.dc('login', data.agentId, data.userId);
+        } catch (e) {
+          console.log(e);
         }
       }
     }
@@ -241,8 +243,10 @@ router.beforeEach(async (to, form, next) => {
         if (options.channel) {
           localStorage.setItem('channel', options.channel);
         }
-        if (window.dc) {
+        try {
           window.dc('login', data.agentId, data.userId);
+        } catch (e) {
+          console.log(e);
         }
       }
     }
