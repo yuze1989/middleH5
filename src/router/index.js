@@ -213,9 +213,7 @@ router.beforeEach(async (to, form, next) => {
         if (data.agentId) {
           localStorage.setItem('agentId', data.agentId);
         }
-        console.log(1);
         if (window.dc) {
-          console.log(2);
           window.dc('login', data.agentId, data.userId);
         }
       }
