@@ -213,6 +213,11 @@ router.beforeEach(async (to, form, next) => {
         if (data.agentId) {
           localStorage.setItem('agentId', data.agentId);
         }
+        try {
+          window.dc('login', data.agentId, data.userId);
+        } catch (e) {
+          console.log(e);
+        }
       }
     }
     // 第一次进来拿用户数据
@@ -238,6 +243,11 @@ router.beforeEach(async (to, form, next) => {
         if (options.channel) {
           localStorage.setItem('channel', options.channel);
         }
+        try {
+          window.dc('login', data.agentId, data.userId);
+        } catch (e) {
+          console.log(e);
+        }
       }
     }
     if (token) {
@@ -245,15 +255,19 @@ router.beforeEach(async (to, form, next) => {
         window.location.href = `${Config.pcUrl}?token=${token}`;
         return;
       }
-      if (to.name && window.dc) {
+      try {
         window.dc('page', to.name);
+      } catch (e) {
+        console.log(e);
       }
       next();
     }
     return;
   }
-  if (to.name && window.dc) {
+  try {
     window.dc('page', to.name);
+  } catch (e) {
+    console.log(e);
   }
   next();
 });
