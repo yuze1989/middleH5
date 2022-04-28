@@ -111,36 +111,29 @@ export default {
         pageIndex: that.taskData.pageIndex,
         pageSize: 20,
       }, '').then((res) => {
+        const data = {
+          refreshing: false,
+          loading: false,
+          finished: true,
+          dataList: that.taskData.dataList,
+          err: res.errCode,
+          pageIndex: that.taskData.pageIndex,
+          totalPages: that.taskData.totalPages, // 总页码
+          scrollTop: that.taskData.scrollTop,
+          totalCount: that.taskData.totalCount,
+        };
         if (res.success && res.totalCount !== 0) {
-          const data = {
-            refreshing: false,
-            loading: false,
-            finished: false,
-            dataList: [...that.taskData.dataList, ...res.data],
-            err: res.errCode,
-            pageIndex: that.taskData.pageIndex + 1,
-            totalPages: res.totalPages, // 总页码
-            scrollTop: 0,
-            totalCount: res.totalCount,
-          };
-          that[`data${this.type}`] = data;
-        } else {
-          const data = {
-            refreshing: false,
-            loading: false,
-            finished: true,
-            dataList: that.taskData.dataList,
-            err: res.errCode,
-            pageIndex: that.taskData.pageIndex,
-            totalPages: that.taskData.totalPages, // 总页码
-            scrollTop: that.taskData.scrollTop,
-            totalCount: that.taskData.totalCount,
-          };
-          that[`data${this.type}`] = data;
-          if (res.errMessage) {
-            Toast(res.errMessage);
-          }
+          data.finished = false;
+          data.dataList = [...that.taskData.dataList, ...res.data];
+          data.pageIndex = that.taskData.pageIndex + 1;
+          data.totalPages = res.totalPages;
+          data.scrollTop = 0;
+          data.totalCount = res.totalCount;
         }
+        if (res.errMessage) {
+          Toast(res.errMessage);
+        }
+        that[`data${this.type}`] = data;
       }).catch(() => {
         that.err = 'errCode';
       });
