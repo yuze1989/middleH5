@@ -214,7 +214,7 @@ router.beforeEach(async (to, form, next) => {
           localStorage.setItem('agentId', data.agentId);
         }
         try {
-          window.dc('login', data.agentId, data.userId);
+          window.dc('login', data.tenantId, data.userId);
         } catch (e) {
           console.log(e);
         }
@@ -229,7 +229,7 @@ router.beforeEach(async (to, form, next) => {
       });
       const { success, data } = res;
       if (success) {
-        const arr = ['unionId', 'openId', 'userId', 'agentId', 'corpId'];
+        const arr = ['unionId', 'openId', 'userId', 'agentId', 'corpId', 'tenantId'];
         arr.forEach((item) => {
           if (data[item]) {
             localStorage.setItem(item, data[item]);
@@ -244,7 +244,7 @@ router.beforeEach(async (to, form, next) => {
           localStorage.setItem('channel', options.channel);
         }
         try {
-          window.dc('login', data.agentId, data.userId);
+          window.dc('login', data.tenantId, data.userId);
         } catch (e) {
           console.log(e);
         }
