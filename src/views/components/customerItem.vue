@@ -1,6 +1,13 @@
 <template>
   <div class="customer-item">
-    <img :src="item.avatar" alt="" class="use-head-img" />
+    <VanImage
+      width="6rem"
+      height="6rem"
+      radius="0.4rem"
+      fit="cover"
+      :src="item.avatar"
+      class="use-head-img"
+    />
     <div class="user-info">
       <div class="user-name">
         <span>{{item.name}}</span>
@@ -18,9 +25,13 @@
 </template>
 <script>
 import moment from 'moment';
+import { Image as VanImage } from 'vant';
 
 export default {
   name: 'customerItem',
+  components: {
+    VanImage,
+  },
   props: {
     item: {
       type: Object,
@@ -53,10 +64,6 @@ export default {
   }
 
   .use-head-img {
-    width: 6rem;
-    height: 6rem;
-    border-radius: .4rem;
-    object-fit: cover;
     margin-right: .6rem;
   }
 
