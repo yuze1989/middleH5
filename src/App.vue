@@ -18,7 +18,7 @@ export default {
   name: 'app',
   data() {
     return {
-      includeArr: ['workbench', 'customer'],
+      includeArr: ['workbench', 'customer', 'my'],
     };
   },
   methods: {
